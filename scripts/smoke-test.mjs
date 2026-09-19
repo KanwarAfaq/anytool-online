@@ -2,6 +2,9 @@ import assert from 'node:assert/strict'
 import { laborInsurance, nhi, salaryTax, takeHome, overtime, employerCost } from '../src/lib/calculators.js'
 import { tools } from '../src/data/tools.js'
 import { readFile } from 'node:fs/promises'
+import aiHandler from '../api/ai-gateway.js'
+import cloudinaryHandler from '../api/cloudinary-sign.js'
+import healthHandler from '../api/health.js'
 
 assert.equal(tools.length,21,'expected 21 public tools')
 assert.equal(new Set(tools.map(t=>t.slug)).size,tools.length,'tool slugs must be unique')
@@ -36,3 +39,41 @@ const i18n=await readFile(new URL('../src/i18n.jsx',import.meta.url),'utf8')
 for(const marker of ["code:'en'","code:'zh-TW'","code:'ar'","code:'ur'"]) assert.ok(i18n.includes(marker),'missing locale '+marker)
 assert.ok(i18n.includes("dir:'rtl'"),'RTL locale support missing')
 console.log('Localization smoke tests passed')
+
+function mockRes(){
+  return {
+    statusCode:200,
+    headers:{},
+    body:null,
+    status(code){this.statusCode=code;return this},
+    setHeader(k,v){this.headers[k.toLowerCase()]=v;return this},
+    json(body){this.body=body;return this},
+  }
+}
+
+{
+  const res=mockRes()
+  await aiHandler({method:'GET',headers:{}},res)
+  assert.equal(res.statusCode,405,'AI gateway rejects unsupported methods')
+}
+{
+  const res=mockRes()
+  await aiHandler({method:'POST',headers:{},body:{}},res)
+  assert.equal(res.statusCode,401,'AI gateway requires authentication')
+}
+{
+  const res=mockRes()
+  await cloudinaryHandler({method:'GET',headers:{}},res)
+  assert.equal(res.statusCode,405,'Cloudinary signing rejects unsupported methods')
+}
+{
+  const res=mockRes()
+  await cloudinaryHandler({method:'POST',headers:{}},res)
+  assert.equal(res.statusCode,401,'Cloudinary signing requires authentication')
+}
+{
+  const res=mockRes()
+  await healthHandler({method:'POST',headers:{}},res)
+  assert.equal(res.statusCode,405,'Health endpoint is read-only')
+}
+console.log('Serverless API boundary tests passed')
