@@ -1,8 +1,5 @@
 import { useEffect, useMemo, useState } from 'react'
 import { useParams, Link } from 'react-router-dom'
-import QRCode from 'qrcode'
-import jsQR from 'jsqr'
-import { PDFDocument } from 'pdf-lib'
 import { Heart, Download } from 'lucide-react'
 import { toolBySlug } from '../data/tools'
 import Seo from '../components/Seo'
@@ -58,14 +55,14 @@ function Dpi(){
 function QRGenerator(){
  const {t}=useI18n()
  const [text,setText]=useState('https://anytool.online'),[url,setUrl]=useState('')
- async function make(){setUrl(await QRCode.toDataURL(text,{width:768,margin:2}))}
+ async function make(){const {default:QRCode}=await import('qrcode');setUrl(await QRCode.toDataURL(text,{width:768,margin:2}))}
  return <div className="card p-5"><input className="input" value={text} onChange={e=>setText(e.target.value)}/><button className="btn-primary mt-4" onClick={make}>{t('generate')}</button>{url&&<div className="mt-5"><img alt="QR code" className="max-w-xs rounded-xl bg-white p-3" src={url}/><a className="btn-ghost mt-3" href={url} download="qr.png">{t('download')}</a></div>}</div>
 }
 
 function QRScanner(){
  const {t}=useI18n()
  const [result,setResult]=useState('')
- async function scan(file){const img=new Image();img.src=URL.createObjectURL(file);await new Promise(r=>img.onload=r);const c=document.createElement('canvas');c.width=img.width;c.height=img.height;const x=c.getContext('2d');x.drawImage(img,0,0);const d=x.getImageData(0,0,c.width,c.height);const code=jsQR(d.data,c.width,c.height);setResult(code?.data||t('noQr'))}
+ async function scan(file){const {default:jsQR}=await import('jsqr');const img=new Image();img.src=URL.createObjectURL(file);await new Promise(r=>img.onload=r);const c=document.createElement('canvas');c.width=img.width;c.height=img.height;const x=c.getContext('2d');x.drawImage(img,0,0);const d=x.getImageData(0,0,c.width,c.height);const code=jsQR(d.data,c.width,c.height);setResult(code?.data||t('noQr'))}
  return <div className="card p-5"><input type="file" accept="image/*" onChange={e=>e.target.files[0]&&scan(e.target.files[0])}/>{result&&<p className="mt-4 break-all rounded-xl bg-white/5 p-3">{result}</p>}</div>
 }
 
@@ -74,6 +71,7 @@ function PdfTool({slug}){
  const [msg,setMsg]=useState('')
  async function run(files){
   if(!files.length)return
+  const {PDFDocument}=await import('pdf-lib')
   const out=await PDFDocument.create()
   if(slug==='pdf-merge'){for(const f of files){const src=await PDFDocument.load(await f.arrayBuffer());const pages=await out.copyPages(src,src.getPageIndices());pages.forEach(p=>out.addPage(p))}}
   else {const src=await PDFDocument.load(await files[0].arrayBuffer());const pages=await out.copyPages(src,[0]);pages.forEach(p=>out.addPage(p))}
@@ -94,6 +92,7 @@ function AITool({slug}){
  const [status,setStatus]=useState(''),[output,setOutput]=useState('')
  async function go(file){
   const endpoint=import.meta.env.VITE_AI_GATEWAY_URL || '/api/ai-gateway'
+  if(file.size>3*1024*1024){setStatus('File is too large for AI processing. Please keep it under 3 MB or compress it first.');return}
   if(!endpoint){setStatus(t('aiNotConfigured'));return}
   const {data:{session}}=await supabase.auth.getSession()
   if(!session){setStatus(t('signInAI'));return}
