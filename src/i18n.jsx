@@ -42,6 +42,30 @@ const toolTranslations={
  'receipt-to-json':{zh:'收據轉 JSON',ar:'إيصال إلى JSON',ur:'رسید سے JSON'}
 }
 
+const toolDescriptionTranslations={
+ 'take-home-pay':{zh:'估算扣除勞保、就保、健保與所得稅後的每月實領薪資。',ar:'تقدير صافي الراتب الشهري بعد تأمين العمل والتوظيف وNHI والضريبة.',ur:'لیبر، ایمپلائمنٹ انشورنس، NHI اور ٹیکس کے بعد ماہانہ نیٹ تنخواہ کا تخمینہ۔'},
+ 'labor-insurance':{zh:'估算員工應負擔的勞保與就業保險費。',ar:'تقدير حصة الموظف في تأمين العمل والتوظيف.',ur:'ملازم کے لیبر اور ایمپلائمنٹ انشورنس پریمیم کا تخمینہ۔'},
+ 'nhi':{zh:'估算員工全民健康保險費。',ar:'تقدير حصة الموظف في التأمين الصحي الوطني NHI.',ur:'ملازم کے نیشنل ہیلتھ انشورنس NHI پریمیم کا تخمینہ۔'},
+ 'income-tax':{zh:'依薪資所得簡化估算台灣居住者年度所得稅。',ar:'تقدير مبسط لضريبة الدخل السنوية للمقيم في تايوان على دخل الراتب.',ur:'تائیوان رہائشی کی تنخواہ پر سالانہ انکم ٹیکس کا سادہ تخمینہ۔'},
+ 'overtime-pay':{zh:'估算平日與休息日加班費。',ar:'تقدير أجر العمل الإضافي في أيام العمل وأيام الراحة.',ur:'عام دن اور آرام کے دن اوور ٹائم اجرت کا تخمینہ۔'},
+ 'minimum-wage':{zh:'將你的薪資與 2026 年台灣最低工資比較。',ar:'قارن راتبك بالحد الأدنى للأجور في تايوان لعام 2026.',ur:'اپنی تنخواہ کو 2026 تائیوان کم از کم اجرت سے موازنہ کریں۔'},
+ 'employer-cost':{zh:'估算薪資加上雇主負擔勞保、健保與 6% 勞退後的總成本。',ar:'تقدير الراتب مع حصة صاحب العمل في التأمين وNHI ومساهمة التقاعد 6%.',ur:'تنخواہ کے ساتھ آجر انشورنس، NHI اور 6% پنشن کی کل لاگت کا تخمینہ۔'},
+ 'annual-salary':{zh:'換算月薪、獎金月數與年薪總額。',ar:'تحويل الراتب الشهري وعدد أشهر المكافأة والحزمة السنوية.',ur:'ماہانہ تنخواہ، بونس مہینوں اور سالانہ پیکیج میں تبدیلی۔'},
+ 'percentage':{zh:'計算百分比增減與兩數之間的變化。',ar:'حساب النسبة المئوية والزيادة أو النقصان والتغير بين قيمتين.',ur:'فیصد، اضافہ، کمی اور دو قدروں کے درمیان تبدیلی کا حساب۔'},
+ 'image-resize':{zh:'直接在瀏覽器中調整 JPG、PNG、WebP 圖片尺寸。',ar:'تغيير حجم صور JPG وPNG وWebP داخل المتصفح.',ur:'JPG، PNG اور WebP تصاویر کا سائز براؤزر میں تبدیل کریں۔'},
+ 'image-compress':{zh:'在本機調整品質並壓縮圖片。',ar:'ضغط الصور محلياً مع ضبط الجودة.',ur:'کوالٹی ایڈجسٹ کر کے تصویر کو مقامی طور پر کمپریس کریں۔'},
+ 'png-to-jpg':{zh:'在本機將 PNG 轉換為 JPEG。',ar:'تحويل PNG إلى JPEG محلياً.',ur:'PNG کو مقامی طور پر JPEG میں تبدیل کریں۔'},
+ 'jpg-to-png':{zh:'在本機將 JPEG 轉換為 PNG。',ar:'تحويل JPEG إلى PNG محلياً.',ur:'JPEG کو مقامی طور پر PNG میں تبدیل کریں۔'},
+ 'dpi-calculator':{zh:'依像素與列印尺寸計算 DPI。',ar:'حساب DPI من عدد البكسلات وأبعاد الطباعة.',ur:'پکسل اور پرنٹ سائز سے DPI حساب کریں۔'},
+ 'qr-generator':{zh:'在本機產生 QR Code。',ar:'إنشاء رمز QR محلياً.',ur:'QR کوڈ مقامی طور پر بنائیں۔'},
+ 'qr-scanner':{zh:'從上傳的圖片讀取 QR Code。',ar:'قراءة رمز QR من صورة مرفوعة.',ur:'اپ لوڈ کی گئی تصویر سے QR کوڈ پڑھیں۔'},
+ 'pdf-merge':{zh:'直接在瀏覽器中合併多個 PDF。',ar:'دمج عدة ملفات PDF محلياً في المتصفح.',ur:'متعدد PDF فائلیں براؤزر میں مقامی طور پر ضم کریں۔'},
+ 'pdf-split':{zh:'直接在瀏覽器中擷取 PDF 頁面。',ar:'استخراج صفحات من PDF محلياً في المتصفح.',ur:'PDF صفحات براؤزر میں مقامی طور پر نکالیں۔'},
+ 'cloud-upload':{zh:'使用 Cloudinary 簽章安全上傳圖片或文件。',ar:'رفع صورة أو مستند بأمان باستخدام توقيع Cloudinary.',ur:'Cloudinary سائنڈ اپ لوڈ کے ذریعے تصویر یا دستاویز محفوظ طور پر اپ لوڈ کریں۔'},
+ 'ocr':{zh:'使用已設定的 AI Gateway 從圖片擷取文字。',ar:'استخراج النص من صورة باستخدام بوابة الذكاء الاصطناعي المهيأة.',ur:'کنفیگر شدہ AI گیٹ وے سے تصویر کا متن نکالیں۔'},
+ 'receipt-to-json':{zh:'使用 AI 將收據轉為結構化 JSON。',ar:'استخراج بيانات الإيصال إلى JSON منظم باستخدام الذكاء الاصطناعي.',ur:'AI سے رسید کا ڈیٹا منظم JSON میں نکالیں۔'}
+}
+
 const Ctx=createContext(null)
 export function I18nProvider({children}){
  const [lang,setLang]=useState(()=>localStorage.getItem('anytool_lang')||'en')
@@ -49,7 +73,7 @@ export function I18nProvider({children}){
  const value=useMemo(()=>({lang,setLang,languages,t:(key)=>{
    const parts=key.split('.');let v=messages[lang]||messages.en;for(const p of parts)v=v?.[p];if(v==null){v=messages.en;for(const p of parts)v=v?.[p]}return v??key
  },toolName:(tool)=>{const x=toolTranslations[tool.slug];if(lang==='zh-TW')return x?.zh||tool.name;if(lang==='ar')return x?.ar||tool.name;if(lang==='ur')return x?.ur||tool.name;return tool.name},
- toolDescription:(tool)=>tool.description}),[lang])
+ toolDescription:(tool)=>{const x=toolDescriptionTranslations[tool.slug];if(lang==='zh-TW')return x?.zh||tool.description;if(lang==='ar')return x?.ar||tool.description;if(lang==='ur')return x?.ur||tool.description;return tool.description}}),[lang])
  return <Ctx.Provider value={value}>{children}</Ctx.Provider>
 }
 export const useI18n=()=>useContext(Ctx)
