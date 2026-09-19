@@ -83,7 +83,7 @@ function CloudUpload(){
 function AITool({slug}){
  const [status,setStatus]=useState(''),[output,setOutput]=useState('')
  async function go(file){
-  const endpoint=import.meta.env.VITE_AI_GATEWAY_URL
+  const endpoint=import.meta.env.VITE_AI_GATEWAY_URL || '/api/ai-gateway'
   if(!endpoint){setStatus('AI gateway is not configured yet.');return}
   if(!supabase){setStatus('Supabase is not configured yet.');return}
   const {data:{session}}=await supabase.auth.getSession()
