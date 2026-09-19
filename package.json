@@ -7,7 +7,8 @@
     "dev": "vite",
     "build": "vite build && node scripts/prerender.mjs && node scripts/dist-test.mjs",
     "preview": "vite preview",
-    "test": "node --check api/ai-gateway.js && node --check api/cloudinary-sign.js && node --check api/health.js && node scripts/smoke-test.mjs"
+    "test": "node --check api/ai-gateway.js && node --check api/cloudinary-sign.js && node --check api/health.js && node scripts/smoke-test.mjs",
+    "test:e2e": "playwright test"
   },
   "dependencies": {
     "@supabase/supabase-js": "^2.57.4",
@@ -23,7 +24,8 @@
     "@tailwindcss/vite": "^4.1.13",
     "@vitejs/plugin-react": "^5.0.3",
     "tailwindcss": "^4.1.13",
-    "vite": "^7.1.7"
+    "vite": "^7.1.7",
+    "@playwright/test": "^1.55.0"
   },
   "engines": {
     "node": ">=22.12.0"
