@@ -9,7 +9,7 @@
     "typecheck": "tsc --noEmit",
     "test": "tsx --test tests/*.test.ts",
     "check": "npm run typecheck && npm test && npm run build",
-    "postinstall": "node scripts/bootstrap-source.mjs && node scripts/copy-pdf-worker.mjs"
+    "postinstall": "node scripts/bootstrap-source.mjs"
   },
   "dependencies": {
     "docx": "^9.5.1",
