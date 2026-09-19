@@ -29,10 +29,13 @@ export async function signedUpload(file){
   fd.append('folder',cfg.folder)
 
   const res=await fetch(`https://api.cloudinary.com/v1_1/${cfg.cloudName}/auto/upload`,{method:'POST',body:fd})
-  if(!res.ok) throw new Error('Upload failed')
+  if(!res.ok){
+    const err=await res.json().catch(()=>({}))
+    throw new Error(err?.error?.message||'Upload failed')
+  }
   const data=await res.json()
 
-  await supabase.from('uploads').insert({
+  const {error}=await supabase.from('uploads').insert({
     user_id:session.user.id,
     public_id:data.public_id,
     secure_url:data.secure_url,
@@ -41,5 +44,7 @@ export async function signedUpload(file){
     delete_after:new Date(Date.now()+24*60*60*1000).toISOString()
   })
 
+  data.history_saved=!error
+  if(error) data.history_error=error.message
   return data
 }
