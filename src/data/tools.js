@@ -13,7 +13,7 @@ export const tools = [
   ['income-tax','Taiwan Income Tax','money','Simple annual salary-income tax estimate for resident individuals.'],
   ['overtime-pay','Taiwan Overtime Pay','money','Estimate weekday/rest-day overtime pay.'],
   ['minimum-wage','Taiwan Minimum Wage','money','Compare pay against the 2026 Taiwan minimum wage.'],
-  ['employer-cost','Taiwan Employer Cost','money','Estimate salary plus employer-side labor, NHI and pension costs.'],
+  ['employer-cost','Taiwan Employer Cost','money','Estimate standard full-time salary plus employer labor/employment insurance, NHI and 6% pension. Occupational accident insurance is excluded because its rate varies.'],
   ['annual-salary','Annual ↔ Monthly Salary','money','Convert monthly salary, bonus months and annual package.'],
   ['percentage','Percentage Calculator','general','Percentage increase, decrease and share calculator.'],
   ['image-resize','Resize Image','image','Resize JPG/PNG/WebP in your browser.'],

@@ -21,9 +21,9 @@ function MoneyTool({slug}){
  if(slug==='income-tax'){const r=salaryTax(salary*12);rows=[[t('taxableIncome'),'NT$ '+money(r.taxable)],[t('annualTax'),'NT$ '+money(r.tax)]]}
  if(slug==='overtime-pay'){rows=[[t('overtimePay'),'NT$ '+money(overtime(salary,weekday,rest))]]}
  if(slug==='minimum-wage'){rows=[[t('monthlyMinimum'),'NT$ 29,500'],[t('yourSalary'),salary>=29500?t('aboveMinimum'):t('belowMinimum')]]}
- if(slug==='employer-cost'){const r=employerCost(salary);rows=[[t('employerMonthlyCost'),'NT$ '+money(r.total)],[t('pension'),'NT$ '+money(r.pension)],[t('employerLabor'),'NT$ '+money(r.employerLabor+r.employerEmployment)],[t('employerNhi'),'NT$ '+money(r.employerNhi)]]}
+ if(slug==='employer-cost'){const r=employerCost(salary);rows=[[t('employerMonthlyCost'),'NT$ '+money(r.total)],[t('pension'),'NT$ '+money(r.pension)],[t('pensionWage'),'NT$ '+money(r.pensionWage)],[t('employerLabor'),'NT$ '+money(r.employerLabor+r.employerEmployment)],[t('employerNhi'),'NT$ '+money(r.employerNhi)]]}
  if(slug==='annual-salary'){rows=[[t('annualPackage'),'NT$ '+money(salary*months)],[t('average12'),'NT$ '+money(salary*months/12)]]}
- return <div className="grid gap-6 lg:grid-cols-2"><div className="card space-y-4 p-5"><Num label={t('monthlySalary')} value={salary} onChange={setSalary}/>{['take-home-pay','nhi'].includes(slug)&&<Num label={t('nhiDependents')} value={deps} onChange={setDeps} min={0}/>} {slug==='overtime-pay'&&<><Num label={t('weekdayHours')} value={weekday} onChange={setWeekday}/><Num label={t('restHours')} value={rest} onChange={setRest}/></>}{slug==='annual-salary'&&<Num label={t('paidMonths')} value={months} onChange={setMonths} step={0.5}/>}</div><div className="card p-5"><h3 className="font-bold">{t('result')}</h3><div className="mt-4 grid gap-3 sm:grid-cols-2">{rows.map(([l,v])=><Result key={l} label={l} value={v}/>)}</div></div></div>
+ return <div><div className="grid gap-6 lg:grid-cols-2"><div className="card space-y-4 p-5"><Num label={t('monthlySalary')} value={salary} onChange={setSalary}/>{['take-home-pay','nhi'].includes(slug)&&<Num label={t('nhiDependents')} value={deps} onChange={setDeps} min={0}/>} {slug==='overtime-pay'&&<><Num label={t('weekdayHours')} value={weekday} onChange={setWeekday}/><Num label={t('restHours')} value={rest} onChange={setRest}/></>}{slug==='annual-salary'&&<Num label={t('paidMonths')} value={months} onChange={setMonths} step={0.5}/>}</div><div className="card p-5"><h3 className="font-bold">{t('result')}</h3><div className="mt-4 grid gap-3 sm:grid-cols-2">{rows.map(([l,v])=><Result key={l} label={l} value={v}/>)}</div></div></div>{slug==='employer-cost'&&<p className="mt-3 text-xs leading-5 text-slate-500">{t('employerCostNote')}</p>}</div>
 }
 
 function Percentage(){
@@ -68,16 +68,16 @@ function QRScanner(){
 
 function PdfTool({slug}){
  const {t}=useI18n()
- const [msg,setMsg]=useState('')
+ const [msg,setMsg]=useState(''),[start,setStart]=useState(1),[end,setEnd]=useState(1)
  async function run(files){
   if(!files.length)return
   const {PDFDocument}=await import('pdf-lib')
   const out=await PDFDocument.create()
   if(slug==='pdf-merge'){for(const f of files){const src=await PDFDocument.load(await f.arrayBuffer());const pages=await out.copyPages(src,src.getPageIndices());pages.forEach(p=>out.addPage(p))}}
-  else {const src=await PDFDocument.load(await files[0].arrayBuffer());const pages=await out.copyPages(src,[0]);pages.forEach(p=>out.addPage(p))}
-  const bytes=await out.save();const blob=new Blob([bytes],{type:'application/pdf'});const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download=slug==='pdf-merge'?'merged.pdf':'page-1.pdf';a.click();setMsg(t('doneDownload'))
+  else {const src=await PDFDocument.load(await files[0].arrayBuffer());const count=src.getPageCount();const first=Math.max(1,Math.floor(start)),last=Math.min(count,Math.floor(end));if(first>last||first>count){setMsg(t('invalidPageRange'));return}const indices=Array.from({length:last-first+1},(_,i)=>first-1+i);const pages=await out.copyPages(src,indices);pages.forEach(p=>out.addPage(p))}
+  const bytes=await out.save();const blob=new Blob([bytes],{type:'application/pdf'});const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download=slug==='pdf-merge'?'merged.pdf':`pages-${start}-${end}.pdf`;a.click();setMsg(t('doneDownload'))
  }
- return <div className="card p-5"><input type="file" accept="application/pdf" multiple={slug==='pdf-merge'} onChange={e=>run([...e.target.files])}/><p className="mt-3 text-sm text-slate-400">{slug==='pdf-split'?t('pdfSplitNote'):t('pdfLocal')}</p>{msg&&<p className="mt-3 text-emerald-300">{msg}</p>}</div>
+ return <div className="card p-5">{slug==='pdf-split'&&<div className="mb-4 grid gap-3 sm:grid-cols-2"><Num label={t('splitStart')} value={start} onChange={setStart} min={1}/><Num label={t('splitEnd')} value={end} onChange={setEnd} min={1}/></div>}<input type="file" accept="application/pdf" multiple={slug==='pdf-merge'} onChange={e=>run([...e.target.files])}/><p className="mt-3 text-sm text-slate-400">{slug==='pdf-split'?t('pdfSplitNote'):t('pdfLocal')}</p>{msg&&<p className="mt-3 text-emerald-300">{msg}</p>}</div>
 }
 
 function CloudUpload(){
