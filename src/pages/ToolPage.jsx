@@ -7,7 +7,7 @@ import { Heart, Upload, Download } from 'lucide-react'
 import { toolBySlug } from '../data/tools'
 import Seo from '../components/Seo'
 import { takeHome, laborInsurance, nhi, salaryTax, overtime, employerCost, money } from '../lib/calculators'
-import { logToolEvent, saveFavorite } from '../lib/supabase'
+import { supabase, logToolEvent, saveFavorite } from '../lib/supabase'
 import { signedUpload } from '../lib/cloudinary'
 
 const Num=({label,value,onChange,min=0,step=1})=><label className="block"><span className="mb-1.5 block text-sm text-slate-400">{label}</span><input className="input" type="number" min={min} step={step} value={value} onChange={e=>onChange(Number(e.target.value))}/></label>
@@ -82,7 +82,18 @@ function CloudUpload(){
 
 function AITool({slug}){
  const [status,setStatus]=useState(''),[output,setOutput]=useState('')
- async function go(file){const endpoint=import.meta.env.VITE_AI_GATEWAY_URL;if(!endpoint){setStatus('AI gateway is not configured yet.');return}setStatus('Processing…');const b64=await new Promise(r=>{const fr=new FileReader();fr.onload=()=>r(fr.result.split(',')[1]);fr.readAsDataURL(file)});const res=await fetch(endpoint,{method:'POST',headers:{'content-type':'application/json','Authorization':'Bearer '+(localStorage.getItem('anytool_access_token')||'')},body:JSON.stringify({task:slug,image:{base64:b64,mime:file.type}})});const data=await res.json();setOutput(data.output||data.error||JSON.stringify(data,null,2));setStatus('')}
+ async function go(file){
+  const endpoint=import.meta.env.VITE_AI_GATEWAY_URL
+  if(!endpoint){setStatus('AI gateway is not configured yet.');return}
+  if(!supabase){setStatus('Supabase is not configured yet.');return}
+  const {data:{session}}=await supabase.auth.getSession()
+  if(!session){setStatus('Please sign in before using AI tools.');return}
+  setStatus('Processing…')
+  const b64=await new Promise(r=>{const fr=new FileReader();fr.onload=()=>r(fr.result.split(',')[1]);fr.readAsDataURL(file)})
+  const res=await fetch(endpoint,{method:'POST',headers:{'content-type':'application/json','Authorization':'Bearer '+session.access_token},body:JSON.stringify({task:slug,image:{base64:b64,mime:file.type}})})
+  const data=await res.json()
+  setOutput(data.output||data.error||JSON.stringify(data,null,2));setStatus('')
+}
  return <div className="card p-5"><input type="file" accept="image/*,application/pdf" onChange={e=>e.target.files[0]&&go(e.target.files[0])}/>{status&&<p className="mt-4 text-amber-300">{status}</p>}{output&&<pre className="mt-4 max-h-[28rem] overflow-auto whitespace-pre-wrap rounded-xl bg-slate-950 p-4 text-sm">{output}</pre>}</div>
 }
 
