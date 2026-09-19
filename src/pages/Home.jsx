@@ -1,11 +1,11 @@
 import { Link } from 'react-router-dom'
-import { Helmet } from 'react-helmet-async'
 import { ArrowRight, Sparkles, ShieldCheck, Zap } from 'lucide-react'
 import { categories, tools } from '../data/tools'
+import Seo from '../components/Seo'
 
 export default function Home(){
  return <>
-  <Helmet><title>AnyTool.online — Calculators, Image, PDF & AI Tools</title><link rel="canonical" href="https://anytool.online/"/></Helmet>
+  <Seo title="AnyTool.online — Calculators, Image, PDF & AI Tools" description="Fast Taiwan calculators, image utilities, PDF tools, QR tools and AI document extraction." canonical="https://anytool.online/"/>
   <section className="mx-auto max-w-7xl px-4 pb-8 pt-16 md:pt-24">
    <div className="max-w-4xl">
     <div className="mb-5 inline-flex items-center gap-2 rounded-full border border-emerald-400/20 bg-emerald-400/10 px-3 py-1.5 text-sm text-emerald-200"><Sparkles size={15}/> One place for everyday tools</div>
