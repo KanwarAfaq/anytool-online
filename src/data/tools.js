@@ -25,7 +25,7 @@ export const tools = [
   ['qr-scanner','QR Code Scanner','image','Read a QR code from an uploaded image.'],
   ['pdf-merge','Merge PDF','document','Merge multiple PDF files locally in your browser.'],
   ['pdf-split','Split PDF','document','Extract selected pages from a PDF locally.'],
-  ['cloud-upload','Secure File Upload','document','Upload an image or document through signed Cloudinary upload.'],
+  ['loan-payment','Loan Payment Calculator','general','Calculate monthly loan payments, total repayment and total interest.'],
   ['ocr','AI OCR','ai','Extract text from an image using the configured AI gateway.'],
   ['receipt-to-json','Receipt → JSON','ai','Extract structured receipt data using AI.'],
 ].map(([slug,name,category,description]) => ({ slug,name,category,description }))
