@@ -92,7 +92,7 @@ function AITool({slug}){
  const [status,setStatus]=useState(''),[output,setOutput]=useState('')
  async function go(file){
   const endpoint=import.meta.env.VITE_AI_GATEWAY_URL || '/api/ai-gateway'
-  if(file.size>3*1024*1024){setStatus('File is too large for AI processing. Please keep it under 3 MB or compress it first.');return}
+  if(file.size>3*1024*1024){setStatus(t('aiTooLarge'));return}
   if(!endpoint){setStatus(t('aiNotConfigured'));return}
   const {data:{session}}=await supabase.auth.getSession()
   if(!session){setStatus(t('signInAI'));return}
