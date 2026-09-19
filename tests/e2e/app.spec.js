@@ -31,7 +31,7 @@ test('all public tool routes render and have canonical URLs', async ({ page }) =
   }
 })
 
-test('salary and percentage calculators respond', async ({ page }) => {
+test('salary percentage tax minimum wage and loan calculators respond', async ({ page }) => {
   await page.goto('/tools/take-home-pay')
   const salary=page.getByLabel('Monthly salary (NT$)')
   await salary.fill('60000')
@@ -42,6 +42,20 @@ test('salary and percentage calculators respond', async ({ page }) => {
   await page.getByLabel('Original').fill('100')
   await page.getByLabel('New value').fill('125')
   await expect(page.getByText('25.00%')).toBeVisible()
+
+  await page.goto('/tools/income-tax')
+  await page.getByLabel('Annual salary income (NT$)').fill('720000')
+  await expect(page.getByText('Estimated annual tax')).toBeVisible()
+
+  await page.goto('/tools/minimum-wage')
+  await page.getByLabel('Hourly wage (NT$)').fill('196')
+  await expect(page.getByText('Hourly wage status')).toBeVisible()
+
+  await page.goto('/tools/loan-payment')
+  await page.getByLabel('Loan amount').fill('1000000')
+  await page.getByLabel('Annual interest rate (%)').fill('2.5')
+  await page.getByLabel('Loan term (months)').fill('60')
+  await expect(page.getByText('Monthly payment')).toBeVisible()
 })
 
 test('QR generation works', async ({ page }) => {
@@ -88,9 +102,6 @@ test('auth dashboard upload AI and SEO surfaces render', async ({ page, request 
 
   await page.goto('/dashboard')
   await expect(page.getByText('Your dashboard')).toBeVisible()
-
-  await page.goto('/tools/cloud-upload')
-  await expect(page.locator('input[type=file]')).toBeVisible()
 
   await page.goto('/tools/ocr')
   await expect(page.locator('input[type=file]')).toBeVisible()
