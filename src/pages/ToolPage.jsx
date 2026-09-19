@@ -1,4 +1,4 @@
-import { useMemo, useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import { useParams, Link } from 'react-router-dom'
 import QRCode from 'qrcode'
 import jsQR from 'jsqr'
@@ -7,7 +7,7 @@ import { Heart, Download } from 'lucide-react'
 import { toolBySlug } from '../data/tools'
 import Seo from '../components/Seo'
 import { takeHome, laborInsurance, nhi, salaryTax, overtime, employerCost, money } from '../lib/calculators'
-import { supabase, saveFavorite } from '../lib/supabase'
+import { supabase, logToolEvent, saveFavorite } from '../lib/supabase'
 import { signedUpload } from '../lib/cloudinary'
 import { useI18n } from '../i18n'
 
@@ -110,6 +110,7 @@ export default function ToolPage(){
  const {t,toolName,toolDescription}=useI18n()
  const {slug}=useParams(),tool=toolBySlug[slug]
  const canonical='https://anytool.online/tools/'+slug
+ useEffect(()=>{ if(slug) logToolEvent(slug,'tool_open').catch(()=>{}) },[slug])
  if(!tool)return <div className="mx-auto max-w-5xl px-4 py-20"><h1 className="text-3xl font-black">{t('toolNotFound')}</h1><Link className="btn-primary mt-6" to="/">{t('backHome')}</Link></div>
  const view=useMemo(()=>{if(['take-home-pay','labor-insurance','nhi','income-tax','overtime-pay','minimum-wage','employer-cost','annual-salary'].includes(slug))return <MoneyTool slug={slug}/>;if(slug==='percentage')return <Percentage/>;if(['image-resize','image-compress','png-to-jpg','jpg-to-png'].includes(slug))return <ImageTool slug={slug}/>;if(slug==='dpi-calculator')return <Dpi/>;if(slug==='qr-generator')return <QRGenerator/>;if(slug==='qr-scanner')return <QRScanner/>;if(['pdf-merge','pdf-split'].includes(slug))return <PdfTool slug={slug}/>;if(slug==='cloud-upload')return <CloudUpload/>;return <AITool slug={slug}/>},[slug])
  return <section className="mx-auto max-w-5xl px-4 py-12"><Seo title={toolName(tool)+' | AnyTool.online'} description={toolDescription(tool)} canonical={canonical}/><div className="mb-7"><Link className="text-sm text-emerald-300" to="/">← {t('allTools')}</Link><div className="mt-3 flex items-start justify-between gap-4"><div><h1 className="text-3xl font-black sm:text-4xl">{toolName(tool)}</h1><p className="mt-3 max-w-2xl text-slate-400">{toolDescription(tool)}</p></div><button aria-label={t('favorites')} className="btn-ghost shrink-0" onClick={()=>saveFavorite(slug).then(()=>alert(t('saved'))).catch(()=>alert(t('signInFirst')))}><Heart size={17}/></button></div></div>{view}<p className="mt-6 text-xs text-slate-500">{t('planningOnly')}</p></section>
