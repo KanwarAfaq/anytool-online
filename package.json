@@ -5,7 +5,7 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "vite build && node scripts/prerender.mjs",
+    "build": "vite build && node scripts/prerender.mjs && node scripts/dist-test.mjs",
     "preview": "vite preview",
     "test": "node --check api/ai-gateway.js && node --check api/cloudinary-sign.js && node --check api/health.js && node scripts/smoke-test.mjs"
   },
