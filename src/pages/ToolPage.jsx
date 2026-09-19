@@ -1,11 +1,11 @@
 import { useMemo, useState } from 'react'
 import { useParams, Link } from 'react-router-dom'
-import { Helmet } from 'react-helmet-async'
 import QRCode from 'qrcode'
 import jsQR from 'jsqr'
 import { PDFDocument } from 'pdf-lib'
 import { Heart, Upload, Download } from 'lucide-react'
 import { toolBySlug } from '../data/tools'
+import Seo from '../components/Seo'
 import { takeHome, laborInsurance, nhi, salaryTax, overtime, employerCost, money } from '../lib/calculators'
 import { logToolEvent, saveFavorite } from '../lib/supabase'
 import { signedUpload } from '../lib/cloudinary'
@@ -91,5 +91,5 @@ export default function ToolPage(){
  const canonical='https://anytool.online/tools/'+slug
  if(!tool)return <div className="mx-auto max-w-5xl px-4 py-20"><h1 className="text-3xl font-black">Tool not found</h1><Link className="btn-primary mt-6" to="/">Back home</Link></div>
  const view=useMemo(()=>{if(['take-home-pay','labor-insurance','nhi','income-tax','overtime-pay','minimum-wage','employer-cost','annual-salary'].includes(slug))return <MoneyTool slug={slug}/>;if(slug==='percentage')return <Percentage/>;if(['image-resize','image-compress','png-to-jpg','jpg-to-png'].includes(slug))return <ImageTool slug={slug}/>;if(slug==='dpi-calculator')return <Dpi/>;if(slug==='qr-generator')return <QRGenerator/>;if(slug==='qr-scanner')return <QRScanner/>;if(['pdf-merge','pdf-split'].includes(slug))return <PdfTool slug={slug}/>;if(slug==='cloud-upload')return <CloudUpload/>;return <AITool slug={slug}/>},[slug])
- return <section className="mx-auto max-w-5xl px-4 py-12"><Helmet><title>{tool.name} | AnyTool.online</title><meta name="description" content={tool.description}/><link rel="canonical" href={canonical}/></Helmet><div className="mb-7"><Link className="text-sm text-emerald-300" to="/">← All tools</Link><div className="mt-3 flex items-start justify-between gap-4"><div><h1 className="text-3xl font-black sm:text-4xl">{tool.name}</h1><p className="mt-3 max-w-2xl text-slate-400">{tool.description}</p></div><button className="btn-ghost shrink-0" onClick={()=>saveFavorite(slug).then(()=>alert('Saved')).catch(e=>alert(e.message))}><Heart size={17}/></button></div></div>{view}<p className="mt-6 text-xs text-slate-500">AnyTool estimates are for planning only. Regulated calculations should be verified against the latest official rules.</p></section>
+ return <section className="mx-auto max-w-5xl px-4 py-12"><Seo title={tool.name+' | AnyTool.online'} description={tool.description} canonical={canonical}/><div className="mb-7"><Link className="text-sm text-emerald-300" to="/">← All tools</Link><div className="mt-3 flex items-start justify-between gap-4"><div><h1 className="text-3xl font-black sm:text-4xl">{tool.name}</h1><p className="mt-3 max-w-2xl text-slate-400">{tool.description}</p></div><button className="btn-ghost shrink-0" onClick={()=>saveFavorite(slug).then(()=>alert('Saved')).catch(e=>alert(e.message))}><Heart size={17}/></button></div></div>{view}<p className="mt-6 text-xs text-slate-500">AnyTool estimates are for planning only. Regulated calculations should be verified against the latest official rules.</p></section>
 }
