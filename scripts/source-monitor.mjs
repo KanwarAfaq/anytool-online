@@ -13,7 +13,7 @@ const sources=[
  {key:'mohw-elder-subsidy-2026',url:'https://www.mohw.gov.tw/cp-16-87934-1.html',terms:['180','住宿式服務機構']},
  {key:'boca-passport-photo',url:'https://www.boca.gov.tw/fp-140-467-29b1d-2.html',terms:['35','45']},
  {key:'ris-id-photo',url:'https://www.ris.gov.tw/documents/html/5/3/187.html',terms:['413','531']},
- {key:'nia-arc-photo',url:'https://www.immigration.gov.tw/5382/5385/7244/7250/7317/%E5%B1%85%E7%95%99/362168/',terms:['512KB']},
+ {key:'nia-arc-photo',url:'https://www.immigration.gov.tw/5475/5478/141465/141469/367160/cp_news',terms:['2-inch','National ID Card']},
  {key:'taoyuan-elder-beds',url:'https://sab.tycg.gov.tw/News_Content.aspx?n=7376&s=1615287',terms:['可收容床位']},
  {key:'taipei-vacancies',url:'https://orgvacinqusys.gov.taipei/',terms:[]},
  {key:'taichung-beds',url:'https://societymap.taichung.gov.tw/SocietyMap/SocietyShelter/QuyShelter.aspx',terms:['床']},
