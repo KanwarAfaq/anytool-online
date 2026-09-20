@@ -30,7 +30,7 @@ export default function Profile(){
  }
  async function uploadAvatar(file){
    if(!file)return
-   try{setUploading(true);setStatus(L.uploadingPhoto);const data=await signedUpload(file);setForm(v=>({...v,avatar_url:data.secure_url}));setStatus(L.photoDone)}
+   try{setUploading(true);setStatus(L.uploadingPhoto);const data=await signedUpload(file,{persist:true});setForm(v=>({...v,avatar_url:data.secure_url}));setStatus(L.photoDone)}
    catch(e){setStatus(e.message)}finally{setUploading(false)}
  }
  if(user===undefined)return <><Seo title={L.title+' | AnyTool.online'} description={L.manage} noindex/><div className="mx-auto max-w-4xl px-4 py-20 text-slate-400">{L.loading}</div></>
