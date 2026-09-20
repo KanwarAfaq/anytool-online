@@ -159,7 +159,7 @@ const entries=[]
 for(const path of indexable){
  const alternates=locales.map(l=>({code:l.code,loc:SITE+localizedPath(l.prefix,path)}))
  for(const alt of alternates){
-   const toolSlug=path.match(/^\\/tools\\/([^/]+)$/)?.[1]
+   const toolSlug=path.match(/^\/tools\/([^/]+)$/)?.[1]
    const imageTag=toolSlug?`<image:image><image:loc>${xml(SITE+'/tool-art/'+toolSlug+'.svg')}</image:loc></image:image>`:''
    entries.push(`<url><loc>${xml(alt.loc)}</loc><lastmod>${contentLastmod(path)}</lastmod>${imageTag}${alternates.map(a=>`<xhtml:link rel="alternate" hreflang="${a.code}" href="${xml(a.loc)}" />`).join('')}<xhtml:link rel="alternate" hreflang="x-default" href="${xml(SITE+path)}" /></url>`)
  }
