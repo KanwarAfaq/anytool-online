@@ -70,6 +70,41 @@ export const officialSources = {
     verified: '2026-09-20',
     summary: 'NIA ARC guidance for foreign professionals requires a recent 2-inch color photo with uncovered head, clear facial features and white background, using the same photo specifications as Taiwan National ID.'
   },
+  taoyuanLocalElderPlacement: {
+    title: 'Taoyuan Public Institutional Placement Subsidy',
+    authority: 'Department of Social Welfare, Taoyuan City Government',
+    url: 'https://sab.tycg.gov.tw/News_Content.aspx?n=7467&s=1469909',
+    verified: '2026-09-20',
+    summary: 'Separate means-tested local program: NT$10,000/month for eligible mildly disabled low-income older adults; NT$24,000/month for eligible moderately/severely disabled low-income, middle-low-income or qualifying older adults.'
+  },
+  taipeiLocalElderPlacement: {
+    title: 'Taipei Elderly Residential Placement Subsidy',
+    authority: 'Department of Social Welfare, Taipei City Government',
+    url: 'https://dosw.gov.taipei/cp.aspx?n=2A069CBD089B5C1A&s=C380A969311A1EBA',
+    verified: '2026-09-20',
+    summary: 'Means-tested placement subsidy with amounts varying by disability level, income category and whether the institution is in Taipei. The current published table ranges from NT$4,320 to NT$29,250 per month.'
+  },
+  newTaipeiLocalElderPlacement: {
+    title: 'New Taipei Low-/Middle-low-income Elder Institutional Placement Program',
+    authority: 'Social Welfare Department, New Taipei City Government',
+    url: 'https://www.sw.ntpc.gov.tw/home.jsp?act=be4f48068b2b0031&dataserno=728f53ac071858fb40660640c83c033e&id=203',
+    verified: '2026-09-20',
+    summary: 'For qualifying 2025–2026 cases, published contract standards include NT$24,000/month for nursing/long-term-care placement, NT$10,000/month for low-income care-home placement, and NT$6,000/month for low-income respiratory care.'
+  },
+  taichungLocalElderPlacement: {
+    title: 'Taichung Low-income Elder Residential Care Subsidy',
+    authority: 'Social Affairs Bureau, Taichung City Government',
+    url: 'https://www.society.taichung.gov.tw/461566/post',
+    verified: '2026-09-20',
+    summary: 'For qualifying low-income unsupported older adults, the city publishes program-specific support including up to NT$21,000/month plus up to NT$10,000/month additional care support in qualifying cases; other special add-ons have separate rules.'
+  },
+  tainanLocalElderPlacement: {
+    title: 'Tainan Middle-low-income Elder Residential Care',
+    authority: 'Tainan City Government',
+    url: 'https://people.tainan.gov.tw/News_Content.aspx?n=32047&s=7851694&sms=23729',
+    verified: '2026-09-20',
+    summary: 'For qualifying vulnerable older adults: care-home support NT$12,000/month; long-term-care institutions NT$18,000–24,000/month; nursing/psychiatric nursing/dementia care NT$22,000–25,400/month depending on disability level and facility type.'
+  },
   elderSubsidy2026: {
     title: '2026 Residential Care Institution User Subsidy',
     authority: 'Ministry of Health and Welfare',
@@ -148,5 +183,5 @@ export const toolSourceKeys = {
   'minimum-wage': ['minimumWage2026'],
   'employer-cost': ['laborInsurance2026','laborInsuranceGrades2026','nhi2026','laborPension2026'],
   'taiwan-id-photo': ['taiwanPassport','taiwanIdPhoto','arcPhoto'],
-  'taiwan-elder-care': ['elderSubsidy2026','nationalNursingHomes','ltcServiceMap','taoyuanBeds','taipeiBeds','taichungBeds','yilanBeds','newTaipeiFacilities'],
+  'taiwan-elder-care': ['elderSubsidy2026','taoyuanLocalElderPlacement','taipeiLocalElderPlacement','newTaipeiLocalElderPlacement','taichungLocalElderPlacement','tainanLocalElderPlacement','nationalNursingHomes','ltcServiceMap','taoyuanBeds','taipeiBeds','taichungBeds','yilanBeds','newTaipeiFacilities'],
 }
