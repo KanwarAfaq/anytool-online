@@ -102,7 +102,7 @@ const fallbackHtml=(title,description,path)=>{
  const categoryMatch=clean.match(/^\/categories\/([^/]+)$/)
  const listing=!tool&&(clean==='/'||categoryMatch)?tools.filter(x=>!categoryMatch||x.category===categoryMatch[1]):[]
  const listingHtml=listing.length?`<section><h2>${esc(code==='zh-TW'?'可用工具':code==='ar'?'الأدوات المتاحة':code==='ur'?'دستیاب ٹولز':'Available tools')}</h2><ul>${listing.map(x=>`<li><a href="${SITE}${prefix}/tools/${x.slug}">${esc(localizedToolName(x,{code}))}</a> — ${esc(x.description)}</li>`).join('')}</ul></section>`:''
- return `<main class="seo-prerender" style="max-width:70rem;margin:0 auto;padding:3rem 1rem;color:#e8f0f7;background:#07111f;font-family:system-ui,sans-serif"><nav><a href="${SITE}/" style="color:#6ee7b7">AnyTool.online</a> · <a href="${SITE}/sources" style="color:#6ee7b7">${esc(ui.sources)}</a> · <a href="${SITE}/methodology" style="color:#6ee7b7">Methodology</a></nav><h1 style="font-size:2.25rem;line-height:1.15;margin:1rem 0">${esc(title)}</h1><p style="max-width:52rem;color:#cbd5e1;line-height:1.75">${esc(description)}</p>${tool?`<section><h2>${esc(ui.about)}</h2><p style="max-width:52rem;line-height:1.7">${esc(description)}</p></section><section><h2>${esc(ui.how)}</h2><ol><li>${esc(ui.step1)}</li><li>${esc(ui.step2)}</li><li>${esc(ui.step3)}</li></ol></section><section><h2>${esc(ui.privacy)}</h2><p style="max-width:52rem;line-height:1.7">${esc(ui.privacyText)}</p></section>`:''}${sourceHtml}${relatedHtml}${listingHtml}<p style="margin-top:1.5rem;color:#94a3b8;font-size:.875rem">Interactive URL: ${esc(SITE+path)}</p></main>`
+ return `<main class="seo-prerender" style="max-width:70rem;margin:0 auto;padding:3rem 1rem;color:#e8f0f7;background:#07111f;font-family:system-ui,sans-serif"><nav><a href="${SITE}/" style="color:#6ee7b7">AnyTool.online</a> · <a href="${SITE}/sources" style="color:#6ee7b7">${esc(ui.sources)}</a> · <a href="${SITE}/methodology" style="color:#6ee7b7">Methodology</a></nav><h1 style="font-size:2.25rem;line-height:1.15;margin:1rem 0">${esc(title)}</h1>${tool?`<img src="${SITE}/tool-art/${tool.slug}.svg" alt="${esc(localizedToolName(tool,{code}))} visual preview" width="640" height="360" style="width:min(100%,40rem);height:auto;border-radius:1.25rem;border:1px solid #203044;margin:1rem 0 1.25rem" />`:''}<p style="max-width:52rem;color:#cbd5e1;line-height:1.75">${esc(description)}</p>${tool?`<section><h2>${esc(ui.about)}</h2><p style="max-width:52rem;line-height:1.7">${esc(description)}</p></section><section><h2>${esc(ui.how)}</h2><ol><li>${esc(ui.step1)}</li><li>${esc(ui.step2)}</li><li>${esc(ui.step3)}</li></ol></section><section><h2>${esc(ui.privacy)}</h2><p style="max-width:52rem;line-height:1.7">${esc(ui.privacyText)}</p></section>`:''}${sourceHtml}${relatedHtml}${listingHtml}<p style="margin-top:1.5rem;color:#94a3b8;font-size:.875rem">Interactive URL: ${esc(SITE+path)}</p></main>`
 }
 
 async function emit(path,locale,title,description,schemas=[],image=''){
@@ -128,12 +128,18 @@ for(const locale of locales){
    const title=page.titles[locale.code]||page.titles.en
    const description=locale.code==='en'?page.description:`${page.description} ${locale.free}.`
    const canonical=SITE+path
-   const schemas=page.path==='/'?[
-    {'@context':'https://schema.org','@type':'WebSite',name:'AnyTool.online',url:SITE+'/',inLanguage:locale.code},
-    {'@context':'https://schema.org','@type':'Organization',name:'AnyTool.online',url:SITE+'/',logo:SITE+'/favicon.svg',contactPoint:{'@type':'ContactPoint',contactType:'customer support',url:SITE+'/contact'}}
-   ]:[
-    {'@context':'https://schema.org','@type':page.path.startsWith('/categories/')?'CollectionPage':'WebPage',name:title,description,url:canonical,inLanguage:locale.code,isPartOf:{'@type':'WebSite',name:'AnyTool.online',url:SITE+'/'}}
-   ]
+   const pageTools=page.path==='/tools'?tools:page.path.startsWith('/categories/')?tools.filter(t=>t.category===page.path.split('/').at(-1)):[]
+   let schemas
+   if(page.path==='/'){
+    schemas=[
+     {'@context':'https://schema.org','@type':'WebSite',name:'AnyTool.online',url:SITE+'/',inLanguage:locale.code,potentialAction:{'@type':'SearchAction',target:SITE+'/?q={search_term_string}','query-input':'required name=search_term_string'}},
+     {'@context':'https://schema.org','@type':'Organization',name:'AnyTool.online',url:SITE+'/',logo:SITE+'/favicon.svg',contactPoint:{'@type':'ContactPoint',contactType:'customer support',url:SITE+localizedPath(locale.prefix,'/contact')}},
+     {'@context':'https://schema.org','@type':'ItemList',name:title,itemListElement:tools.map((tool,i)=>({'@type':'ListItem',position:i+1,name:localizedToolName(tool,locale),url:SITE+localizedPath(locale.prefix,'/tools/'+tool.slug),image:SITE+'/tool-art/'+tool.slug+'.svg'}))}
+    ]
+   }else{
+    schemas=[{'@context':'https://schema.org','@type':page.path.startsWith('/categories/')||page.path==='/tools'?'CollectionPage':'WebPage',name:title,description,url:canonical,inLanguage:locale.code,isPartOf:{'@type':'WebSite',name:'AnyTool.online',url:SITE+'/'}}]
+    if(pageTools.length)schemas.push({'@context':'https://schema.org','@type':'ItemList',name:title,itemListElement:pageTools.map((tool,i)=>({'@type':'ListItem',position:i+1,name:localizedToolName(tool,locale),url:SITE+localizedPath(locale.prefix,'/tools/'+tool.slug),image:SITE+'/tool-art/'+tool.slug+'.svg'}))})
+   }
    await emit(path,locale,title,description,schemas)
  }
  for(const tool of tools){
@@ -147,7 +153,7 @@ for(const locale of locales){
    const image=SITE+'/tool-art/'+tool.slug+'.svg'
    const schemas=[
     {'@context':'https://schema.org','@type':'WebPage',name:title,url:canonical,description,inLanguage:locale.code,dateModified:contentLastmod(path),primaryImageOfPage:image,isPartOf:{'@type':'WebSite',name:'AnyTool.online',url:SITE+'/'}},
-    {'@context':'https://schema.org','@type':'SoftwareApplication',name,image,applicationCategory:'UtilitiesApplication',operatingSystem:'Web',url:canonical,description,offers:{'@type':'Offer',price:'0',priceCurrency:'USD'}},
+    {'@context':'https://schema.org','@type':'SoftwareApplication',name,image,applicationCategory:'UtilitiesApplication',operatingSystem:'Web',url:canonical,description,isAccessibleForFree:true,featureList:[tool.description],publisher:{'@type':'Organization',name:'AnyTool.online',url:SITE+'/'},offers:{'@type':'Offer',price:'0',priceCurrency:'USD'}},
     {'@context':'https://schema.org','@type':'BreadcrumbList',itemListElement:[{'@type':'ListItem',position:1,name:'AnyTool',item:SITE+'/'},{'@type':'ListItem',position:2,name,item:canonical}]}
    ]
    await emit(path,locale,title,description,schemas,image)
@@ -175,6 +181,9 @@ await writeFile(resolve(root,'dist','tool-catalog.json'),JSON.stringify({
   category:t.category,
   description:t.description,
   url:SITE+'/tools/'+t.slug,
+  image:SITE+'/tool-art/'+t.slug+'.svg',
+  localizedUrls:Object.fromEntries(locales.map(l=>[l.code,SITE+localizedPath(l.prefix,'/tools/'+t.slug)])),
+  processing:['image-resize','image-compress','png-to-jpg','jpg-to-png','dpi-calculator','qr-generator','qr-scanner','pdf-merge','pdf-split','percentage','loan-payment'].includes(t.slug)?'browser-local':t.category==='ai'?'authenticated-ai':'deterministic-web',
   lastModified:contentLastmod('/tools/'+t.slug),
   officialSources:(toolSourceKeys[t.slug]||[]).map(k=>({key:k,...officialSources[k]}))
  }))

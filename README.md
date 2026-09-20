@@ -10,7 +10,7 @@ Production utility platform for **https://anytool.online**.
 - Vercel frontend + serverless APIs
 - Multi-provider AI gateway
 - Playwright browser E2E tests
-- Build-time multipage SEO output + multilingual sitemap
+- Build-time multipage SEO output + multilingual sitemap + indexable tool preview images
 
 ## Public languages
 - English: `/`
@@ -37,7 +37,7 @@ Private account routes are excluded from the sitemap and receive `noindex`.
 
 ## Source-backed Taiwan tools
 Regulated tools show official source evidence and last-reviewed dates. High-value sources are monitored by:
-- `.github/workflows/source-monitor.yml` — weekly official-source checks
+- `.github/workflows/source-monitor.yml` — daily official-source checks
 - `.github/workflows/seo-audit.yml` — weekly build/search-readiness audit
 
 A source change is flagged for review; formulas are not silently rewritten by AI.

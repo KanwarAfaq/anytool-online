@@ -25,6 +25,9 @@ const catalog=JSON.parse(await readFile(resolve(root,'dist/tool-catalog.json'),'
 assert.equal(catalog.tools.length,tools.length,'tool catalog count mismatch')
 assert.ok(catalog.tools.every(t=>t.url.startsWith('https://www.anytool.online/tools/')),'tool catalog canonical host mismatch')
 assert.ok(catalog.tools.every(t=>/^\d{4}-\d{2}-\d{2}$/.test(t.lastModified)),'tool catalog missing lastModified')
+assert.ok(catalog.tools.every(t=>t.image===`https://www.anytool.online/tool-art/${t.slug}.svg`),'tool catalog image mismatch')
+assert.ok(catalog.tools.every(t=>t.localizedUrls?.['zh-TW']&&t.localizedUrls?.ar&&t.localizedUrls?.ur),'tool catalog localized URLs missing')
+assert.ok(catalog.tools.every(t=>['browser-local','authenticated-ai','deterministic-web'].includes(t.processing)),'tool catalog processing mode missing')
 const sourceRegistry=JSON.parse(await readFile(resolve(root,'dist/official-sources.json'),'utf8'))
 assert.ok(Object.keys(sourceRegistry.sources||{}).length>=10,'official source registry unexpectedly small')
 
@@ -53,6 +56,7 @@ for(const loc of locales){
   assert.ok(html.includes(url),'canonical missing '+url)
   assert.ok(html.includes('SoftwareApplication'),'schema missing '+tool.slug)
   assert.ok(html.includes('/tool-art/'+tool.slug+'.svg'),'tool image metadata missing '+tool.slug)
+  assert.ok(html.includes('visual preview'),'visible tool image alt missing '+tool.slug)
   assert.ok(html.includes('hreflang="zh-TW"'),'hreflang missing '+tool.slug)
   assert.ok(html.includes('seo-prerender'),'visible prerender content missing '+tool.slug)
   if(!loc) assert.ok(html.includes('How to use it'),'useful prerender guidance missing '+tool.slug)
@@ -60,3 +64,9 @@ for(const loc of locales){
  }
 }
 console.log('SEO/dist smoke tests passed for '+tools.length+' tools × '+locales.length+' locales')
+
+const qrArt=await readFile(resolve(root,'dist','tool-art','qr-generator.svg'),'utf8')
+const pdfArt=await readFile(resolve(root,'dist','tool-art','pdf-merge.svg'),'utf8')
+assert.ok(qrArt.includes('QR Code Generator visual preview'),'QR preview metadata missing')
+assert.ok(pdfArt.includes('Merge PDF visual preview'),'PDF preview metadata missing')
+assert.notEqual(qrArt,pdfArt,'tool preview art should be function-specific')

@@ -35,7 +35,7 @@ Sitemap: https://www.anytool.online/sitemap.xml
 
 
 ## Freshness and source monitoring
-- Official-source pages for Taiwan wage, insurance, tax, passport/ARC photo and elderly-care information are checked by an automated weekly source monitor.
+- Official-source pages for Taiwan wage, insurance, tax, passport/ARC photo and elderly-care information are checked by an automated daily source monitor.
 - When expected official markers disappear or a government page fails, the monitor opens a review issue instead of silently changing public formulas.
 - Regulated calculator math is deterministic code; generative AI is used only for explanation or document extraction, not to invent legal rates.
 - Elderly-care vacancy figures are labeled by source freshness. Users should call the institution before making a placement decision because availability can change.
