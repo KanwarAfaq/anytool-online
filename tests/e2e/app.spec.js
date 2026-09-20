@@ -185,18 +185,18 @@ test('modern quick calculator command palette filters and recent tools work', as
   await expect(page.getByText('Estimated take-home')).toBeVisible()
 
   await page.keyboard.press('Control+k')
-  await expect(page.getByRole('dialog',{name:'Quick launcher'})).toBeVisible()
-  await page.getByPlaceholder('Search any calculator, photo, PDF or AI tool').fill('passport')
+  await expect(page.getByRole('dialog',{name:'Search tools'})).toBeVisible()
+  await page.getByPlaceholder('Search tools').fill('passport')
   await expect(page.getByRole('button',{name:/Taiwan Passport/})).toBeVisible()
   await page.keyboard.press('Escape')
 
-  await page.getByPlaceholder('Filter tools by name…').fill('QR Code')
+  await page.getByPlaceholder('Search tools…').fill('QR Code')
   await expect(page.getByRole('heading',{name:'QR Code Generator'})).toBeVisible()
 
   await page.goto('/tools/loan-payment')
   await expect(page.getByRole('heading',{name:'Loan Payment Calculator'})).toBeVisible()
   await page.waitForTimeout(100)
   await page.goto('/')
-  await expect(page.getByText('Continue where you left off')).toBeVisible()
+  await expect(page.getByText('Recent')).toBeVisible()
   await expect(page.getByText('Loan Payment Calculator').first()).toBeVisible()
 })
