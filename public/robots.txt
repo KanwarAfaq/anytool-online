@@ -13,4 +13,4 @@ Disallow: /ur/auth
 Disallow: /ur/dashboard
 Disallow: /ur/profile
 
-Sitemap: https://anytool.online/sitemap.xml
+Sitemap: https://www.anytool.online/sitemap.xml
