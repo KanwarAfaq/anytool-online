@@ -2,7 +2,7 @@ name: Official source monitor
 
 on:
   schedule:
-    - cron: '17 2 * * 1'
+    - cron: '17 2 * * *'
   workflow_dispatch:
 
 permissions:
@@ -36,7 +36,7 @@ jobs:
         run: |
           TITLE="Official source review needed"
           EXISTING=$(gh issue list --state open --search "$TITLE in:title" --json number --jq '.[0].number // empty')
-          BODY="The weekly source monitor detected an unavailable source or a missing expected marker. Review the workflow summary before changing any calculator or public-service rule. Workflow: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}"
+          BODY="The daily source monitor detected an unavailable source or a missing expected marker. Review the workflow summary before changing any calculator or public-service rule. Workflow: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}"
           if [ -n "$EXISTING" ]; then
             gh issue comment "$EXISTING" --body "$BODY"
           else
