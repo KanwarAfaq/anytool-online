@@ -21,6 +21,11 @@ const staticPages=[
  {path:'/privacy',title:'Privacy | AnyTool.online',description:'How AnyTool handles browser-side processing, accounts and AI-powered file tasks.'},
  {path:'/methodology',title:'Methodology & Data Quality | AnyTool.online',description:'How AnyTool verifies calculator formulas, official sources, AI outputs and government data.'},
  {path:'/sources',title:'Official Sources | AnyTool.online',description:'Official government sources used by AnyTool for Taiwan calculations, photo rules and elderly-care information.'},
+ {path:'/categories/money',title:'Money & Taiwan Tools | AnyTool.online',description:'Source-backed Taiwan salary, tax, insurance, overtime, employer-cost and elderly-care tools.'},
+ {path:'/categories/image',title:'Image & ID Photo Tools | AnyTool.online',description:'Image resize, compression, format conversion, DPI, QR and Taiwan passport / ARC photo tools.'},
+ {path:'/categories/document',title:'PDF & Document Tools | AnyTool.online',description:'Privacy-conscious PDF merge, split and document utilities.'},
+ {path:'/categories/ai',title:'AI & OCR Tools | AnyTool.online',description:'Authenticated OCR and structured document extraction with provider fallback.'},
+ {path:'/categories/general',title:'General Calculators | AnyTool.online',description:'Practical percentage, loan and everyday calculators.'},
 ]
 const taiwan2026=new Set(['take-home-pay','labor-insurance','nhi','income-tax','overtime-pay','minimum-wage','employer-cost','taiwan-elder-care'])
 
