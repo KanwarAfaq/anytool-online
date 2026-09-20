@@ -1,0 +1,34 @@
+# AnyTool.online
+
+AnyTool.online is a multilingual utility website with free calculators, Taiwan public-service tools, image/PDF utilities, QR tools and AI-assisted OCR.
+
+Canonical site: https://anytool.online/
+Languages:
+- English: https://anytool.online/
+- Traditional Chinese: https://anytool.online/zh-tw/
+- Arabic: https://anytool.online/ar/
+- Urdu: https://anytool.online/ur/
+
+## Trust and sourcing
+- Methodology: https://anytool.online/methodology
+- Official sources: https://anytool.online/sources
+- Privacy: https://anytool.online/privacy
+- Contact: https://anytool.online/contact
+
+Taiwan regulated calculations are deterministic and source-backed. AnyTool does not use generative AI to invent tax, insurance, wage, subsidy or eligibility rules. Source pages and verification dates are shown on regulated tools.
+
+## Key Taiwan tools
+- Take-home pay: https://anytool.online/tools/take-home-pay
+- Labor insurance: https://anytool.online/tools/labor-insurance
+- NHI premium: https://anytool.online/tools/nhi
+- Income tax: https://anytool.online/tools/income-tax
+- Overtime pay: https://anytool.online/tools/overtime-pay
+- Minimum wage: https://anytool.online/tools/minimum-wage
+- Employer cost: https://anytool.online/tools/employer-cost
+- Passport / ARC photo maker: https://anytool.online/tools/taiwan-id-photo
+- Elderly care subsidy & bed finder: https://anytool.online/tools/taiwan-elder-care
+
+## File and AI tools
+Image resize/conversion and PDF merge/split run locally in the browser where practical. AI OCR and structured receipt extraction require a signed-in account and report the provider used.
+
+Sitemap: https://anytool.online/sitemap.xml
