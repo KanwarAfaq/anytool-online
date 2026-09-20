@@ -187,7 +187,7 @@ test('modern quick calculator command palette filters and recent tools work', as
   await page.keyboard.press('Control+k')
   await expect(page.getByRole('dialog',{name:'Search tools'})).toBeVisible()
   await page.getByRole('dialog',{name:'Search tools'}).getByRole('textbox').fill('passport')
-  await expect(page.getByRole('button',{name:/Taiwan Passport/})).toBeVisible()
+  await expect(page.getByRole('option',{name:/Taiwan Passport/})).toBeVisible()
   await page.keyboard.press('Escape')
 
   await page.getByPlaceholder('Search tools…').fill('QR Code')
