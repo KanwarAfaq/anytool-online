@@ -39,3 +39,9 @@ Sitemap: https://www.anytool.online/sitemap.xml
 - When expected official markers disappear or a government page fails, the monitor opens a review issue instead of silently changing public formulas.
 - Regulated calculator math is deterministic code; generative AI is used only for explanation or document extraction, not to invent legal rates.
 - Elderly-care vacancy figures are labeled by source freshness. Users should call the institution before making a placement decision because availability can change.
+
+## Machine-readable resources
+- Tool catalog with canonical URLs, update dates and attached official sources: https://www.anytool.online/tool-catalog.json
+- Official source registry with authorities, URLs, summaries and verification dates: https://www.anytool.online/official-sources.json
+
+These JSON files are provided for interoperability with agents and other tools. Google Search does not require llms.txt or special AI markup; the canonical HTML pages and sitemap remain the primary search surfaces.
