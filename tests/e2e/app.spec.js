@@ -8,18 +8,22 @@ test('home and four languages including RTL', async ({ page }) => {
   const language=page.getByLabel('Language')
 
   await language.selectOption('zh-TW')
+  await expect(page).toHaveURL(/\/zh-tw\/?$/)
   await expect(page.getByRole('heading', { level: 1 })).toContainText('實用工具')
   await expect(page.locator('html')).toHaveAttribute('dir','ltr')
 
   await language.selectOption('ar')
+  await expect(page).toHaveURL(/\/ar\/?$/)
   await expect(page.getByRole('heading', { level: 1 })).toContainText('أدوات مفيدة')
   await expect(page.locator('html')).toHaveAttribute('dir','rtl')
 
   await language.selectOption('ur')
+  await expect(page).toHaveURL(/\/ur\/?$/)
   await expect(page.getByRole('heading', { level: 1 })).toContainText('کارآمد ٹولز')
   await expect(page.locator('html')).toHaveAttribute('dir','rtl')
 
   await language.selectOption('en')
+  await expect(page).toHaveURL(/\/$/)
   await expect(page.locator('html')).toHaveAttribute('lang','en')
 })
 
@@ -95,7 +99,7 @@ test('PDF merge and split trigger downloads', async ({ page }) => {
   expect((await splitDownload).suggestedFilename()).toBe('pages-1-2.pdf')
 })
 
-test('auth dashboard upload AI and SEO surfaces render', async ({ page, request }) => {
+test('auth dashboard AI and SEO surfaces render', async ({ page, request }) => {
   await page.goto('/auth')
   await expect(page.getByPlaceholder('Email')).toBeVisible()
   await expect(page.getByPlaceholder('Password')).toBeVisible()
@@ -111,4 +115,56 @@ test('auth dashboard upload AI and SEO surfaces render', async ({ page, request 
   const body=await sitemap.text()
   expect(body).toContain('https://anytool.online/tools/take-home-pay')
   expect(body).toContain('https://anytool.online/tools/receipt-to-json')
+})
+
+
+test('zero-default numeric fields replace rather than prefix zero', async ({ page }) => {
+  await page.goto('/tools/income-tax')
+  const spouse=page.getByLabel('Spouse annual salary (NT$)')
+  await expect(spouse).toHaveValue('0')
+  await spouse.click()
+  await page.keyboard.type('50000')
+  await expect(spouse).toHaveValue('50000')
+})
+
+test('passport ARC photo maker exposes practical crop controls', async ({ page }) => {
+  await page.goto('/tools/taiwan-id-photo')
+  await expect(page.getByLabel('Document preset')).toBeVisible()
+  await expect(page.getByLabel('Width (mm)')).toHaveValue('35')
+  await expect(page.getByLabel('Height (mm)')).toHaveValue('45')
+  await expect(page.getByLabel('DPI')).toHaveValue('300')
+  await expect(page.getByText('Official guide')).toBeVisible()
+  const controls=page.locator('input,select')
+  expect(await controls.count()).toBeGreaterThanOrEqual(8)
+})
+
+test('elder care tool shows source-backed subsidy and official city systems', async ({ page }) => {
+  await page.goto('/tools/taiwan-elder-care')
+  await expect(page.getByText('Up to NT$15,000 / month')).toBeVisible()
+  await expect(page.getByText('Up to NT$180,000 / year')).toBeVisible()
+  await expect(page.getByText('Other official city systems')).toBeVisible()
+})
+
+test('public trust pages and auth recovery surfaces render', async ({ page }) => {
+  for (const path of ['/about','/contact','/privacy','/methodology','/sources']) {
+    await page.goto(path)
+    await expect(page.locator('h1')).toBeVisible()
+    await expect(page.locator('meta[name="robots"]')).toHaveAttribute('content',/index,follow/)
+  }
+  await page.goto('/auth')
+  await page.getByRole('button',{name:'Email OTP'}).click()
+  await expect(page.getByRole('heading',{name:'Email OTP'})).toBeVisible()
+  await page.getByRole('button',{name:'Back to sign in'}).click()
+  await page.getByRole('button',{name:'Forgot password?'}).click()
+  await expect(page.getByRole('heading',{name:'Reset password'})).toBeVisible()
+
+  await page.goto('/profile')
+  await expect(page.locator('meta[name="robots"]')).toHaveAttribute('content','noindex,nofollow')
+})
+
+test('localized tool pages publish hreflang alternates', async ({ page }) => {
+  await page.goto('/zh-tw/tools/take-home-pay')
+  await expect(page.locator('html')).toHaveAttribute('lang','zh-TW')
+  await expect(page.locator('link[rel="canonical"]')).toHaveAttribute('href','https://anytool.online/zh-tw/tools/take-home-pay')
+  await expect(page.locator('link[rel="alternate"][hreflang="ar"]')).toHaveAttribute('href','https://anytool.online/ar/tools/take-home-pay')
 })
