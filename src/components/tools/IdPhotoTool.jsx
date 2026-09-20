@@ -6,7 +6,7 @@ import { useI18n } from '../../i18n'
 const presets={
   passport:{label:'Taiwan Passport',width:35,height:45,dpi:300,maxKB:null,source:'taiwanPassport',age:'Taken within the last 6 months'},
   id:{label:'Taiwan National ID',width:35,height:45,dpi:300,maxKB:5120,source:'taiwanIdPhoto',age:'Taken within the last 2 years'},
-  arc:{label:'Taiwan ARC / APRC',width:35,height:45,dpi:300,maxKB:512,source:'arcPhoto',age:'Follow the NIA application flow; online uploads may use a 512 KB limit'}
+  arc:{label:'Taiwan ARC / APRC',width:35,height:45,dpi:300,maxKB:null,source:'arcPhoto',age:'Recent 2-inch photo using Taiwan National ID photo specifications; check your NIA application flow for its recency/upload requirements'}
 }
 
 const mmToPx=(mm,dpi)=>Math.max(1,Math.round(mm/25.4*dpi))
