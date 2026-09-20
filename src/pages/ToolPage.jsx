@@ -196,7 +196,15 @@ export default function ToolPage(){
  const {lang,t,toolName,toolDescription,pathFor}=useI18n()
  const {slug}=useParams(),tool=toolBySlug[slug]
  const regulated2026=new Set(['take-home-pay','labor-insurance','nhi','income-tax','overtime-pay','minimum-wage','employer-cost','taiwan-elder-care'])
- useEffect(()=>{ if(slug) logToolEvent(slug,'tool_open').catch(()=>{}) },[slug])
+ useEffect(()=>{
+  if(!slug)return
+  logToolEvent(slug,'tool_open').catch(()=>{})
+  try{
+    const current=JSON.parse(localStorage.getItem('anytool_recent')||'[]')
+    const next=[slug,...current.filter(x=>x!==slug)].slice(0,8)
+    localStorage.setItem('anytool_recent',JSON.stringify(next))
+  }catch{}
+ },[slug])
  if(!tool)return <div className="mx-auto max-w-5xl px-4 py-20"><h1 className="text-3xl font-black">{t('toolNotFound')}</h1><Link className="btn-primary mt-6" to={pathFor('/')}>{t('backHome')}</Link></div>
  const view=useMemo(()=>{
   if(['take-home-pay','labor-insurance','nhi','income-tax','overtime-pay','minimum-wage','employer-cost','annual-salary'].includes(slug))return <MoneyTool slug={slug}/>

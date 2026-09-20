@@ -176,3 +176,25 @@ test('localized tool pages publish hreflang alternates', async ({ page }) => {
   await expect(page.locator('link[rel="canonical"]')).toHaveAttribute('href','https://www.anytool.online/zh-tw/tools/take-home-pay')
   await expect(page.locator('link[rel="alternate"][hreflang="ar"]')).toHaveAttribute('href','https://www.anytool.online/ar/tools/take-home-pay')
 })
+
+
+test('modern quick calculator command palette filters and recent tools work', async ({ page }) => {
+  await page.goto('/')
+  const quickSalary=page.getByLabel('Monthly salary (NT$)').first()
+  await quickSalary.fill('65000')
+  await expect(page.getByText('Estimated take-home')).toBeVisible()
+
+  await page.keyboard.press('Control+k')
+  await expect(page.getByRole('dialog',{name:'Quick launcher'})).toBeVisible()
+  await page.getByPlaceholder('Search any calculator, photo, PDF or AI tool').fill('passport')
+  await expect(page.getByRole('button',{name:/Taiwan Passport/})).toBeVisible()
+  await page.keyboard.press('Escape')
+
+  await page.getByPlaceholder('Filter tools by name…').fill('QR Code')
+  await expect(page.getByRole('heading',{name:'QR Code Generator'})).toBeVisible()
+
+  await page.goto('/tools/loan-payment')
+  await page.goto('/')
+  await expect(page.getByText('Continue where you left off')).toBeVisible()
+  await expect(page.getByText('Loan Payment Calculator').first()).toBeVisible()
+})
