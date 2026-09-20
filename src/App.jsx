@@ -11,6 +11,7 @@ const Contact=lazy(()=>import('./pages/Contact'))
 const Privacy=lazy(()=>import('./pages/Privacy'))
 const Methodology=lazy(()=>import('./pages/Methodology'))
 const Sources=lazy(()=>import('./pages/Sources'))
+const Profile=lazy(()=>import('./pages/Profile'))
 
 function Loading(){return <div className="mx-auto max-w-7xl px-4 py-20 text-slate-400">Loading…</div>}
 function LocaleGate({children}){const {locale}=useParams();return ['zh-tw','ar','ur'].includes(locale)?children:<Navigate to="/" replace/>}
@@ -26,10 +27,11 @@ export default function App(){
   <Route key="privacy" path="/privacy" element={<Privacy/>}/>,
   <Route key="method" path="/methodology" element={<Methodology/>}/>,
   <Route key="sources" path="/sources" element={<Sources/>}/>,
+  <Route key="profile" path="/profile" element={<Profile/>}/>,
  ]
  const localized=[
   ['/:locale',<Home/>],['/:locale/tools/:slug',<ToolPage/>],['/:locale/auth',<AuthPage/>],['/:locale/dashboard',<Dashboard/>],
-  ['/:locale/about',<About/>],['/:locale/contact',<Contact/>],['/:locale/privacy',<Privacy/>],['/:locale/methodology',<Methodology/>],['/:locale/sources',<Sources/>]
+  ['/:locale/about',<About/>],['/:locale/contact',<Contact/>],['/:locale/privacy',<Privacy/>],['/:locale/methodology',<Methodology/>],['/:locale/sources',<Sources/>],['/:locale/profile',<Profile/>]
  ].map(([path,el])=><Route key={path} path={path} element={<LocaleGate>{el}</LocaleGate>}/>)
  return <Layout><Suspense fallback={<Loading/>}><Routes>{base}{localized}<Route path="*" element={<Navigate to="/" replace/>}/></Routes></Suspense></Layout>
 }
