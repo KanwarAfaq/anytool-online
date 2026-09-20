@@ -212,7 +212,10 @@ export default function ToolPage(){
   return <AITool slug={slug}/>
  },[slug])
  const toolPath=pathFor('/tools/'+slug)
+ const categoryPath=pathFor('/categories/'+tool.category)
  const toolUrl='https://www.anytool.online'+toolPath
+ const categoryUrl='https://www.anytool.online'+categoryPath
+ const categoryName=t('categories.'+tool.category)
  const sourceKeys=toolSourceKeys[slug]||[]
  const reviewed=sourceKeys.map(k=>officialSources[k]?.verified).filter(Boolean).sort().at(-1)||'2026-09-20'
  const reviewedLabel={en:'Reviewed against official sources','zh-TW':'已依官方來源查核',ar:'تمت المراجعة وفق المصادر الرسمية',ur:'سرکاری ذرائع کے مطابق جائزہ لیا گیا'}[lang]||'Reviewed against official sources'
@@ -220,7 +223,7 @@ export default function ToolPage(){
  const schemas=[
   {'@context':'https://schema.org','@type':'WebPage',name:seoTitle,description:toolDescription(tool),url:toolUrl,inLanguage:lang,dateModified:reviewed,isPartOf:{'@type':'WebSite',name:'AnyTool.online',url:'https://www.anytool.online/'}},
   {'@context':'https://schema.org','@type':'SoftwareApplication',name:toolName(tool),description:toolDescription(tool),applicationCategory:'UtilitiesApplication',operatingSystem:'Web',url:toolUrl,isAccessibleForFree:true,offers:{'@type':'Offer',price:'0',priceCurrency:'USD'}},
-  {'@context':'https://schema.org','@type':'BreadcrumbList',itemListElement:[{'@type':'ListItem',position:1,name:'AnyTool',item:'https://www.anytool.online/'},{'@type':'ListItem',position:2,name:toolName(tool),item:toolUrl}]}
+  {'@context':'https://schema.org','@type':'BreadcrumbList',itemListElement:[{'@type':'ListItem',position:1,name:'AnyTool',item:'https://www.anytool.online/'},{'@type':'ListItem',position:2,name:categoryName,item:categoryUrl},{'@type':'ListItem',position:3,name:toolName(tool),item:toolUrl}]}
  ]
- return <section className="mx-auto max-w-5xl px-4 py-12"><Seo title={seoTitle} description={toolDescription(tool)} jsonLd={schemas}/><div className="mb-7"><Link className="text-sm text-emerald-300" to={pathFor('/')}>← {t('allTools')}</Link><div className="mt-3 flex items-start justify-between gap-4"><div><h1 className="text-3xl font-black sm:text-4xl">{toolName(tool)}</h1><p className="mt-3 max-w-2xl text-slate-400">{toolDescription(tool)}</p>{sourceKeys.length>0&&<p className="mt-2 text-xs font-semibold text-emerald-300">{reviewedLabel}: <time dateTime={reviewed}>{reviewed}</time></p>}</div><button aria-label={t('favorites')} className="btn-ghost shrink-0" onClick={()=>saveFavorite(slug).then(()=>alert(t('saved'))).catch(()=>alert(t('signInFirst')))}><Heart size={17}/></button></div></div>{view}<ToolGuide tool={tool}/><SourceEvidence slug={slug}/><OfficialAssistant slug={slug}/><p className="mt-6 text-xs text-slate-500">{t('planningOnly')}</p></section>
+ return <section className="mx-auto max-w-5xl px-4 py-12"><Seo title={seoTitle} description={toolDescription(tool)} jsonLd={schemas}/><div className="mb-7"><nav aria-label="Breadcrumb" className="text-sm text-slate-400"><ol className="flex flex-wrap items-center gap-2"><li><Link className="hover:text-emerald-300" to={pathFor('/')}>AnyTool</Link></li><li aria-hidden="true">/</li><li><Link className="hover:text-emerald-300" to={categoryPath}>{categoryName}</Link></li><li aria-hidden="true">/</li><li className="text-emerald-300">{toolName(tool)}</li></ol></nav><div className="mt-3 flex items-start justify-between gap-4"><div><h1 className="text-3xl font-black sm:text-4xl">{toolName(tool)}</h1><p className="mt-3 max-w-2xl text-slate-400">{toolDescription(tool)}</p>{sourceKeys.length>0&&<p className="mt-2 text-xs font-semibold text-emerald-300">{reviewedLabel}: <time dateTime={reviewed}>{reviewed}</time></p>}</div><button aria-label={t('favorites')} className="btn-ghost shrink-0" onClick={()=>saveFavorite(slug).then(()=>alert(t('saved'))).catch(()=>alert(t('signInFirst')))}><Heart size={17}/></button></div></div>{view}<ToolGuide tool={tool}/><SourceEvidence slug={slug}/><OfficialAssistant slug={slug}/><p className="mt-6 text-xs text-slate-500">{t('planningOnly')}</p></section>
 }
