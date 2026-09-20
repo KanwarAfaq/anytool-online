@@ -5,7 +5,7 @@ import { tools } from '../src/data/tools.js'
 
 const root=process.cwd()
 const locales=['','zh-tw','ar','ur']
-const staticPages=['','about','contact','privacy','methodology','sources']
+const staticPages=['','about','contact','privacy','methodology','sources','categories/money','categories/image','categories/document','categories/ai','categories/general']
 await access(resolve(root,'dist/index.html'))
 await access(resolve(root,'dist/robots.txt'))
 await access(resolve(root,'dist/manifest.webmanifest'))
