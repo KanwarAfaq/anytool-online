@@ -31,7 +31,7 @@ export default function ToolGuide({tool}){
   <summary><span className="flex items-center gap-2"><CheckCircle2 size={17} className="text-lime-300"/>{L.title}</span></summary>
   <div className="grid gap-5 border-t border-white/[0.06] p-4 lg:grid-cols-[1fr_280px]">
    <div><ol className="grid gap-2">{steps.map((s,i)=><li key={s} className="flex gap-3 text-sm leading-6 text-slate-400"><span className="text-lime-300">{i+1}.</span><span>{s}</span></li>)}</ol><p className="mt-4 flex items-start gap-2 text-xs leading-5 text-slate-500"><LockKeyhole size={14} className="mt-0.5 shrink-0 text-lime-300"/>{privacy}</p></div>
-   <div><p className="text-xs font-black uppercase tracking-[.14em] text-slate-600">{L.related}</p><div className="mt-2 grid gap-1">{related.map(x=><Link key={x.slug} to={pathFor('/tools/'+x.slug)} className="flex items-center justify-between rounded-lg px-2.5 py-2 text-sm text-slate-400 hover:bg-white/[0.04] hover:text-white"><span>{toolName(x)}</span><ArrowRight size={13}/></Link>)}</div></div>
+   <div><p className="text-xs font-black uppercase tracking-[.14em] text-slate-500">{L.related}</p><div className="mt-2 grid gap-1">{related.map(x=><Link key={x.slug} to={pathFor('/tools/'+x.slug)} className="flex items-center justify-between rounded-lg px-2.5 py-2 text-sm text-slate-400 hover:bg-white/[0.04] hover:text-white"><span>{toolName(x)}</span><ArrowRight size={13}/></Link>)}</div></div>
   </div>
  </details>
 }
