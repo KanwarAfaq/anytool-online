@@ -1,7 +1,7 @@
 import { useEffect } from 'react'
 import { useLocation } from 'react-router-dom'
 
-const SITE='https://anytool.online'
+const SITE='https://www.anytool.online'
 const locales=[
   ['en',''],
   ['zh-TW','/zh-tw'],
