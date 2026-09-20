@@ -4,23 +4,23 @@ import { PDFDocument } from 'pdf-lib'
 
 test('home and four languages including RTL', async ({ page }) => {
   await page.goto('/')
-  await expect(page.getByRole('heading', { level: 1 })).toContainText('Useful tools')
+  await expect(page.getByRole('heading', { level: 1 })).toContainText('One beautiful place')
   const language=page.getByLabel('Language')
 
   await language.selectOption('zh-TW')
   await expect(page).toHaveURL(/\/zh-tw\/?$/)
-  await expect(page.getByRole('heading', { level: 1 })).toContainText('實用工具')
+  await expect(page.getByRole('heading', { level: 1 })).toContainText('日常需要的工具')
   await expect(page).toHaveTitle(/2026 台灣薪資稅務計算/)
   await expect(page.locator('html')).toHaveAttribute('dir','ltr')
 
   await language.selectOption('ar')
   await expect(page).toHaveURL(/\/ar\/?$/)
-  await expect(page.getByRole('heading', { level: 1 })).toContainText('أدوات مفيدة')
+  await expect(page.getByRole('heading', { level: 1 })).toContainText('مكان جميل واحد')
   await expect(page.locator('html')).toHaveAttribute('dir','rtl')
 
   await language.selectOption('ur')
   await expect(page).toHaveURL(/\/ur\/?$/)
-  await expect(page.getByRole('heading', { level: 1 })).toContainText('کارآمد ٹولز')
+  await expect(page.getByRole('heading', { level: 1 })).toContainText('روزمرہ کے تمام ٹولز')
   await expect(page.locator('html')).toHaveAttribute('dir','rtl')
 
   await language.selectOption('en')
@@ -65,7 +65,7 @@ test('salary percentage tax minimum wage and loan calculators respond', async ({
 
 test('QR generation works', async ({ page }) => {
   await page.goto('/tools/qr-generator')
-  await page.locator('input.input').fill('https://www.anytool.online/test')
+  await page.getByRole('textbox').fill('https://www.anytool.online/test')
   await page.getByRole('button',{name:'Generate'}).click()
   await expect(page.locator('img[alt="QR code"]')).toBeVisible()
   await expect(page.getByRole('link',{name:'Download'})).toHaveAttribute('download','qr.png')
@@ -194,6 +194,8 @@ test('modern quick calculator command palette filters and recent tools work', as
   await expect(page.getByRole('heading',{name:'QR Code Generator'})).toBeVisible()
 
   await page.goto('/tools/loan-payment')
+  await expect(page.getByRole('heading',{name:'Loan Payment Calculator'})).toBeVisible()
+  await page.waitForTimeout(100)
   await page.goto('/')
   await expect(page.getByText('Continue where you left off')).toBeVisible()
   await expect(page.getByText('Loan Payment Calculator').first()).toBeVisible()

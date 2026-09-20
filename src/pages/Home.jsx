@@ -9,7 +9,7 @@ import { useI18n } from '../i18n'
 const categoryIcon={money:WalletCards,image:ImageIcon,document:FileText,ai:BrainCircuit,general:Calculator}
 const categoryAccent={money:'text-emerald-300',image:'text-pink-300',document:'text-blue-300',ai:'text-violet-300',general:'text-amber-300'}
 
-function QuickSalary({copy}){
+function QuickSalary({copy,pathFor}){
  const [salary,setSalary]=useState(50000)
  const [dependents,setDependents]=useState(0)
  const r=takeHome(Number(salary)||0,Number(dependents)||0)
@@ -20,7 +20,7 @@ function QuickSalary({copy}){
     <div className="flex items-center justify-between gap-3"><div><p className="text-xs font-black uppercase tracking-[.2em] text-cyan-300">{copy.quickTag}</p><h2 className="mt-1 text-xl font-black">{copy.quickTitle}</h2></div><span className="pulse-ring grid size-10 place-items-center rounded-2xl bg-emerald-300/10 text-emerald-300"><TrendingUp size={18}/></span></div>
     <div className="mt-5 grid gap-3 sm:grid-cols-2"><label><span className="mb-1.5 block text-xs font-semibold text-slate-400">{copy.salary}</span><input aria-label={copy.salary} className="input" type="number" inputMode="numeric" min="0" value={salary===0?'':salary} placeholder="50000" onFocus={e=>e.target.select()} onChange={e=>setSalary(e.target.value===''?0:Number(e.target.value))}/></label><label><span className="mb-1.5 block text-xs font-semibold text-slate-400">{copy.dependents}</span><select aria-label={copy.dependents} className="input" value={dependents} onChange={e=>setDependents(Number(e.target.value))}>{[0,1,2,3].map(n=><option className="bg-slate-950" value={n} key={n}>{n}</option>)}</select></label></div>
     <div className="mt-5 rounded-[24px] border border-white/10 bg-slate-950/45 p-5"><p className="text-xs text-slate-500">{copy.net}</p><div className="mt-1 flex items-end gap-2"><span className="text-4xl font-black tracking-tight text-white">NT$ {money(r.net)}</span><span className="mb-1 text-xs font-bold text-emerald-300">/{copy.month}</span></div><div className="mt-4 h-2 overflow-hidden rounded-full bg-white/[0.06]"><div className="h-full rounded-full bg-gradient-to-r from-cyan-300 via-emerald-300 to-violet-400 transition-all duration-500" style={{width:pct+'%'}}/></div><div className="mt-4 grid grid-cols-2 gap-3"><div className="metric"><p className="text-[11px] text-slate-500">{copy.deductions}</p><p className="mt-1 font-black">NT$ {money(r.deductions)}</p></div><div className="metric"><p className="text-[11px] text-slate-500">{copy.rate}</p><p className="mt-1 font-black">{pct.toFixed(1)}%</p></div></div></div>
-    <Link to="/tools/take-home-pay" className="mt-4 inline-flex items-center text-sm font-bold text-cyan-300 transition hover:text-cyan-200">{copy.full} <ArrowRight className="ms-1" size={15}/></Link>
+    <Link to={pathFor('/tools/take-home-pay')} className="mt-4 inline-flex items-center text-sm font-bold text-cyan-300 transition hover:text-cyan-200">{copy.full} <ArrowRight className="ms-1" size={15}/></Link>
    </div>
   </div>
 }
@@ -60,7 +60,7 @@ export default function Home(){
       <div className="mt-8 flex flex-wrap gap-3"><a href="#tools" className="btn-primary">{C.browse}<ArrowRight className="ms-2" size={17}/></a><Link to={pathFor('/tools/take-home-pay')} className="btn-ghost"><WalletCards className="me-2 text-emerald-300" size={17}/>{C.taiwan}</Link></div>
       <div className="mt-8 flex flex-wrap gap-x-6 gap-y-3 text-xs font-semibold text-slate-400"><span className="flex items-center gap-2"><BadgeCheck size={15} className="text-emerald-300"/>{C.official}</span><span className="flex items-center gap-2"><Languages size={15} className="text-violet-300"/>{C.languages}</span><span className="flex items-center gap-2"><Zap size={15} className="text-amber-300"/>{tools.length} {C.toolsCount}</span></div>
     </div>
-    <div className="reveal reveal-delay-1 lg:ps-4"><QuickSalary copy={C}/></div>
+    <div className="reveal reveal-delay-1 lg:ps-4"><QuickSalary copy={C} pathFor={pathFor}/></div>
    </div>
   </section>
 
