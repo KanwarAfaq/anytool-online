@@ -4,18 +4,32 @@ import { resolve } from 'node:path'
 import { tools } from '../src/data/tools.js'
 
 const root=process.cwd()
+const locales=['','zh-tw','ar','ur']
+const staticPages=['','about','contact','privacy','methodology','sources']
 await access(resolve(root,'dist/index.html'))
 await access(resolve(root,'dist/robots.txt'))
 await access(resolve(root,'dist/manifest.webmanifest'))
 
 const sitemap=await readFile(resolve(root,'dist/sitemap.xml'),'utf8')
-assert.ok(sitemap.includes('https://anytool.online/'),'homepage missing from sitemap')
+assert.ok(sitemap.includes('xmlns:xhtml='),'sitemap missing hreflang namespace')
 
-for(const tool of tools){
-  const url='https://anytool.online/tools/'+tool.slug
-  assert.ok(sitemap.includes(url),'sitemap missing '+tool.slug)
-  const html=await readFile(resolve(root,'dist/tools',tool.slug,'index.html'),'utf8')
-  assert.ok(html.includes(url),'canonical missing for '+tool.slug)
-  assert.ok(html.includes(tool.name.replaceAll('&','&amp;')),'metadata missing for '+tool.slug)
+for(const loc of locales){
+ for(const page of staticPages){
+  const parts=[loc,page].filter(Boolean)
+  const file=parts.length?resolve(root,'dist',...parts,'index.html'):resolve(root,'dist','index.html')
+  await access(file)
+  const html=await readFile(file,'utf8')
+  assert.ok(html.includes('rel="canonical"'),'canonical missing '+parts.join('/'))
+ }
+ for(const tool of tools){
+  const parts=[loc,'tools',tool.slug].filter(Boolean)
+  const file=resolve(root,'dist',...parts,'index.html')
+  const html=await readFile(file,'utf8')
+  const url='https://anytool.online/'+parts.join('/')
+  assert.ok(sitemap.includes(url),'sitemap missing '+url)
+  assert.ok(html.includes(url),'canonical missing '+url)
+  assert.ok(html.includes('SoftwareApplication'),'schema missing '+tool.slug)
+  assert.ok(html.includes('hreflang="zh-TW"'),'hreflang missing '+tool.slug)
+ }
 }
-console.log('SEO/dist smoke tests passed for '+tools.length+' tools')
+console.log('SEO/dist smoke tests passed for '+tools.length+' tools × '+locales.length+' locales')
