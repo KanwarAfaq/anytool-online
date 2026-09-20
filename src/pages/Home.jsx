@@ -23,10 +23,10 @@ function QuickSalary({copy,pathFor}){
       <label><span className="mb-1.5 block text-xs font-bold text-slate-500">{copy.dependents}</span><select aria-label={copy.dependents} className="input" value={dependents} onChange={e=>setDependents(Number(e.target.value))}>{[0,1,2,3].map(n=><option className="bg-slate-950" value={n} key={n}>{n}</option>)}</select></label>
     </div>
     <div className="mt-4 grid grid-cols-[1fr_auto] items-end gap-4 rounded-2xl border border-white/[0.07] bg-[#070d15] p-4">
-      <div><p className="text-xs text-slate-600">{copy.net}</p><p className="mt-1 text-3xl font-black tracking-tight">NT$ {money(r.net)}</p></div>
+      <div><p className="text-xs text-slate-500">{copy.net}</p><p className="mt-1 text-3xl font-black tracking-tight">NT$ {money(r.net)}</p></div>
       <Link to={pathFor('/tools/take-home-pay')} className="grid size-10 place-items-center rounded-xl bg-lime-300 text-[#07100c] transition hover:scale-105" aria-label={copy.open}><ArrowRight size={18}/></Link>
     </div>
-    <div className="mt-3 flex justify-between text-xs text-slate-600"><span>{copy.deduct}</span><strong className="text-slate-400">NT$ {money(r.deductions)}</strong></div>
+    <div className="mt-3 flex justify-between text-xs text-slate-500"><span>{copy.deduct}</span><strong className="text-slate-400">NT$ {money(r.deductions)}</strong></div>
    </div>
  </div>
 }
