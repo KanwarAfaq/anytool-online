@@ -12,6 +12,8 @@ await access(resolve(root,'dist/manifest.webmanifest'))
 
 const sitemap=await readFile(resolve(root,'dist/sitemap.xml'),'utf8')
 assert.ok(sitemap.includes('xmlns:xhtml='),'sitemap missing hreflang namespace')
+const expectedUrls=(staticPages.length+tools.length)*locales.length
+assert.equal((sitemap.match(/<url>/g)||[]).length,expectedUrls,'unexpected sitemap URL count')
 
 for(const loc of locales){
  for(const page of staticPages){
@@ -30,6 +32,9 @@ for(const loc of locales){
   assert.ok(html.includes(url),'canonical missing '+url)
   assert.ok(html.includes('SoftwareApplication'),'schema missing '+tool.slug)
   assert.ok(html.includes('hreflang="zh-TW"'),'hreflang missing '+tool.slug)
+  assert.ok(html.includes('seo-prerender'),'visible prerender content missing '+tool.slug)
+  if(!loc) assert.ok(html.includes('How to use it'),'useful prerender guidance missing '+tool.slug)
+  if(!loc&&['take-home-pay','taiwan-id-photo','taiwan-elder-care'].includes(tool.slug)) assert.ok(html.includes('Official sources & verification'),'official source text missing '+tool.slug)
  }
 }
 console.log('SEO/dist smoke tests passed for '+tools.length+' tools × '+locales.length+' locales')
