@@ -32,7 +32,7 @@ test('all public tool routes render and have canonical URLs', async ({ page }) =
   for (const tool of tools) {
     await page.goto('/tools/'+tool.slug)
     await expect(page.getByRole('heading', { level: 1 })).toContainText(tool.name)
-    await expect(page.locator('link[rel="canonical"]')).toHaveAttribute('href','https://anytool.online/tools/'+tool.slug)
+    await expect(page.locator('link[rel="canonical"]')).toHaveAttribute('href','https://www.anytool.online/tools/'+tool.slug)
   }
 })
 
@@ -65,7 +65,7 @@ test('salary percentage tax minimum wage and loan calculators respond', async ({
 
 test('QR generation works', async ({ page }) => {
   await page.goto('/tools/qr-generator')
-  await page.locator('input.input').fill('https://anytool.online/test')
+  await page.locator('input.input').fill('https://www.anytool.online/test')
   await page.getByRole('button',{name:'Generate'}).click()
   await expect(page.locator('img[alt="QR code"]')).toBeVisible()
   await expect(page.getByRole('link',{name:'Download'})).toHaveAttribute('download','qr.png')
@@ -114,8 +114,8 @@ test('auth dashboard AI and SEO surfaces render', async ({ page, request }) => {
   const sitemap=await request.get('/sitemap.xml')
   expect(sitemap.ok()).toBeTruthy()
   const body=await sitemap.text()
-  expect(body).toContain('https://anytool.online/tools/take-home-pay')
-  expect(body).toContain('https://anytool.online/tools/receipt-to-json')
+  expect(body).toContain('https://www.anytool.online/tools/take-home-pay')
+  expect(body).toContain('https://www.anytool.online/tools/receipt-to-json')
 })
 
 
@@ -173,6 +173,6 @@ test('public trust pages and auth recovery surfaces render', async ({ page }) =>
 test('localized tool pages publish hreflang alternates', async ({ page }) => {
   await page.goto('/zh-tw/tools/take-home-pay')
   await expect(page.locator('html')).toHaveAttribute('lang','zh-TW')
-  await expect(page.locator('link[rel="canonical"]')).toHaveAttribute('href','https://anytool.online/zh-tw/tools/take-home-pay')
-  await expect(page.locator('link[rel="alternate"][hreflang="ar"]')).toHaveAttribute('href','https://anytool.online/ar/tools/take-home-pay')
+  await expect(page.locator('link[rel="canonical"]')).toHaveAttribute('href','https://www.anytool.online/zh-tw/tools/take-home-pay')
+  await expect(page.locator('link[rel="alternate"][hreflang="ar"]')).toHaveAttribute('href','https://www.anytool.online/ar/tools/take-home-pay')
 })
