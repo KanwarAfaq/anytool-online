@@ -10,6 +10,30 @@ const tips={
     en:['Enter your gross monthly salary and NHI dependents.','The result combines labor insurance, employment insurance, NHI and a simplified monthly tax estimate.','Use the linked detailed calculators when you need to inspect one deduction separately.'],
     'zh-TW':['輸入每月稅前薪資與健保眷屬人數。','結果整合勞保、就保、健保與簡化的每月所得稅估算。','若要逐項確認扣款，可開啟下方相關計算器。']
   },
+  'labor-insurance':{
+    en:['Enter your actual monthly salary; the calculator maps it to the official insured-salary grade.','For a standard fixed-employer employee, it estimates the employee share of 11.5% labor insurance plus 1% employment insurance using the published allocation rules.','The labor-insurance salary table has its own ceiling, so a higher actual salary does not always mean a higher labor-insurance base.'],
+    'zh-TW':['輸入實際月薪；工具會先依官方分級表找到投保薪資。','一般有固定雇主的受僱者，會依 11.5% 勞保費率與 1% 就保費率及法定負擔比例估算員工負擔。','勞保投保薪資有級距上限，因此實際月薪提高時，勞保計算基礎不一定同步增加。']
+  },
+  'nhi':{
+    en:['Enter monthly salary and the number of chargeable NHI dependents.','The employee table uses the official contribution-salary grade, 5.17% premium rate and 30% employee share for standard fixed-employer workers.','Up to three dependents are charged under the table; verify special insured categories with NHIA.'],
+    'zh-TW':['輸入月薪與需計費的健保眷屬人數。','一般有固定雇主受僱者依官方投保金額級距、5.17% 費率及員工 30% 負擔比例估算。','表格最多計收 3 名眷屬；特殊投保身分仍請向健保署確認。']
+  },
+  'income-tax':{
+    en:['Enter annual salary income, spouse salary income if applicable, and dependents.','The estimate uses the 2026 resident progressive brackets plus standard deduction and employment-income deduction assumptions.','It is a planning estimate, not a tax filing: itemized deductions, special deductions, dividends, overseas income and basic-living-expense differences can change the final tax.'],
+    'zh-TW':['輸入全年薪資所得、配偶薪資所得（如適用）與扶養親屬人數。','估算採 2026 居住者累進稅率，並套用標準扣除額與薪資所得特別扣除額的簡化假設。','此為規劃估算而非報稅結果；列舉扣除、其他特別扣除、股利、海外所得與基本生活費差額都可能改變最終稅額。']
+  },
+  'overtime-pay':{
+    en:['Enter monthly salary plus weekday and rest-day overtime hours.','For monthly-paid employees, the tool uses monthly salary ÷ 240 as the ordinary hourly wage basis and applies the statutory overtime multipliers.','Collective agreements, shift arrangements, holidays and exceptional work-time systems can change the calculation.'],
+    'zh-TW':['輸入月薪、平日加班時數與休息日加班時數。','按月計酬者以月薪 ÷ 240 作為平日每小時工資額基礎，再套用法定加班倍率。','團體協約、輪班、國定假日或特殊工時制度可能改變實際計算。']
+  },
+  'minimum-wage':{
+    en:['Enter monthly salary and hourly wage to compare them separately.','From January 1, 2026, Taiwan minimum wage is NT$29,500 per month and NT$196 per hour.','Monthly and hourly minimums apply to different pay arrangements; do not convert one into the other without considering actual working-time terms.'],
+    'zh-TW':['分別輸入月薪與時薪進行比較。','自 2026 年 1 月 1 日起，台灣最低工資為月薪 NT$29,500、時薪 NT$196。','月薪與時薪最低工資適用於不同計酬方式，不應忽略實際工時條件直接互換。']
+  },
+  'employer-cost':{
+    en:['Enter the employee monthly salary.','The estimate adds employer labor insurance, employment insurance, NHI and the mandatory 6% labor-pension contribution using current contribution grades.','Occupational accident insurance is excluded because its rate varies by industry and experience, so actual employer cost can be higher.'],
+    'zh-TW':['輸入員工月薪。','估算會依現行級距加入雇主勞保、就保、健保及至少 6% 勞退提繳。','職災保險費率會因行業與經驗費率不同，因此未納入，實際雇主成本可能更高。']
+  },
   'taiwan-id-photo':{
     en:['Choose Passport, National ID or ARC/APRC first.','Upload an original, recent photo, then adjust zoom, horizontal/vertical position and rotation.','Keep the background white and verify the final face/head proportions against the official guide before submitting.'],
     'zh-TW':['先選擇護照、國民身分證或 ARC/APRC。','上傳近期原始照片後，可調整縮放、水平／垂直位置與旋轉。','背景請保持白色，送件前再依官方規格確認臉部與頭部比例。']
@@ -76,7 +100,7 @@ export default function ToolGuide({tool}){
  const L=generic[lang]||generic.en
  const isAI=tool.category==='ai'
  const isFile=['image','document'].includes(tool.category)
- const steps=tips[tool.slug]?.[lang]||tips[tool.slug]?.en||(isAI?L.ai:isFile?L.file:L.calc)
+ const steps=tips[tool.slug]?.[lang]||(lang==='en'?tips[tool.slug]?.en:null)||(isAI?L.ai:isFile?L.file:L.calc)
  const privacy=isAI?L.server:localSlugs.has(tool.slug)||isFile?L.local:L.sourceTip
  const related=tools.filter(x=>x.slug!==tool.slug&&(x.category===tool.category||(['take-home-pay','labor-insurance','nhi','income-tax','employer-cost'].includes(tool.slug)&&x.category==='money'))).slice(0,4)
  return <section className="mt-8 grid gap-5 lg:grid-cols-[1fr_320px]">
