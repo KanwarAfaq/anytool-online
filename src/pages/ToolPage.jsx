@@ -160,11 +160,10 @@ function AITool({slug}){
 }
 
 export default function ToolPage(){
- const {t,toolName,toolDescription}=useI18n()
+ const {t,toolName,toolDescription,pathFor}=useI18n()
  const {slug}=useParams(),tool=toolBySlug[slug]
- const canonical='https://anytool.online/tools/'+slug
  useEffect(()=>{ if(slug) logToolEvent(slug,'tool_open').catch(()=>{}) },[slug])
- if(!tool)return <div className="mx-auto max-w-5xl px-4 py-20"><h1 className="text-3xl font-black">{t('toolNotFound')}</h1><Link className="btn-primary mt-6" to="/">{t('backHome')}</Link></div>
+ if(!tool)return <div className="mx-auto max-w-5xl px-4 py-20"><h1 className="text-3xl font-black">{t('toolNotFound')}</h1><Link className="btn-primary mt-6" to={pathFor('/')}>{t('backHome')}</Link></div>
  const view=useMemo(()=>{
   if(['take-home-pay','labor-insurance','nhi','income-tax','overtime-pay','minimum-wage','employer-cost','annual-salary'].includes(slug))return <MoneyTool slug={slug}/>
   if(slug==='percentage')return <Percentage/>
@@ -178,5 +177,5 @@ export default function ToolPage(){
   if(['pdf-merge','pdf-split'].includes(slug))return <PdfTool slug={slug}/>
   return <AITool slug={slug}/>
  },[slug])
- return <section className="mx-auto max-w-5xl px-4 py-12"><Seo title={toolName(tool)+' | AnyTool.online'} description={toolDescription(tool)} canonical={canonical}/><div className="mb-7"><Link className="text-sm text-emerald-300" to="/">← {t('allTools')}</Link><div className="mt-3 flex items-start justify-between gap-4"><div><h1 className="text-3xl font-black sm:text-4xl">{toolName(tool)}</h1><p className="mt-3 max-w-2xl text-slate-400">{toolDescription(tool)}</p></div><button aria-label={t('favorites')} className="btn-ghost shrink-0" onClick={()=>saveFavorite(slug).then(()=>alert(t('saved'))).catch(()=>alert(t('signInFirst')))}><Heart size={17}/></button></div></div>{view}<p className="mt-6 text-xs text-slate-500">{t('planningOnly')}</p></section>
+ return <section className="mx-auto max-w-5xl px-4 py-12"><Seo title={toolName(tool)+' | AnyTool.online'} description={toolDescription(tool)} jsonLd={[{'@context':'https://schema.org','@type':'SoftwareApplication',name:toolName(tool),description:toolDescription(tool),applicationCategory:'UtilitiesApplication',operatingSystem:'Web',offers:{'@type':'Offer',price:'0',priceCurrency:'USD'}},{'@context':'https://schema.org','@type':'BreadcrumbList',itemListElement:[{'@type':'ListItem',position:1,name:'AnyTool',item:'https://anytool.online/'},{'@type':'ListItem',position:2,name:toolName(tool)}]}]}/><div className="mb-7"><Link className="text-sm text-emerald-300" to="/">← {t('allTools')}</Link><div className="mt-3 flex items-start justify-between gap-4"><div><h1 className="text-3xl font-black sm:text-4xl">{toolName(tool)}</h1><p className="mt-3 max-w-2xl text-slate-400">{toolDescription(tool)}</p></div><button aria-label={t('favorites')} className="btn-ghost shrink-0" onClick={()=>saveFavorite(slug).then(()=>alert(t('saved'))).catch(()=>alert(t('signInFirst')))}><Heart size={17}/></button></div></div>{view}<p className="mt-6 text-xs text-slate-500">{t('planningOnly')}</p></section>
 }
