@@ -134,7 +134,7 @@ test('passport ARC photo maker exposes practical crop controls', async ({ page }
   await expect(page.getByLabel('Width (mm)')).toHaveValue('35')
   await expect(page.getByLabel('Height (mm)')).toHaveValue('45')
   await expect(page.getByLabel('DPI')).toHaveValue('300')
-  await expect(page.getByText('Official guide')).toBeVisible()
+  await expect(page.getByRole('link',{name:'Official guide'})).toBeVisible()
   const controls=page.locator('input,select')
   expect(await controls.count()).toBeGreaterThanOrEqual(8)
 })
@@ -143,7 +143,7 @@ test('elder care tool shows source-backed subsidy and official city systems', as
   await page.goto('/tools/taiwan-elder-care')
   await expect(page.getByText('Up to NT$15,000 / month')).toBeVisible()
   await expect(page.getByText('Up to NT$180,000 / year')).toBeVisible()
-  await expect(page.getByText('Other official city systems')).toBeVisible()
+  await expect(page.getByText('Other official city / national systems')).toBeVisible()
 })
 
 test('public trust pages and auth recovery surfaces render', async ({ page }) => {
