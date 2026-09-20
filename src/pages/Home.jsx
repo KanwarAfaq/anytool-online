@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useState } from 'react'
-import { Link } from 'react-router-dom'
+import { Link, useLocation } from 'react-router-dom'
 import { ArrowRight, BadgeCheck, Calculator, FileText, Image as ImageIcon, BrainCircuit, Search, ShieldCheck, Sparkles, WalletCards, Zap, Languages, ScanLine } from 'lucide-react'
 import { categories, tools, toolBySlug } from '../data/tools'
 import { takeHome, money } from '../lib/calculators'
@@ -33,10 +33,12 @@ function QuickSalary({copy,pathFor}){
 
 export default function Home(){
  const {lang,t,toolName,toolDescription,pathFor}=useI18n()
+ const location=useLocation()
  const [filter,setFilter]=useState('all')
- const [query,setQuery]=useState('')
+ const [query,setQuery]=useState(()=>new URLSearchParams(location.search).get('q')||'')
  const [recent,setRecent]=useState([])
  useEffect(()=>{try{const ids=JSON.parse(localStorage.getItem('anytool_recent')||'[]');setRecent(ids.map(x=>toolBySlug[x]).filter(Boolean).slice(0,5))}catch{}},[])
+ useEffect(()=>{const q=new URLSearchParams(location.search).get('q')||'';setQuery(q)},[location.search])
  const C={
   en:{eyebrow:'Tools that actually do the job',heroA:'Calculate. Convert.',heroB:'Scan. Done.',body:'Taiwan calculators, photo, PDF, QR and AI tools — fast and focused.',browse:'Find a tool',salaryCta:'Try salary',live:'Live tool',quick:'Take-home pay',salary:'Monthly salary (NT$)',dependents:'NHI dependents',net:'Estimated take-home',deduct:'Estimated deductions',open:'Open full calculator',verified:'Official-source checks',langs:'4 languages',private:'Browser-first',ticker:'Popular right now',all:'All',find:'Search tools…',recent:'Recent',toolsTitle:'Pick a tool and start',viewAll:'View all tools',noMatch:'No matching tools.'},
   'zh-TW':{eyebrow:'真正能完成工作的工具',heroA:'計算、轉換、',heroB:'掃描，完成。',body:'台灣計算器、證件照、PDF、QR 與 AI 工具，快速又專注。',browse:'找工具',salaryCta:'試算薪資',live:'即時工具',quick:'實領薪資',salary:'月薪（NT$）',dependents:'健保眷屬',net:'預估實領',deduct:'預估扣除',open:'開啟完整計算器',verified:'官方來源查核',langs:'4 種語言',private:'瀏覽器優先',ticker:'熱門工具',all:'全部',find:'搜尋工具…',recent:'最近使用',toolsTitle:'選一個工具就開始',viewAll:'查看全部工具',noMatch:'找不到相符工具。'},
