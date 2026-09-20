@@ -2,6 +2,7 @@ import { mkdir, readFile, writeFile } from 'node:fs/promises'
 import { dirname, resolve } from 'node:path'
 import { execFileSync } from 'node:child_process'
 import { tools } from '../src/data/tools.js'
+import { officialSources, toolSourceKeys } from '../src/data/officialSources.js'
 
 const root=process.cwd()
 const template=await readFile(resolve(root,'dist/index.html'),'utf8')
@@ -48,7 +49,29 @@ const localizedPath=(prefix,path)=>prefix+(path==='/'?'/':path)
 const basePath=p=>p.replace(/^\/(zh-tw|ar|ur)(?=\/|$)/,'')||'/'
 const alternateLinks=path=>locales.map(l=>`<link rel="alternate" hreflang="${l.code}" href="${SITE+localizedPath(l.prefix,path)}" />`).join('')+`<link rel="alternate" hreflang="x-default" href="${SITE+path}" />`
 const localizedToolName=(tool,locale)=>localizedToolNames[locale.code]?.[tool.slug]||tool.name
-const fallbackHtml=(title,description,path)=>`<main class="seo-prerender" style="max-width:70rem;margin:0 auto;padding:3rem 1rem;color:#e8f0f7;background:#07111f"><p style="color:#6ee7b7;font-weight:700">AnyTool.online</p><h1 style="font-size:2rem;line-height:1.15;margin:.75rem 0">${esc(title)}</h1><p style="max-width:48rem;color:#cbd5e1;line-height:1.7">${esc(description)}</p><nav style="margin-top:1.5rem"><a href="${SITE}/" style="color:#6ee7b7">AnyTool home</a> · <a href="${SITE}/sources" style="color:#6ee7b7">Official sources</a> · <a href="${SITE}/methodology" style="color:#6ee7b7">Methodology</a></nav><p style="margin-top:1rem;color:#94a3b8;font-size:.875rem">Interactive tool: ${esc(SITE+path)}</p></main>`
+const metaDescription=(tool,locale,name)=>{
+ if(locale.code==='en')return tool.description
+ if(locale.code==='zh-TW')return `${name}：免費互動式線上工具。提供清楚操作步驟與相關工具；涉及台灣法規或公共服務時，頁面會顯示官方來源、查核日期與限制。`
+ if(locale.code==='ar')return `${name}: أداة تفاعلية مجانية مع خطوات واضحة وأدوات مرتبطة. عند التعامل مع قواعد أو خدمات تايوان، تعرض الصفحة المصادر الحكومية وتاريخ التحقق والقيود.`
+ return `${name}: مفت انٹرایکٹو آن لائن ٹول، واضح استعمال کے مراحل اور متعلقہ ٹولز کے ساتھ۔ تائیوان کے قواعد یا عوامی خدمات کے لیے سرکاری ذرائع، تصدیق کی تاریخ اور حدود دکھائی جاتی ہیں۔`
+}
+const fallbackHtml=(title,description,path)=>{
+ const clean=basePath(path)
+ const slug=clean.match(/^\/tools\/([^/]+)$/)?.[1]||''
+ const tool=tools.find(t=>t.slug===slug)
+ const code=path.startsWith('/zh-tw')?'zh-TW':path.startsWith('/ar')?'ar':path.startsWith('/ur')?'ur':'en'
+ const ui={
+  en:{about:'What this tool does',how:'How to use it',sources:'Official sources & verification',privacy:'Processing & reliability',step1:'Enter your values or choose the file that matches your task.',step2:'Review the result and adjust the available controls.',step3:'For regulated Taiwan information, verify special cases with the official source links.',privacyText:'Deterministic calculations stay in code and files are processed in the browser when practical. Verify AI output and changing government vacancy data before important decisions.',related:'Related tools'},
+  'zh-TW':{about:'這個工具可以做什麼',how:'如何使用',sources:'官方來源與查核',privacy:'處理方式與可靠性',step1:'輸入符合情況的數值，或選擇要處理的檔案。',step2:'查看結果並調整可用設定。',step3:'涉及台灣法規或公共服務時，請用下方官方來源確認特殊情況。',privacyText:'可確定的公式保留在程式中；可行時檔案直接在瀏覽器處理。AI 輸出與會變動的政府床位資料在重要決策前仍應再次確認。',related:'相關工具'},
+  ar:{about:'ماذا تفعل هذه الأداة',how:'كيفية الاستخدام',sources:'المصادر الرسمية والتحقق',privacy:'المعالجة والموثوقية',step1:'أدخل القيم المناسبة أو اختر الملف المطلوب.',step2:'راجع النتيجة واضبط الإعدادات المتاحة.',step3:'لقواعد وخدمات تايوان، تحقق من الحالات الخاصة عبر المصادر الرسمية أدناه.',privacyText:'تبقى الحسابات الحتمية في الشيفرة وتتم معالجة الملفات في المتصفح متى أمكن. تحقق من مخرجات AI وبيانات الشواغر الحكومية المتغيرة قبل القرارات المهمة.',related:'أدوات ذات صلة'},
+  ur:{about:'یہ ٹول کیا کرتا ہے',how:'استعمال کا طریقہ',sources:'سرکاری ذرائع اور تصدیق',privacy:'پراسیسنگ اور قابلِ اعتماد معلومات',step1:'اپنی صورتحال کے مطابق اقدار درج کریں یا مطلوبہ فائل منتخب کریں۔',step2:'نتیجہ دیکھیں اور دستیاب سیٹنگز ایڈجسٹ کریں۔',step3:'تائیوان کے قواعد یا عوامی خدمات کے لیے خصوصی حالات کو نیچے سرکاری ذرائع سے چیک کریں۔',privacyText:'یقینی حسابات کوڈ میں رہتے ہیں اور جہاں ممکن ہو فائلیں براؤزر میں پراسیس ہوتی ہیں۔ اہم فیصلوں سے پہلے AI نتائج اور بدلتے سرکاری بیڈ ڈیٹا کی تصدیق کریں۔',related:'متعلقہ ٹولز'}
+ }[code]
+ const sourceKeys=tool?toolSourceKeys[tool.slug]||[]:[]
+ const sourceHtml=sourceKeys.length?`<section><h2>${esc(ui.sources)}</h2><ul>${sourceKeys.map(k=>{const x=officialSources[k];return x?`<li><a href="${esc(x.url)}">${esc(x.title)}</a> — ${esc(x.authority)} · verified ${esc(x.verified)}</li>`:''}).join('')}</ul></section>`:''
+ const related=tool?tools.filter(x=>x.slug!==tool.slug&&x.category===tool.category).slice(0,4):[]
+ const relatedHtml=related.length?`<section><h2>${esc(ui.related)}</h2><ul>${related.map(x=>`<li><a href="${SITE}/tools/${x.slug}">${esc(localizedToolName(x,{code}))}</a></li>`).join('')}</ul></section>`:''
+ return `<main class="seo-prerender" style="max-width:70rem;margin:0 auto;padding:3rem 1rem;color:#e8f0f7;background:#07111f;font-family:system-ui,sans-serif"><nav><a href="${SITE}/" style="color:#6ee7b7">AnyTool.online</a> · <a href="${SITE}/sources" style="color:#6ee7b7">${esc(ui.sources)}</a> · <a href="${SITE}/methodology" style="color:#6ee7b7">Methodology</a></nav><h1 style="font-size:2.25rem;line-height:1.15;margin:1rem 0">${esc(title)}</h1><p style="max-width:52rem;color:#cbd5e1;line-height:1.75">${esc(description)}</p>${tool?`<section><h2>${esc(ui.about)}</h2><p style="max-width:52rem;line-height:1.7">${esc(description)}</p></section><section><h2>${esc(ui.how)}</h2><ol><li>${esc(ui.step1)}</li><li>${esc(ui.step2)}</li><li>${esc(ui.step3)}</li></ol></section><section><h2>${esc(ui.privacy)}</h2><p style="max-width:52rem;line-height:1.7">${esc(ui.privacyText)}</p></section>`:''}${sourceHtml}${relatedHtml}<p style="margin-top:1.5rem;color:#94a3b8;font-size:.875rem">Interactive URL: ${esc(SITE+path)}</p></main>`
+}
 
 async function emit(path,locale,title,description,schemas=[]){
  const p=cleanPath(path)
@@ -74,7 +97,7 @@ for(const locale of locales){
    const canonical=SITE+path
    const schemas=page.path==='/'?[
     {'@context':'https://schema.org','@type':'WebSite',name:'AnyTool.online',url:SITE+'/',inLanguage:locale.code},
-    {'@context':'https://schema.org','@type':'Organization',name:'AnyTool.online',url:SITE+'/'}
+    {'@context':'https://schema.org','@type':'Organization',name:'AnyTool.online',url:SITE+'/',logo:SITE+'/favicon.svg',contactPoint:{'@type':'ContactPoint',contactType:'customer support',url:SITE+'/contact'}}
    ]:[
     {'@context':'https://schema.org','@type':page.path.startsWith('/categories/')?'CollectionPage':'WebPage',name:title,description,url:canonical,inLanguage:locale.code,isPartOf:{'@type':'WebSite',name:'AnyTool.online',url:SITE+'/'}}
    ]
@@ -86,7 +109,7 @@ for(const locale of locales){
    const name=localizedToolName(tool,locale)
    const yr=taiwan2026.has(tool.slug)?' 2026':''
    const title=`${name}${yr} | AnyTool.online`
-   const description=locale.code==='en'?tool.description:`${name} — ${locale.free}. ${tool.description}`
+   const description=metaDescription(tool,locale,name)
    const canonical=SITE+path
    const schemas=[
     {'@context':'https://schema.org','@type':'WebPage',name:title,url:canonical,description,inLanguage:locale.code,dateModified:lastmod,isPartOf:{'@type':'WebSite',name:'AnyTool.online',url:SITE+'/'}},
