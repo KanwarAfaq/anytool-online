@@ -7,7 +7,7 @@
     "dev": "vite",
     "build": "vite build && node scripts/prerender.mjs && node scripts/dist-test.mjs",
     "preview": "vite preview",
-    "test": "node --check api/ai-gateway.js && node --check api/cloudinary-sign.js && node --check api/health.js && node --check api/elder-care.js && node --check scripts/source-monitor.mjs && node scripts/smoke-test.mjs",
+    "test": "node --check api/ai-gateway.js && node --check api/cloudinary-sign.js && node --check api/health.js && node --check api/source-assistant.js && node --check api/elder-care.js && node --check scripts/source-monitor.mjs && node scripts/smoke-test.mjs",
     "test:e2e": "playwright test"
   },
   "dependencies": {
