@@ -1,4 +1,5 @@
 import { writeFile } from 'node:fs/promises'
+import { officialSources, toolSourceKeys } from '../src/data/officialSources.js'
 
 const sources=[
  {key:'mol-minimum-wage-2026',url:'https://www.mol.gov.tw/1607/28162/28166/28180/28182/28188/29025/',terms:['29,500','196']},
@@ -41,10 +42,23 @@ for(const source of sources){
   results.push({key:source.key,url:source.url,status:0,ok:false,missing:source.terms,error:e instanceof Error?e.message:String(e),checkedAt:new Date().toISOString()})
  }finally{clearTimeout(timeout)}
 }
-await writeFile('source-monitor-report.json',JSON.stringify({generatedAt:new Date().toISOString(),results},null,2))
+const now=Date.now()
+const stale=Object.entries(officialSources).map(([key,value])=>{
+ const stamp=Date.parse(value.verified||'')
+ const ageDays=Number.isFinite(stamp)?Math.floor((now-stamp)/86400000):9999
+ return {key,verified:value.verified||null,ageDays,title:value.title}
+}).filter(x=>x.ageDays>45)
+const brokenMappings=Object.entries(toolSourceKeys).flatMap(([slug,keys])=>keys.filter(key=>!officialSources[key]).map(key=>({slug,key})))
+const report={generatedAt:new Date().toISOString(),results,registryFreshness:{maxAgeDays:45,stale,brokenMappings}}
+await writeFile('source-monitor-report.json',JSON.stringify(report,null,2))
 const failed=results.filter(x=>!x.ok)
-console.log(JSON.stringify(results,null,2))
-if(failed.length){
- console.error('Source monitor needs review: '+failed.map(x=>x.key).join(', '))
+console.log(JSON.stringify(report,null,2))
+if(failed.length||stale.length||brokenMappings.length){
+ const reasons=[
+  failed.length?'unavailable/changed: '+failed.map(x=>x.key).join(', '):'',
+  stale.length?'verification older than 45 days: '+stale.map(x=>x.key).join(', '):'',
+  brokenMappings.length?'broken source mappings: '+brokenMappings.map(x=>x.slug+':'+x.key).join(', '):''
+ ].filter(Boolean)
+ console.error('Source monitor needs review: '+reasons.join(' | '))
  process.exitCode=2
-}else console.log('All official source checks passed.')
+}else console.log('All official source checks and freshness checks passed.')
