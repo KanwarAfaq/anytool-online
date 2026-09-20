@@ -52,9 +52,9 @@ export const officialSources = {
   taiwanPassport: {
     title: 'Taiwan Passport Photo Specifications — BOCA',
     authority: 'Bureau of Consular Affairs, Ministry of Foreign Affairs',
-    url: 'https://www.boca.gov.tw/fp-140-467-29b1d-2.html',
+    url: 'https://www.boca.gov.tw/cp-25-4123-c2932-1.html',
     verified: '2026-09-20',
-    summary: '35×45 mm, plain white background, recent color photo; head height 32–36 mm.'
+    summary: 'Official chip-passport photo guidance: 35×45 mm, plain white background, recent color photo; head height 32–36 mm. BOCA digital upload guidance separately requires JPG/JPEG, RGB 24-bit or higher, at least 413×531 px and no larger than 5 MB.'
   },
   taiwanIdPhoto: {
     title: 'National ID Photo Specifications — Household Registration',
@@ -96,7 +96,7 @@ export const officialSources = {
     authority: 'Social Affairs Bureau, Taichung City Government',
     url: 'https://www.society.taichung.gov.tw/461566/post',
     verified: '2026-09-20',
-    summary: 'For qualifying low-income unsupported older adults, the published standard includes NT$10,000/month for some cases and up to NT$21,000/month where institutional placement is needed; social-work assessment may allow an additional care-support subsidy of up to NT$10,000/month in specified cases.'
+    summary: 'Current Taichung program material for qualifying low-income older adults provides institutional placement support up to NT$21,000/month, with an additional care-support subsidy up to NT$10,000/month in specified assessed cases. Eligibility and payment depend on the city program rules.'
   },
   tainanLocalElderPlacement: {
     title: 'Tainan Middle-low-income Elder Residential Care',
@@ -108,9 +108,9 @@ export const officialSources = {
   elderSubsidy2026: {
     title: '2026 Residential Care Institution User Subsidy',
     authority: 'Ministry of Health and Welfare',
-    url: 'https://www.mohw.gov.tw/cp-2704-87934-1.html',
+    url: 'https://www.mohw.gov.tw/cp-7403-87934-1.html',
     verified: '2026-09-20',
-    summary: 'For eligible residents in approved residential institutions, the 2026 scheme pays NT$15,000 per recognized month for long-term-care need level 4+ or qualifying moderate-or-higher disability status, up to NT$180,000 per year, retroactive to January 1, 2026. The scheme also contains transition and non-duplication rules.'
+    summary: '2026 scheme: residents assessed at long-term-care need level 4+ or holding a moderate-or-higher disability certificate can receive up to NT$15,000 per recognized month, up to NT$180,000 per year, retroactive to January 1, 2026. Certain pre-2023 continuing residents who do not meet level 4 can receive up to NT$5,000 per recognized month. The same subsidy month cannot be claimed twice under overlapping accommodation programs.'
   },
   taoyuanBeds: {
     title: 'Taoyuan Elderly Welfare Institution Vacancies',
