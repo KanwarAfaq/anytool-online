@@ -15,7 +15,7 @@ import ToolArt from '../components/ToolArt'
 import { officialSources, toolSourceKeys } from '../data/officialSources'
 
 const Num=({label,value,onChange,min=0,step=1})=><label className="block"><span className="mb-1.5 block text-sm text-slate-400">{label}</span><input className="input" type="number" inputMode="decimal" min={min} step={step} value={Number(value)===0?'':value} placeholder="0" onFocus={e=>e.target.select()} onChange={e=>onChange(e.target.value===''?0:Number(e.target.value))}/></label>
-const Result=({label,value})=><div className="result-tile"><div className="text-xs text-slate-600">{label}</div><div className="mt-1 text-lg font-black">{value}</div></div>
+const Result=({label,value})=><div className="result-tile"><div className="text-xs text-slate-500">{label}</div><div className="mt-1 text-lg font-black">{value}</div></div>
 const downloadText=(name,text,type='text/plain')=>{const a=document.createElement('a');a.href=URL.createObjectURL(new Blob([text],{type}));a.download=name;a.click();setTimeout(()=>URL.revokeObjectURL(a.href),1000)}
 
 const fieldLabels={
