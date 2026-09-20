@@ -10,7 +10,7 @@ const locales=[
 ]
 const stripLocale=path=>path.replace(/^\/(zh-tw|ar|ur)(?=\/|$)/,'')||'/'
 
-export default function Seo({title,description,jsonLd}){
+export default function Seo({title,description,jsonLd,noindex=false}){
  const location=useLocation()
  useEffect(()=>{
    const path=location.pathname==='/'?'/':location.pathname.replace(/\/$/,'')
@@ -20,7 +20,7 @@ export default function Seo({title,description,jsonLd}){
    const setMeta=(sel,attrs)=>{let el=document.head.querySelector(sel);if(!el){el=document.createElement('meta');document.head.appendChild(el)}Object.entries(attrs).forEach(([k,v])=>el.setAttribute(k,v))}
    const setLink=(sel,attrs)=>{let el=document.head.querySelector(sel);if(!el){el=document.createElement('link');document.head.appendChild(el)}Object.entries(attrs).forEach(([k,v])=>el.setAttribute(k,v))}
    setMeta('meta[name="description"]',{name:'description',content:description||''})
-   setMeta('meta[name="robots"]',{name:'robots',content:'index,follow,max-image-preview:large,max-snippet:-1,max-video-preview:-1'})
+   setMeta('meta[name="robots"]',{name:'robots',content:noindex?'noindex,nofollow':'index,follow,max-image-preview:large,max-snippet:-1,max-video-preview:-1'})
    setMeta('meta[property="og:title"]',{property:'og:title',content:title})
    setMeta('meta[property="og:description"]',{property:'og:description',content:description||''})
    setMeta('meta[property="og:url"]',{property:'og:url',content:canonical})
@@ -39,6 +39,6 @@ export default function Seo({title,description,jsonLd}){
    for(const schema of schemas){
      const el=document.createElement('script');el.type='application/ld+json';el.dataset.anytoolJsonld='1';el.textContent=JSON.stringify(schema);document.head.appendChild(el)
    }
- },[title,description,location.pathname,JSON.stringify(jsonLd||null)])
+ },[title,description,location.pathname,JSON.stringify(jsonLd||null),noindex])
  return null
 }
