@@ -7,13 +7,13 @@ export const categories = [
 ]
 
 export const tools = [
-  ['take-home-pay','Taiwan Take-home Pay','money','Estimate monthly net salary after labor/employment insurance, NHI and tax.'],
-  ['labor-insurance','Taiwan Labor Insurance','money','Estimate employee labor and employment insurance premiums.'],
-  ['nhi','Taiwan NHI Premium','money','Estimate employee National Health Insurance premium.'],
-  ['income-tax','Taiwan Income Tax','money','Simple annual salary-income tax estimate for resident individuals.'],
-  ['overtime-pay','Taiwan Overtime Pay','money','Estimate weekday/rest-day overtime pay.'],
-  ['minimum-wage','Taiwan Minimum Wage','money','Compare pay against the 2026 Taiwan minimum wage.'],
-  ['employer-cost','Taiwan Employer Cost','money','Estimate standard full-time salary plus employer labor/employment insurance, NHI and 6% pension. Occupational accident insurance is excluded because its rate varies.'],
+  ['take-home-pay','Taiwan Take-home Pay','money','Estimate 2026 Taiwan monthly take-home pay after labor insurance, employment insurance, NHI and a simplified resident income-tax estimate using official rates.'],
+  ['labor-insurance','Taiwan Labor Insurance','money','Calculate 2026 Taiwan employee labor and employment insurance from official insured-salary grades and current premium rates.'],
+  ['nhi','Taiwan NHI Premium','money','Calculate 2026 Taiwan employee NHI premium with 0–3 dependents using official contribution-salary grades and the 5.17% premium rate.'],
+  ['income-tax','Taiwan Income Tax','money','Estimate 2026 Taiwan resident salary income tax using official progressive brackets, standard deduction and employment-income deduction assumptions.'],
+  ['overtime-pay','Taiwan Overtime Pay','money','Estimate Taiwan weekday and rest-day overtime pay from monthly salary using Ministry of Labor overtime rules and the monthly-salary ÷ 240 hourly basis.'],
+  ['minimum-wage','Taiwan Minimum Wage','money','Check monthly and hourly pay against Taiwan's 2026 minimum wage of NT$29,500 per month and NT$196 per hour.'],
+  ['employer-cost','Taiwan Employer Cost','money','Estimate 2026 Taiwan employer cost including labor insurance, employment insurance, NHI and the mandatory 6% labor-pension contribution; variable occupational-accident insurance is excluded.'],
   ['annual-salary','Annual ↔ Monthly Salary','money','Convert monthly salary, bonus months and annual package.'],
   ['percentage','Percentage Calculator','general','Percentage increase, decrease and share calculator.'],
   ['image-resize','Resize Image','image','Resize JPG/PNG/WebP in your browser.'],
@@ -26,8 +26,8 @@ export const tools = [
   ['pdf-merge','Merge PDF','document','Merge multiple PDF files locally in your browser.'],
   ['pdf-split','Split PDF','document','Extract selected pages from a PDF locally.'],
   ['loan-payment','Loan Payment Calculator','general','Calculate monthly loan payments, total repayment and total interest.'],
-  ['taiwan-id-photo','Taiwan Passport / ARC Photo Maker','image','Crop and export Taiwan passport, National ID and ARC photo files using official size guidance.'],
-  ['taiwan-elder-care','Taiwan Elderly Care Subsidy & Bed Finder','money','Check the 2026 residential-care subsidy and official facility bed or vacancy sources.'],
+  ['taiwan-id-photo','Taiwan Passport / ARC Photo Maker','image','Crop and export Taiwan passport, National ID and ARC/APRC photos to official 35×45 mm guidance, with digital size checks including 413×531 px where applicable.'],
+  ['taiwan-elder-care','Taiwan Elderly Care Subsidy & Bed Finder','money','Check Taiwan's 2026 residential-care subsidy (up to NT$180,000/year), selected local placement subsidies, and official facility capacity or vacancy sources by city.'],
   ['ocr','AI OCR','ai','Extract text from an image using the configured AI gateway.'],
   ['receipt-to-json','Receipt → JSON','ai','Extract structured receipt data using AI.'],
 ].map(([slug,name,category,description]) => ({ slug,name,category,description }))
