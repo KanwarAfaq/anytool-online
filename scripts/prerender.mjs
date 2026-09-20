@@ -1,11 +1,13 @@
 import { mkdir, readFile, writeFile } from 'node:fs/promises'
 import { dirname, resolve } from 'node:path'
+import { execFileSync } from 'node:child_process'
 import { tools } from '../src/data/tools.js'
 
 const root=process.cwd()
 const template=await readFile(resolve(root,'dist/index.html'),'utf8')
 const SITE='https://anytool.online'
-const lastmod=process.env.SEO_LASTMOD || new Date().toISOString().slice(0,10)
+let lastmod=process.env.SEO_LASTMOD||''
+if(!lastmod){try{lastmod=execFileSync('git',['log','-1','--format=%cs'],{encoding:'utf8'}).trim()}catch{lastmod=new Date().toISOString().slice(0,10)}}
 const esc=s=>String(s).replaceAll('&','&amp;').replaceAll('"','&quot;').replaceAll('<','&lt;').replaceAll('>','&gt;')
 const xml=esc
 const locales=[
