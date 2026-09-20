@@ -76,7 +76,16 @@ export default function ElderCareTool(){
       <div className="mt-5 grid gap-4 md:grid-cols-2 lg:grid-cols-3">
         <label><span className="mb-1.5 block text-sm text-slate-400">{L.careLevel}</span><select className="input" value={careLevel} onChange={e=>setCareLevel(Number(e.target.value))}>{[0,1,2,3,4,5,6,7,8].map(v=><option key={v} value={v}>{v===0?'Not assessed / 未評估':v}</option>)}</select></label>
         <label><span className="mb-1.5 block text-sm text-slate-400">{L.recognizedMonths}</span><input className="input" type="number" inputMode="numeric" min="0" max="12" value={recognizedMonths===0?'':recognizedMonths} placeholder="0" onFocus={e=>e.target.select()} onChange={e=>setRecognizedMonths(Math.min(12,Math.max(0,Number(e.target.value)||0)))}/></label>
-        <div className="rounded-xl bg-emerald-300/10 p-4"><p className="text-xs text-emerald-200">{L.estimated}</p><p className="mt-1 text-2xl font-black">{monthlyCentral?'NT
+        <div className="rounded-xl bg-emerald-300/10 p-4"><p className="text-xs text-emerald-200">{L.estimated}</p><p className="mt-1 text-2xl font-black">{monthlyCentral?'NT$'+estimatedCentral.toLocaleString():'—'}</p><p className="mt-1 text-xs text-slate-400">{monthlyCentral?'NT$'+monthlyCentral.toLocaleString()+' '+L.perMonth:L.notEligible}</p></div>
+        <label className="flex items-start gap-3 rounded-xl border border-white/10 p-3 text-sm"><input className="mt-1" type="checkbox" checked={moderateDisability} onChange={e=>setModerateDisability(e.target.checked)}/><span>{L.moderateDisability}</span></label>
+        <label className="flex items-start gap-3 rounded-xl border border-white/10 p-3 text-sm"><input className="mt-1" type="checkbox" checked={legacyResident} onChange={e=>setLegacyResident(e.target.checked)}/><span>{L.legacy}</span></label>
+        <label className="flex items-start gap-3 rounded-xl border border-white/10 p-3 text-sm"><input className="mt-1" type="checkbox" checked={disabilityAccommodation} onChange={e=>setDisabilityAccommodation(e.target.checked)}/><span>{L.disabilityAccommodation}</span></label>
+      </div>
+      <p className="mt-4 text-xs leading-5 text-slate-500">{L.estimateNote}</p>
+    </section>
+
+    <section>
+      <h3 className="mb-3 text-xl font-black">{L.localTitle}</h3>
       <p className="mb-4 max-w-4xl text-xs leading-5 text-amber-100/90">{L.localNote}</p>
       <div className="grid gap-3 md:grid-cols-2 lg:grid-cols-3">
        {localPrograms.map(item=>{const src=officialSources[item.key];return <a key={item.key} href={src.url} target="_blank" rel="noreferrer" className="card p-4 transition hover:border-emerald-400/30"><div className="flex items-start justify-between gap-2"><strong>{item.city}</strong><ExternalLink size={14} className="mt-1 shrink-0 text-emerald-300"/></div><div className="mt-2 text-lg font-black text-emerald-200">{item.amount}</div><p className="mt-2 text-xs leading-5 text-slate-400">{src.summary}</p><p className="mt-2 text-xs text-slate-400"><Phone size={12} className="me-1 inline"/>{L.contact}: {item.contact}</p><p className="mt-2 text-[11px] text-slate-500">{src.authority} · {src.verified}</p></a>})}
