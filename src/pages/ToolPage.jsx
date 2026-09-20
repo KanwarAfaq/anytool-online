@@ -134,7 +134,7 @@ function Dpi(){
 
 function QRGenerator(){
  const {t}=useI18n()
- const [text,setText]=useState('https://anytool.online'),[url,setUrl]=useState(''),[size,setSize]=useState(768)
+ const [text,setText]=useState('https://www.anytool.online'),[url,setUrl]=useState(''),[size,setSize]=useState(768)
  async function make(){const {default:QRCode}=await import('qrcode');setUrl(await QRCode.toDataURL(text,{width:size,margin:2,errorCorrectionLevel:'M'}));logToolEvent('qr-generator','calculation_completed').catch(()=>{})}
  return <div className="card p-5"><div className="grid gap-4 md:grid-cols-[1fr_180px]"><input className="input" value={text} onChange={e=>setText(e.target.value)}/><Num label={t('qrSize')} value={size} onChange={setSize} min={128}/></div><button className="btn-primary mt-4" onClick={make}>{t('generate')}</button>{url&&<div className="mt-5"><img alt="QR code" className="max-w-xs rounded-xl bg-white p-3" src={url}/><a className="btn-ghost mt-3" href={url} download="qr.png">{t('download')}</a></div>}</div>
 }
