@@ -26,18 +26,21 @@ export default function Tools(){
    <h1 className="mt-2 text-4xl font-black tracking-tight sm:text-5xl">{C.title}</h1>
    <p className="mt-4 text-slate-400">{C.body}</p>
   </div>
-  <label className="relative mt-7 block max-w-xl"><Search className="absolute start-4 top-3.5 text-slate-600" size={16}/><input className="input ps-11" value={query} onChange={e=>setQuery(e.target.value)} placeholder={C.search}/></label>
-  <div className="mt-5 text-sm font-semibold text-slate-500">{filtered.length} {C.count}</div>
+  <div className="tool-directory-toolbar mt-7">
+   <label className="relative block min-w-0 flex-1"><span className="sr-only">{C.search}</span><Search className="absolute start-4 top-3.5 text-slate-500" size={16}/><input aria-label={C.search} className="input ps-11" value={query} onChange={e=>setQuery(e.target.value)} placeholder={C.search}/></label>
+   <div className="text-sm font-semibold text-slate-400">{filtered.length} {C.count}</div>
+  </div>
+  <nav aria-label="Tool categories" className="mt-5 flex flex-wrap gap-2">{categories.map(category=>{const I=categoryIcon[category.id]||Sparkles;return <a key={category.id} className="category-jump" href={'#category-'+category.id}><I className={categoryAccent[category.id]} size={14}/>{t('categories.'+category.id)}</a>})}</nav>
 
   <div className="mt-10 space-y-12">
    {categories.map(category=>{
     const list=filtered.filter(tool=>tool.category===category.id)
     if(!list.length)return null
     const I=categoryIcon[category.id]||Sparkles
-    return <section key={category.id} aria-labelledby={'category-'+category.id}>
+    return <section key={category.id} id={'category-'+category.id} className="scroll-mt-28" aria-labelledby={'category-heading-'+category.id}>
       <div className="mb-4 flex items-center gap-3">
        <span className="tool-icon"><I className={categoryAccent[category.id]} size={17}/></span>
-       <div><h2 id={'category-'+category.id} className="text-2xl font-black">{t('categories.'+category.id)}</h2><p className="text-sm text-slate-600">{list.length} {C.count}</p></div>
+       <div><h2 id={'category-heading-'+category.id} className="text-2xl font-black">{t('categories.'+category.id)}</h2><p className="text-sm text-slate-500">{list.length} {C.count}</p></div>
       </div>
       <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
        {list.map(tool=><Link key={tool.slug} to={pathFor('/tools/'+tool.slug)} className={'card tool-card tool-card-visual category-'+tool.category+' group overflow-hidden'}><ToolArt tool={tool} name={toolName(tool)}/><div className="p-5">
@@ -45,7 +48,7 @@ export default function Tools(){
          <h3 className="text-lg font-black leading-snug group-hover:text-lime-200">{toolName(tool)}</h3>
          <ArrowRight className="mt-1 shrink-0 text-slate-700 transition group-hover:translate-x-1 group-hover:text-lime-300" size={17}/>
         </div>
-        <p className="mt-3 text-sm leading-6 text-slate-500">{toolDescription(tool)}</p>
+        <p className="mt-3 text-sm leading-6 text-slate-400">{toolDescription(tool)}</p>
        </div></Link>)}
       </div>
      </section>
