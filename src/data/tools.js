@@ -12,7 +12,7 @@ export const tools = [
   ['nhi','Taiwan NHI Premium','money','Calculate 2026 Taiwan employee NHI premium with 0–3 dependents using official contribution-salary grades and the 5.17% premium rate.'],
   ['income-tax','Taiwan Income Tax','money','Estimate 2026 Taiwan resident salary income tax using official progressive brackets, standard deduction and employment-income deduction assumptions.'],
   ['overtime-pay','Taiwan Overtime Pay','money','Estimate Taiwan weekday and rest-day overtime pay from monthly salary using Ministry of Labor overtime rules and the monthly-salary ÷ 240 hourly basis.'],
-  ['minimum-wage','Taiwan Minimum Wage','money','Check monthly and hourly pay against Taiwan's 2026 minimum wage of NT$29,500 per month and NT$196 per hour.'],
+  ['minimum-wage','Taiwan Minimum Wage','money','Check monthly and hourly pay against Taiwan\'s 2026 minimum wage of NT$29,500 per month and NT$196 per hour.'],
   ['employer-cost','Taiwan Employer Cost','money','Estimate 2026 Taiwan employer cost including labor insurance, employment insurance, NHI and the mandatory 6% labor-pension contribution; variable occupational-accident insurance is excluded.'],
   ['annual-salary','Annual ↔ Monthly Salary','money','Convert monthly salary, bonus months and annual package.'],
   ['percentage','Percentage Calculator','general','Percentage increase, decrease and share calculator.'],
