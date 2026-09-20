@@ -10,7 +10,7 @@ const sources=[
  {key:'tax-2026',url:'https://www.ntbt.gov.tw/multiplehtml/1b82b380e1a34de9afd204d39b007db2',terms:['610,000','1,380,000']},
  {key:'taoyuan-local-placement',url:'https://sab.tycg.gov.tw/News_Content.aspx?n=7467&s=1469909',terms:['10,000','24,000']},
  {key:'taipei-local-placement',url:'https://dosw.gov.taipei/News_Content.aspx?n=91F35523B74F69AC&s=89EA6FBF24B14229&sms=87415A8B9CE81B16',terms:['27,250','4,320']},
- {key:'newtaipei-local-placement',url:'https://www.sw.ntpc.gov.tw/home.jsp?act=be4f48068b2b0031&dataserno=728f53ac071858fb40660640c83c033e&id=203',terms:['低收入戶','中低收入']},
+ {key:'newtaipei-local-placement',url:'https://www.sw.ntpc.gov.tw/home.jsp?act=be4f48068b2b0031&dataserno=728f53ac071858fb40660640c83c033e&id=bd3ac04bd17eafde',terms:['低收入戶','中低收入']},
  {key:'taichung-local-placement',url:'https://www.society.taichung.gov.tw/461566/post',terms:['21,000','10,000']},
  {key:'tainan-local-placement',url:'https://people.tainan.gov.tw/News_Content.aspx?n=32047&s=7851694&sms=23729',terms:['12,000','25,400']},
  {key:'national-nursing-homes',url:'https://data.gov.tw/dataset/115950',terms:['機構電話','一般護理之家']},
