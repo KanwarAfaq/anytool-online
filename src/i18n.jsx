@@ -1,4 +1,5 @@
 import { createContext, useContext, useEffect, useMemo, useState } from 'react'
+import { useLocation, useNavigate } from 'react-router-dom'
 
 export const languages=[
   {code:'en',label:'English',dir:'ltr'},
@@ -71,13 +72,44 @@ const toolDescriptionTranslations={
 }
 
 const Ctx=createContext(null)
+const prefixToLang={'zh-tw':'zh-TW','ar':'ar','ur':'ur'}
+const langToPrefix={'en':'','zh-TW':'/zh-tw','ar':'/ar','ur':'/ur'}
+const stripLocale=path=>path.replace(/^\/(zh-tw|ar|ur)(?=\/|$)/,'')||'/'
+
 export function I18nProvider({children}){
- const [lang,setLang]=useState(()=>localStorage.getItem('anytool_lang')||'en')
- useEffect(()=>{const l=languages.find(x=>x.code===lang)||languages[0];localStorage.setItem('anytool_lang',lang);document.documentElement.lang=lang;document.documentElement.dir=l.dir},[lang])
- const value=useMemo(()=>({lang,setLang,languages,t:(key)=>{
+ const location=useLocation()
+ const navigate=useNavigate()
+ const prefix=location.pathname.split('/')[1]
+ const routeLang=prefixToLang[prefix]||'en'
+ const [stored,setStored]=useState(()=>localStorage.getItem('anytool_lang')||routeLang)
+ const lang=routeLang
+
+ useEffect(()=>{
+   const l=languages.find(x=>x.code===lang)||languages[0]
+   localStorage.setItem('anytool_lang',lang)
+   setStored(lang)
+   document.documentElement.lang=lang
+   document.documentElement.dir=l.dir
+ },[lang])
+
+ const setLang=(next)=>{
+   const clean=stripLocale(location.pathname)
+   const prefix=langToPrefix[next]||''
+   localStorage.setItem('anytool_lang',next)
+   setStored(next)
+   navigate((prefix||'')+(clean==='/'?'/':clean)+location.search)
+ }
+ const pathFor=(path)=>{
+   if(/^https?:\/\//.test(path))return path
+   const clean=stripLocale(path.startsWith('/')?path:'/'+path)
+   const prefix=langToPrefix[lang]||''
+   return (prefix||'')+(clean==='/'?'/':clean)
+ }
+
+ const value=useMemo(()=>({lang,setLang,languages,pathFor,t:(key)=>{
    const parts=key.split('.');let v=messages[lang]||messages.en;for(const p of parts)v=v?.[p];if(v==null){v=messages.en;for(const p of parts)v=v?.[p]}return v??key
  },toolName:(tool)=>{const x=toolTranslations[tool.slug];if(lang==='zh-TW')return x?.zh||tool.name;if(lang==='ar')return x?.ar||tool.name;if(lang==='ur')return x?.ur||tool.name;return tool.name},
- toolDescription:(tool)=>{const x=toolDescriptionTranslations[tool.slug];if(lang==='zh-TW')return x?.zh||tool.description;if(lang==='ar')return x?.ar||tool.description;if(lang==='ur')return x?.ur||tool.description;return tool.description}}),[lang])
+ toolDescription:(tool)=>{const x=toolDescriptionTranslations[tool.slug];if(lang==='zh-TW')return x?.zh||tool.description;if(lang==='ar')return x?.ar||tool.description;if(lang==='ur')return x?.ur||tool.description;return tool.description}}),[lang,location.pathname,location.search,stored])
  return <Ctx.Provider value={value}>{children}</Ctx.Provider>
 }
 export const useI18n=()=>useContext(Ctx)
