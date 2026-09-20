@@ -6,7 +6,7 @@ import aiHandler from '../api/ai-gateway.js'
 import cloudinaryHandler from '../api/cloudinary-sign.js'
 import healthHandler from '../api/health.js'
 
-assert.equal(tools.length,21,'expected 21 public tools')
+assert.equal(tools.length,23,'expected 23 public tools')
 assert.equal(new Set(tools.map(t=>t.slug)).size,tools.length,'tool slugs must be unique')
 
 const labor=laborInsurance(36300)
