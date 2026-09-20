@@ -44,7 +44,7 @@
       ]
     },
     {
-      "source": "/zh-tw/:path(auth|dashboard|profile)",
+      "source": "/zh-tw/auth",
       "headers": [
         {
           "key": "X-Robots-Tag",
@@ -53,7 +53,7 @@
       ]
     },
     {
-      "source": "/ar/:path(auth|dashboard|profile)",
+      "source": "/zh-tw/dashboard",
       "headers": [
         {
           "key": "X-Robots-Tag",
@@ -62,7 +62,61 @@
       ]
     },
     {
-      "source": "/ur/:path(auth|dashboard|profile)",
+      "source": "/zh-tw/profile",
+      "headers": [
+        {
+          "key": "X-Robots-Tag",
+          "value": "noindex, nofollow"
+        }
+      ]
+    },
+    {
+      "source": "/ar/auth",
+      "headers": [
+        {
+          "key": "X-Robots-Tag",
+          "value": "noindex, nofollow"
+        }
+      ]
+    },
+    {
+      "source": "/ar/dashboard",
+      "headers": [
+        {
+          "key": "X-Robots-Tag",
+          "value": "noindex, nofollow"
+        }
+      ]
+    },
+    {
+      "source": "/ar/profile",
+      "headers": [
+        {
+          "key": "X-Robots-Tag",
+          "value": "noindex, nofollow"
+        }
+      ]
+    },
+    {
+      "source": "/ur/auth",
+      "headers": [
+        {
+          "key": "X-Robots-Tag",
+          "value": "noindex, nofollow"
+        }
+      ]
+    },
+    {
+      "source": "/ur/dashboard",
+      "headers": [
+        {
+          "key": "X-Robots-Tag",
+          "value": "noindex, nofollow"
+        }
+      ]
+    },
+    {
+      "source": "/ur/profile",
       "headers": [
         {
           "key": "X-Robots-Tag",
