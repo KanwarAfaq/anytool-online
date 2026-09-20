@@ -6,7 +6,7 @@ import { officialSources, toolSourceKeys } from '../src/data/officialSources.js'
 
 const root=process.cwd()
 const template=await readFile(resolve(root,'dist/index.html'),'utf8')
-const SITE='https://anytool.online'
+const SITE='https://www.anytool.online'
 let lastmod=process.env.SEO_LASTMOD||''
 if(!lastmod){try{lastmod=execFileSync('git',['log','-1','--format=%cs'],{encoding:'utf8'}).trim()}catch{lastmod=new Date().toISOString().slice(0,10)}}
 const esc=s=>String(s).replaceAll('&','&amp;').replaceAll('"','&quot;').replaceAll('<','&lt;').replaceAll('>','&gt;')
