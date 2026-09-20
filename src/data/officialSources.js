@@ -1,4 +1,54 @@
 export const officialSources = {
+
+  laborInsurance2026: {
+    title: '2026 Labor / Employment Insurance Premium Rules',
+    authority: 'Bureau of Labor Insurance, Ministry of Labor',
+    url: 'https://www.bli.gov.tw/en/0011816.html',
+    verified: '2026-09-20',
+    summary: 'Labor insurance premium rate is 11.5% from 2025; employment insurance is 1%. Premiums are based on the applicable insured-salary grade and allocation ratio.'
+  },
+  laborInsuranceGrades2026: {
+    title: '2026 Table of Grades of Labor Insurance Salary',
+    authority: 'Bureau of Labor Insurance, Ministry of Labor',
+    url: 'https://www.bli.gov.tw/en/0013254.html',
+    verified: '2026-09-20',
+    summary: 'Official 2026 insured-salary grade table; full-time labor/employment insurance starts at NT$29,500 and labor insurance tops out at NT$45,800.'
+  },
+  laborPension2026: {
+    title: '2026 Monthly Contribution Classification of Labor Pension',
+    authority: 'Bureau of Labor Insurance, Ministry of Labor',
+    url: 'https://www.bli.gov.tw/en/0011273.html',
+    verified: '2026-09-20',
+    summary: 'Official 2026 contribution-wage classification. Employer mandatory labor-pension contributions are at least 6% of the monthly contribution wage.'
+  },
+  nhi2026: {
+    title: '2026 NHI Premium Co-payment Chart — Employees',
+    authority: 'National Health Insurance Administration, Ministry of Health and Welfare',
+    url: 'https://www.nhi.gov.tw/en/cp-19434-822cf-64-2.html',
+    verified: '2026-09-20',
+    summary: 'For employees with a fixed employer: 5.17% premium rate, 30% employee share and up to three charged dependents; the employer column includes the published average dependent factor.'
+  },
+  minimumWage2026: {
+    title: '2026 Taiwan Minimum Wage',
+    authority: 'Ministry of Labor',
+    url: 'https://www.mol.gov.tw/1607/28162/28166/28180/28182/28188/29025/',
+    verified: '2026-09-20',
+    summary: 'Effective January 1, 2026: NT$29,500 monthly and NT$196 hourly.'
+  },
+  overtimeRules: {
+    title: 'Taiwan Overtime Pay Rules',
+    authority: 'Ministry of Labor',
+    url: 'https://www.mol.gov.tw/1607/28162/28166/28180/28182/28188/29026',
+    verified: '2026-09-20',
+    summary: 'For monthly-paid workers, the ordinary hourly wage is generally monthly wage divided by 240; overtime premiums follow the Labor Standards Act.'
+  },
+  incomeTax2026: {
+    title: '2026 Individual Income Tax Brackets',
+    authority: 'National Taxation Bureau, Ministry of Finance',
+    url: 'https://www.ntbt.gov.tw/multiplehtml/1b82b380e1a34de9afd204d39b007db2',
+    verified: '2026-09-20',
+    summary: '2026 resident individual progressive tax brackets and quick-deduction amounts. AnyTool uses a simplified salary-income planning model and does not replace a tax return.'
+  },
   taiwanPassport: {
     title: 'Taiwan Passport Photo Specifications — BOCA',
     authority: 'Bureau of Consular Affairs, Ministry of Foreign Affairs',
@@ -71,3 +121,16 @@ export const elderCitySources = [
   { city:'Yilan', key:'yilanBeds', live:true, integrated:false },
   { city:'New Taipei', key:'newTaipeiFacilities', live:false, integrated:false },
 ]
+
+
+export const toolSourceKeys = {
+  'take-home-pay': ['laborInsurance2026','laborInsuranceGrades2026','nhi2026','incomeTax2026'],
+  'labor-insurance': ['laborInsurance2026','laborInsuranceGrades2026'],
+  'nhi': ['nhi2026'],
+  'income-tax': ['incomeTax2026'],
+  'overtime-pay': ['overtimeRules'],
+  'minimum-wage': ['minimumWage2026'],
+  'employer-cost': ['laborInsurance2026','laborInsuranceGrades2026','nhi2026','laborPension2026'],
+  'taiwan-id-photo': ['taiwanPassport','taiwanIdPhoto','arcPhoto'],
+  'taiwan-elder-care': ['elderSubsidy2026','taoyuanBeds','taipeiBeds','taichungBeds','yilanBeds','newTaipeiFacilities'],
+}
