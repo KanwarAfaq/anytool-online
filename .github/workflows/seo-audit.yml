@@ -17,7 +17,7 @@ jobs:
       - run: npm test
       - run: npm run build
         env:
-          VITE_SITE_URL: https://anytool.online
+          VITE_SITE_URL: https://www.anytool.online
       - name: Search-readiness summary
         run: |
           echo "## AnyTool SEO/GEO checks" >> "$GITHUB_STEP_SUMMARY"
