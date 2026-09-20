@@ -8,6 +8,8 @@ const sources=[
  {key:'bli-pension-2026',url:'https://www.bli.gov.tw/en/0011273.html',terms:['2026.01.01']},
  {key:'nhi-employee-2026',url:'https://www.nhi.gov.tw/en/cp-19434-822cf-64-2.html',terms:['29,500','5.17']},
  {key:'tax-2026',url:'https://www.ntbt.gov.tw/multiplehtml/1b82b380e1a34de9afd204d39b007db2',terms:['610,000','1,380,000']},
+ {key:'national-nursing-homes',url:'https://data.gov.tw/dataset/115950',terms:['機構電話','一般護理之家']},
+ {key:'ltc-service-map',url:'https://1966.gov.tw/LTC/np-6449-207.html',terms:['長照地理資訊地圖']},
  {key:'mohw-elder-subsidy-2026',url:'https://www.mohw.gov.tw/cp-16-87934-1.html',terms:['180','住宿式服務機構']},
  {key:'boca-passport-photo',url:'https://www.boca.gov.tw/fp-140-467-29b1d-2.html',terms:['35','45']},
  {key:'ris-id-photo',url:'https://www.ris.gov.tw/documents/html/5/3/187.html',terms:['413','531']},
