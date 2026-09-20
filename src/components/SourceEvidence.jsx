@@ -13,10 +13,10 @@ export default function SourceEvidence({slug}){
   ur:{title:'سرکاری ذرائع',verified:'تصدیق',note:'حتمی اصول کے لیے متعلقہ سرکاری ادارے کا تازہ ورژن دیکھیں۔'}
  }[lang]
  return <details className="compact-details">
-  <summary><span className="flex items-center gap-2"><ShieldCheck size={17} className="text-lime-300"/>{L.title}</span><span className="me-2 text-xs font-medium text-slate-600">{keys.length}</span></summary>
+  <summary><span className="flex items-center gap-2"><ShieldCheck size={17} className="text-lime-300"/>{L.title}</span><span className="me-2 text-xs font-medium text-slate-500">{keys.length}</span></summary>
   <div className="border-t border-white/[0.06] p-4">
-   <div className="grid gap-2 md:grid-cols-2">{keys.map(key=>{const s=officialSources[key];if(!s)return null;return <a key={key} href={s.url} target="_blank" rel="noreferrer" className="rounded-xl border border-white/[0.07] bg-[#080e16] p-3 transition hover:border-lime-300/20"><div className="flex items-start justify-between gap-3"><strong className="text-sm leading-5">{s.title}</strong><ExternalLink size={13} className="mt-1 shrink-0 text-lime-300"/></div><p className="mt-1 text-xs text-slate-600">{s.authority} · {L.verified} {s.verified}</p></a>})}</div>
-   <p className="mt-3 text-xs text-slate-600">{L.note}</p>
+   <div className="grid gap-2 md:grid-cols-2">{keys.map(key=>{const s=officialSources[key];if(!s)return null;return <a key={key} href={s.url} target="_blank" rel="noreferrer" className="rounded-xl border border-white/[0.07] bg-[#080e16] p-3 transition hover:border-lime-300/20"><div className="flex items-start justify-between gap-3"><strong className="text-sm leading-5">{s.title}</strong><ExternalLink size={13} className="mt-1 shrink-0 text-lime-300"/></div><p className="mt-1 text-xs text-slate-500">{s.authority} · {L.verified} {s.verified}</p></a>})}</div>
+   <p className="mt-3 text-xs text-slate-500">{L.note}</p>
   </div>
  </details>
 }
