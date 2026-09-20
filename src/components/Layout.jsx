@@ -75,9 +75,9 @@ export default function Layout({children}){
       </div>
       <div id="tool-search-results" role="listbox" aria-label={N.search} className="max-h-[55vh] overflow-auto p-2">{hits.map((tool,i)=><button id={'tool-search-'+tool.slug} role="option" aria-selected={i===active} key={tool.slug} onMouseEnter={()=>setActive(i)} onClick={()=>openTool(tool)} className="command-result flex w-full items-center gap-3 rounded-xl p-3 text-left" data-active={i===active?'true':'false'}>
         <span className={'tool-icon category-'+tool.category}><Wrench size={15}/></span>
-        <span className="min-w-0"><span className="block truncate font-bold">{toolName(tool)}</span><span className="mt-0.5 block truncate text-xs text-slate-500">{toolDescription(tool)}</span></span><ArrowRight className="ms-auto text-slate-600" size={15}/>
+        <span className="min-w-0"><span className="block truncate font-bold">{toolName(tool)}</span><span className="mt-0.5 block truncate text-xs text-slate-500">{toolDescription(tool)}</span></span><ArrowRight className="ms-auto text-slate-500" size={15}/>
       </button>)}</div>
-      <div className="border-t border-white/[0.07] px-4 py-3 text-xs text-slate-600"><Command className="me-1 inline" size={12}/> Ctrl / ⌘ + K</div>
+      <div className="border-t border-white/[0.07] px-4 py-3 text-xs text-slate-500"><Command className="me-1 inline" size={12}/> Ctrl / ⌘ + K</div>
     </div>
   </div>}
 
