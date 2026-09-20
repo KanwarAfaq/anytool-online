@@ -27,6 +27,10 @@ export default function Seo({title,description,jsonLd,noindex=false}){
    setMeta('meta[property="og:type"]',{property:'og:type',content:'website'})
    setMeta('meta[property="og:site_name"]',{property:'og:site_name',content:'AnyTool.online'})
    setMeta('meta[name="twitter:card"]',{name:'twitter:card',content:'summary_large_image'})
+   setMeta('meta[name="twitter:title"]',{name:'twitter:title',content:title})
+   setMeta('meta[name="twitter:description"]',{name:'twitter:description',content:description||''})
+   const ogLocale=path.startsWith('/zh-tw')?'zh_TW':path.startsWith('/ar')?'ar_AR':path.startsWith('/ur')?'ur_PK':'en_US'
+   setMeta('meta[property="og:locale"]',{property:'og:locale',content:ogLocale})
    setLink('link[rel="canonical"]',{rel:'canonical',href:canonical})
    for(const [hreflang,prefix] of locales){
      const href=SITE+(prefix||'')+(clean==='/'?'/':clean)
@@ -34,7 +38,7 @@ export default function Seo({title,description,jsonLd,noindex=false}){
    }
    setLink('link[rel="alternate"][hreflang="x-default"]',{rel:'alternate',hreflang:'x-default',href:SITE+(clean==='/'?'/':clean)})
 
-   document.head.querySelectorAll('script[data-anytool-jsonld]').forEach(x=>x.remove())
+   document.head.querySelectorAll('script[data-anytool-jsonld],script[data-anytool-prerender-jsonld]').forEach(x=>x.remove())
    const schemas=Array.isArray(jsonLd)?jsonLd:(jsonLd?[jsonLd]:[])
    for(const schema of schemas){
      const el=document.createElement('script');el.type='application/ld+json';el.dataset.anytoolJsonld='1';el.textContent=JSON.stringify(schema);document.head.appendChild(el)
