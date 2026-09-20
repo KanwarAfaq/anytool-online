@@ -73,22 +73,51 @@ function LoanPayment(){
 
 function ImageTool({slug}){
  const {t}=useI18n()
- const [url,setUrl]=useState(''),[w,setW]=useState(1200),[q,setQ]=useState(.82),[info,setInfo]=useState(null)
+ const [url,setUrl]=useState(''),[targetW,setTargetW]=useState(1200),[targetH,setTargetH]=useState(800),[q,setQ]=useState(.86)
+ const [lockAspect,setLockAspect]=useState(true),[allowUpscale,setAllowUpscale]=useState(false),[outType,setOutType]=useState('image/jpeg'),[background,setBackground]=useState('#ffffff'),[info,setInfo]=useState(null)
  async function run(file){
-  const img=new Image(),src=URL.createObjectURL(file);await new Promise((ok,err)=>{img.onload=ok;img.onerror=err;img.src=src})
-  const canvas=document.createElement('canvas');const ratio=slug==='image-resize'?Math.min(1,w/img.width):1;canvas.width=Math.max(1,Math.round(img.width*ratio));canvas.height=Math.max(1,Math.round(img.height*ratio))
-  const ctx=canvas.getContext('2d');ctx.fillStyle='#fff';if(slug==='png-to-jpg')ctx.fillRect(0,0,canvas.width,canvas.height);ctx.drawImage(img,0,0,canvas.width,canvas.height)
-  const type=slug==='png-to-jpg'?'image/jpeg':slug==='jpg-to-png'?'image/png':file.type==='image/png'?'image/png':'image/jpeg'
-  const blob=await new Promise(r=>canvas.toBlob(r,type,slug==='image-compress'?q:.92))
+  const img=new Image(),src=URL.createObjectURL(file)
+  await new Promise((ok,err)=>{img.onload=ok;img.onerror=err;img.src=src})
+  let width=img.width,height=img.height
+  if(slug==='image-resize'){
+    if(lockAspect){
+      const ratio=Math.min(targetW/img.width,targetH/img.height)
+      const safeRatio=allowUpscale?ratio:Math.min(1,ratio)
+      width=Math.max(1,Math.round(img.width*safeRatio));height=Math.max(1,Math.round(img.height*safeRatio))
+    }else{
+      width=Math.max(1,Math.round(allowUpscale?targetW:Math.min(targetW,img.width)))
+      height=Math.max(1,Math.round(allowUpscale?targetH:Math.min(targetH,img.height)))
+    }
+  }
+  const canvas=document.createElement('canvas');canvas.width=width;canvas.height=height
+  const ctx=canvas.getContext('2d')
+  let type=outType
+  if(slug==='png-to-jpg')type='image/jpeg'
+  if(slug==='jpg-to-png')type='image/png'
+  if(slug==='image-compress'&&outType==='image/png')type=file.type==='image/png'?'image/png':'image/jpeg'
+  if(type==='image/jpeg'){ctx.fillStyle=background;ctx.fillRect(0,0,width,height)}
+  ctx.drawImage(img,0,0,width,height)
+  const quality=(type==='image/jpeg'||type==='image/webp')?q:undefined
+  const blob=await new Promise(r=>canvas.toBlob(r,type,quality))
+  if(!blob){URL.revokeObjectURL(src);throw new Error('This browser could not encode the selected format.')}
   if(url)URL.revokeObjectURL(url)
-  setUrl(URL.createObjectURL(blob));setInfo({before:file.size,after:blob.size,width:canvas.width,height:canvas.height,originalWidth:img.width,originalHeight:img.height,type})
-  URL.revokeObjectURL(src);logToolEvent(slug,'calculation_completed',{bytes_before:file.size,bytes_after:blob.size}).catch(()=>{})
+  const next=URL.createObjectURL(blob);setUrl(next)
+  setInfo({before:file.size,after:blob.size,width,height,originalWidth:img.width,originalHeight:img.height,type})
+  URL.revokeObjectURL(src)
+  logToolEvent(slug,'calculation_completed',{bytes_before:file.size,bytes_after:blob.size,width,height,type}).catch(()=>{})
  }
- const ext=info?.type==='image/png'?'png':'jpg'
+ const ext=info?.type==='image/png'?'png':info?.type==='image/webp'?'webp':'jpg'
+ const showAdvanced=['image-resize','image-compress'].includes(slug)
  return <div className="card p-5">
-  <div className="grid gap-4 md:grid-cols-2">{slug==='image-resize'&&<Num label={t('maxWidth')} value={w} onChange={setW}/>} {slug==='image-compress'&&<label><span className="mb-1.5 block text-sm text-slate-400">{t('quality')} {Math.round(q*100)}%</span><input type="range" min=".1" max="1" step=".05" value={q} onChange={e=>setQ(Number(e.target.value))} className="w-full"/></label>}</div>
-  <input className="mt-5 block w-full text-sm" type="file" accept="image/*" onChange={e=>e.target.files[0]&&run(e.target.files[0])}/>
-  {info&&<div className="mt-5 grid gap-3 sm:grid-cols-3"><Result label={t('outputSize')} value={(info.after/1024).toFixed(1)+' KB'}/><Result label={t('outputDimensions')} value={info.width+' × '+info.height}/><Result label={t('sizeChange')} value={((1-info.after/info.before)*100).toFixed(1)+'%'}/></div>}
+  {showAdvanced&&<div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
+    {slug==='image-resize'&&<><Num label={t('targetWidth')} value={targetW} onChange={setTargetW} min={1}/><Num label={t('targetHeight')} value={targetH} onChange={setTargetH} min={1}/></>}
+    <label><span className="mb-1.5 block text-sm text-slate-400">{t('outputFormat')}</span><select className="input" value={outType} onChange={e=>setOutType(e.target.value)}><option value="image/jpeg">JPG</option><option value="image/png">PNG</option><option value="image/webp">WebP</option></select></label>
+    <label><span className="mb-1.5 block text-sm text-slate-400">{t('quality')} {Math.round(q*100)}%</span><input type="range" min=".2" max="1" step=".02" value={q} onChange={e=>setQ(Number(e.target.value))} className="w-full"/></label>
+    <label><span className="mb-1.5 block text-sm text-slate-400">{t('background')}</span><input className="input h-11 p-1" type="color" value={background} onChange={e=>setBackground(e.target.value)}/></label>
+    {slug==='image-resize'&&<div className="flex flex-col justify-end gap-2 pb-1"><label className="flex items-center gap-2 text-sm text-slate-300"><input type="checkbox" checked={lockAspect} onChange={e=>setLockAspect(e.target.checked)}/>{t('lockAspect')}</label><label className="flex items-center gap-2 text-sm text-slate-300"><input type="checkbox" checked={allowUpscale} onChange={e=>setAllowUpscale(e.target.checked)}/>{t('allowUpscale')}</label></div>}
+  </div>}
+  <input className="mt-5 block w-full text-sm" type="file" accept="image/jpeg,image/png,image/webp" onChange={e=>e.target.files[0]&&run(e.target.files[0])}/>
+  {info&&<div className="mt-5 grid gap-3 sm:grid-cols-2 lg:grid-cols-4"><Result label={t('originalDimensions')} value={info.originalWidth+' × '+info.originalHeight}/><Result label={t('outputDimensions')} value={info.width+' × '+info.height}/><Result label={t('outputSize')} value={(info.after/1024).toFixed(1)+' KB'}/><Result label={t('sizeChange')} value={((1-info.after/info.before)*100).toFixed(1)+'%'}/></div>}
   {url&&<a className="btn-primary mt-5" href={url} download={'anytool-output.'+ext}><Download className="me-2" size={17}/>{t('downloadResult')}</a>}
  </div>
 }
