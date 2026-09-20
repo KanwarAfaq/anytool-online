@@ -27,7 +27,7 @@ export const tools = [
   ['pdf-split','Split PDF','document','Extract selected pages from a PDF locally.'],
   ['loan-payment','Loan Payment Calculator','general','Calculate monthly loan payments, total repayment and total interest.'],
   ['taiwan-id-photo','Taiwan Passport / ARC Photo Maker','image','Crop and export Taiwan passport, National ID and ARC/APRC photos to official 35×45 mm guidance, with digital size checks including 413×531 px where applicable.'],
-  ['taiwan-elder-care','Taiwan Elderly Care Subsidy & Bed Finder','money','Check Taiwan's 2026 residential-care subsidy (up to NT$180,000/year), selected local placement subsidies, and official facility capacity or vacancy sources by city.'],
+  ['taiwan-elder-care','Taiwan Elderly Care Subsidy & Bed Finder','money','Check Taiwan\'s 2026 residential-care subsidy (up to NT$180,000/year), selected local placement subsidies, and official facility capacity or vacancy sources by city.'],
   ['ocr','AI OCR','ai','Extract text from an image using the configured AI gateway.'],
   ['receipt-to-json','Receipt → JSON','ai','Extract structured receipt data using AI.'],
 ].map(([slug,name,category,description]) => ({ slug,name,category,description }))
