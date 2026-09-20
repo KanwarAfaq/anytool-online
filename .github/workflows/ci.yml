@@ -17,8 +17,8 @@ jobs:
       - run: npm test
       - run: npm run build
         env:
-          VITE_SITE_URL: https://anytool.online
+          VITE_SITE_URL: https://www.anytool.online
       - run: npx playwright install --with-deps chromium
       - run: npm run test:e2e
         env:
-          VITE_SITE_URL: https://anytool.online
+          VITE_SITE_URL: https://www.anytool.online
