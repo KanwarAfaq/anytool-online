@@ -105,6 +105,20 @@ export const officialSources = {
     verified: '2026-09-20',
     summary: 'Official residential institution bed inquiry system.'
   },
+  nationalNursingHomes: {
+    title: 'Nationwide Licensed Nursing Institutions',
+    authority: 'Department of Nursing and Health Care, Ministry of Health and Welfare',
+    url: 'https://data.gov.tw/dataset/115950',
+    verified: '2026-09-20',
+    summary: 'Official nationwide directory with institution name, city, phone, address, evaluation information, coordinates and published open-bed counts for general nursing homes. The dataset is annual, so it is not a live vacancy feed.'
+  },
+  ltcServiceMap: {
+    title: 'Taiwan Long-term Care Service Map',
+    authority: 'Ministry of Health and Welfare — 1966 Long-term Care',
+    url: 'https://1966.gov.tw/LTC/np-6449-207.html',
+    verified: '2026-09-20',
+    summary: 'Official nationwide long-term-care service resource portal. Use it to find nearby long-term-care services and residential-care information.'
+  },
   newTaipeiFacilities: {
     title: 'New Taipei Elderly Welfare Institutions Open Data',
     authority: 'Social Welfare Department, New Taipei City Government',
@@ -120,6 +134,8 @@ export const elderCitySources = [
   { city:'Taichung', key:'taichungBeds', live:true, integrated:false },
   { city:'Yilan', key:'yilanBeds', live:true, integrated:false },
   { city:'New Taipei', key:'newTaipeiFacilities', live:false, integrated:false },
+  { city:'Nationwide nursing homes', key:'nationalNursingHomes', live:false, integrated:false },
+  { city:'Nationwide LTC map', key:'ltcServiceMap', live:true, integrated:false },
 ]
 
 
@@ -132,5 +148,5 @@ export const toolSourceKeys = {
   'minimum-wage': ['minimumWage2026'],
   'employer-cost': ['laborInsurance2026','laborInsuranceGrades2026','nhi2026','laborPension2026'],
   'taiwan-id-photo': ['taiwanPassport','taiwanIdPhoto','arcPhoto'],
-  'taiwan-elder-care': ['elderSubsidy2026','taoyuanBeds','taipeiBeds','taichungBeds','yilanBeds','newTaipeiFacilities'],
+  'taiwan-elder-care': ['elderSubsidy2026','nationalNursingHomes','ltcServiceMap','taoyuanBeds','taipeiBeds','taichungBeds','yilanBeds','newTaipeiFacilities'],
 }
