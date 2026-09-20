@@ -16,6 +16,7 @@ const sources=[
  {key:'national-nursing-homes',url:'https://data.gov.tw/dataset/115950',terms:['機構電話','一般護理之家']},
  {key:'ltc-service-map',url:'https://1966.gov.tw/LTC/np-6449-207.html',terms:['長照地理資訊地圖']},
  {key:'mohw-elder-subsidy-2026',url:'https://www.mohw.gov.tw/cp-16-87895-1.html',terms:['18萬元','1萬5,000元']},
+ {key:'mohw-elder-subsidy-application-2026',url:'https://www.mohw.gov.tw/cp-2704-87934-1.html',terms:['9月14日','18萬元']},
  {key:'boca-passport-photo',url:'https://www.boca.gov.tw/cp-25-4123-c2932-1.html',terms:['35','45']},
  {key:'boca-digital-photo',url:'https://epass.boca.gov.tw/cp-13-244-3fec5-1.html',terms:['413','531','5MB']},
  {key:'ris-id-photo',url:'https://www.ris.gov.tw/documents/html/5/3/187.html',terms:['413','531']},

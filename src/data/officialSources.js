@@ -54,7 +54,14 @@ export const officialSources = {
     authority: 'Bureau of Consular Affairs, Ministry of Foreign Affairs',
     url: 'https://www.boca.gov.tw/cp-25-4123-c2932-1.html',
     verified: '2026-09-20',
-    summary: 'Official chip-passport photo guidance: 35×45 mm, plain white background, recent color photo; head height 32–36 mm. BOCA digital upload guidance separately requires JPG/JPEG, RGB 24-bit or higher, at least 413×531 px and no larger than 5 MB.'
+    summary: 'Official chip-passport photo guidance: 35×45 mm, plain white background, recent color photo; head height 32–36 mm.'
+  },
+  bocaDigitalPhoto: {
+    title: 'Taiwan Passport Digital Photo File Requirements',
+    authority: 'Bureau of Consular Affairs, Ministry of Foreign Affairs',
+    url: 'https://epass.boca.gov.tw/cp-13-244-3fec5-1.html',
+    verified: '2026-09-20',
+    summary: 'For BOCA online passport photo upload: JPG/JPEG, RGB color mode of at least 24-bit, no larger than 5 MB, minimum 413 px wide × 531 px high, in addition to passport photo quality requirements.'
   },
   taiwanIdPhoto: {
     title: 'National ID Photo Specifications — Household Registration',
@@ -111,6 +118,13 @@ export const officialSources = {
     url: 'https://www.mohw.gov.tw/cp-16-87895-1.html',
     verified: '2026-09-20',
     summary: '2026 scheme: residents assessed at long-term-care need level 4+ or holding a moderate-or-higher disability certificate can receive up to NT$15,000 per recognized month, up to NT$180,000 per year, retroactive to January 1, 2026. Certain pre-2023 continuing residents who do not meet level 4 can receive up to NT$5,000 per recognized month. The same subsidy month cannot be claimed twice under overlapping accommodation programs.'
+  },
+  elderSubsidyApply2026: {
+    title: '2026 Residential Care Subsidy — Application Update',
+    authority: 'Ministry of Health and Welfare, Long-Term Care Department',
+    url: 'https://www.mohw.gov.tw/cp-2704-87934-1.html',
+    verified: '2026-09-20',
+    summary: 'Applications opened September 14, 2026. Certain people already approved in 2025 who remain in the same institution with unchanged eligibility generally submit updated information rather than a full new application; specified changes still require a new application.'
   },
   taoyuanBeds: {
     title: 'Taoyuan Elderly Welfare Institution Vacancies',
@@ -191,6 +205,6 @@ export const toolSourceKeys = {
   'overtime-pay': ['overtimeRules'],
   'minimum-wage': ['minimumWage2026'],
   'employer-cost': ['laborInsurance2026','laborInsuranceGrades2026','nhi2026','laborPension2026'],
-  'taiwan-id-photo': ['taiwanPassport','taiwanIdPhoto','arcPhoto'],
-  'taiwan-elder-care': ['elderSubsidy2026','taoyuanLocalElderPlacement','taipeiLocalElderPlacement','newTaipeiLocalElderPlacement','taichungLocalElderPlacement','tainanLocalElderPlacement','nationalNursingHomes','ltcServiceMap','taoyuanBeds','taipeiBeds','taipeiPublicNursingBeds','taichungBeds','yilanBeds','newTaipeiFacilities'],
+  'taiwan-id-photo': ['taiwanPassport','bocaDigitalPhoto','taiwanIdPhoto','arcPhoto'],
+  'taiwan-elder-care': ['elderSubsidy2026','elderSubsidyApply2026','taoyuanLocalElderPlacement','taipeiLocalElderPlacement','newTaipeiLocalElderPlacement','taichungLocalElderPlacement','tainanLocalElderPlacement','nationalNursingHomes','ltcServiceMap','taoyuanBeds','taipeiBeds','taipeiPublicNursingBeds','taichungBeds','yilanBeds','newTaipeiFacilities'],
 }

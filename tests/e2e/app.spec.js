@@ -10,6 +10,7 @@ test('home and four languages including RTL', async ({ page }) => {
   await language.selectOption('zh-TW')
   await expect(page).toHaveURL(/\/zh-tw\/?$/)
   await expect(page.getByRole('heading', { level: 1 })).toContainText('實用工具')
+  await expect(page).toHaveTitle(/2026 台灣薪資稅務計算/)
   await expect(page.locator('html')).toHaveAttribute('dir','ltr')
 
   await language.selectOption('ar')

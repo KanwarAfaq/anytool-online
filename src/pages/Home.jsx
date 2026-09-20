@@ -13,8 +13,15 @@ export default function Home(){
   ur:{eyebrow:'2026 تائیوان اپ ڈیٹس',title:'تنخواہ، شناختی فوٹو اور بزرگ نگہداشت کے ٹولز سرکاری ذرائع پر مبنی ہیں۔',body:'اجرت، انشورنس، ٹیکس، پاسپورٹ/ARC فوٹو اور رہائشی نگہداشت کی معلومات متعلقہ سرکاری اداروں سے منسلک اور باقاعدگی سے مانیٹر کی جاتی ہیں۔',cta:'تائیوان ٹولز دیکھیں',sources:'سرکاری ذرائع'}
  }[lang]||null
  const B=banner||{}
+ const seo={
+  en:{title:'Taiwan Calculators 2026, Passport/ARC Photo & Free Tools | AnyTool',description:'Free 2026 Taiwan salary, tax, insurance, overtime and elderly-care tools plus official passport/ARC photo guidance, PDF, QR and OCR utilities.'},
+  'zh-TW':{title:'2026 台灣薪資稅務計算、護照 ARC 證件照與實用工具 | AnyTool',description:'免費 2026 台灣薪資、所得稅、勞健保、加班費、老人照護補助與床位工具，並提供官方護照／ARC 證件照規格、PDF、QR 與 OCR 工具。'},
+  ar:{title:'حاسبات تايوان 2026 وأدوات صور الجواز وARC | AnyTool',description:'حاسبات مجانية للرواتب والضرائب والتأمين والعمل الإضافي ورعاية المسنين في تايوان 2026، مع أدوات صور الجواز وARC وPDF وQR وOCR.'},
+  ur:{title:'تائیوان کیلکولیٹر 2026، پاسپورٹ/ARC فوٹو اور مفت ٹولز | AnyTool',description:'مفت 2026 تائیوان تنخواہ، ٹیکس، انشورنس، اوور ٹائم اور بزرگ نگہداشت ٹولز، سرکاری پاسپورٹ/ARC فوٹو رہنمائی، PDF، QR اور OCR کے ساتھ۔'}
+ }[lang]||null
+ const S=seo||{}
  return <>
-  <Seo title="AnyTool.online — Taiwan Calculators, Image, PDF & AI Tools" description="Free source-backed Taiwan salary calculators, passport and ARC photo tools, PDF utilities, QR tools, OCR and practical online calculators." jsonLd={[{'@context':'https://schema.org','@type':'WebSite',name:'AnyTool.online',url:'https://anytool.online/'},{'@context':'https://schema.org','@type':'Organization',name:'AnyTool.online',url:'https://anytool.online/'}]}/>
+  <Seo title={S.title} description={S.description} jsonLd={[{'@context':'https://schema.org','@type':'WebSite',name:'AnyTool.online',url:'https://anytool.online/'},{'@context':'https://schema.org','@type':'Organization',name:'AnyTool.online',url:'https://anytool.online/'}]}/>
   <section className="mx-auto max-w-7xl px-4 pb-8 pt-16 md:pt-24">
    <div className="max-w-4xl">
     <div className="mb-5 inline-flex items-center gap-2 rounded-full border border-emerald-400/20 bg-emerald-400/10 px-3 py-1.5 text-sm text-emerald-200"><Sparkles size={15}/> {t('brandTag')}</div>
