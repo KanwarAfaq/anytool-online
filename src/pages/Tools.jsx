@@ -19,8 +19,13 @@ export default function Tools(){
   ur:{eyebrow:'تمام ٹولز',title:'ہر ٹول واضح اور آسان رسائی میں',body:'AnyTool کا مکمل کیٹلاگ دیکھیں۔ کوئی ٹول کیروسل یا مینو کے پیچھے چھپا نہیں ہے۔',search:'تمام ٹولز تلاش کریں…',count:'ٹولز',empty:'کوئی ٹول نہیں ملا۔'}
  }[lang]
  const filtered=useMemo(()=>tools.filter(tool=>!query.trim()||(toolName(tool)+' '+toolDescription(tool)).toLowerCase().includes(query.toLowerCase())),[query,lang,toolName,toolDescription])
+ const pageUrl='https://www.anytool.online'+pathFor('/tools')
+ const schemas=[
+  {'@context':'https://schema.org','@type':'CollectionPage',name:C.title,description:C.body,url:pageUrl,inLanguage:lang,isPartOf:{'@type':'WebSite',name:'AnyTool.online',url:'https://www.anytool.online/'}},
+  {'@context':'https://schema.org','@type':'ItemList',name:C.title,itemListElement:tools.map((tool,i)=>({'@type':'ListItem',position:i+1,name:toolName(tool),url:'https://www.anytool.online'+pathFor('/tools/'+tool.slug),image:'https://www.anytool.online/tool-art/'+tool.slug+'.svg'}))}
+ ]
  return <section className="mx-auto max-w-7xl px-4 py-12">
-  <Seo title="All Tools | AnyTool.online" description="Browse all AnyTool calculators, Taiwan tools, image utilities, PDF tools, QR tools and AI OCR tools."/>
+  <Seo title={C.title+' | AnyTool.online'} description={C.body} jsonLd={schemas}/>
   <div className="max-w-3xl">
    <div className="text-xs font-black uppercase tracking-[.17em] text-lime-300">{C.eyebrow}</div>
    <h1 className="mt-2 text-4xl font-black tracking-tight sm:text-5xl">{C.title}</h1>
