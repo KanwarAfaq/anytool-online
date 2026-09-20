@@ -6,8 +6,10 @@ import Seo from '../components/Seo'
 import { takeHome, laborInsurance, nhi, salaryTax, overtime, employerCost, money } from '../lib/calculators'
 import { supabase, logToolEvent, saveFavorite } from '../lib/supabase'
 import { useI18n } from '../i18n'
+import IdPhotoTool from '../components/tools/IdPhotoTool'
+import ElderCareTool from '../components/tools/ElderCareTool'
 
-const Num=({label,value,onChange,min=0,step=1})=><label className="block"><span className="mb-1.5 block text-sm text-slate-400">{label}</span><input className="input" type="number" min={min} step={step} value={value} onChange={e=>onChange(Number(e.target.value))}/></label>
+const Num=({label,value,onChange,min=0,step=1})=><label className="block"><span className="mb-1.5 block text-sm text-slate-400">{label}</span><input className="input" type="number" inputMode="decimal" min={min} step={step} value={value} onFocus={e=>e.target.select()} onChange={e=>onChange(Number(e.target.value))}/></label>
 const Result=({label,value})=><div className="rounded-xl bg-white/5 p-3"><div className="text-xs text-slate-500">{label}</div><div className="mt-1 text-lg font-black">{value}</div></div>
 const downloadText=(name,text,type='text/plain')=>{const a=document.createElement('a');a.href=URL.createObjectURL(new Blob([text],{type}));a.download=name;a.click();setTimeout(()=>URL.revokeObjectURL(a.href),1000)}
 
@@ -167,6 +169,8 @@ export default function ToolPage(){
   if(['take-home-pay','labor-insurance','nhi','income-tax','overtime-pay','minimum-wage','employer-cost','annual-salary'].includes(slug))return <MoneyTool slug={slug}/>
   if(slug==='percentage')return <Percentage/>
   if(slug==='loan-payment')return <LoanPayment/>
+  if(slug==='taiwan-id-photo')return <IdPhotoTool/>
+  if(slug==='taiwan-elder-care')return <ElderCareTool/>
   if(['image-resize','image-compress','png-to-jpg','jpg-to-png'].includes(slug))return <ImageTool slug={slug}/>
   if(slug==='dpi-calculator')return <Dpi/>
   if(slug==='qr-generator')return <QRGenerator/>
