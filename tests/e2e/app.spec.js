@@ -121,10 +121,11 @@ test('auth dashboard AI and SEO surfaces render', async ({ page, request }) => {
 test('zero-default numeric fields replace rather than prefix zero', async ({ page }) => {
   await page.goto('/tools/income-tax')
   const spouse=page.getByLabel('Spouse annual salary (NT$)')
-  await expect(spouse).toHaveValue('0')
-  await spouse.click()
-  await page.keyboard.type('50000')
+  await expect(spouse).toHaveValue('')
+  await spouse.fill('50000')
   await expect(spouse).toHaveValue('50000')
+  await spouse.fill('0')
+  await expect(spouse).toHaveValue('')
 })
 
 test('passport ARC photo maker exposes practical crop controls', async ({ page }) => {
