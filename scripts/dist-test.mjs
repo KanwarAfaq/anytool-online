@@ -9,10 +9,29 @@ const staticPages=['','about','contact','privacy','methodology','sources','categ
 await access(resolve(root,'dist/index.html'))
 await access(resolve(root,'dist/robots.txt'))
 await access(resolve(root,'dist/manifest.webmanifest'))
+await access(resolve(root,'dist/tool-catalog.json'))
+await access(resolve(root,'dist/official-sources.json'))
+await access(resolve(root,'dist/llms.txt'))
 
 const sitemap=await readFile(resolve(root,'dist/sitemap.xml'),'utf8')
 assert.ok(sitemap.includes('xmlns:xhtml='),'sitemap missing hreflang namespace')
+assert.ok(/<lastmod>\d{4}-\d{2}-\d{2}<\/lastmod>/.test(sitemap),'sitemap missing meaningful lastmod dates')
+assert.ok(!sitemap.includes('/auth</loc>'),'auth must not be in sitemap')
+assert.ok(!sitemap.includes('/dashboard</loc>'),'dashboard must not be in sitemap')
+
+const catalog=JSON.parse(await readFile(resolve(root,'dist/tool-catalog.json'),'utf8'))
+assert.equal(catalog.tools.length,tools.length,'tool catalog count mismatch')
+assert.ok(catalog.tools.every(t=>t.url.startsWith('https://www.anytool.online/tools/')),'tool catalog canonical host mismatch')
+assert.ok(catalog.tools.every(t=>/^\d{4}-\d{2}-\d{2}$/.test(t.lastModified)),'tool catalog missing lastModified')
+const sourceRegistry=JSON.parse(await readFile(resolve(root,'dist/official-sources.json'),'utf8'))
+assert.ok(Object.keys(sourceRegistry.sources||{}).length>=10,'official source registry unexpectedly small')
+
+const robots=await readFile(resolve(root,'dist/robots.txt'),'utf8')
+assert.ok(robots.includes('Allow: /'),'robots should allow crawlable pages')
+assert.ok(!robots.includes('Disallow: /auth'),'robots must not block pages that rely on X-Robots noindex')
 const expectedUrls=(staticPages.length+tools.length)*locales.length
+const homeHtml=await readFile(resolve(root,'dist/index.html'),'utf8')
+for(const tool of tools) assert.ok(homeHtml.includes('/tools/'+tool.slug),'homepage prerender missing internal link '+tool.slug)
 assert.equal((sitemap.match(/<url>/g)||[]).length,expectedUrls,'unexpected sitemap URL count')
 
 for(const loc of locales){
