@@ -80,9 +80,9 @@ export const officialSources = {
   taipeiLocalElderPlacement: {
     title: 'Taipei Elderly Residential Placement Subsidy',
     authority: 'Department of Social Welfare, Taipei City Government',
-    url: 'https://dosw.gov.taipei/cp.aspx?n=2A069CBD089B5C1A&s=C380A969311A1EBA',
+    url: 'https://dosw.gov.taipei/News_Content.aspx?n=91F35523B74F69AC&s=89EA6FBF24B14229&sms=87415A8B9CE81B16',
     verified: '2026-09-20',
-    summary: 'Means-tested placement subsidy with amounts varying by disability level, income category and whether the institution is in Taipei. The current published table ranges from NT$4,320 to NT$29,250 per month.'
+    summary: 'Means-tested placement subsidy. The July 2026 official table ranges from NT$4,320/month for some out-of-city middle-low-income moderate-disability cases up to NT$27,250/month for Taipei low-income category 0-2 severe-disability cases.'
   },
   newTaipeiLocalElderPlacement: {
     title: 'New Taipei Low-/Middle-low-income Elder Institutional Placement Program',
@@ -96,7 +96,7 @@ export const officialSources = {
     authority: 'Social Affairs Bureau, Taichung City Government',
     url: 'https://www.society.taichung.gov.tw/461566/post',
     verified: '2026-09-20',
-    summary: 'For qualifying low-income unsupported older adults, the city publishes program-specific support including up to NT$21,000/month plus up to NT$10,000/month additional care support in qualifying cases; other special add-ons have separate rules.'
+    summary: 'For qualifying low-income unsupported older adults, the published standard includes NT$10,000/month for some cases and up to NT$21,000/month where institutional placement is needed; an additional care-support amount of up to NT$3,000/month may apply after social-work assessment in specified cases.'
   },
   tainanLocalElderPlacement: {
     title: 'Tainan Middle-low-income Elder Residential Care',
@@ -124,7 +124,15 @@ export const officialSources = {
     authority: 'Department of Social Welfare, Taipei City Government',
     url: 'https://orgvacinqusys.gov.taipei/',
     verified: '2026-09-20',
-    summary: 'Official Taipei real-time welfare institution vacancy inquiry.'
+    summary: 'Official Taipei welfare institution vacancy inquiry. Availability can change quickly and should be confirmed with the institution.'
+  },
+  taipeiPublicNursingBeds: {
+    title: 'Taipei Public Nursing Homes — Open Beds',
+    authority: 'Department of Health, Taipei City Government',
+    url: 'https://data.gov.tw/en/datasets/132458',
+    dataUrl: 'https://data.taipei/api/dataset/b20c5ea7-dcae-446b-8d85-574a2bb2c907/resource/ed438da1-9e3c-4ccd-86be-6eeb4b275259/download',
+    verified: '2026-09-20',
+    summary: 'Official Taipei public nursing-home dataset with organization name, number of open beds, address, phone and extension. The dataset is updated irregularly; call to confirm current availability.'
   },
   taichungBeds: {
     title: 'Taichung Elderly and Disability Institution Bed Inquiry',
@@ -165,7 +173,8 @@ export const officialSources = {
 
 export const elderCitySources = [
   { city:'Taoyuan', key:'taoyuanBeds', live:true, integrated:true },
-  { city:'Taipei', key:'taipeiBeds', live:true, integrated:false },
+  { city:'Taipei public nursing homes', key:'taipeiPublicNursingBeds', live:true, integrated:true },
+  { city:'Taipei welfare institutions', key:'taipeiBeds', live:true, integrated:false },
   { city:'Taichung', key:'taichungBeds', live:true, integrated:false },
   { city:'Yilan', key:'yilanBeds', live:true, integrated:false },
   { city:'New Taipei', key:'newTaipeiFacilities', live:false, integrated:false },
@@ -183,5 +192,5 @@ export const toolSourceKeys = {
   'minimum-wage': ['minimumWage2026'],
   'employer-cost': ['laborInsurance2026','laborInsuranceGrades2026','nhi2026','laborPension2026'],
   'taiwan-id-photo': ['taiwanPassport','taiwanIdPhoto','arcPhoto'],
-  'taiwan-elder-care': ['elderSubsidy2026','taoyuanLocalElderPlacement','taipeiLocalElderPlacement','newTaipeiLocalElderPlacement','taichungLocalElderPlacement','tainanLocalElderPlacement','nationalNursingHomes','ltcServiceMap','taoyuanBeds','taipeiBeds','taichungBeds','yilanBeds','newTaipeiFacilities'],
+  'taiwan-elder-care': ['elderSubsidy2026','taoyuanLocalElderPlacement','taipeiLocalElderPlacement','newTaipeiLocalElderPlacement','taichungLocalElderPlacement','tainanLocalElderPlacement','nationalNursingHomes','ltcServiceMap','taoyuanBeds','taipeiBeds','taipeiPublicNursingBeds','taichungBeds','yilanBeds','newTaipeiFacilities'],
 }
