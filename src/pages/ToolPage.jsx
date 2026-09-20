@@ -18,6 +18,14 @@ const Num=({label,value,onChange,min=0,step=1})=><label className="block"><span 
 const Result=({label,value})=><div className="result-tile"><div className="text-xs text-slate-600">{label}</div><div className="mt-1 text-lg font-black">{value}</div></div>
 const downloadText=(name,text,type='text/plain')=>{const a=document.createElement('a');a.href=URL.createObjectURL(new Blob([text],{type}));a.download=name;a.click();setTimeout(()=>URL.revokeObjectURL(a.href),1000)}
 
+const fieldLabels={
+ en:{qrText:'Text or URL',imageFile:'Choose image file',qrFile:'Choose QR code image',pdfFile:'Choose PDF file',pdfFiles:'Choose PDF files',aiFile:'Choose image or PDF file'},
+ 'zh-TW':{qrText:'文字或網址',imageFile:'選擇圖片檔案',qrFile:'選擇 QR Code 圖片',pdfFile:'選擇 PDF 檔案',pdfFiles:'選擇 PDF 檔案',aiFile:'選擇圖片或 PDF 檔案'},
+ ar:{qrText:'نص أو رابط',imageFile:'اختر ملف صورة',qrFile:'اختر صورة رمز QR',pdfFile:'اختر ملف PDF',pdfFiles:'اختر ملفات PDF',aiFile:'اختر صورة أو ملف PDF'},
+ ur:{qrText:'متن یا URL',imageFile:'تصویری فائل منتخب کریں',qrFile:'QR کوڈ تصویر منتخب کریں',pdfFile:'PDF فائل منتخب کریں',pdfFiles:'PDF فائلیں منتخب کریں',aiFile:'تصویر یا PDF فائل منتخب کریں'}
+}
+const labelFor=(lang,key)=>fieldLabels[lang]?.[key]||fieldLabels.en[key]
+
 function MoneyTool({slug}){
  const {t}=useI18n()
  const [salary,setSalary]=useState(50000),[deps,setDeps]=useState(0),[weekday,setWeekday]=useState(2),[rest,setRest]=useState(0),[months,setMonths]=useState(13)
@@ -76,7 +84,7 @@ function LoanPayment(){
 }
 
 function ImageTool({slug}){
- const {t}=useI18n()
+ const {t,lang}=useI18n()
  const [url,setUrl]=useState(''),[targetW,setTargetW]=useState(1200),[targetH,setTargetH]=useState(800),[q,setQ]=useState(.86)
  const [lockAspect,setLockAspect]=useState(true),[allowUpscale,setAllowUpscale]=useState(false),[outType,setOutType]=useState('image/jpeg'),[background,setBackground]=useState('#ffffff'),[info,setInfo]=useState(null)
  async function run(file){
@@ -98,7 +106,6 @@ function ImageTool({slug}){
   let type=outType
   if(slug==='png-to-jpg')type='image/jpeg'
   if(slug==='jpg-to-png')type='image/png'
-  if(slug==='image-compress'&&outType==='image/png')type=file.type==='image/png'?'image/png':'image/jpeg'
   if(type==='image/jpeg'){ctx.fillStyle=background;ctx.fillRect(0,0,width,height)}
   ctx.drawImage(img,0,0,width,height)
   const quality=(type==='image/jpeg'||type==='image/webp')?q:undefined
@@ -112,15 +119,16 @@ function ImageTool({slug}){
  }
  const ext=info?.type==='image/png'?'png':info?.type==='image/webp'?'webp':'jpg'
  const showAdvanced=['image-resize','image-compress'].includes(slug)
+ const accept=slug==='png-to-jpg'?'image/png':slug==='jpg-to-png'?'image/jpeg':slug==='image-compress'?'image/jpeg,image/png,image/webp':'image/jpeg,image/png,image/webp'
  return <div className="card p-5">
   {showAdvanced&&<div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
     {slug==='image-resize'&&<><Num label={t('targetWidth')} value={targetW} onChange={setTargetW} min={1}/><Num label={t('targetHeight')} value={targetH} onChange={setTargetH} min={1}/></>}
     <label><span className="mb-1.5 block text-sm text-slate-400">{t('outputFormat')}</span><select className="input" value={outType} onChange={e=>setOutType(e.target.value)}><option value="image/jpeg">JPG</option><option value="image/png">PNG</option><option value="image/webp">WebP</option></select></label>
-    <label><span className="mb-1.5 block text-sm text-slate-400">{t('quality')} {Math.round(q*100)}%</span><input type="range" min=".2" max="1" step=".02" value={q} onChange={e=>setQ(Number(e.target.value))} className="w-full"/></label>
+    {outType!=='image/png'&&<label><span className="mb-1.5 block text-sm text-slate-400">{t('quality')} {Math.round(q*100)}%</span><input type="range" min=".2" max="1" step=".02" value={q} onChange={e=>setQ(Number(e.target.value))} className="w-full"/></label>}
     <label><span className="mb-1.5 block text-sm text-slate-400">{t('background')}</span><input className="input h-11 p-1" type="color" value={background} onChange={e=>setBackground(e.target.value)}/></label>
     {slug==='image-resize'&&<div className="flex flex-col justify-end gap-2 pb-1"><label className="flex items-center gap-2 text-sm text-slate-300"><input type="checkbox" checked={lockAspect} onChange={e=>setLockAspect(e.target.checked)}/>{t('lockAspect')}</label><label className="flex items-center gap-2 text-sm text-slate-300"><input type="checkbox" checked={allowUpscale} onChange={e=>setAllowUpscale(e.target.checked)}/>{t('allowUpscale')}</label></div>}
   </div>}
-  <input className="mt-5 block w-full text-sm" type="file" accept="image/jpeg,image/png,image/webp" onChange={e=>e.target.files[0]&&run(e.target.files[0])}/>
+  <label className="upload-field mt-5"><span className="font-semibold">{labelFor(lang,'imageFile')}</span><input aria-label={labelFor(lang,'imageFile')} type="file" accept={accept} onChange={e=>e.target.files[0]&&run(e.target.files[0])}/></label>
   {info&&<div className="mt-5 grid gap-3 sm:grid-cols-2 lg:grid-cols-4"><Result label={t('originalDimensions')} value={info.originalWidth+' × '+info.originalHeight}/><Result label={t('outputDimensions')} value={info.width+' × '+info.height}/><Result label={t('outputSize')} value={(info.after/1024).toFixed(1)+' KB'}/><Result label={t('sizeChange')} value={((1-info.after/info.before)*100).toFixed(1)+'%'}/></div>}
   {url&&<a className="btn-primary mt-5" href={url} download={'anytool-output.'+ext}><Download className="me-2" size={17}/>{t('downloadResult')}</a>}
  </div>
@@ -134,21 +142,21 @@ function Dpi(){
 }
 
 function QRGenerator(){
- const {t}=useI18n()
+ const {t,lang}=useI18n()
  const [text,setText]=useState('https://www.anytool.online'),[url,setUrl]=useState(''),[size,setSize]=useState(768)
  async function make(){const {default:QRCode}=await import('qrcode');setUrl(await QRCode.toDataURL(text,{width:size,margin:2,errorCorrectionLevel:'M'}));logToolEvent('qr-generator','calculation_completed').catch(()=>{})}
- return <div className="card p-5"><div className="grid gap-4 md:grid-cols-[1fr_180px]"><input className="input" value={text} onChange={e=>setText(e.target.value)}/><Num label={t('qrSize')} value={size} onChange={setSize} min={128}/></div><button className="btn-primary mt-4" onClick={make}>{t('generate')}</button>{url&&<div className="mt-5"><img alt="QR code" className="max-w-xs rounded-xl bg-white p-3" src={url}/><a className="btn-ghost mt-3" href={url} download="qr.png">{t('download')}</a></div>}</div>
+ return <div className="card p-5"><div className="grid gap-4 md:grid-cols-[1fr_180px]"><label><span className="mb-1.5 block text-sm text-slate-400">{labelFor(lang,'qrText')}</span><input aria-label={labelFor(lang,'qrText')} className="input" value={text} onChange={e=>setText(e.target.value)}/></label><Num label={t('qrSize')} value={size} onChange={setSize} min={128}/></div><button className="btn-primary mt-4" onClick={make}>{t('generate')}</button>{url&&<div className="mt-5"><img alt="QR code" className="max-w-xs rounded-xl bg-white p-3" src={url}/><a className="btn-ghost mt-3" href={url} download="qr.png">{t('download')}</a></div>}</div>
 }
 
 function QRScanner(){
- const {t}=useI18n()
+ const {t,lang}=useI18n()
  const [result,setResult]=useState('')
  async function scan(file){const {default:jsQR}=await import('jsqr');const img=new Image();img.src=URL.createObjectURL(file);await new Promise(r=>img.onload=r);const c=document.createElement('canvas');c.width=img.width;c.height=img.height;const x=c.getContext('2d');x.drawImage(img,0,0);const d=x.getImageData(0,0,c.width,c.height);const code=jsQR(d.data,c.width,c.height);setResult(code?.data||t('noQr'));URL.revokeObjectURL(img.src);if(code?.data)logToolEvent('qr-scanner','calculation_completed').catch(()=>{})}
- return <div className="card p-5"><input type="file" accept="image/*" onChange={e=>e.target.files[0]&&scan(e.target.files[0])}/>{result&&<div className="mt-4"><p className="break-all rounded-xl bg-white/5 p-3">{result}</p><button className="btn-ghost mt-3" onClick={()=>navigator.clipboard.writeText(result)}><Copy className="me-2" size={16}/>{t('copy')}</button></div>}</div>
+ return <div className="card p-5"><label className="upload-field"><span className="font-semibold">{labelFor(lang,'qrFile')}</span><input aria-label={labelFor(lang,'qrFile')} type="file" accept="image/*" onChange={e=>e.target.files[0]&&scan(e.target.files[0])}/></label>{result&&<div className="mt-4" aria-live="polite"><p className="break-all rounded-xl bg-white/5 p-3">{result}</p><button className="btn-ghost mt-3" onClick={()=>navigator.clipboard.writeText(result)}><Copy className="me-2" size={16}/>{t('copy')}</button></div>}</div>
 }
 
 function PdfTool({slug}){
- const {t}=useI18n()
+ const {t,lang}=useI18n()
  const [msg,setMsg]=useState(''),[start,setStart]=useState(1),[end,setEnd]=useState(1)
  async function run(files){
   if(!files.length)return
@@ -158,11 +166,11 @@ function PdfTool({slug}){
   else {const src=await PDFDocument.load(await files[0].arrayBuffer());const count=src.getPageCount();const first=Math.max(1,Math.floor(start)),last=Math.min(count,Math.floor(end));if(first>last||first>count){setMsg(t('invalidPageRange'));return}const indices=Array.from({length:last-first+1},(_,i)=>first-1+i);const pages=await out.copyPages(src,indices);pages.forEach(p=>out.addPage(p))}
   const bytes=await out.save();const blob=new Blob([bytes],{type:'application/pdf'});const objectUrl=URL.createObjectURL(blob);const a=document.createElement('a');a.href=objectUrl;a.download=slug==='pdf-merge'?'merged.pdf':`pages-${start}-${end}.pdf`;a.click();setTimeout(()=>URL.revokeObjectURL(objectUrl),1000);setMsg(t('doneDownload'));logToolEvent(slug,'calculation_completed',{files:files.length}).catch(()=>{})
  }
- return <div className="card p-5">{slug==='pdf-split'&&<div className="mb-4 grid gap-3 sm:grid-cols-2"><Num label={t('splitStart')} value={start} onChange={setStart} min={1}/><Num label={t('splitEnd')} value={end} onChange={setEnd} min={1}/></div>}<input type="file" accept="application/pdf" multiple={slug==='pdf-merge'} onChange={e=>run([...e.target.files])}/><p className="mt-3 text-sm text-slate-400">{slug==='pdf-split'?t('pdfSplitNote'):t('pdfLocal')}</p>{msg&&<p className="mt-3 text-emerald-300">{msg}</p>}</div>
+ return <div className="card p-5">{slug==='pdf-split'&&<div className="mb-4 grid gap-3 sm:grid-cols-2"><Num label={t('splitStart')} value={start} onChange={setStart} min={1}/><Num label={t('splitEnd')} value={end} onChange={setEnd} min={1}/></div>}<label className="upload-field"><span className="font-semibold">{labelFor(lang,slug==='pdf-merge'?'pdfFiles':'pdfFile')}</span><input aria-label={labelFor(lang,slug==='pdf-merge'?'pdfFiles':'pdfFile')} type="file" accept="application/pdf" multiple={slug==='pdf-merge'} onChange={e=>run([...e.target.files])}/></label><p className="mt-3 text-sm text-slate-400">{slug==='pdf-split'?t('pdfSplitNote'):t('pdfLocal')}</p>{msg&&<p role="status" aria-live="polite" className="status-message mt-3 text-emerald-300">{msg}</p>}</div>
 }
 
 function AITool({slug}){
- const {t}=useI18n()
+ const {t,lang}=useI18n()
  const [status,setStatus]=useState(''),[result,setResult]=useState(null)
  async function go(file){
   const endpoint=import.meta.env.VITE_AI_GATEWAY_URL || '/api/ai-gateway'
@@ -180,11 +188,11 @@ function AITool({slug}){
  let pretty=text
  if(slug==='receipt-to-json'&&text){try{pretty=JSON.stringify(JSON.parse(text.replace(/^\`\`\`json\s*|\`\`\`$/g,'')),null,2)}catch{}}
  return <div className="card p-5">
-  <input type="file" accept="image/*,application/pdf" onChange={e=>e.target.files[0]&&go(e.target.files[0])}/>
-  {status&&<p className="mt-4 text-amber-300">{status}</p>}
+  <label className="upload-field"><span className="font-semibold">{labelFor(lang,'aiFile')}</span><input aria-label={labelFor(lang,'aiFile')} type="file" accept="image/*,application/pdf" onChange={e=>e.target.files[0]&&go(e.target.files[0])}/></label>
+  {status&&<p role="status" aria-live="polite" className="status-message mt-4 text-amber-200">{status}</p>}
   {result&&<div className="mt-4">
     {result.provider&&<p className="mb-2 text-xs text-slate-500">{t('processedBy')}: {result.provider}{result.model?' · '+result.model:''}</p>}
-    <pre dir="auto" className="max-h-[28rem] overflow-auto whitespace-pre-wrap rounded-xl bg-slate-950 p-4 text-sm">{pretty}</pre>
+    <pre dir="auto" aria-live="polite" className="max-h-[28rem] overflow-auto whitespace-pre-wrap rounded-xl bg-slate-950 p-4 text-sm">{pretty}</pre>
     <div className="mt-3 flex flex-wrap gap-2">
       <button className="btn-ghost" onClick={()=>navigator.clipboard.writeText(pretty)}><Copy className="me-2" size={16}/>{t('copy')}</button>
       <button className="btn-ghost" onClick={()=>downloadText(slug==='receipt-to-json'?'receipt.json':'ocr.txt',pretty,slug==='receipt-to-json'?'application/json':'text/plain')}><Download className="me-2" size={16}/>{t('download')}</button>
