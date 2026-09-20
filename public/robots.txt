@@ -1,3 +1,16 @@
 User-agent: *
 Allow: /
+Disallow: /auth
+Disallow: /dashboard
+Disallow: /profile
+Disallow: /zh-tw/auth
+Disallow: /zh-tw/dashboard
+Disallow: /zh-tw/profile
+Disallow: /ar/auth
+Disallow: /ar/dashboard
+Disallow: /ar/profile
+Disallow: /ur/auth
+Disallow: /ur/dashboard
+Disallow: /ur/profile
+
 Sitemap: https://anytool.online/sitemap.xml
