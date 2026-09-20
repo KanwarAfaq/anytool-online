@@ -32,6 +32,7 @@ const localizedToolNames={
 
 const staticPages=[
  {path:'/',titles:{en:'Taiwan Calculators 2026, Passport/ARC Photo & Free Tools | AnyTool','zh-TW':'2026 台灣薪資稅務計算、護照 ARC 證件照與實用工具 | AnyTool',ar:'حاسبات تايوان 2026 وأدوات صور الجواز وARC | AnyTool',ur:'تائیوان کیلکولیٹر 2026، پاسپورٹ/ARC فوٹو اور مفت ٹولز | AnyTool'},description:'Free 2026 Taiwan salary, tax, insurance, overtime and elderly-care tools plus official passport/ARC photo guidance, PDF, QR and OCR utilities.'},
+ {path:'/tools',titles:{en:'All Online Tools | AnyTool.online','zh-TW':'所有線上工具 | AnyTool.online',ar:'كل الأدوات عبر الإنترنت | AnyTool.online',ur:'تمام آن لائن ٹولز | AnyTool.online'},description:'Browse every AnyTool calculator and utility in one accessible directory: Taiwan calculators, image tools, PDF, QR, OCR and AI document tools.'},
  {path:'/about',titles:{en:'About AnyTool.online','zh-TW':'關於 AnyTool.online',ar:'حول AnyTool.online',ur:'AnyTool.online کے بارے میں'},description:'How AnyTool builds fast, privacy-conscious and source-backed calculators and online utilities.'},
  {path:'/contact',titles:{en:'Contact AnyTool.online','zh-TW':'聯絡 AnyTool.online',ar:'تواصل مع AnyTool.online',ur:'AnyTool.online سے رابطہ'},description:'Report a calculation issue, official-source update, broken tool, partnership idea or accessibility problem.'},
  {path:'/privacy',titles:{en:'Privacy | AnyTool.online','zh-TW':'隱私權 | AnyTool.online',ar:'الخصوصية | AnyTool.online',ur:'پرائیویسی | AnyTool.online'},description:'How AnyTool handles browser-side processing, accounts and AI-powered file tasks.'},
@@ -54,6 +55,7 @@ const toolTemplateDate=gitDate('src/pages/ToolPage.jsx')
 const toolsDataDate=gitDate('src/data/tools.js')
 const staticDateByPath={
  '/':gitDate('src/pages/Home.jsx'),
+ '/tools':gitDate('src/pages/Tools.jsx'),
  '/about':gitDate('src/pages/About.jsx'),
  '/contact':gitDate('src/pages/Contact.jsx'),
  '/privacy':gitDate('src/pages/Privacy.jsx'),
