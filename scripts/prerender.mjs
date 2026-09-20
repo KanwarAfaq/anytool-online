@@ -105,7 +105,7 @@ const fallbackHtml=(title,description,path)=>{
  return `<main class="seo-prerender" style="max-width:70rem;margin:0 auto;padding:3rem 1rem;color:#e8f0f7;background:#07111f;font-family:system-ui,sans-serif"><nav><a href="${SITE}/" style="color:#6ee7b7">AnyTool.online</a> · <a href="${SITE}/sources" style="color:#6ee7b7">${esc(ui.sources)}</a> · <a href="${SITE}/methodology" style="color:#6ee7b7">Methodology</a></nav><h1 style="font-size:2.25rem;line-height:1.15;margin:1rem 0">${esc(title)}</h1><p style="max-width:52rem;color:#cbd5e1;line-height:1.75">${esc(description)}</p>${tool?`<section><h2>${esc(ui.about)}</h2><p style="max-width:52rem;line-height:1.7">${esc(description)}</p></section><section><h2>${esc(ui.how)}</h2><ol><li>${esc(ui.step1)}</li><li>${esc(ui.step2)}</li><li>${esc(ui.step3)}</li></ol></section><section><h2>${esc(ui.privacy)}</h2><p style="max-width:52rem;line-height:1.7">${esc(ui.privacyText)}</p></section>`:''}${sourceHtml}${relatedHtml}${listingHtml}<p style="margin-top:1.5rem;color:#94a3b8;font-size:.875rem">Interactive URL: ${esc(SITE+path)}</p></main>`
 }
 
-async function emit(path,locale,title,description,schemas=[]){
+async function emit(path,locale,title,description,schemas=[],image=''){
  const p=cleanPath(path)
  const canonical=SITE+p
  const base=basePath(p)
@@ -115,7 +115,8 @@ async function emit(path,locale,title,description,schemas=[]){
    .replace(/<meta name="description" content=".*?" \/>/s,`<meta name="description" content="${esc(description)}" />`)
    .replace(/<link rel="canonical" href=".*?" \/>/s,`<link rel="canonical" href="${canonical}" />`)
    .replace('<div id="root"></div>',`<div id="root">${fallbackHtml(title,description,p)}</div>`)
- html=html.replace('</head>',`<meta name="robots" content="index,follow,max-image-preview:large,max-snippet:-1,max-video-preview:-1" /><meta name="application-name" content="AnyTool.online" /><meta property="og:title" content="${esc(title)}" /><meta property="og:description" content="${esc(description)}" /><meta property="og:url" content="${canonical}" /><meta property="og:type" content="website" /><meta property="og:site_name" content="AnyTool.online" /><meta property="og:locale" content="${locale.og}" /><meta name="twitter:card" content="summary_large_image" /><meta name="twitter:title" content="${esc(title)}" /><meta name="twitter:description" content="${esc(description)}" />${alternateLinks(base)}${schemas.map(x=>`<script type="application/ld+json" data-anytool-prerender-jsonld="1">${JSON.stringify(x)}</script>`).join('')}</head>`)
+ const imageMeta=image?`<meta property="og:image" content="${image}" /><meta property="og:image:alt" content="${esc(title)}" /><meta name="twitter:image" content="${image}" />`:''
+ html=html.replace('</head>',`<meta name="robots" content="index,follow,max-image-preview:large,max-snippet:-1,max-video-preview:-1" /><meta name="application-name" content="AnyTool.online" /><meta property="og:title" content="${esc(title)}" /><meta property="og:description" content="${esc(description)}" /><meta property="og:url" content="${canonical}" /><meta property="og:type" content="website" /><meta property="og:site_name" content="AnyTool.online" /><meta property="og:locale" content="${locale.og}" /><meta name="twitter:card" content="summary_large_image" /><meta name="twitter:title" content="${esc(title)}" /><meta name="twitter:description" content="${esc(description)}" />${imageMeta}${alternateLinks(base)}${schemas.map(x=>`<script type="application/ld+json" data-anytool-prerender-jsonld="1">${JSON.stringify(x)}</script>`).join('')}</head>`)
  const out=p==='/'?resolve(root,'dist','index.html'):resolve(root,'dist',p.slice(1),'index.html')
  await mkdir(dirname(out),{recursive:true})
  await writeFile(out,html)
@@ -143,12 +144,13 @@ for(const locale of locales){
    const title=`${name}${yr} | AnyTool.online`
    const description=metaDescription(tool,locale,name)
    const canonical=SITE+path
+   const image=SITE+'/tool-art/'+tool.slug+'.svg'
    const schemas=[
-    {'@context':'https://schema.org','@type':'WebPage',name:title,url:canonical,description,inLanguage:locale.code,dateModified:contentLastmod(path),isPartOf:{'@type':'WebSite',name:'AnyTool.online',url:SITE+'/'}},
-    {'@context':'https://schema.org','@type':'SoftwareApplication',name,applicationCategory:'UtilitiesApplication',operatingSystem:'Web',url:canonical,description,offers:{'@type':'Offer',price:'0',priceCurrency:'USD'}},
+    {'@context':'https://schema.org','@type':'WebPage',name:title,url:canonical,description,inLanguage:locale.code,dateModified:contentLastmod(path),primaryImageOfPage:image,isPartOf:{'@type':'WebSite',name:'AnyTool.online',url:SITE+'/'}},
+    {'@context':'https://schema.org','@type':'SoftwareApplication',name,image,applicationCategory:'UtilitiesApplication',operatingSystem:'Web',url:canonical,description,offers:{'@type':'Offer',price:'0',priceCurrency:'USD'}},
     {'@context':'https://schema.org','@type':'BreadcrumbList',itemListElement:[{'@type':'ListItem',position:1,name:'AnyTool',item:SITE+'/'},{'@type':'ListItem',position:2,name,item:canonical}]}
    ]
-   await emit(path,locale,title,description,schemas)
+   await emit(path,locale,title,description,schemas,image)
  }
 }
 
@@ -157,10 +159,12 @@ const entries=[]
 for(const path of indexable){
  const alternates=locales.map(l=>({code:l.code,loc:SITE+localizedPath(l.prefix,path)}))
  for(const alt of alternates){
-   entries.push(`<url><loc>${xml(alt.loc)}</loc><lastmod>${contentLastmod(path)}</lastmod>${alternates.map(a=>`<xhtml:link rel="alternate" hreflang="${a.code}" href="${xml(a.loc)}" />`).join('')}<xhtml:link rel="alternate" hreflang="x-default" href="${xml(SITE+path)}" /></url>`)
+   const toolSlug=path.match(/^\\/tools\\/([^/]+)$/)?.[1]
+   const imageTag=toolSlug?`<image:image><image:loc>${xml(SITE+'/tool-art/'+toolSlug+'.svg')}</image:loc></image:image>`:''
+   entries.push(`<url><loc>${xml(alt.loc)}</loc><lastmod>${contentLastmod(path)}</lastmod>${imageTag}${alternates.map(a=>`<xhtml:link rel="alternate" hreflang="${a.code}" href="${xml(a.loc)}" />`).join('')}<xhtml:link rel="alternate" hreflang="x-default" href="${xml(SITE+path)}" /></url>`)
  }
 }
-const sitemap=`<?xml version="1.0" encoding="UTF-8"?><urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml">${entries.join('')}</urlset>`
+const sitemap=`<?xml version="1.0" encoding="UTF-8"?><urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml" xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">${entries.join('')}</urlset>`
 await writeFile(resolve(root,'dist','sitemap.xml'),sitemap)
 await writeFile(resolve(root,'dist','tool-catalog.json'),JSON.stringify({
  generatedAt:new Date().toISOString(),

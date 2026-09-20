@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom'
 import { ArrowRight, BrainCircuit, Calculator, FileText, Image as ImageIcon, Search, Sparkles, WalletCards } from 'lucide-react'
 import { categories, tools } from '../data/tools'
 import Seo from '../components/Seo'
+import ToolArt from '../components/ToolArt'
 import { useI18n } from '../i18n'
 
 const categoryIcon={money:WalletCards,image:ImageIcon,document:FileText,ai:BrainCircuit,general:Calculator}
@@ -39,13 +40,13 @@ export default function Tools(){
        <div><h2 id={'category-'+category.id} className="text-2xl font-black">{t('categories.'+category.id)}</h2><p className="text-sm text-slate-600">{list.length} {C.count}</p></div>
       </div>
       <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-       {list.map(tool=><Link key={tool.slug} to={pathFor('/tools/'+tool.slug)} className={'card tool-card category-'+tool.category+' group flex min-h-[150px] flex-col p-5'}>
+       {list.map(tool=><Link key={tool.slug} to={pathFor('/tools/'+tool.slug)} className={'card tool-card tool-card-visual category-'+tool.category+' group overflow-hidden'}><ToolArt tool={tool} name={toolName(tool)}/><div className="p-5">
         <div className="flex items-start justify-between gap-4">
          <h3 className="text-lg font-black leading-snug group-hover:text-lime-200">{toolName(tool)}</h3>
          <ArrowRight className="mt-1 shrink-0 text-slate-700 transition group-hover:translate-x-1 group-hover:text-lime-300" size={17}/>
         </div>
         <p className="mt-3 text-sm leading-6 text-slate-500">{toolDescription(tool)}</p>
-       </Link>)}
+       </div></Link>)}
       </div>
      </section>
    })}

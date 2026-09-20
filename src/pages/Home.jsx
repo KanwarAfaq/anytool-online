@@ -4,6 +4,7 @@ import { ArrowRight, BadgeCheck, Calculator, FileText, Image as ImageIcon, Brain
 import { categories, tools, toolBySlug } from '../data/tools'
 import { takeHome, money } from '../lib/calculators'
 import Seo from '../components/Seo'
+import ToolArt from '../components/ToolArt'
 import { useI18n } from '../i18n'
 
 const categoryIcon={money:WalletCards,image:ImageIcon,document:FileText,ai:BrainCircuit,general:Calculator}
@@ -51,7 +52,7 @@ export default function Home(){
  const filtered=useMemo(()=>tools.filter(tool=>(filter==='all'||tool.category===filter)&&(!query.trim()||(toolName(tool)+' '+toolDescription(tool)).toLowerCase().includes(query.toLowerCase()))),[filter,query,lang,toolName,toolDescription])
  const ticker=[...tools.slice(0,10),...tools.slice(0,10)]
  return <>
-  <Seo title={seo.title} description={seo.description} jsonLd={[{'@context':'https://schema.org','@type':'WebSite',name:'AnyTool.online',url:'https://www.anytool.online/',potentialAction:{'@type':'SearchAction',target:'https://www.anytool.online/?q={search_term_string}','query-input':'required name=search_term_string'}},{'@context':'https://schema.org','@type':'Organization',name:'AnyTool.online',url:'https://www.anytool.online/'}]}/>
+  <Seo title={seo.title} description={seo.description} image="/tool-art/take-home-pay.svg" jsonLd={[{'@context':'https://schema.org','@type':'WebSite',name:'AnyTool.online',url:'https://www.anytool.online/',potentialAction:{'@type':'SearchAction',target:'https://www.anytool.online/?q={search_term_string}','query-input':'required name=search_term_string'}},{'@context':'https://schema.org','@type':'Organization',name:'AnyTool.online',url:'https://www.anytool.online/'}]}/>
 
   <section className="relative overflow-hidden pb-8 pt-12 sm:pt-18">
    <div className="hero-grid"/><div className="hero-glow left-[42%] top-8"/>
@@ -87,7 +88,7 @@ export default function Home(){
     <label className="relative block w-full lg:max-w-sm"><Search className="absolute start-4 top-3.5 text-slate-600" size={16}/><input className="input ps-11" value={query} onChange={e=>setQuery(e.target.value)} placeholder={C.find}/></label>
    </div>
    <div className="flex flex-wrap gap-2 pb-4"><button onClick={()=>setFilter('all')} className={filter==='all'?'btn-primary whitespace-nowrap':'btn-ghost whitespace-nowrap'}>{C.all}</button>{categories.map(c=>{const I=categoryIcon[c.id]||Sparkles;return <button key={c.id} onClick={()=>setFilter(c.id)} className={filter===c.id?'btn-primary whitespace-nowrap':'btn-ghost whitespace-nowrap'}><I className="me-2" size={14}/>{t('categories.'+c.id)}</button>})}</div>
-   <div className="mt-3 grid gap-3 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">{filtered.map((tool,i)=>{const I=categoryIcon[tool.category]||Sparkles;return <Link to={pathFor('/tools/'+tool.slug)} key={tool.slug} className={'card tool-card category-'+tool.category+' group min-h-[132px] p-5'}><div className="flex items-start gap-3"><span className="tool-icon shrink-0"><I className={categoryAccent[tool.category]} size={16}/></span><div className="min-w-0 flex-1"><h3 className="font-black leading-snug tracking-tight group-hover:text-lime-200">{toolName(tool)}</h3><p className="mt-2 text-xs leading-5 text-slate-500">{toolDescription(tool)}</p></div><ArrowRight className="shrink-0 text-slate-700 transition group-hover:translate-x-1 group-hover:text-lime-300" size={15}/></div></Link>})}</div>
+   <div className="mt-3 grid gap-3 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">{filtered.map((tool,i)=>{const I=categoryIcon[tool.category]||Sparkles;return <Link to={pathFor('/tools/'+tool.slug)} key={tool.slug} className={'card tool-card tool-card-visual category-'+tool.category+' group overflow-hidden'}><ToolArt tool={tool} name={toolName(tool)}/><div className="p-4"><div className="flex items-start gap-3"><span className="tool-icon shrink-0"><I className={categoryAccent[tool.category]} size={16}/></span><div className="min-w-0 flex-1"><h3 className="font-black leading-snug tracking-tight group-hover:text-lime-200">{toolName(tool)}</h3><p className="mt-2 text-xs leading-5 text-slate-500">{toolDescription(tool)}</p></div><ArrowRight className="shrink-0 text-slate-700 transition group-hover:translate-x-1 group-hover:text-lime-300" size={15}/></div></div></Link>})}</div>
    {filtered.length===0&&<div className="card mt-4 p-10 text-center text-slate-500">{C.noMatch}</div>}
   </section>
  </>

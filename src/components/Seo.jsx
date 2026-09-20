@@ -10,7 +10,7 @@ const locales=[
 ]
 const stripLocale=path=>path.replace(/^\/(zh-tw|ar|ur)(?=\/|$)/,'')||'/'
 
-export default function Seo({title,description,jsonLd,noindex=false}){
+export default function Seo({title,description,jsonLd,noindex=false,image=''}){
  const location=useLocation()
  useEffect(()=>{
    const path=location.pathname==='/'?'/':location.pathname.replace(/\/$/,'')
@@ -29,6 +29,9 @@ export default function Seo({title,description,jsonLd,noindex=false}){
    setMeta('meta[name="twitter:card"]',{name:'twitter:card',content:'summary_large_image'})
    setMeta('meta[name="twitter:title"]',{name:'twitter:title',content:title})
    setMeta('meta[name="twitter:description"]',{name:'twitter:description',content:description||''})
+   const imageUrl=image?(image.startsWith('http')?image:SITE+image):''
+   if(imageUrl){setMeta('meta[property="og:image"]',{property:'og:image',content:imageUrl});setMeta('meta[property="og:image:alt"]',{property:'og:image:alt',content:title});setMeta('meta[name="twitter:image"]',{name:'twitter:image',content:imageUrl})}
+   else{document.head.querySelector('meta[property="og:image"]')?.remove();document.head.querySelector('meta[property="og:image:alt"]')?.remove();document.head.querySelector('meta[name="twitter:image"]')?.remove()}
    const ogLocale=path.startsWith('/zh-tw')?'zh_TW':path.startsWith('/ar')?'ar_AR':path.startsWith('/ur')?'ur_PK':'en_US'
    setMeta('meta[property="og:locale"]',{property:'og:locale',content:ogLocale})
    setLink('link[rel="canonical"]',{rel:'canonical',href:canonical})
@@ -43,6 +46,6 @@ export default function Seo({title,description,jsonLd,noindex=false}){
    for(const schema of schemas){
      const el=document.createElement('script');el.type='application/ld+json';el.dataset.anytoolJsonld='1';el.textContent=JSON.stringify(schema);document.head.appendChild(el)
    }
- },[title,description,location.pathname,JSON.stringify(jsonLd||null),noindex])
+ },[title,description,location.pathname,JSON.stringify(jsonLd||null),noindex,image])
  return null
 }

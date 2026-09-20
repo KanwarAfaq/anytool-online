@@ -208,13 +208,16 @@ test('all-tools directory keeps every tool visible and reachable', async ({ page
     const link=page.locator('a[href="/tools/'+tool.slug+'"]').first()
     await expect(link).toBeVisible()
     await expect(link).toContainText(tool.name)
+    await expect(link.locator('img[src="/tool-art/'+tool.slug+'.svg"]')).toHaveAttribute('alt',/visual preview/)
   }
 
   await page.goto('/')
   const cards=page.locator('#tools a[href^="/tools/"]')
   await expect(cards).toHaveCount(tools.length)
   for (const tool of tools) {
-    await expect(page.locator('#tools a[href="/tools/'+tool.slug+'"]')).toBeVisible()
+    const card=page.locator('#tools a[href="/tools/'+tool.slug+'"]')
+    await expect(card).toBeVisible()
+    await expect(card.locator('img[src="/tool-art/'+tool.slug+'.svg"]')).toHaveAttribute('alt',/visual preview/)
   }
 })
 
@@ -226,3 +229,5 @@ test('numeric inputs can be cleared and retyped without leading zero', async ({ 
   await salary.type('50000')
   await expect(salary).toHaveValue('50000')
 })
+
+test('tool pages expose a representative visual and image metadata', async ({ page }) => {await page.goto('/tools/taiwan-id-photo');await expect(page.locator('img[src="/tool-art/taiwan-id-photo.svg"]')).toBeVisible();await expect(page.locator('meta[property="og:image"]')).toHaveAttribute('content','https://www.anytool.online/tool-art/taiwan-id-photo.svg')})
