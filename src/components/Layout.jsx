@@ -22,6 +22,7 @@ export default function Layout({children}){
  useEffect(()=>{if(palette)setTimeout(()=>inputRef.current?.focus(),30)},[palette])
  const openTool=tool=>{setPalette(false);setQ('');navigate(pathFor('/tools/'+tool.slug))}
  return <div className="site-shell min-h-screen">
+  <a className="skip-link" href="#main-content">Skip to content</a>
   <span className="aurora aurora-a"/><span className="aurora aurora-b"/>
   <div className="border-b border-white/[0.06] bg-[#090f17]">
    <div className="mx-auto flex max-w-7xl items-center justify-center gap-2 px-4 py-2 text-xs font-semibold text-slate-400">
@@ -36,7 +37,7 @@ export default function Layout({children}){
       <span className="hidden text-lg sm:inline">AnyTool<span className="text-lime-300">.online</span></span>
     </Link>
     <nav className="ms-3 hidden items-center gap-1 lg:flex">
-      <a className="rounded-lg px-3 py-2 text-sm font-semibold text-slate-400 hover:bg-white/[0.04] hover:text-white" href={pathFor('/')+'#tools'}>{N.tools}</a>
+      <Link className="rounded-lg px-3 py-2 text-sm font-semibold text-slate-400 hover:bg-white/[0.04] hover:text-white" to={pathFor('/tools')}>{N.tools}</Link>
       <Link className="rounded-lg px-3 py-2 text-sm font-semibold text-slate-400 hover:bg-white/[0.04] hover:text-white" to={pathFor('/sources')}>{N.sources}</Link>
       <Link className="rounded-lg px-3 py-2 text-sm font-semibold text-slate-400 hover:bg-white/[0.04] hover:text-white" to={pathFor('/contact')}>{N.contact}</Link>
     </nav>
@@ -54,7 +55,7 @@ export default function Layout({children}){
     <button className="btn-ghost px-3 lg:hidden" aria-label={N.menu} onClick={()=>setMobile(v=>!v)}>{mobile?<X size={18}/>:<Menu size={18}/>}</button>
    </div>
    {mobile&&<div className="glass mx-auto mt-2 grid max-w-7xl gap-1 rounded-2xl p-3 lg:hidden">
-      <a onClick={()=>setMobile(false)} className="rounded-lg px-3 py-2.5 text-sm text-slate-300 hover:bg-white/5" href={pathFor('/')+'#tools'}>{N.tools}</a>
+      <Link onClick={()=>setMobile(false)} className="rounded-lg px-3 py-2.5 text-sm text-slate-300 hover:bg-white/5" to={pathFor('/tools')}>{N.tools}</Link>
       <Link onClick={()=>setMobile(false)} className="rounded-lg px-3 py-2.5 text-sm text-slate-300 hover:bg-white/5" to={pathFor('/sources')}>{N.sources}</Link>
       <Link onClick={()=>setMobile(false)} className="rounded-lg px-3 py-2.5 text-sm text-slate-300 hover:bg-white/5" to={pathFor('/contact')}>{N.contact}</Link>
       <select aria-label="Mobile language" className="input mt-1 sm:hidden" value={lang} onChange={e=>setLang(e.target.value)}>{languages.map(l=><option key={l.code} value={l.code} className="bg-slate-950">{l.label}</option>)}</select>
@@ -76,13 +77,13 @@ export default function Layout({children}){
     </div>
   </div>}
 
-  <main>{children}</main>
+  <main id="main-content">{children}</main>
 
   <footer className="mt-20 border-t border-white/[0.06] bg-[#070c13]">
    <div className="mx-auto max-w-7xl px-4 py-10">
     <div className="grid gap-8 md:grid-cols-[1.4fr_.8fr_.8fr]">
       <div><div className="flex items-center gap-2 font-black"><span className="grid size-8 place-items-center rounded-lg bg-lime-300 text-[#07100c]"><Wrench size={14}/></span>AnyTool<span className="text-lime-300">.online</span></div><p className="mt-3 max-w-md text-sm text-slate-500">{N.footer}</p><Link to={pathFor('/contact')} className="mt-4 inline-flex items-center text-sm font-bold text-lime-300"><Mail className="me-2" size={14}/>{N.need} {N.send}</Link></div>
-      <div><p className="text-xs font-black uppercase tracking-[.16em] text-slate-600">{N.tools}</p><div className="mt-3 grid gap-2 text-sm"><a className="text-slate-400 hover:text-white" href={pathFor('/')+'#tools'}>{N.tools}</a><Link className="text-slate-400 hover:text-white" to={pathFor('/sources')}>{N.sources}</Link><Link className="text-slate-400 hover:text-white" to={pathFor('/methodology')}>{N.method}</Link></div></div>
+      <div><p className="text-xs font-black uppercase tracking-[.16em] text-slate-600">{N.tools}</p><div className="mt-3 grid gap-2 text-sm"><Link className="text-slate-400 hover:text-white" to={pathFor('/tools')}>{N.tools}</Link><Link className="text-slate-400 hover:text-white" to={pathFor('/sources')}>{N.sources}</Link><Link className="text-slate-400 hover:text-white" to={pathFor('/methodology')}>{N.method}</Link></div></div>
       <div><p className="text-xs font-black uppercase tracking-[.16em] text-slate-600">AnyTool</p><div className="mt-3 grid gap-2 text-sm"><Link className="text-slate-400 hover:text-white" to={pathFor('/about')}>{N.about}</Link><Link className="text-slate-400 hover:text-white" to={pathFor('/privacy')}>{N.privacy}</Link><Link className="text-slate-400 hover:text-white" to={pathFor('/contact')}>{N.contact}</Link></div></div>
     </div>
     <div className="mt-8 border-t border-white/[0.06] pt-5 text-xs text-slate-600">© {new Date().getFullYear()} AnyTool.online</div>
