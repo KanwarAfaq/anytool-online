@@ -66,9 +66,9 @@ export const officialSources = {
   arcPhoto: {
     title: 'ARC application photo guidance — National Immigration Agency',
     authority: 'National Immigration Agency',
-    url: 'https://www.immigration.gov.tw/5382/5385/7244/7250/7317/%E5%B1%85%E7%95%99/362168/',
+    url: 'https://www.immigration.gov.tw/5475/5478/141465/141469/367160/cp_news',
     verified: '2026-09-20',
-    summary: 'Online ARC applications require a clear color photo cropped to the person, with the face about two thirds of the image; supporting upload limits vary by application flow.'
+    summary: 'NIA ARC guidance for foreign professionals requires a recent 2-inch color photo with uncovered head, clear facial features and white background, using the same photo specifications as Taiwan National ID.'
   },
   elderSubsidy2026: {
     title: '2026 Residential Care Institution User Subsidy',
