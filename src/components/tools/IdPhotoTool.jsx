@@ -4,9 +4,9 @@ import { officialSources } from '../../data/officialSources'
 import { useI18n } from '../../i18n'
 
 const presets={
-  passport:{label:'Taiwan Passport',width:35,height:45,dpi:300,maxKB:null,source:'taiwanPassport',age:'Taken within the last 6 months'},
+  passport:{label:'Taiwan Passport',width:35,height:45,dpi:300,maxKB:5120,source:'taiwanPassport',age:'Taken within the last 6 months'},
   id:{label:'Taiwan National ID',width:35,height:45,dpi:300,maxKB:5120,source:'taiwanIdPhoto',age:'Taken within the last 2 years'},
-  arc:{label:'Taiwan ARC / APRC',width:35,height:45,dpi:300,maxKB:null,source:'arcPhoto',age:'Recent 2-inch photo using Taiwan National ID photo specifications; check your NIA application flow for its recency/upload requirements'}
+  arc:{label:'Taiwan ARC / APRC',width:35,height:45,dpi:300,maxKB:5120,source:'arcPhoto',age:'Recent 2-inch color photo taken within the most recent 6 months, using Taiwan National ID photo specifications'}
 }
 
 const mmToPx=(mm,dpi)=>Math.max(1,Math.round(mm/25.4*dpi))
@@ -14,17 +14,17 @@ const mmToPx=(mm,dpi)=>Math.max(1,Math.round(mm/25.4*dpi))
 export default function IdPhotoTool(){
   const {lang}=useI18n()
   const labels={
-    en:{preset:'Document preset',width:'Width (mm)',height:'Height (mm)',dpi:'DPI',background:'Background',zoom:'Zoom',vertical:'Vertical position',quality:'JPEG quality',download:'Download JPG',guide:'Official guide',note:'This tool crops and exports the file; it cannot certify biometric compliance. Use a properly taken, unedited original photo and verify the final photo with the issuing authority.',head:'Head-height guide: 32–36 mm',output:'Output'},
-    'zh-TW':{preset:'證件預設',width:'寬度（mm）',height:'高度（mm）',dpi:'DPI',background:'背景',zoom:'縮放',vertical:'垂直位置',quality:'JPG 品質',download:'下載 JPG',guide:'官方規格',note:'此工具僅協助裁切與輸出，不能保證生物辨識合規。請使用符合規定、未經變造的原始照片，並以主管機關審查結果為準。',head:'頭頂至下顎建議範圍：32–36 mm',output:'輸出'},
-    ar:{preset:'إعداد الوثيقة',width:'العرض (مم)',height:'الارتفاع (مم)',dpi:'DPI',background:'الخلفية',zoom:'التكبير',vertical:'الموضع العمودي',quality:'جودة JPEG',download:'تنزيل JPG',guide:'المواصفات الرسمية',note:'تقوم الأداة بالقص والتصدير فقط ولا تضمن قبول الصورة بيومترياً. استخدم صورة أصلية صحيحة وغير معدلة وتحقق من الجهة الرسمية.',head:'دليل ارتفاع الرأس: 32–36 مم',output:'الناتج'},
-    ur:{preset:'دستاویز پری سیٹ',width:'چوڑائی (mm)',height:'اونچائی (mm)',dpi:'DPI',background:'پس منظر',zoom:'زوم',vertical:'عمودی پوزیشن',quality:'JPEG کوالٹی',download:'JPG ڈاؤن لوڈ',guide:'سرکاری ہدایات',note:'یہ ٹول صرف کراپ اور ایکسپورٹ کرتا ہے، بایومیٹرک منظوری کی ضمانت نہیں دیتا۔ درست اور غیر ترمیم شدہ اصل تصویر استعمال کریں اور سرکاری ادارے سے تصدیق کریں۔',head:'سر کی اونچائی گائیڈ: 32–36 mm',output:'آؤٹ پٹ'}
+    en:{preset:'Document preset',width:'Width (mm)',height:'Height (mm)',dpi:'DPI',background:'Background',zoom:'Zoom',horizontal:'Horizontal position',vertical:'Vertical position',rotation:'Rotation',quality:'JPEG quality',download:'Download JPG',guide:'Official guide',note:'This tool crops and exports the file; it cannot certify biometric compliance. Use a properly taken, unedited original photo and verify the final photo with the issuing authority.',head:'Head-height guide: 32–36 mm',output:'Output'},
+    'zh-TW':{preset:'證件預設',width:'寬度（mm）',height:'高度（mm）',dpi:'DPI',background:'背景',zoom:'縮放',horizontal:'水平位置',vertical:'垂直位置',rotation:'旋轉',quality:'JPG 品質',download:'下載 JPG',guide:'官方規格',note:'此工具僅協助裁切與輸出，不能保證生物辨識合規。請使用符合規定、未經變造的原始照片，並以主管機關審查結果為準。',head:'頭頂至下顎建議範圍：32–36 mm',output:'輸出'},
+    ar:{preset:'إعداد الوثيقة',width:'العرض (مم)',height:'الارتفاع (مم)',dpi:'DPI',background:'الخلفية',zoom:'التكبير',horizontal:'الموضع الأفقي',vertical:'الموضع العمودي',rotation:'الدوران',quality:'جودة JPEG',download:'تنزيل JPG',guide:'المواصفات الرسمية',note:'تقوم الأداة بالقص والتصدير فقط ولا تضمن قبول الصورة بيومترياً. استخدم صورة أصلية صحيحة وغير معدلة وتحقق من الجهة الرسمية.',head:'دليل ارتفاع الرأس: 32–36 مم',output:'الناتج'},
+    ur:{preset:'دستاویز پری سیٹ',width:'چوڑائی (mm)',height:'اونچائی (mm)',dpi:'DPI',background:'پس منظر',zoom:'زوم',horizontal:'افقی پوزیشن',vertical:'عمودی پوزیشن',rotation:'گھماؤ',quality:'JPEG کوالٹی',download:'JPG ڈاؤن لوڈ',guide:'سرکاری ہدایات',note:'یہ ٹول صرف کراپ اور ایکسپورٹ کرتا ہے، بایومیٹرک منظوری کی ضمانت نہیں دیتا۔ درست اور غیر ترمیم شدہ اصل تصویر استعمال کریں اور سرکاری ادارے سے تصدیق کریں۔',head:'سر کی اونچائی گائیڈ: 32–36 mm',output:'آؤٹ پٹ'}
   }[lang]||null
   const L=labels||{
-    preset:'Document preset',width:'Width (mm)',height:'Height (mm)',dpi:'DPI',background:'Background',zoom:'Zoom',vertical:'Vertical position',quality:'JPEG quality',download:'Download JPG',guide:'Official guide',note:'This tool crops and exports the file; it cannot certify biometric compliance. Use a properly taken, unedited original photo and verify the final photo with the issuing authority.',head:'Head-height guide: 32–36 mm',output:'Output'
+    preset:'Document preset',width:'Width (mm)',height:'Height (mm)',dpi:'DPI',background:'Background',zoom:'Zoom',horizontal:'Horizontal position',vertical:'Vertical position',rotation:'Rotation',quality:'JPEG quality',download:'Download JPG',guide:'Official guide',note:'This tool crops and exports the file; it cannot certify biometric compliance. Use a properly taken, unedited original photo and verify the final photo with the issuing authority.',head:'Head-height guide: 32–36 mm',output:'Output'
   }
   const [presetKey,setPresetKey]=useState('passport')
   const [width,setWidth]=useState(35),[height,setHeight]=useState(45),[dpi,setDpi]=useState(300)
-  const [background,setBackground]=useState('#ffffff'),[zoom,setZoom]=useState(1),[vertical,setVertical]=useState(0),[quality,setQuality]=useState(.92)
+  const [background,setBackground]=useState('#ffffff'),[zoom,setZoom]=useState(1),[horizontal,setHorizontal]=useState(0),[vertical,setVertical]=useState(0),[rotation,setRotation]=useState(0),[quality,setQuality]=useState(.92)
   const [image,setImage]=useState(null),[fileName,setFileName]=useState('photo'),[downloadUrl,setDownloadUrl]=useState(''),[meta,setMeta]=useState(null)
   const canvasRef=useRef(null)
   const preset=presets[presetKey]
@@ -32,7 +32,7 @@ export default function IdPhotoTool(){
   const outputPx=useMemo(()=>({w:mmToPx(width,dpi),h:mmToPx(height,dpi)}),[width,height,dpi])
 
   useEffect(()=>{
-    setWidth(preset.width);setHeight(preset.height);setDpi(preset.dpi);setZoom(1);setVertical(0)
+    setWidth(preset.width);setHeight(preset.height);setDpi(preset.dpi);setBackground('#ffffff');setZoom(1);setHorizontal(0);setVertical(0);setRotation(0)
   },[presetKey])
 
   async function load(file){
@@ -51,11 +51,16 @@ export default function IdPhotoTool(){
     ctx.fillStyle=background;ctx.fillRect(0,0,c.width,c.height)
     const cover=Math.max(c.width/image.width,c.height/image.height)*zoom
     const dw=image.width*cover,dh=image.height*cover
-    const dx=(c.width-dw)/2
-    const maxShift=Math.max(0,(dh-c.height)/2)
-    const dy=(c.height-dh)/2+(vertical/100)*maxShift
+    const maxX=Math.max(0,(dw-c.width)/2),maxY=Math.max(0,(dh-c.height)/2)
+    const dx=(c.width-dw)/2+(horizontal/100)*maxX
+    const dy=(c.height-dh)/2+(vertical/100)*maxY
+    ctx.save()
+    ctx.translate(c.width/2,c.height/2)
+    ctx.rotate(rotation*Math.PI/180)
+    ctx.translate(-c.width/2,-c.height/2)
     ctx.drawImage(image,dx,dy,dw,dh)
-  },[image,outputPx,background,zoom,vertical])
+    ctx.restore()
+  },[image,outputPx,background,zoom,horizontal,vertical,rotation])
 
   async function exportJpg(){
     const c=canvasRef.current
@@ -78,7 +83,9 @@ export default function IdPhotoTool(){
         <label><span className="mb-1.5 block text-sm text-slate-400">{L.dpi}</span><input className="input" type="number" value={dpi} onFocus={e=>e.target.select()} onChange={e=>setDpi(Number(e.target.value)||72)}/></label>
         <label><span className="mb-1.5 block text-sm text-slate-400">{L.background}</span><input className="input h-11 p-1" type="color" value={background} onChange={e=>setBackground(e.target.value)}/></label>
         <label><span className="mb-1.5 block text-sm text-slate-400">{L.zoom}: {zoom.toFixed(2)}×</span><input className="w-full" type="range" min="1" max="2.2" step=".02" value={zoom} onChange={e=>setZoom(Number(e.target.value))}/></label>
+        <label><span className="mb-1.5 block text-sm text-slate-400">{L.horizontal}: {horizontal}</span><input className="w-full" type="range" min="-100" max="100" value={horizontal} onChange={e=>setHorizontal(Number(e.target.value))}/></label>
         <label><span className="mb-1.5 block text-sm text-slate-400">{L.vertical}: {vertical}</span><input className="w-full" type="range" min="-100" max="100" value={vertical} onChange={e=>setVertical(Number(e.target.value))}/></label>
+        <label><span className="mb-1.5 block text-sm text-slate-400">{L.rotation}: {rotation}°</span><input className="w-full" type="range" min="-15" max="15" step=".5" value={rotation} onChange={e=>setRotation(Number(e.target.value))}/></label>
         <label><span className="mb-1.5 block text-sm text-slate-400">{L.quality}: {Math.round(quality*100)}%</span><input className="w-full" type="range" min=".4" max="1" step=".02" value={quality} onChange={e=>setQuality(Number(e.target.value))}/></label>
       </div>
       <input className="mt-5 block w-full text-sm" type="file" accept="image/jpeg,image/png,image/webp" onChange={e=>load(e.target.files?.[0])}/>
@@ -93,7 +100,7 @@ export default function IdPhotoTool(){
       </div>
       <aside className="card p-5">
         <h3 className="font-bold">{preset.label}</h3>
-        <p className="mt-3 text-sm leading-6 text-slate-300">35×45 mm · {L.head} · {preset.age}</p>
+        <p className="mt-3 text-sm leading-6 text-slate-300">35×45 mm · {L.head} ({mmToPx(32,dpi)}–{mmToPx(36,dpi)} px at {dpi} DPI) · {preset.age}</p><p className="mt-2 text-xs leading-5 text-slate-400">Official presets require a plain white background. Digital export is JPEG; the tool automatically reduces quality if needed to stay within the published 5 MB limit.</p>
         <p className="mt-3 text-xs leading-5 text-amber-200/90">{L.note}</p>
         <a className="mt-4 inline-flex items-center text-sm font-semibold text-emerald-300" href={source.url} target="_blank" rel="noreferrer">{L.guide}<ExternalLink className="ms-1" size={14}/></a>
         <p className="mt-2 text-xs text-slate-500">{source.authority} · verified {source.verified}</p>
