@@ -5,6 +5,7 @@ import { readFile } from 'node:fs/promises'
 import aiHandler from '../api/ai-gateway.js'
 import cloudinaryHandler from '../api/cloudinary-sign.js'
 import healthHandler from '../api/health.js'
+import sourceAssistantHandler from '../api/source-assistant.js'
 
 assert.equal(tools.length,23,'expected 23 public tools')
 assert.equal(new Set(tools.map(t=>t.slug)).size,tools.length,'tool slugs must be unique')
@@ -75,5 +76,10 @@ function mockRes(){
   const res=mockRes()
   await healthHandler({method:'POST',headers:{}},res)
   assert.equal(res.statusCode,405,'Health endpoint is read-only')
+}
+{
+  const res=mockRes()
+  await sourceAssistantHandler({method:'POST',headers:{},body:{}},res)
+  assert.equal(res.statusCode,401,'Official source assistant requires authentication')
 }
 console.log('Serverless API boundary tests passed')
