@@ -87,7 +87,7 @@ export const officialSources = {
   newTaipeiLocalElderPlacement: {
     title: 'New Taipei Low-/Middle-low-income Elder Institutional Placement Program',
     authority: 'Social Welfare Department, New Taipei City Government',
-    url: 'https://www.sw.ntpc.gov.tw/home.jsp?act=be4f48068b2b0031&dataserno=728f53ac071858fb40660640c83c033e&id=203',
+    url: 'https://www.sw.ntpc.gov.tw/home.jsp?act=be4f48068b2b0031&dataserno=728f53ac071858fb40660640c83c033e&id=aa967983e02a861f',
     verified: '2026-09-20',
     summary: 'For qualifying 2025–2026 cases, published contract standards include NT$24,000/month for nursing/long-term-care placement, NT$10,000/month for low-income care-home placement, and NT$6,000/month for low-income respiratory care.'
   },
@@ -96,7 +96,7 @@ export const officialSources = {
     authority: 'Social Affairs Bureau, Taichung City Government',
     url: 'https://www.society.taichung.gov.tw/461566/post',
     verified: '2026-09-20',
-    summary: 'For qualifying low-income unsupported older adults, the published standard includes NT$10,000/month for some cases and up to NT$21,000/month where institutional placement is needed; an additional care-support amount of up to NT$3,000/month may apply after social-work assessment in specified cases.'
+    summary: 'For qualifying low-income unsupported older adults, the published standard includes NT$10,000/month for some cases and up to NT$21,000/month where institutional placement is needed; social-work assessment may allow an additional care-support subsidy of up to NT$10,000/month in specified cases.'
   },
   tainanLocalElderPlacement: {
     title: 'Tainan Middle-low-income Elder Residential Care',
@@ -108,9 +108,9 @@ export const officialSources = {
   elderSubsidy2026: {
     title: '2026 Residential Care Institution User Subsidy',
     authority: 'Ministry of Health and Welfare',
-    url: 'https://www.mohw.gov.tw/cp-16-87934-1.html',
+    url: 'https://www.mohw.gov.tw/cp-7403-87934-1.html',
     verified: '2026-09-20',
-    summary: 'For eligible moderate/severe long-term-care residents, the 2026 central subsidy is up to NT$15,000 per month, up to NT$180,000 per year, retroactive to January 1, 2026.'
+    summary: 'For eligible residents in approved residential institutions, the 2026 scheme pays NT$15,000 per recognized month for long-term-care need level 4+ or qualifying moderate-or-higher disability status, up to NT$180,000 per year, retroactive to January 1, 2026. The scheme also contains transition and non-duplication rules.'
   },
   taoyuanBeds: {
     title: 'Taoyuan Elderly Welfare Institution Vacancies',
