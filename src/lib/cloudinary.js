@@ -1,6 +1,6 @@
 import { supabase } from './supabase'
 
-export async function signedUpload(file){
+export async function signedUpload(file,{persist=false}={}){
   if(!file) throw new Error('Choose a file first')
   if(file.size>20*1024*1024) throw new Error('File is too large. Maximum size is 20 MB.')
 
@@ -41,7 +41,7 @@ export async function signedUpload(file){
     secure_url:data.secure_url,
     resource_type:data.resource_type,
     bytes:data.bytes||file.size,
-    delete_after:new Date(Date.now()+24*60*60*1000).toISOString()
+    delete_after:persist?null:new Date(Date.now()+24*60*60*1000).toISOString()
   })
 
   data.history_saved=!error
