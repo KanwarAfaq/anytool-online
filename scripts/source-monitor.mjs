@@ -1,6 +1,13 @@
 import { writeFile } from 'node:fs/promises'
 
 const sources=[
+ {key:'mol-minimum-wage-2026',url:'https://www.mol.gov.tw/1607/28162/28166/28180/28182/28188/29025/',terms:['29,500','196']},
+ {key:'mol-overtime',url:'https://www.mol.gov.tw/1607/28162/28166/28180/28182/28188/29026',terms:['240']},
+ {key:'bli-premium-rates',url:'https://www.bli.gov.tw/en/0011816.html',terms:['11.5%','1%']},
+ {key:'bli-insured-salary-2026',url:'https://www.bli.gov.tw/en/0013254.html',terms:['2026.01.01']},
+ {key:'bli-pension-2026',url:'https://www.bli.gov.tw/en/0011273.html',terms:['2026.01.01']},
+ {key:'nhi-employee-2026',url:'https://www.nhi.gov.tw/en/cp-19434-822cf-64-2.html',terms:['29,500','5.17']},
+ {key:'tax-2026',url:'https://www.ntbt.gov.tw/multiplehtml/1b82b380e1a34de9afd204d39b007db2',terms:['610,000','1,380,000']},
  {key:'mohw-elder-subsidy-2026',url:'https://www.mohw.gov.tw/cp-16-87934-1.html',terms:['180','住宿式服務機構']},
  {key:'boca-passport-photo',url:'https://www.boca.gov.tw/fp-140-467-29b1d-2.html',terms:['35','45']},
  {key:'ris-id-photo',url:'https://www.ris.gov.tw/documents/html/5/3/187.html',terms:['413','531']},
