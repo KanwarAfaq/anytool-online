@@ -108,7 +108,7 @@ export const officialSources = {
   elderSubsidy2026: {
     title: '2026 Residential Care Institution User Subsidy',
     authority: 'Ministry of Health and Welfare',
-    url: 'https://www.mohw.gov.tw/cp-7403-87934-1.html',
+    url: 'https://www.mohw.gov.tw/cp-2704-87934-1.html',
     verified: '2026-09-20',
     summary: 'For eligible residents in approved residential institutions, the 2026 scheme pays NT$15,000 per recognized month for long-term-care need level 4+ or qualifying moderate-or-higher disability status, up to NT$180,000 per year, retroactive to January 1, 2026. The scheme also contains transition and non-duplication rules.'
   },
