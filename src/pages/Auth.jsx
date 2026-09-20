@@ -50,7 +50,7 @@ export default function AuthPage(){
 
  if(done)return <Navigate to={pathFor('/dashboard')} replace/>
  const title=mode==='signin'?t('signIn'):mode==='signup'?t('createAccount'):mode==='otp'?L.otp:L.reset
- return <section className="mx-auto max-w-md px-4 py-16"><Seo title={title+' | AnyTool.online'} description="Secure AnyTool account access with password, email OTP and password recovery."/><div className="card p-6"><h1 className="text-2xl font-black">{title}</h1>
+ return <section className="mx-auto max-w-md px-4 py-16"><Seo title={title+' | AnyTool.online'} description="Secure AnyTool account access with password, email OTP and password recovery." noindex/><div className="card p-6"><h1 className="text-2xl font-black">{title}</h1>
   {(mode==='signin'||mode==='signup'||mode==='reset')&&<form onSubmit={passwordSubmit} className="mt-6 space-y-4">
     {mode!=='reset'&&<input className="input" type="email" required placeholder={t('email')} value={email} onChange={e=>setEmail(e.target.value)}/>}
     <input className="input" type="password" required minLength={8} placeholder={mode==='reset'?L.newPassword:t('password')} value={password} onChange={e=>setPassword(e.target.value)}/>
