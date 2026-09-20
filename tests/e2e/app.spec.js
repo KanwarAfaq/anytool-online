@@ -279,3 +279,11 @@ test('command palette supports keyboard selection', async ({ page }) => {
   await page.keyboard.press('Enter')
   await expect(page).toHaveURL(/\/tools\/taiwan-id-photo$/)
 })
+
+
+test('homepage search query parameter drives the visible catalog', async ({ page }) => {
+  await page.goto('/?q=passport')
+  await expect(page.getByPlaceholder('Search tools…')).toHaveValue('passport')
+  await expect(page.getByRole('heading',{name:'Taiwan Passport / ARC Photo Maker'})).toBeVisible()
+  await expect(page.locator('#tools a[href="/tools/take-home-pay"]')).toHaveCount(0)
+})
