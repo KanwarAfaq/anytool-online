@@ -4,23 +4,23 @@ import { PDFDocument } from 'pdf-lib'
 
 test('home and four languages including RTL', async ({ page }) => {
   await page.goto('/')
-  await expect(page.getByRole('heading', { level: 1 })).toContainText('One beautiful place')
+  await expect(page.getByRole('heading', { level: 1 })).toContainText('Calculate. Convert.')
   const language=page.getByLabel('Language')
 
   await language.selectOption('zh-TW')
   await expect(page).toHaveURL(/\/zh-tw\/?$/)
-  await expect(page.getByRole('heading', { level: 1 })).toContainText('日常需要的工具')
+  await expect(page.getByRole('heading', { level: 1 })).toContainText('計算、轉換、')
   await expect(page).toHaveTitle(/2026 台灣薪資稅務計算/)
   await expect(page.locator('html')).toHaveAttribute('dir','ltr')
 
   await language.selectOption('ar')
   await expect(page).toHaveURL(/\/ar\/?$/)
-  await expect(page.getByRole('heading', { level: 1 })).toContainText('مكان جميل واحد')
+  await expect(page.getByRole('heading', { level: 1 })).toContainText('احسب. حوّل.')
   await expect(page.locator('html')).toHaveAttribute('dir','rtl')
 
   await language.selectOption('ur')
   await expect(page).toHaveURL(/\/ur\/?$/)
-  await expect(page.getByRole('heading', { level: 1 })).toContainText('روزمرہ کے تمام ٹولز')
+  await expect(page.getByRole('heading', { level: 1 })).toContainText('حساب کریں۔ تبدیل کریں۔')
   await expect(page.locator('html')).toHaveAttribute('dir','rtl')
 
   await language.selectOption('en')
