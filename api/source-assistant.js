@@ -10,12 +10,13 @@ const TOPICS={
  ],
  photo:[
   ['BOCA — Taiwan passport photo specifications','https://www.boca.gov.tw/cp-25-4123-c2932-1.html'],
-  ['BOCA — passport digital photo file requirements','https://ppass.boca.gov.tw/cp-48-237-abd62-2.html'],
+  ['BOCA — passport digital photo file requirements','https://epass.boca.gov.tw/cp-13-244-3fec5-1.html'],
   ['National Immigration Agency — ARC photo guidance','https://www.immigration.gov.tw/5475/5478/141465/141469/367160/cp_news'],
   ['Household Registration — National ID photo specifications','https://www.ris.gov.tw/documents/html/5/3/187.html']
  ],
  elderly:[
-  ['MOHW — 2026 residential institution user subsidy','https://www.mohw.gov.tw/cp-7403-87934-1.html'],
+  ['MOHW — 2026 residential institution subsidy rules','https://www.mohw.gov.tw/cp-16-87895-1.html'],
+  ['MOHW — 2026 residential institution application update','https://www.mohw.gov.tw/cp-2704-87934-1.html'],
   ['MOHW — Long-Term Care 3.0 residential subsidy update','https://www.mohw.gov.tw/cp-2704-87895-1.html'],
   ['1966 Long-term Care service portal','https://1966.gov.tw/LTC/np-6449-207.html'],
   ['Government Open Data — nationwide nursing institutions','https://data.gov.tw/dataset/115950'],
