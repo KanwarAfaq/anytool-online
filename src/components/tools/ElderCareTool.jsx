@@ -6,7 +6,7 @@ import { useI18n } from '../../i18n'
 const localPrograms=[
   {city:'Taoyuan',key:'taoyuanLocalElderPlacement',amount:'NT$10,000 / NT$24,000 per month',contact:'03-3350598'},
   {city:'Taipei',key:'taipeiLocalElderPlacement',amount:'NT$4,320–27,250 per month',contact:'1999 / 02-27208889'},
-  {city:'New Taipei',key:'newTaipeiLocalElderPlacement',amount:'NT$6,000 / 10,000 / 24,000 per month',contact:'02-29603456'},
+  {city:'New Taipei',key:'newTaipeiLocalElderPlacement',amount:'NT$6,000 / 10,000 / 24,000 per month',contact:'02-2960-3456 ext. 3759 / 3745'},
   {city:'Taichung',key:'taichungLocalElderPlacement',amount:'Up to NT$21,000 / month (+ up to NT$10,000 assessed care support)',contact:'Use official program page'},
   {city:'Tainan',key:'tainanLocalElderPlacement',amount:'NT$12,000–25,400 per month',contact:'06-2991111 ext. 8012, 8979'},
 ]
