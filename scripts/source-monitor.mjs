@@ -15,7 +15,7 @@ const sources=[
  {key:'tainan-local-placement',url:'https://people.tainan.gov.tw/News_Content.aspx?n=32047&s=7851694&sms=23729',terms:['12,000','25,400']},
  {key:'national-nursing-homes',url:'https://data.gov.tw/dataset/115950',terms:['機構電話','一般護理之家']},
  {key:'ltc-service-map',url:'https://1966.gov.tw/LTC/np-6449-207.html',terms:['長照地理資訊地圖']},
- {key:'mohw-elder-subsidy-2026',url:'https://www.mohw.gov.tw/cp-16-87934-1.html',terms:['180','住宿式服務機構']},
+ {key:'mohw-elder-subsidy-2026',url:'https://www.mohw.gov.tw/cp-7403-87934-1.html',terms:['180','住宿式服務機構']},
  {key:'boca-passport-photo',url:'https://www.boca.gov.tw/fp-140-467-29b1d-2.html',terms:['35','45']},
  {key:'ris-id-photo',url:'https://www.ris.gov.tw/documents/html/5/3/187.html',terms:['413','531']},
  {key:'nia-arc-photo',url:'https://www.immigration.gov.tw/5475/5478/141465/141469/367160/cp_news',terms:['2-inch','National ID Card']},
