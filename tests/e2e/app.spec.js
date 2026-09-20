@@ -1,6 +1,7 @@
 import { test, expect } from '@playwright/test'
 import { tools } from '../../src/data/tools.js'
 import { PDFDocument } from 'pdf-lib'
+import QRCode from 'qrcode'
 
 test('home and four languages including RTL', async ({ page }) => {
   await page.goto('/')
@@ -286,4 +287,14 @@ test('homepage search query parameter drives the visible catalog', async ({ page
   await expect(page.getByPlaceholder('Search tools…')).toHaveValue('passport')
   await expect(page.getByRole('heading',{name:'Taiwan Passport / ARC Photo Maker'})).toBeVisible()
   await expect(page.locator('#tools a[href="/tools/take-home-pay"]')).toHaveCount(0)
+})
+
+
+test('QR scanner decodes an uploaded QR image', async ({ page }) => {
+  const value='https://www.anytool.online/tools/qr-scanner'
+  const dataUrl=await QRCode.toDataURL(value,{width:320,margin:4,errorCorrectionLevel:'M'})
+  const png=Buffer.from(dataUrl.split(',')[1],'base64')
+  await page.goto('/tools/qr-scanner')
+  await page.getByLabel('Choose QR code image').setInputFiles({name:'qr.png',mimeType:'image/png',buffer:png})
+  await expect(page.getByText(value,{exact:true})).toBeVisible()
 })
