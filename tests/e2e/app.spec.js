@@ -157,7 +157,7 @@ test('public trust pages and auth recovery surfaces render', async ({ page }) =>
     await page.goto(path)
     await expect(page.locator('h1')).toBeVisible()
     await expect(page.locator('meta[name="robots"]')).toHaveAttribute('content',/index,follow/)
-    await expect(page.locator('link[rel="canonical"]')).toHaveAttribute('href',new RegExp('https://anytool\\.online'))
+    await expect(page.locator('link[rel="canonical"]')).toHaveAttribute('href',new RegExp('https://www\\.anytool\\.online'))
   }
   await page.goto('/auth')
   await page.getByRole('button',{name:'Email OTP'}).click()
