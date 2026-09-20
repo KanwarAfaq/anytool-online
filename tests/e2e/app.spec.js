@@ -200,3 +200,29 @@ test('modern quick calculator command palette filters and recent tools work', as
   await expect(page.getByText('Recent')).toBeVisible()
   await expect(page.getByText('Loan Payment Calculator').first()).toBeVisible()
 })
+
+
+test('all-tools directory keeps every tool visible and reachable', async ({ page }) => {
+  await page.goto('/tools')
+  for (const tool of tools) {
+    const link=page.locator('a[href="/tools/'+tool.slug+'"]').first()
+    await expect(link).toBeVisible()
+    await expect(link).toContainText(tool.name)
+  }
+
+  await page.goto('/')
+  const cards=page.locator('#tools a[href^="/tools/"]')
+  await expect(cards).toHaveCount(tools.length)
+  for (const tool of tools) {
+    await expect(page.locator('#tools a[href="/tools/'+tool.slug+'"]')).toBeVisible()
+  }
+})
+
+test('numeric inputs can be cleared and retyped without leading zero', async ({ page }) => {
+  await page.goto('/tools/take-home-pay')
+  const salary=page.getByLabel('Monthly salary (NT$)')
+  await salary.fill('')
+  await expect(salary).toHaveValue('')
+  await salary.type('50000')
+  await expect(salary).toHaveValue('50000')
+})
