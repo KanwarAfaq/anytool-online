@@ -87,9 +87,9 @@ export const officialSources = {
   newTaipeiLocalElderPlacement: {
     title: 'New Taipei Low-/Middle-low-income Elder Institutional Placement Program',
     authority: 'Social Welfare Department, New Taipei City Government',
-    url: 'https://www.sw.ntpc.gov.tw/home.jsp?act=be4f48068b2b0031&dataserno=728f53ac071858fb40660640c83c033e&id=aa967983e02a861f',
+    url: 'https://www.sw.ntpc.gov.tw/home.jsp?act=be4f48068b2b0031&dataserno=728f53ac071858fb40660640c83c033e&id=bd3ac04bd17eafde',
     verified: '2026-09-20',
-    summary: 'For qualifying 2025–2026 cases, published contract standards include NT$24,000/month for nursing/long-term-care placement, NT$10,000/month for low-income care-home placement, and NT$6,000/month for low-income respiratory care.'
+    summary: 'New Taipei 2026 welfare material lists up to NT$24,000/month for qualifying nursing/long-term-care placement, NT$10,000/month for low-income residential care, and NT$6,000/month for low-income respiratory care. Applications go through district offices; the Social Welfare Department elderly welfare contact is 02-2960-3456 ext. 3759 or 3745.'
   },
   taichungLocalElderPlacement: {
     title: 'Taichung Low-income Elder Residential Care Subsidy',
