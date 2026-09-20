@@ -27,7 +27,7 @@ for(const loc of locales){
   const parts=[loc,'tools',tool.slug].filter(Boolean)
   const file=resolve(root,'dist',...parts,'index.html')
   const html=await readFile(file,'utf8')
-  const url='https://anytool.online/'+parts.join('/')
+  const url='https://www.anytool.online/'+parts.join('/')
   assert.ok(sitemap.includes(url),'sitemap missing '+url)
   assert.ok(html.includes(url),'canonical missing '+url)
   assert.ok(html.includes('SoftwareApplication'),'schema missing '+tool.slug)
