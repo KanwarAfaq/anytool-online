@@ -21,7 +21,7 @@ export default function Home(){
  }[lang]||null
  const S=seo||{}
  return <>
-  <Seo title={S.title} description={S.description} jsonLd={[{'@context':'https://schema.org','@type':'WebSite',name:'AnyTool.online',url:'https://anytool.online/'},{'@context':'https://schema.org','@type':'Organization',name:'AnyTool.online',url:'https://anytool.online/'}]}/>
+  <Seo title={S.title} description={S.description} jsonLd={[{'@context':'https://schema.org','@type':'WebSite',name:'AnyTool.online',url:'https://www.anytool.online/'},{'@context':'https://schema.org','@type':'Organization',name:'AnyTool.online',url:'https://www.anytool.online/'}]}/>
   <section className="mx-auto max-w-7xl px-4 pb-8 pt-16 md:pt-24">
    <div className="max-w-4xl">
     <div className="mb-5 inline-flex items-center gap-2 rounded-full border border-emerald-400/20 bg-emerald-400/10 px-3 py-1.5 text-sm text-emerald-200"><Sparkles size={15}/> {t('brandTag')}</div>
