@@ -231,3 +231,51 @@ test('numeric inputs can be cleared and retyped without leading zero', async ({ 
 })
 
 test('tool pages expose a representative visual and image metadata', async ({ page }) => {await page.goto('/tools/taiwan-id-photo');await expect(page.locator('img[src="/tool-art/taiwan-id-photo.svg"]')).toBeVisible();await expect(page.locator('meta[property="og:image"]')).toHaveAttribute('content','https://www.anytool.online/tool-art/taiwan-id-photo.svg')})
+
+
+test('key public controls expose accessible names', async ({ page }) => {
+  await page.goto('/')
+  await expect(page.getByLabel('Account')).toBeVisible()
+
+  await page.goto('/tools/qr-generator')
+  await expect(page.getByLabel('Text or URL')).toBeVisible()
+
+  await page.goto('/tools/qr-scanner')
+  await expect(page.getByLabel('Choose QR code image')).toBeVisible()
+
+  await page.goto('/tools/pdf-merge')
+  await expect(page.getByLabel('Choose PDF files')).toBeVisible()
+
+  await page.goto('/tools/ocr')
+  await expect(page.getByLabel('Choose image or PDF file')).toBeVisible()
+
+  await page.goto('/tools/taiwan-id-photo')
+  await expect(page.getByLabel('Choose portrait photo')).toBeVisible()
+})
+
+test('image compression honors PNG output and conversion inputs are constrained', async ({ page }) => {
+  const png=Buffer.from('iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/x8AAusB9Wl8V1kAAAAASUVORK5CYII=','base64')
+
+  await page.goto('/tools/image-compress')
+  await page.getByLabel('Output format').selectOption('image/png')
+  await page.getByLabel('Choose image file').setInputFiles({name:'one.png',mimeType:'image/png',buffer:png})
+  const download=page.getByRole('link',{name:'Download result'})
+  await expect(download).toBeVisible()
+  const mime=await download.evaluate(async a=>(await (await fetch(a.href)).blob()).type)
+  expect(mime).toBe('image/png')
+
+  await page.goto('/tools/png-to-jpg')
+  await expect(page.getByLabel('Choose image file')).toHaveAttribute('accept','image/png')
+  await page.goto('/tools/jpg-to-png')
+  await expect(page.getByLabel('Choose image file')).toHaveAttribute('accept','image/jpeg')
+})
+
+test('command palette supports keyboard selection', async ({ page }) => {
+  await page.goto('/')
+  await page.keyboard.press('Control+k')
+  const dialog=page.getByRole('dialog',{name:'Search tools'})
+  await dialog.getByRole('textbox').fill('passport')
+  await expect(dialog.getByRole('option')).toHaveCount(1)
+  await page.keyboard.press('Enter')
+  await expect(page).toHaveURL(/\/tools\/taiwan-id-photo$/)
+})
