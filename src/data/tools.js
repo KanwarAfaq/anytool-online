@@ -26,6 +26,8 @@ export const tools = [
   ['pdf-merge','Merge PDF','document','Merge multiple PDF files locally in your browser.'],
   ['pdf-split','Split PDF','document','Extract selected pages from a PDF locally.'],
   ['loan-payment','Loan Payment Calculator','general','Calculate monthly loan payments, total repayment and total interest.'],
+  ['taiwan-id-photo','Taiwan Passport / ARC Photo Maker','image','Crop and export Taiwan passport, National ID and ARC photo files using official size guidance.'],
+  ['taiwan-elder-care','Taiwan Elderly Care Subsidy & Bed Finder','money','Check the 2026 residential-care subsidy and official facility bed or vacancy sources.'],
   ['ocr','AI OCR','ai','Extract text from an image using the configured AI gateway.'],
   ['receipt-to-json','Receipt → JSON','ai','Extract structured receipt data using AI.'],
 ].map(([slug,name,category,description]) => ({ slug,name,category,description }))
