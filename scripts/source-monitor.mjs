@@ -9,7 +9,7 @@ const sources=[
  {key:'nhi-employee-2026',url:'https://www.nhi.gov.tw/en/cp-19434-822cf-64-2.html',terms:['29,500','5.17']},
  {key:'tax-2026',url:'https://www.ntbt.gov.tw/multiplehtml/1b82b380e1a34de9afd204d39b007db2',terms:['610,000','1,380,000']},
  {key:'taoyuan-local-placement',url:'https://sab.tycg.gov.tw/News_Content.aspx?n=7467&s=1469909',terms:['10,000','24,000']},
- {key:'taipei-local-placement',url:'https://dosw.gov.taipei/cp.aspx?n=2A069CBD089B5C1A&s=C380A969311A1EBA',terms:['29,250','24,000']},
+ {key:'taipei-local-placement',url:'https://dosw.gov.taipei/News_Content.aspx?n=91F35523B74F69AC&s=89EA6FBF24B14229&sms=87415A8B9CE81B16',terms:['27,250','4,320']},
  {key:'newtaipei-local-placement',url:'https://www.sw.ntpc.gov.tw/home.jsp?act=be4f48068b2b0031&dataserno=728f53ac071858fb40660640c83c033e&id=203',terms:['低收入戶','中低收入']},
  {key:'taichung-local-placement',url:'https://www.society.taichung.gov.tw/461566/post',terms:['21,000','10,000']},
  {key:'tainan-local-placement',url:'https://people.tainan.gov.tw/News_Content.aspx?n=32047&s=7851694&sms=23729',terms:['12,000','25,400']},
@@ -21,6 +21,7 @@ const sources=[
  {key:'nia-arc-photo',url:'https://www.immigration.gov.tw/5475/5478/141465/141469/367160/cp_news',terms:['2-inch','National ID Card']},
  {key:'taoyuan-elder-beds',url:'https://sab.tycg.gov.tw/News_Content.aspx?n=7376&s=1615287',terms:['可收容床位']},
  {key:'taipei-vacancies',url:'https://orgvacinqusys.gov.taipei/',terms:[]},
+ {key:'taipei-public-nursing-open-beds',url:'https://data.gov.tw/en/datasets/132458',terms:['Number of open beds','Address','Phone number']},
  {key:'taichung-beds',url:'https://societymap.taichung.gov.tw/SocietyMap/SocietyShelter/QuyShelter.aspx',terms:['床']},
  {key:'yilan-beds',url:'https://ltc.ilshb.gov.tw/',terms:['床位']}
 ]
