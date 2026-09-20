@@ -4,6 +4,7 @@ import Layout from './components/Layout'
 import Home from './pages/Home'
 
 const ToolPage=lazy(()=>import('./pages/ToolPage'))
+const Tools=lazy(()=>import('./pages/Tools'))
 const AuthPage=lazy(()=>import('./pages/Auth'))
 const Dashboard=lazy(()=>import('./pages/Dashboard'))
 const About=lazy(()=>import('./pages/About'))
@@ -20,6 +21,7 @@ function LocaleGate({children}){const {locale}=useParams();return ['zh-tw','ar',
 export default function App(){
  const base=[
   <Route key="home" path="/" element={<Home/>}/>,
+  <Route key="tools" path="/tools" element={<Tools/>}/>,
   <Route key="tool" path="/tools/:slug" element={<ToolPage/>}/>,
   <Route key="category" path="/categories/:category" element={<Category/>}/>,
   <Route key="auth" path="/auth" element={<AuthPage/>}/>,
@@ -32,7 +34,7 @@ export default function App(){
   <Route key="profile" path="/profile" element={<Profile/>}/>,
  ]
  const localized=[
-  ['/:locale',<Home/>],['/:locale/tools/:slug',<ToolPage/>],['/:locale/categories/:category',<Category/>],['/:locale/auth',<AuthPage/>],['/:locale/dashboard',<Dashboard/>],
+  ['/:locale',<Home/>],['/:locale/tools',<Tools/>],['/:locale/tools/:slug',<ToolPage/>],['/:locale/categories/:category',<Category/>],['/:locale/auth',<AuthPage/>],['/:locale/dashboard',<Dashboard/>],
   ['/:locale/about',<About/>],['/:locale/contact',<Contact/>],['/:locale/privacy',<Privacy/>],['/:locale/methodology',<Methodology/>],['/:locale/sources',<Sources/>],['/:locale/profile',<Profile/>]
  ].map(([path,el])=><Route key={path} path={path} element={<LocaleGate>{el}</LocaleGate>}/>)
  return <Layout><Suspense fallback={<Loading/>}><Routes>{base}{localized}<Route path="*" element={<Navigate to="/" replace/>}/></Routes></Suspense></Layout>
