@@ -145,10 +145,10 @@ test('elder care tool shows source-backed subsidy and official city systems', as
   await expect(page.getByText('Up to NT$180,000 / year')).toBeVisible()
   await expect(page.getByText('Other official city / national systems')).toBeVisible()
   await expect(page.getByText('Central subsidy estimator')).toBeVisible()
-  await expect(page.getByText('NT$180,000')).toBeVisible()
+  await expect(page.getByText('NT$180,000',{exact:true})).toBeVisible()
   await page.getByLabel('Long-term care need level').selectOption('3')
   await page.getByLabel('Moderate-or-higher disability certificate').check()
-  await expect(page.getByText('NT$180,000')).toBeVisible()
+  await expect(page.getByText('NT$180,000',{exact:true})).toBeVisible()
 })
 
 test('public trust pages and auth recovery surfaces render', async ({ page }) => {
