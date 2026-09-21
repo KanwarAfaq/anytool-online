@@ -252,6 +252,10 @@ test('key public controls expose accessible names', async ({ page }) => {
 
   await page.goto('/tools/taiwan-id-photo')
   await expect(page.getByLabel('Choose portrait photo')).toBeVisible()
+
+  await page.goto('/tools/taiwan-elder-care')
+  await expect(page.getByLabel('Official bed dataset')).toBeVisible()
+  await expect(page.getByLabel('Search facility, district or address')).toBeVisible()
 })
 
 test('image compression honors PNG output and conversion inputs are constrained', async ({ page }) => {

@@ -87,10 +87,10 @@ export default function Layout({children}){
    <div className="mx-auto max-w-7xl px-4 py-10">
     <div className="grid gap-8 md:grid-cols-[1.4fr_.8fr_.8fr]">
       <div><div className="flex items-center gap-2 font-black"><span className="grid size-8 place-items-center rounded-lg bg-lime-300 text-[#07100c]"><Wrench size={14}/></span>AnyTool<span className="text-lime-300">.online</span></div><p className="mt-3 max-w-md text-sm text-slate-500">{N.footer}</p><Link to={pathFor('/contact')} className="mt-4 inline-flex items-center text-sm font-bold text-lime-300"><Mail className="me-2" size={14}/>{N.need} {N.send}</Link></div>
-      <div><p className="text-xs font-black uppercase tracking-[.16em] text-slate-600">{N.tools}</p><div className="mt-3 grid gap-2 text-sm"><Link className="text-slate-400 hover:text-white" to={pathFor('/tools')}>{N.tools}</Link><Link className="text-slate-400 hover:text-white" to={pathFor('/sources')}>{N.sources}</Link><Link className="text-slate-400 hover:text-white" to={pathFor('/methodology')}>{N.method}</Link></div></div>
-      <div><p className="text-xs font-black uppercase tracking-[.16em] text-slate-600">AnyTool</p><div className="mt-3 grid gap-2 text-sm"><Link className="text-slate-400 hover:text-white" to={pathFor('/about')}>{N.about}</Link><Link className="text-slate-400 hover:text-white" to={pathFor('/privacy')}>{N.privacy}</Link><Link className="text-slate-400 hover:text-white" to={pathFor('/contact')}>{N.contact}</Link></div></div>
+      <div><p className="text-xs font-black uppercase tracking-[.16em] text-slate-500">{N.tools}</p><div className="mt-3 grid gap-2 text-sm"><Link className="text-slate-400 hover:text-white" to={pathFor('/tools')}>{N.tools}</Link><Link className="text-slate-400 hover:text-white" to={pathFor('/sources')}>{N.sources}</Link><Link className="text-slate-400 hover:text-white" to={pathFor('/methodology')}>{N.method}</Link></div></div>
+      <div><p className="text-xs font-black uppercase tracking-[.16em] text-slate-500">AnyTool</p><div className="mt-3 grid gap-2 text-sm"><Link className="text-slate-400 hover:text-white" to={pathFor('/about')}>{N.about}</Link><Link className="text-slate-400 hover:text-white" to={pathFor('/privacy')}>{N.privacy}</Link><Link className="text-slate-400 hover:text-white" to={pathFor('/contact')}>{N.contact}</Link></div></div>
     </div>
-    <div className="mt-8 border-t border-white/[0.06] pt-5 text-xs text-slate-600">© {new Date().getFullYear()} AnyTool.online</div>
+    <div className="mt-8 border-t border-white/[0.06] pt-5 text-xs text-slate-500">© {new Date().getFullYear()} AnyTool.online</div>
    </div>
   </footer>
  </div>
