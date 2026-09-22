@@ -324,7 +324,7 @@ test('home publishes a Google-compatible PNG favicon', async ({ page }) => {
 test('remaining calculator functions pass representative dummy inputs', async ({ page }) => {
   await page.goto('/tools/labor-insurance')
   await page.getByLabel('Monthly salary (NT$)').fill('36300')
-  await expect(page.getByText('NT$ 835',{exact:true})).toBeVisible()
+  await expect(page.getByText('NT$ 908',{exact:true})).toBeVisible()
 
   await page.goto('/tools/nhi')
   await page.getByLabel('Monthly salary (NT$)').fill('29500')

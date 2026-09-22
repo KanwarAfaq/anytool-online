@@ -259,3 +259,6 @@ input[type=file]::file-selector-button:hover{border-color:rgba(183,243,74,.28);b
 @keyframes timer-float{from{transform:translate3d(-8px,-4px,0) scale(.9)}to{transform:translate3d(10px,12px,0) scale(1.12)}}@keyframes timer-halo{0%,100%{opacity:.25;transform:scale(.98)}50%{opacity:.75;transform:scale(1.04)}}@keyframes timer-critical-pulse{from{transform:scale(.98)}to{transform:scale(1.025)}}@keyframes timer-finished-pop{from{transform:scale(.98);box-shadow:0 0 20px rgba(255,70,87,.15)}to{transform:scale(1.02);box-shadow:0 0 70px rgba(255,70,87,.36)}}
 @media(max-width:560px){.winner-actions{flex-direction:column}.winner-actions button{width:100%}.winner-burst{display:none}}
 @media(prefers-reduced-motion:reduce){.confetti-field i,.winner-burst,.winner-card,.winner-celebration,.timer-critical .timer-ring,.timer-finished .timer-ring,.timer-atmosphere i,.timer-ring::after{animation:none!important}}
+
+/* Wheel artwork never captures clicks intended for controls. */
+.picker-wheel,.wheel-pointer{pointer-events:none}.picker-wheel{transform-origin:50% 50%;transform-box:fill-box}
