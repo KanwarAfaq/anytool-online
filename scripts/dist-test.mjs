@@ -12,6 +12,9 @@ await access(resolve(root,'dist/manifest.webmanifest'))
 await access(resolve(root,'dist/tool-catalog.json'))
 await access(resolve(root,'dist/official-sources.json'))
 await access(resolve(root,'dist/llms.txt'))
+await access(resolve(root,'dist/favicon-192.png'))
+await access(resolve(root,'dist/404.html'))
+await access(resolve(root,'dist','a7f0d3e9b2c14f688e5a91c3d7b4f260.txt'))
 for(const tool of tools) await access(resolve(root,'dist','tool-art',tool.slug+'.svg'))
 
 const sitemap=await readFile(resolve(root,'dist/sitemap.xml'),'utf8')
@@ -36,6 +39,14 @@ assert.ok(robots.includes('Allow: /'),'robots should allow crawlable pages')
 assert.ok(!robots.includes('Disallow: /auth'),'robots must not block pages that rely on X-Robots noindex')
 const expectedUrls=(staticPages.length+tools.length)*locales.length
 const homeHtml=await readFile(resolve(root,'dist/index.html'),'utf8')
+assert.ok(homeHtml.includes('href="/favicon-192.png"'),'PNG favicon link missing from home HTML')
+const manifest=JSON.parse(await readFile(resolve(root,'dist/manifest.webmanifest'),'utf8'))
+assert.ok(manifest.icons?.some(x=>x.src==='/favicon-192.png'&&x.type==='image/png'),'manifest PNG icon missing')
+const notFoundHtml=await readFile(resolve(root,'dist/404.html'),'utf8')
+assert.ok(notFoundHtml.includes('noindex,nofollow'),'static 404 must be noindex')
+const vercelConfig=JSON.parse(await readFile(resolve(root,'vercel.json'),'utf8'))
+assert.ok(!vercelConfig.routes?.some(r=>r.src==='/.*'&&r.dest==='/index.html'),'global SPA fallback would create soft 404s')
+assert.ok(vercelConfig.routes?.some(r=>r.src.includes('auth|dashboard|profile')&&r.dest==='/index.html'),'private SPA fallback missing')
 for(const tool of tools) assert.ok(homeHtml.includes('/tools/'+tool.slug),'homepage prerender missing internal link '+tool.slug)
 assert.equal((sitemap.match(/<url>/g)||[]).length,expectedUrls,'unexpected sitemap URL count')
 
@@ -45,7 +56,9 @@ for(const loc of locales){
   const file=parts.length?resolve(root,'dist',...parts,'index.html'):resolve(root,'dist','index.html')
   await access(file)
   const html=await readFile(file,'utf8')
-  assert.ok(html.includes('rel="canonical"'),'canonical missing '+parts.join('/'))
+  const url=parts.length?'https://www.anytool.online/'+parts.join('/'):'https://www.anytool.online/'
+  assert.ok(html.includes('<link rel="canonical" href="'+url+'"'),'exact canonical missing '+url)
+  assert.ok(html.includes('hreflang="x-default"'),'x-default hreflang missing '+url)
  }
  for(const tool of tools){
   const parts=[loc,'tools',tool.slug].filter(Boolean)

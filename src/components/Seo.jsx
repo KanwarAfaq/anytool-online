@@ -32,7 +32,8 @@ export default function Seo({title,description,jsonLd,noindex=false,image=''}){
    const imageUrl=image?(image.startsWith('http')?image:SITE+image):''
    if(imageUrl){setMeta('meta[property="og:image"]',{property:'og:image',content:imageUrl});setMeta('meta[property="og:image:alt"]',{property:'og:image:alt',content:title});setMeta('meta[property="og:image:width"]',{property:'og:image:width',content:'640'});setMeta('meta[property="og:image:height"]',{property:'og:image:height',content:'360'});setMeta('meta[name="twitter:image"]',{name:'twitter:image',content:imageUrl});setMeta('meta[name="twitter:image:alt"]',{name:'twitter:image:alt',content:title})}
    else{document.head.querySelector('meta[property="og:image"]')?.remove();document.head.querySelector('meta[property="og:image:alt"]')?.remove();document.head.querySelector('meta[property="og:image:width"]')?.remove();document.head.querySelector('meta[property="og:image:height"]')?.remove();document.head.querySelector('meta[name="twitter:image"]')?.remove();document.head.querySelector('meta[name="twitter:image:alt"]')?.remove()}
-   const ogLocale=path.startsWith('/zh-tw')?'zh_TW':path.startsWith('/ar')?'ar_AR':path.startsWith('/ur')?'ur_PK':'en_US'
+   const langCode=path.startsWith('/zh-tw')?'zh-TW':path.startsWith('/ar')?'ar':path.startsWith('/ur')?'ur':'en'
+   const ogLocale=langCode==='zh-TW'?'zh_TW':langCode==='ar'?'ar_AR':langCode==='ur'?'ur_PK':'en_US'
    setMeta('meta[property="og:locale"]',{property:'og:locale',content:ogLocale})
    setLink('link[rel="canonical"]',{rel:'canonical',href:canonical})
    for(const [hreflang,prefix] of locales){
@@ -42,7 +43,8 @@ export default function Seo({title,description,jsonLd,noindex=false,image=''}){
    setLink('link[rel="alternate"][hreflang="x-default"]',{rel:'alternate',hreflang:'x-default',href:SITE+(clean==='/'?'/':clean)})
 
    document.head.querySelectorAll('script[data-anytool-jsonld],script[data-anytool-prerender-jsonld]').forEach(x=>x.remove())
-   const schemas=Array.isArray(jsonLd)?jsonLd:(jsonLd?[jsonLd]:[])
+   const explicitSchemas=Array.isArray(jsonLd)?jsonLd:(jsonLd?[jsonLd]:[])
+   const schemas=explicitSchemas.length||noindex?explicitSchemas:[{'@context':'https://schema.org','@type':'WebPage',name:title,description:description||'',url:canonical,inLanguage:langCode,isPartOf:{'@type':'WebSite',name:'AnyTool.online',url:SITE+'/'}}]
    for(const schema of schemas){
      const el=document.createElement('script');el.type='application/ld+json';el.dataset.anytoolJsonld='1';el.textContent=JSON.stringify(schema);document.head.appendChild(el)
    }

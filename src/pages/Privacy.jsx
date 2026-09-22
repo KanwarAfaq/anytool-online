@@ -10,5 +10,5 @@ export default function Privacy(){
   ur:{title:'پرائیویسی',intro:'AnyTool سادہ پراسیسنگ کو جہاں ممکن ہو آپ کے آلے پر رکھنے کے لیے بنایا گیا ہے۔',items:['تصویر ریسائز/کنورژن، QR اور PDF merge/split آپ کے براؤزر میں چلتے ہیں۔','سائن اِن فیچرز استعمال کرنے پر اکاؤنٹ، پسندیدہ اور استعمال کا ریکارڈ Supabase میں محفوظ ہوتا ہے۔','AI OCR اور رسید ایکسٹریکشن صرف آپ کے شروع کرنے پر منتخب فائل AI gateway کو بھیجتے ہیں۔','پاس ورڈ، پرائیویٹ کی، راز یا غیر مجاز فائلیں اپ لوڈ نہ کریں۔']}
  }[lang]||null
  const x=c||{title:'Privacy',intro:'',items:[]}
- return <section className="mx-auto max-w-4xl px-4 py-16"><Seo title={x.title+' | AnyTool.online'} description={x.intro} canonical="https://anytool.online/privacy"/><h1 className="text-4xl font-black">{x.title}</h1><p className="mt-5 text-lg text-slate-300">{x.intro}</p><div className="mt-8 grid gap-4">{x.items.map((v,i)=><div key={i} className="card p-5 text-slate-300">{v}</div>)}</div></section>
+ return <section className="mx-auto max-w-4xl px-4 py-16"><Seo title={x.title+' | AnyTool.online'} description={x.intro}/><h1 className="text-4xl font-black">{x.title}</h1><p className="mt-5 text-lg text-slate-300">{x.intro}</p><div className="mt-8 grid gap-4">{x.items.map((v,i)=><div key={i} className="card p-5 text-slate-300">{v}</div>)}</div></section>
 }

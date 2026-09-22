@@ -302,3 +302,19 @@ test('QR scanner decodes an uploaded QR image', async ({ page }) => {
   await page.getByLabel('Choose QR code image').setInputFiles({name:'qr.png',mimeType:'image/png',buffer:png})
   await expect(page.getByText(value,{exact:true})).toBeVisible()
 })
+
+
+test('ordinary public pages keep WebPage structured data after hydration', async ({ page }) => {
+  for (const path of ['/about','/privacy','/contact','/methodology','/sources']) {
+    await page.goto(path)
+    const schemas=await page.locator('script[data-anytool-jsonld]').evaluateAll(nodes=>nodes.map(n=>JSON.parse(n.textContent)))
+    expect(schemas.some(s=>s['@type']==='WebPage'&&s.url==='https://www.anytool.online'+path)).toBeTruthy()
+  }
+  await page.goto('/zh-tw/about')
+  await expect(page.locator('link[rel="canonical"]')).toHaveAttribute('href','https://www.anytool.online/zh-tw/about')
+})
+
+test('home publishes a Google-compatible PNG favicon', async ({ page }) => {
+  await page.goto('/')
+  await expect(page.locator('link[rel="icon"][type="image/png"]')).toHaveAttribute('href','/favicon-192.png')
+})

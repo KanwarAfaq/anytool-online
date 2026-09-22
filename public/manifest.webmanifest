@@ -8,6 +8,12 @@
   "description": "Fast calculators, image, PDF and source-backed Taiwan tools.",
   "icons": [
     {
+      "src": "/favicon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
       "src": "/favicon.svg",
       "sizes": "any",
       "type": "image/svg+xml",

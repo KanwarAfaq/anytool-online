@@ -10,5 +10,5 @@ export default function About(){
   ur:['AnyTool کے بارے میں','AnyTool.online عملی کیلکولیٹر، تصویر و دستاویز ٹولز اور سرکاری ذرائع پر مبنی تائیوان ٹولز کا پلیٹ فارم ہے۔','یقینی حسابات کوڈ میں کیے جاتے ہیں، جہاں ممکن ہو فائلیں براؤزر میں پراسیس ہوتی ہیں، اور قانونی حسابات کے ساتھ سرکاری ذرائع دیے جاتے ہیں۔ AI صرف OCR اور ساختی ڈیٹا نکالنے جیسے کاموں میں استعمال ہوتا ہے۔']
  }[lang]||null
  const [title,p1,p2]=c||['About AnyTool','','']
- return <section className="mx-auto max-w-4xl px-4 py-16"><Seo title={title+' | AnyTool.online'} description={p1} canonical="https://anytool.online/about"/><h1 className="text-4xl font-black">{title}</h1><div className="mt-7 space-y-5 text-lg leading-8 text-slate-300"><p>{p1}</p><p>{p2}</p></div></section>
+ return <section className="mx-auto max-w-4xl px-4 py-16"><Seo title={title+' | AnyTool.online'} description={p1}/><h1 className="text-4xl font-black">{title}</h1><div className="mt-7 space-y-5 text-lg leading-8 text-slate-300"><p>{p1}</p><p>{p2}</p></div></section>
 }

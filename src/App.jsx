@@ -14,6 +14,7 @@ const Methodology=lazy(()=>import('./pages/Methodology'))
 const Sources=lazy(()=>import('./pages/Sources'))
 const Profile=lazy(()=>import('./pages/Profile'))
 const Category=lazy(()=>import('./pages/Category'))
+const NotFound=lazy(()=>import('./pages/NotFound'))
 
 function Loading(){return <div className="mx-auto max-w-7xl px-4 py-20 text-slate-400">Loading…</div>}
 function LocaleGate({children}){const {locale}=useParams();return ['zh-tw','ar','ur'].includes(locale)?children:<Navigate to="/" replace/>}
@@ -37,5 +38,5 @@ export default function App(){
   ['/:locale',<Home/>],['/:locale/tools',<Tools/>],['/:locale/tools/:slug',<ToolPage/>],['/:locale/categories/:category',<Category/>],['/:locale/auth',<AuthPage/>],['/:locale/dashboard',<Dashboard/>],
   ['/:locale/about',<About/>],['/:locale/contact',<Contact/>],['/:locale/privacy',<Privacy/>],['/:locale/methodology',<Methodology/>],['/:locale/sources',<Sources/>],['/:locale/profile',<Profile/>]
  ].map(([path,el])=><Route key={path} path={path} element={<LocaleGate>{el}</LocaleGate>}/>)
- return <Layout><Suspense fallback={<Loading/>}><Routes>{base}{localized}<Route path="*" element={<Navigate to="/" replace/>}/></Routes></Suspense></Layout>
+ return <Layout><Suspense fallback={<Loading/>}><Routes>{base}{localized}<Route path="*" element={<NotFound/>}/></Routes></Suspense></Layout>
 }

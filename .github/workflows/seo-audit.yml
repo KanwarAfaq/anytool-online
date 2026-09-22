@@ -18,6 +18,8 @@ jobs:
       - run: npm run build
         env:
           VITE_SITE_URL: https://www.anytool.online
+      - name: Live crawl and indexability checks
+        run: node scripts/live-seo-check.mjs
       - name: Search-readiness summary
         run: |
           echo "## AnyTool SEO/GEO checks" >> "$GITHUB_STEP_SUMMARY"
@@ -25,3 +27,4 @@ jobs:
           echo "- Multilingual sitemap generated" >> "$GITHUB_STEP_SUMMARY"
           echo "- Canonicals, hreflang and SoftwareApplication schema validated by dist tests" >> "$GITHUB_STEP_SUMMARY"
           echo "- Public source pages and methodology are included in sitemap" >> "$GITHUB_STEP_SUMMARY"
+          echo "- Live canonical, favicon, sitemap, private noindex and true-404 checks passed" >> "$GITHUB_STEP_SUMMARY"

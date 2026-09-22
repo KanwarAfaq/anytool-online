@@ -44,6 +44,50 @@ const staticPages=[
  {path:'/categories/ai',titles:{en:'AI & OCR Tools | AnyTool.online','zh-TW':'AI 與 OCR 工具 | AnyTool.online',ar:'أدوات AI وOCR | AnyTool.online',ur:'AI اور OCR ٹولز | AnyTool.online'},description:'Authenticated OCR and structured document extraction with provider fallback.'},
  {path:'/categories/general',titles:{en:'General Calculators | AnyTool.online','zh-TW':'一般計算器 | AnyTool.online',ar:'حاسبات عامة | AnyTool.online',ur:'عام کیلکولیٹر | AnyTool.online'},description:'Practical percentage, loan and everyday calculators.'},
 ]
+const localizedStaticDescriptions={
+ 'zh-TW':{
+  '/':'免費 2026 台灣薪資、所得稅、勞健保、加班費與老人照護工具，另有護照／ARC 證件照、PDF、QR 與 OCR 實用工具。',
+  '/tools':'瀏覽 AnyTool 完整工具目錄：台灣薪資與稅務計算、圖片與證件照、PDF、QR、OCR 與 AI 文件工具。',
+  '/about':'了解 AnyTool 如何打造快速、重視隱私並以官方來源為依據的計算器與線上工具。',
+  '/contact':'回報計算問題、官方來源更新、工具故障、合作建議或無障礙問題。',
+  '/privacy':'了解 AnyTool 的瀏覽器本機處理、帳戶功能與 AI 檔案處理方式。',
+  '/methodology':'了解 AnyTool 如何驗證計算公式、官方來源、AI 輸出與政府公開資料。',
+  '/sources':'查看 AnyTool 用於台灣計算、證件照規格與老人照護資訊的政府官方來源。',
+  '/categories/money':'台灣薪資、所得稅、勞健保、加班費、雇主成本與老人照護等官方來源計算工具。',
+  '/categories/image':'圖片縮放、壓縮、格式轉換、DPI、QR 與台灣護照／ARC 證件照工具。',
+  '/categories/document':'重視隱私的 PDF 合併、分割與文件處理工具。',
+  '/categories/ai':'登入後可使用的 OCR 與結構化文件擷取工具，支援多個 AI 供應商備援。',
+  '/categories/general':'百分比、貸款與日常實用計算器。'
+ },
+ ar:{
+  '/':'أدوات مجانية لعام 2026 لرواتب وضرائب وتأمين تايوان والعمل الإضافي ورعاية المسنين، مع صور الجواز وARC وPDF وQR وOCR.',
+  '/tools':'تصفح كل أدوات AnyTool: حاسبات تايوان، أدوات الصور والهوية، PDF وQR وOCR وأدوات المستندات بالذكاء الاصطناعي.',
+  '/about':'تعرف على كيفية بناء AnyTool لأدوات سريعة تراعي الخصوصية وتعتمد على المصادر الرسمية.',
+  '/contact':'أبلغ عن مشكلة حساب أو تحديث مصدر رسمي أو أداة معطلة أو اقتراح شراكة أو مشكلة وصول.',
+  '/privacy':'تعرف على المعالجة المحلية في المتصفح وميزات الحساب وكيفية معالجة ملفات AI في AnyTool.',
+  '/methodology':'كيف يتحقق AnyTool من الصيغ الحسابية والمصادر الرسمية ومخرجات AI والبيانات الحكومية.',
+  '/sources':'المصادر الحكومية الرسمية المستخدمة لحسابات تايوان ومتطلبات الصور ومعلومات رعاية المسنين.',
+  '/categories/money':'حاسبات رواتب وضرائب وتأمين وعمل إضافي وتكلفة صاحب العمل ورعاية المسنين في تايوان.',
+  '/categories/image':'تغيير حجم الصور وضغطها وتحويلها وDPI وQR وصور جواز/ARC تايوان.',
+  '/categories/document':'أدوات PDF والمستندات التي تراعي الخصوصية للدمج والتقسيم.',
+  '/categories/ai':'أدوات OCR واستخراج المستندات المنظمة مع بدائل متعددة لمزودي AI.',
+  '/categories/general':'حاسبات عملية للنسب المئوية والقروض والاستخدام اليومي.'
+ },
+ ur:{
+  '/':'2026 تائیوان تنخواہ، ٹیکس، انشورنس، اوور ٹائم اور بزرگ نگہداشت کے مفت ٹولز، نیز پاسپورٹ/ARC فوٹو، PDF، QR اور OCR۔',
+  '/tools':'AnyTool کے تمام ٹولز دیکھیں: تائیوان کیلکولیٹر، تصویر و شناختی فوٹو، PDF، QR، OCR اور AI دستاویز ٹولز۔',
+  '/about':'جانیں کہ AnyTool تیز، پرائیویسی کا خیال رکھنے والے اور سرکاری ذرائع پر مبنی آن لائن ٹولز کیسے بناتا ہے۔',
+  '/contact':'حساب کے مسئلے، سرکاری ماخذ اپ ڈیٹ، خراب ٹول، شراکت یا رسائی کے مسئلے کی اطلاع دیں۔',
+  '/privacy':'AnyTool کی براؤزر میں مقامی پراسیسنگ، اکاؤنٹ فیچرز اور AI فائل پراسیسنگ کے بارے میں جانیں۔',
+  '/methodology':'AnyTool حسابی فارمولوں، سرکاری ذرائع، AI نتائج اور حکومتی ڈیٹا کی تصدیق کیسے کرتا ہے۔',
+  '/sources':'تائیوان حسابات، تصویر قواعد اور بزرگ نگہداشت کے لیے استعمال ہونے والے سرکاری حکومتی ذرائع۔',
+  '/categories/money':'تائیوان تنخواہ، ٹیکس، انشورنس، اوور ٹائم، آجر لاگت اور بزرگ نگہداشت کیلکولیٹر۔',
+  '/categories/image':'تصویر ریسائز، کمپریشن، فارمیٹ تبدیلی، DPI، QR اور تائیوان پاسپورٹ/ARC فوٹو ٹولز۔',
+  '/categories/document':'پرائیویسی کا خیال رکھنے والے PDF merge، split اور دستاویز ٹولز۔',
+  '/categories/ai':'OCR اور ساختی دستاویز extraction کے ٹولز، متعدد AI providers کے بیک اپ کے ساتھ۔',
+  '/categories/general':'فیصد، قرض اور روزمرہ کے عملی کیلکولیٹر۔'
+ }
+}
 const taiwan2026=new Set(['take-home-pay','labor-insurance','nhi','income-tax','overtime-pay','minimum-wage','employer-cost','taiwan-elder-care'])
 const cleanPath=p=>p==='/'?'/':p.replace(/\/$/,'')
 const localizedPath=(prefix,path)=>prefix+(path==='/'?'/':path)
@@ -115,7 +159,7 @@ async function emit(path,locale,title,description,schemas=[],image=''){
    .replace(/<meta name="description" content=".*?" \/>/s,`<meta name="description" content="${esc(description)}" />`)
    .replace(/<link rel="canonical" href=".*?" \/>/s,`<link rel="canonical" href="${canonical}" />`)
    .replace('<div id="root"></div>',`<div id="root">${fallbackHtml(title,description,p)}</div>`)
- const imageMeta=image?`<meta property="og:image" content="${image}" /><meta property="og:image:alt" content="${esc(title)}" /><meta name="twitter:image" content="${image}" />`:''
+ const imageMeta=image?`<meta property="og:image" content="${image}" /><meta property="og:image:alt" content="${esc(title)}" /><meta property="og:image:width" content="640" /><meta property="og:image:height" content="360" /><meta name="twitter:image" content="${image}" /><meta name="twitter:image:alt" content="${esc(title)}" />`:''
  html=html.replace('</head>',`<meta name="robots" content="index,follow,max-image-preview:large,max-snippet:-1,max-video-preview:-1" /><meta name="application-name" content="AnyTool.online" /><meta property="og:title" content="${esc(title)}" /><meta property="og:description" content="${esc(description)}" /><meta property="og:url" content="${canonical}" /><meta property="og:type" content="website" /><meta property="og:site_name" content="AnyTool.online" /><meta property="og:locale" content="${locale.og}" /><meta name="twitter:card" content="summary_large_image" /><meta name="twitter:title" content="${esc(title)}" /><meta name="twitter:description" content="${esc(description)}" />${imageMeta}${alternateLinks(base)}${schemas.map(x=>`<script type="application/ld+json" data-anytool-prerender-jsonld="1">${JSON.stringify(x)}</script>`).join('')}</head>`)
  const out=p==='/'?resolve(root,'dist','index.html'):resolve(root,'dist',p.slice(1),'index.html')
  await mkdir(dirname(out),{recursive:true})
@@ -126,14 +170,14 @@ for(const locale of locales){
  for(const page of staticPages){
    const path=localizedPath(locale.prefix,page.path)
    const title=page.titles[locale.code]||page.titles.en
-   const description=locale.code==='en'?page.description:`${page.description} ${locale.free}.`
+   const description=localizedStaticDescriptions[locale.code]?.[page.path]||page.description
    const canonical=SITE+path
    const pageTools=page.path==='/tools'?tools:page.path.startsWith('/categories/')?tools.filter(t=>t.category===page.path.split('/').at(-1)):[]
    let schemas
    if(page.path==='/'){
     schemas=[
-     {'@context':'https://schema.org','@type':'WebSite',name:'AnyTool.online',url:SITE+'/',inLanguage:locale.code,potentialAction:{'@type':'SearchAction',target:SITE+'/?q={search_term_string}','query-input':'required name=search_term_string'}},
-     {'@context':'https://schema.org','@type':'Organization',name:'AnyTool.online',url:SITE+'/',logo:SITE+'/favicon.svg',contactPoint:{'@type':'ContactPoint',contactType:'customer support',url:SITE+localizedPath(locale.prefix,'/contact')}},
+     {'@context':'https://schema.org','@type':'WebSite',name:'AnyTool.online',alternateName:'AnyTool',url:SITE+'/',inLanguage:locale.code,potentialAction:{'@type':'SearchAction',target:SITE+'/?q={search_term_string}','query-input':'required name=search_term_string'}},
+     {'@context':'https://schema.org','@type':'Organization',name:'AnyTool.online',alternateName:'AnyTool',url:SITE+'/',logo:{'@type':'ImageObject',url:SITE+'/favicon-192.png',width:192,height:192},contactPoint:{'@type':'ContactPoint',contactType:'customer support',url:SITE+localizedPath(locale.prefix,'/contact')}},
      {'@context':'https://schema.org','@type':'ItemList',name:title,itemListElement:tools.map((tool,i)=>({'@type':'ListItem',position:i+1,name:localizedToolName(tool,locale),url:SITE+localizedPath(locale.prefix,'/tools/'+tool.slug),image:SITE+'/tool-art/'+tool.slug+'.svg'}))}
     ]
    }else{
