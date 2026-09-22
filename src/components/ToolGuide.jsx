@@ -3,7 +3,7 @@ import { ArrowRight, CheckCircle2, LockKeyhole } from 'lucide-react'
 import { tools } from '../data/tools'
 import { useI18n } from '../i18n'
 
-const localSlugs=new Set(['image-resize','image-compress','png-to-jpg','jpg-to-png','dpi-calculator','qr-generator','qr-scanner','pdf-merge','pdf-split','percentage','loan-payment','annual-salary','random-picker','timer','image-to-sketch'])
+const localSlugs=new Set(['image-resize','image-compress','png-to-jpg','jpg-to-png','dpi-calculator','qr-generator','qr-scanner','pdf-merge','pdf-split','percentage','loan-payment','annual-salary','random-picker','timer','image-to-sketch','simple-calculator','love-calculator','zodiac-matcher','image-flip'])
 const tips={
  'take-home-pay':{en:['Enter gross monthly salary and NHI dependents.','Review the combined insurance, NHI and tax estimate.','Open a related calculator when you need one deduction in detail.'],'zh-TW':['輸入每月稅前薪資與健保眷屬。','查看勞保、就保、健保與所得稅的整合估算。','若要確認單一扣款，可開啟相關計算器。']},
  'labor-insurance':{en:['Enter actual monthly salary.','The tool maps it to the official insured-salary grade.','Check the official source below for special categories.'],'zh-TW':['輸入實際月薪。','工具會依官方級距找到投保薪資。','特殊投保身分請查看下方官方來源。']},

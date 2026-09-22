@@ -11,6 +11,10 @@ import ElderCareTool from '../components/tools/ElderCareTool'
 import PickerWheel from '../components/tools/PickerWheel'
 import TimerTool from '../components/tools/TimerTool'
 import SketchTool from '../components/tools/SketchTool'
+import SimpleCalculator from '../components/tools/SimpleCalculator'
+import LoveCalculator from '../components/tools/LoveCalculator'
+import ZodiacMatcher from '../components/tools/ZodiacMatcher'
+import ImageFlipTool from '../components/tools/ImageFlipTool'
 import SourceEvidence from '../components/SourceEvidence'
 import ToolGuide from '../components/ToolGuide'
 import OfficialAssistant from '../components/OfficialAssistant'
@@ -236,11 +240,15 @@ export default function ToolPage(){
   if(['take-home-pay','labor-insurance','nhi','income-tax','overtime-pay','minimum-wage','employer-cost'].includes(slug))return <MoneyTool slug={slug}/>
   if(slug==='annual-salary')return <AnnualSalary/>
   if(slug==='percentage')return <Percentage/>
+  if(slug==='simple-calculator')return <SimpleCalculator/>
   if(slug==='loan-payment')return <LoanPayment/>
+  if(slug==='love-calculator')return <LoveCalculator/>
+  if(slug==='zodiac-matcher')return <ZodiacMatcher/>
   if(slug==='random-picker')return <PickerWheel/>
   if(slug==='timer')return <TimerTool/>
   if(slug==='taiwan-id-photo')return <IdPhotoTool/>
   if(slug==='image-to-sketch')return <SketchTool/>
+  if(slug==='image-flip')return <ImageFlipTool/>
   if(slug==='taiwan-elder-care')return <ElderCareTool/>
   if(['image-resize','image-compress','png-to-jpg','jpg-to-png'].includes(slug))return <ImageTool slug={slug}/>
   if(slug==='dpi-calculator')return <Dpi/>

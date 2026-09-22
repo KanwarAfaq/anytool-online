@@ -20,7 +20,7 @@ const tags={
   'image-resize':['IMG','RESIZE'],'image-compress':['KB','COMPRESS'],'png-to-jpg':['PNG','→ JPG'],
   'jpg-to-png':['JPG','→ PNG'],'dpi-calculator':['DPI','300'],'qr-generator':['QR','CREATE'],
   'qr-scanner':['SCAN','DECODE'],'pdf-merge':['PDF','MERGE'],'pdf-split':['PDF','SPLIT'],
-  'loan-payment':['APR','PAYMENT'],'random-picker':['SPIN','RANDOM'],'timer':['05:00','TIMER'],'taiwan-id-photo':['35×45','ID PHOTO'],'image-to-sketch':['SKETCH','PENCIL'],
+  'loan-payment':['APR','PAYMENT'],'simple-calculator':['123','CALCULATE'],'love-calculator':['86%','LOVE'],'zodiac-matcher':['♈♎','MATCH'],'random-picker':['SPIN','RANDOM'],'timer':['05:00','TIMER'],'taiwan-id-photo':['35×45','ID PHOTO'],'image-to-sketch':['SKETCH','PENCIL'],'image-flip':['↔','FLIP'],
   'taiwan-elder-care':['15K','CARE'],'ocr':['OCR','TEXT'],'receipt-to-json':['JSON','RECEIPT']
 }
 
@@ -38,7 +38,7 @@ function scene(tool,a,b){
     <g color="${a}"><rect x="72" y="136" width="126" height="126" rx="22" fill="#fff"/><g transform="translate(4 4)" color="#071018">${qrPattern()}</g></g>
     <path d="M222 160h42M222 188h54M222 216h34" stroke="${b}" stroke-width="8" stroke-linecap="round" opacity=".75"/>
     ${tool.slug==='qr-scanner'?'<path d="M58 132v-18h18M212 114h18v18M58 268v18h18M212 286h18v-18" fill="none" stroke="'+a+'" stroke-width="6" stroke-linecap="round"/>':''}`
-  if(['image-resize','image-compress','png-to-jpg','jpg-to-png','dpi-calculator','taiwan-id-photo','image-to-sketch'].includes(tool.slug))return `
+  if(['image-resize','image-compress','png-to-jpg','jpg-to-png','dpi-calculator','taiwan-id-photo','image-to-sketch','image-flip'].includes(tool.slug))return `
     <rect x="66" y="132" width="164" height="132" rx="22" fill="#0f2030" stroke="${a}" stroke-opacity=".45"/>
     <circle cx="190" cy="166" r="16" fill="${b}" opacity=".9"/>
     <path d="M80 242l45-48 34 32 23-23 34 39z" fill="${a}" opacity=".38"/>
@@ -63,6 +63,13 @@ function scene(tool,a,b){
     <rect x="88" y="184" width="54" height="44" rx="10" fill="${a}" opacity=".28"/>
     <path d="M142 210h68v36M92 246v-58M210 246v-58" stroke="${a}" stroke-width="7" stroke-linecap="round"/>
     <path d="M164 142h24M176 130v24" stroke="${b}" stroke-width="6" stroke-linecap="round"/>`
+  if(tool.slug==='simple-calculator')return `
+    <rect x="79" y="124" width="140" height="164" rx="24" fill="#080808" stroke="${a}" stroke-opacity=".45"/><text x="193" y="158" text-anchor="end" fill="#fff" font-family="Arial" font-size="28" font-weight="700">2548</text>
+    <g fill="#343434"><circle cx="105" cy="190" r="17"/><circle cx="145" cy="190" r="17"/><circle cx="185" cy="190" r="17"/><circle cx="105" cy="232" r="17"/><circle cx="145" cy="232" r="17"/><circle cx="185" cy="232" r="17"/></g><g fill="#ff9f0a"><circle cx="205" cy="190" r="17"/><circle cx="205" cy="232" r="17"/><circle cx="205" cy="270" r="17"/></g>`
+  if(tool.slug==='love-calculator')return `
+    <path d="M150 274C88 232 72 199 91 169c19-29 55-20 59 5 4-25 40-34 59-5 19 30 3 63-59 105z" fill="#ff4d7d"/><text x="150" y="224" text-anchor="middle" fill="#fff" font-family="Arial" font-size="32" font-weight="900">86%</text>`
+  if(tool.slug==='zodiac-matcher')return `
+    <circle cx="150" cy="205" r="70" fill="#0b1024" stroke="${a}" stroke-width="4"/><circle cx="150" cy="205" r="52" fill="none" stroke="${b}" stroke-opacity=".35"/><text x="122" y="216" text-anchor="middle" fill="${a}" font-family="Arial" font-size="34">♈</text><text x="178" y="216" text-anchor="middle" fill="${b}" font-family="Arial" font-size="34">♎</text><path d="M142 180l8-12 8 12" fill="none" stroke="#fff" stroke-opacity=".5" stroke-width="3"/>`
   if(tool.slug==='random-picker')return `
     <circle cx="150" cy="205" r="70" fill="#0c1724" stroke="${a}" stroke-opacity=".6"/>
     <path d="M150 205V135A70 70 0 0 1 210 170z" fill="${a}" opacity=".85"/><path d="M150 205l60-35a70 70 0 0 1 2 66z" fill="${b}" opacity=".8"/><path d="M150 205l62 31a70 70 0 0 1-80 37z" fill="#ff6b6b" opacity=".8"/><path d="M150 205l-18 68a70 70 0 0 1-52-92z" fill="#ffd166" opacity=".82"/><path d="M150 205l-70-24a70 70 0 0 1 70-46z" fill="#06d6a0" opacity=".8"/><circle cx="150" cy="205" r="12" fill="#071018"/><path d="M150 121l-10 17h20z" fill="#fff"/>`
@@ -86,7 +93,7 @@ for(const tool of tools){
   const [tag,sub]=tags[tool.slug]||['TOOL','READY']
   const title=esc(tool.name.length>34?tool.name.slice(0,32)+'…':tool.name)
   const category=esc(tool.category.toUpperCase())
-  const privacy=['image-resize','image-compress','png-to-jpg','jpg-to-png','qr-generator','qr-scanner','pdf-merge','pdf-split','dpi-calculator','percentage','loan-payment','random-picker','timer','image-to-sketch'].includes(tool.slug)
+  const privacy=['image-resize','image-compress','png-to-jpg','jpg-to-png','qr-generator','qr-scanner','pdf-merge','pdf-split','dpi-calculator','percentage','loan-payment','simple-calculator','love-calculator','zodiac-matcher','random-picker','timer','image-to-sketch','image-flip'].includes(tool.slug)
     ? 'BROWSER-FIRST'
     : tool.category==='money' ? 'SOURCE-BACKED' : 'SMART TOOL'
 
