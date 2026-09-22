@@ -13,7 +13,8 @@ const base=(a,b)=>{
 }
 const score=(a,b)=>{
  const ia=SIGNS.findIndex(x=>x[0]===a),ib=SIGNS.findIndex(x=>x[0]===b),ea=SIGNS[ia][2],eb=SIGNS[ib][2]
- return Math.max(45,Math.min(98,base(ea,eb)+(((ia+1)*7+(ib+1)*11)%9)-4))
+ const lo=Math.min(ia,ib),hi=Math.max(ia,ib)
+ return Math.max(45,Math.min(98,base(ea,eb)+(((lo+1)*7+(hi+1)*11)%9)-4))
 }
 const vibe=n=>n>=90?'Cosmic power match':n>=80?'Naturally magnetic':n>=68?'Strong potential':n>=55?'Interesting contrast':'A growth-oriented mix'
 
