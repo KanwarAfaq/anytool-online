@@ -46,7 +46,7 @@ const notFoundHtml=await readFile(resolve(root,'dist/404.html'),'utf8')
 assert.ok(notFoundHtml.includes('noindex,nofollow'),'static 404 must be noindex')
 const vercelConfig=JSON.parse(await readFile(resolve(root,'vercel.json'),'utf8'))
 assert.ok(!vercelConfig.routes?.some(r=>r.src==='/.*'&&r.dest==='/index.html'),'global SPA fallback would create soft 404s')
-assert.ok(vercelConfig.routes?.some(r=>r.src.includes('auth|dashboard|profile')&&r.dest==='/index.html'),'private SPA fallback missing')
+assert.ok(vercelConfig.routes?.some(r=>r.src?.includes('auth|dashboard|profile')&&r.dest==='/index.html'),'private SPA fallback missing')
 for(const tool of tools) assert.ok(homeHtml.includes('/tools/'+tool.slug),'homepage prerender missing internal link '+tool.slug)
 assert.equal((sitemap.match(/<url>/g)||[]).length,expectedUrls,'unexpected sitemap URL count')
 
