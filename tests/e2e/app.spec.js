@@ -209,7 +209,7 @@ test('all-tools directory keeps every tool visible and reachable', async ({ page
     const link=page.locator('a[href="/tools/'+tool.slug+'"]').first()
     await expect(link).toBeVisible()
     await expect(link).toContainText(tool.name)
-    await expect(link.locator('img[src="/tool-art/'+tool.slug+'.svg"]')).toHaveAttribute('alt',/visual preview/)
+    await expect(link).toHaveClass(/directory-tool-button/)
   }
 
   await page.goto('/')
@@ -324,12 +324,12 @@ test('home publishes a Google-compatible PNG favicon', async ({ page }) => {
 test('remaining calculator functions pass representative dummy inputs', async ({ page }) => {
   await page.goto('/tools/labor-insurance')
   await page.getByLabel('Monthly salary (NT$)').fill('36300')
-  await expect(page.getByText('835',{exact:true})).toBeVisible()
+  await expect(page.getByText('NT$ 835',{exact:true})).toBeVisible()
 
   await page.goto('/tools/nhi')
   await page.getByLabel('Monthly salary (NT$)').fill('29500')
   await page.getByLabel('NHI dependents').fill('1')
-  await expect(page.getByText('916',{exact:true})).toBeVisible()
+  await expect(page.getByText('NT$ 916',{exact:true})).toBeVisible()
 
   await page.goto('/tools/overtime-pay')
   await page.getByLabel('Monthly salary (NT$)').fill('50000')
@@ -378,18 +378,34 @@ test('new picker wheel accepts editable entries and produces a selection', async
   await page.getByRole('button',{name:'Add'}).click()
   await expect(entries).toContainText('')
   await page.getByRole('button',{name:'Spin wheel'}).click()
-  await expect(page.getByText('Selected')).toBeVisible({timeout:3000})
-  await expect(page.locator('.picker-winner strong')).not.toHaveText('Add at least two entries and spin')
+  await expect(page.getByRole('dialog',{name:/Selected/})).toBeVisible({timeout:3000})
+  const selected=page.getByRole('dialog').locator('.winner-card > strong')
+  await expect(selected).not.toHaveText('')
+  const before=await entries.inputValue()
+  await page.getByRole('button',{name:'Keep on wheel'}).click()
+  await expect(page.getByRole('dialog')).toHaveCount(0)
+  expect(await entries.inputValue()).toBe(before)
+  await page.getByRole('button',{name:'Spin wheel'}).click()
+  await expect(page.getByRole('dialog',{name:/Selected/})).toBeVisible({timeout:3000})
+  const beforeRemove=(await entries.inputValue()).split(/\n/).filter(Boolean).length
+  await page.getByRole('button',{name:'Remove from wheel'}).click()
+  const afterRemove=(await entries.inputValue()).split(/\n/).filter(Boolean).length
+  expect(afterRemove).toBe(beforeRemove-1)
 })
 
 test('new timer supports presets start pause and selectable sounds', async ({ page }) => {
   await page.goto('/tools/timer')
+  await page.getByLabel('Timer hours').fill('0')
   await page.getByLabel('Timer minutes').fill('0')
-  await page.getByLabel('Timer seconds').fill('5')
-  await page.getByLabel('Timer sound').selectOption('soft')
-  await expect(page.getByText('00:05',{exact:true})).toBeVisible()
+  await page.getByLabel('Timer seconds').fill('9')
+  await page.getByLabel('Timer sound').selectOption('arcade')
+  await page.getByLabel('Timer volume').fill('0.5')
+  await expect(page.getByText('00:09',{exact:true})).toBeVisible()
+  await expect(page.locator('.timer-stage')).toHaveAttribute('data-critical','true')
   await page.getByRole('button',{name:'Start'}).click()
   await expect(page.getByRole('button',{name:'Pause'})).toBeVisible()
+  await page.getByRole('button',{name:'+1 min'}).click()
+  await expect(page.locator('.timer-stage')).toHaveAttribute('data-critical','false')
   await page.getByRole('button',{name:'Pause'}).click()
   await expect(page.getByRole('button',{name:'Start'})).toBeVisible()
   await page.getByRole('button',{name:'Reset'}).click()
