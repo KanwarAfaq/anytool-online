@@ -8,6 +8,9 @@ import { supabase, logToolEvent, saveFavorite } from '../lib/supabase'
 import { useI18n } from '../i18n'
 import IdPhotoTool from '../components/tools/IdPhotoTool'
 import ElderCareTool from '../components/tools/ElderCareTool'
+import PickerWheel from '../components/tools/PickerWheel'
+import TimerTool from '../components/tools/TimerTool'
+import SketchTool from '../components/tools/SketchTool'
 import SourceEvidence from '../components/SourceEvidence'
 import ToolGuide from '../components/ToolGuide'
 import OfficialAssistant from '../components/OfficialAssistant'
@@ -58,6 +61,20 @@ function MoneyTool({slug}){
    <div className="card p-5"><h3 className="font-bold">{t('result')}</h3><div className="mt-4 grid gap-3 sm:grid-cols-2">{rows.map(([l,v])=><Result key={l} label={l} value={v}/>)}</div></div>
   </div>
   {slug==='employer-cost'&&<p className="mt-3 text-xs leading-5 text-slate-500">{t('employerCostNote')}</p>}
+ </div>
+}
+
+function AnnualSalary(){
+ const {t}=useI18n()
+ const [mode,setMode]=useState('monthly'),[salary,setSalary]=useState(50000),[months,setMonths]=useState(13),[annual,setAnnual]=useState(650000)
+ const packageValue=salary*months
+ const monthlyEquivalent=months>0?annual/months:0
+ return <div className="tool-work-grid">
+  <section className="tool-control-panel">
+   <div className="segmented-control"><button className={mode==='monthly'?'active':''} onClick={()=>setMode('monthly')}>Monthly → annual</button><button className={mode==='annual'?'active':''} onClick={()=>setMode('annual')}>Annual → monthly</button></div>
+   <div className="mt-5 space-y-4">{mode==='monthly'?<><Num label={t('monthlySalary')} value={salary} onChange={setSalary}/><Num label={t('paidMonths')} value={months} onChange={setMonths} step={0.5}/></>:<><Num label={t('annualPackage')} value={annual} onChange={setAnnual}/><Num label={t('paidMonths')} value={months} onChange={setMonths} step={0.5}/></>}</div>
+  </section>
+  <section className="tool-result-panel"><div className="grid gap-3 sm:grid-cols-2">{mode==='monthly'?<><Result label={t('annualPackage')} value={'NT$ '+money(packageValue)}/><Result label={t('average12')} value={'NT$ '+money(packageValue/12)}/></>:<><Result label={t('monthlySalary')} value={'NT$ '+money(monthlyEquivalent)}/><Result label={t('average12')} value={'NT$ '+money(annual/12)}/></>}</div></section>
  </div>
 }
 
@@ -216,10 +233,14 @@ export default function ToolPage(){
  },[slug])
  if(!tool)return <div className="mx-auto max-w-5xl px-4 py-20"><h1 className="text-3xl font-black">{t('toolNotFound')}</h1><Link className="btn-primary mt-6" to={pathFor('/')}>{t('backHome')}</Link></div>
  const view=useMemo(()=>{
-  if(['take-home-pay','labor-insurance','nhi','income-tax','overtime-pay','minimum-wage','employer-cost','annual-salary'].includes(slug))return <MoneyTool slug={slug}/>
+  if(['take-home-pay','labor-insurance','nhi','income-tax','overtime-pay','minimum-wage','employer-cost'].includes(slug))return <MoneyTool slug={slug}/>
+  if(slug==='annual-salary')return <AnnualSalary/>
   if(slug==='percentage')return <Percentage/>
   if(slug==='loan-payment')return <LoanPayment/>
+  if(slug==='random-picker')return <PickerWheel/>
+  if(slug==='timer')return <TimerTool/>
   if(slug==='taiwan-id-photo')return <IdPhotoTool/>
+  if(slug==='image-to-sketch')return <SketchTool/>
   if(slug==='taiwan-elder-care')return <ElderCareTool/>
   if(['image-resize','image-compress','png-to-jpg','jpg-to-png'].includes(slug))return <ImageTool slug={slug}/>
   if(slug==='dpi-calculator')return <Dpi/>
@@ -243,5 +264,5 @@ export default function ToolPage(){
   {'@context':'https://schema.org','@type':'SoftwareApplication',name:toolName(tool),description:toolDescription(tool),image:imageUrl,applicationCategory:'UtilitiesApplication',operatingSystem:'Web',url:toolUrl,isAccessibleForFree:true,offers:{'@type':'Offer',price:'0',priceCurrency:'USD'}},
   {'@context':'https://schema.org','@type':'BreadcrumbList',itemListElement:[{'@type':'ListItem',position:1,name:'AnyTool',item:'https://www.anytool.online/'},{'@type':'ListItem',position:2,name:categoryName,item:categoryUrl},{'@type':'ListItem',position:3,name:toolName(tool),item:toolUrl}]}
  ]
- return <section className="mx-auto max-w-5xl px-4 py-12"><Seo title={seoTitle} description={toolDescription(tool)} image={'/tool-art/'+slug+'.svg'} jsonLd={schemas}/><div className="mb-7"><nav aria-label="Breadcrumb" className="text-sm text-slate-400"><ol className="flex flex-wrap items-center gap-2"><li><Link className="hover:text-emerald-300" to={pathFor('/')}>AnyTool</Link></li><li aria-hidden="true">/</li><li><Link className="hover:text-emerald-300" to={categoryPath}>{categoryName}</Link></li><li aria-hidden="true">/</li><li className="text-emerald-300">{toolName(tool)}</li></ol></nav><div className="tool-hero-card mt-4"><div><div className="flex items-start justify-between gap-4"><div><h1 className="text-3xl font-black sm:text-4xl">{toolName(tool)}</h1><p className="mt-3 max-w-2xl text-slate-400">{toolDescription(tool)}</p>{sourceKeys.length>0&&<p className="mt-2 text-xs font-semibold text-emerald-300">{reviewedLabel}: <time dateTime={reviewed}>{reviewed}</time></p>}</div><button aria-label={t('favorites')} className="btn-ghost shrink-0" onClick={()=>saveFavorite(slug).then(()=>alert(t('saved'))).catch(()=>alert(t('signInFirst')))}><Heart size={17}/></button></div></div><ToolArt tool={tool} name={toolName(tool)} hero/></div></div>{view}<ToolGuide tool={tool}/><SourceEvidence slug={slug}/><OfficialAssistant slug={slug}/><p className="mt-6 text-xs text-slate-500">{t('planningOnly')}</p></section>
+ return <section className="mx-auto max-w-6xl px-4 py-8"><Seo title={seoTitle} description={toolDescription(tool)} image={'/tool-art/'+slug+'.svg'} jsonLd={schemas}/><nav aria-label="Breadcrumb" className="mb-4 text-xs font-semibold text-slate-500"><ol className="flex flex-wrap items-center gap-2"><li><Link className="hover:text-white" to={pathFor('/tools')}>Tools</Link></li><li aria-hidden="true">/</li><li><Link className="hover:text-white" to={categoryPath}>{categoryName}</Link></li><li aria-hidden="true">/</li><li className="text-slate-300">{toolName(tool)}</li></ol></nav><header className={'tool-focus-header category-'+tool.category}><div className="min-w-0"><div className="tool-focus-kicker">{categoryName}</div><h1>{toolName(tool)}</h1><p>{toolDescription(tool)}</p>{sourceKeys.length>0&&<span className="tool-reviewed">{reviewedLabel}: <time dateTime={reviewed}>{reviewed}</time></span>}</div><div className="flex items-center gap-3"><div className="tool-focus-art"><ToolArt tool={tool} name={toolName(tool)}/></div><button aria-label={t('favorites')} className="btn-ghost shrink-0" onClick={()=>saveFavorite(slug).then(()=>alert(t('saved'))).catch(()=>alert(t('signInFirst')))}><Heart size={17}/></button></div></header><div className={'tool-workspace category-'+tool.category}>{view}</div><ToolGuide tool={tool}/>{sourceKeys.length>0&&<><SourceEvidence slug={slug}/><OfficialAssistant slug={slug}/></>}{regulated2026.has(slug)&&<p className="mt-5 text-xs text-slate-500">{t('planningOnly')}</p>}</section>
 }

@@ -307,6 +307,7 @@ test('QR scanner decodes an uploaded QR image', async ({ page }) => {
 test('ordinary public pages keep WebPage structured data after hydration', async ({ page }) => {
   for (const path of ['/about','/privacy','/contact','/methodology','/sources']) {
     await page.goto(path)
+    await expect(page.locator('script[data-anytool-jsonld]')).toHaveCount(1)
     const schemas=await page.locator('script[data-anytool-jsonld]').evaluateAll(nodes=>nodes.map(n=>JSON.parse(n.textContent)))
     expect(schemas.some(s=>s['@type']==='WebPage'&&s.url==='https://www.anytool.online'+path)).toBeTruthy()
   }
@@ -317,4 +318,99 @@ test('ordinary public pages keep WebPage structured data after hydration', async
 test('home publishes a Google-compatible PNG favicon', async ({ page }) => {
   await page.goto('/')
   await expect(page.locator('link[rel="icon"][type="image/png"]')).toHaveAttribute('href','/favicon-192.png')
+})
+
+
+test('remaining calculator functions pass representative dummy inputs', async ({ page }) => {
+  await page.goto('/tools/labor-insurance')
+  await page.getByLabel('Monthly salary (NT$)').fill('36300')
+  await expect(page.getByText('835',{exact:true})).toBeVisible()
+
+  await page.goto('/tools/nhi')
+  await page.getByLabel('Monthly salary (NT$)').fill('29500')
+  await page.getByLabel('NHI dependents').fill('1')
+  await expect(page.getByText('916',{exact:true})).toBeVisible()
+
+  await page.goto('/tools/overtime-pay')
+  await page.getByLabel('Monthly salary (NT$)').fill('50000')
+  await page.getByLabel('Weekday overtime hours').fill('2')
+  await expect(page.getByText('Estimated overtime pay')).toBeVisible()
+
+  await page.goto('/tools/employer-cost')
+  await page.getByLabel('Monthly salary (NT$)').fill('36300')
+  await expect(page.getByText('Estimated monthly employer cost')).toBeVisible()
+
+  await page.goto('/tools/annual-salary')
+  await page.getByLabel('Monthly salary (NT$)').fill('50000')
+  await page.getByLabel('Paid salary months').fill('13')
+  await expect(page.getByText('650,000',{exact:false})).toBeVisible()
+  await page.getByRole('button',{name:'Annual → monthly'}).click()
+  await page.getByLabel('Annual package').fill('650000')
+  await expect(page.getByText('50,000',{exact:false})).toBeVisible()
+
+  await page.goto('/tools/dpi-calculator')
+  await page.getByLabel('Pixels').fill('3000')
+  await page.getByLabel('Print width (inches)').fill('10')
+  await expect(page.getByText('300.0',{exact:true})).toBeVisible()
+})
+
+test('format conversion tools emit the requested MIME types', async ({ page }) => {
+  const png=Buffer.from('iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/x8AAusB9Wl8V1kAAAAASUVORK5CYII=','base64')
+  await page.goto('/tools/png-to-jpg')
+  await page.getByLabel('Choose image file').setInputFiles({name:'one.png',mimeType:'image/png',buffer:png})
+  let dl=page.getByRole('link',{name:'Download result'})
+  await expect(dl).toBeVisible()
+  expect(await dl.evaluate(async a=>(await (await fetch(a.href)).blob()).type)).toBe('image/jpeg')
+
+  await page.goto('/tools/jpg-to-png')
+  const jpg=Buffer.from('/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAP//////////////////////////////////////////////////////////////////////////////////////2wBDAf//////////////////////////////////////////////////////////////////////////////////////wAARCAABAAEDASIAAhEBAxEB/8QAFQABAQAAAAAAAAAAAAAAAAAAAAX/xAAUEAEAAAAAAAAAAAAAAAAAAAAA/9oADAMBAAIQAxAAAAEf/8QAFBABAAAAAAAAAAAAAAAAAAAAAP/aAAgBAQABBQJ//8QAFBEBAAAAAAAAAAAAAAAAAAAAAP/aAAgBAwEBPwF//8QAFBEBAAAAAAAAAAAAAAAAAAAAAP/aAAgBAgEBPwF//8QAFBABAAAAAAAAAAAAAAAAAAAAAP/aAAgBAQAGPwJ//8QAFBABAAAAAAAAAAAAAAAAAAAAAP/aAAgBAQABPyF//9oADAMBAAIAAwAAABAf/8QAFBEBAAAAAAAAAAAAAAAAAAAAAP/aAAgBAwEBPxB//8QAFBEBAAAAAAAAAAAAAAAAAAAAAP/aAAgBAgEBPxB//8QAFBABAAAAAAAAAAAAAAAAAAAAAP/aAAgBAQABPxB//9k=','base64')
+  await page.getByLabel('Choose image file').setInputFiles({name:'one.jpg',mimeType:'image/jpeg',buffer:jpg})
+  dl=page.getByRole('link',{name:'Download result'})
+  await expect(dl).toBeVisible()
+  expect(await dl.evaluate(async a=>(await (await fetch(a.href)).blob()).type)).toBe('image/png')
+})
+
+test('new picker wheel accepts editable entries and produces a selection', async ({ page }) => {
+  await page.goto('/tools/random-picker')
+  const entries=page.getByLabel('Wheel entries')
+  await entries.fill('Alice\nBob\n42')
+  await page.getByLabel('Add wheel item').fill('Nina')
+  await page.getByRole('button',{name:'Add'}).click()
+  await expect(entries).toContainText('')
+  await page.getByRole('button',{name:'Spin wheel'}).click()
+  await expect(page.getByText('Selected')).toBeVisible({timeout:3000})
+  await expect(page.locator('.picker-winner strong')).not.toHaveText('Add at least two entries and spin')
+})
+
+test('new timer supports presets start pause and selectable sounds', async ({ page }) => {
+  await page.goto('/tools/timer')
+  await page.getByLabel('Timer minutes').fill('0')
+  await page.getByLabel('Timer seconds').fill('5')
+  await page.getByLabel('Timer sound').selectOption('soft')
+  await expect(page.getByText('00:05',{exact:true})).toBeVisible()
+  await page.getByRole('button',{name:'Start'}).click()
+  await expect(page.getByRole('button',{name:'Pause'})).toBeVisible()
+  await page.getByRole('button',{name:'Pause'}).click()
+  await expect(page.getByRole('button',{name:'Start'})).toBeVisible()
+  await page.getByRole('button',{name:'Reset'}).click()
+})
+
+test('new image sketch tool creates a local downloadable PNG', async ({ page }) => {
+  const png=Buffer.from('iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/x8AAusB9Wl8V1kAAAAASUVORK5CYII=','base64')
+  await page.goto('/tools/image-to-sketch')
+  await page.getByLabel('Choose photo for sketch').setInputFiles({name:'portrait.png',mimeType:'image/png',buffer:png})
+  await expect(page.locator('canvas[aria-label="Sketch preview"]')).toBeVisible()
+  await expect(page.getByRole('button',{name:'Download PNG sketch'})).toBeVisible()
+  await page.getByLabel('Sketch line strength').fill('2')
+  const dims=await page.locator('canvas[aria-label="Sketch preview"]').evaluate(c=>[c.width,c.height])
+  expect(dims[0]).toBeGreaterThan(0);expect(dims[1]).toBeGreaterThan(0)
+})
+
+test('tool directory is large searchable and exposes all 26 tools', async ({ page }) => {
+  await page.goto('/tools')
+  await expect(page.getByLabel('Search all tools')).toBeVisible()
+  await expect(page.locator('.directory-tool-button')).toHaveCount(26)
+  await page.getByLabel('Search all tools').fill('timer')
+  await expect(page.locator('.directory-tool-button')).toHaveCount(1)
+  await expect(page.getByRole('link',{name:/Timer with Sounds/})).toBeVisible()
 })

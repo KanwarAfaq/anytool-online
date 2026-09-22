@@ -7,8 +7,9 @@ import cloudinaryHandler from '../api/cloudinary-sign.js'
 import healthHandler from '../api/health.js'
 import sourceAssistantHandler from '../api/source-assistant.js'
 
-assert.equal(tools.length,23,'expected 23 public tools')
+assert.equal(tools.length,26,'expected 26 public tools')
 assert.equal(new Set(tools.map(t=>t.slug)).size,tools.length,'tool slugs must be unique')
+for(const slug of ['random-picker','timer','image-to-sketch']) assert.ok(tools.some(t=>t.slug===slug),'missing new public tool '+slug)
 
 const labor=laborInsurance(36300)
 assert.equal(labor.labor,835,'labor insurance regression')
