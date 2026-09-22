@@ -66,7 +66,7 @@ test('salary percentage tax minimum wage and loan calculators respond', async ({
 
 test('QR generation works', async ({ page }) => {
   await page.goto('/tools/qr-generator')
-  await page.getByRole('textbox').fill('https://www.anytool.online/test')
+  await page.getByLabel('Text or URL').fill('https://www.anytool.online/test')
   await page.getByRole('button',{name:'Generate'}).click()
   await expect(page.locator('img[alt="QR code"]')).toBeVisible()
   await expect(page.getByRole('link',{name:'Download'})).toHaveAttribute('download','qr.png')
@@ -209,7 +209,6 @@ test('all-tools directory keeps every tool visible and reachable', async ({ page
     const link=page.locator('a[href="/tools/'+tool.slug+'"]').first()
     await expect(link).toBeVisible()
     await expect(link).toContainText(tool.name)
-    await expect(link.locator('img[src="/tool-art/'+tool.slug+'.svg"]')).toHaveAttribute('alt',/visual preview/)
   }
 
   await page.goto('/')
@@ -231,7 +230,7 @@ test('numeric inputs can be cleared and retyped without leading zero', async ({ 
   await expect(salary).toHaveValue('50000')
 })
 
-test('tool pages expose a representative visual and image metadata', async ({ page }) => {await page.goto('/tools/taiwan-id-photo');await expect(page.locator('img[src="/tool-art/taiwan-id-photo.svg"]')).toBeVisible();await expect(page.locator('meta[property="og:image"]')).toHaveAttribute('content','https://www.anytool.online/tool-art/taiwan-id-photo.svg')})
+test('tool pages expose representative image metadata without a bulky hero image', async ({ page }) => {await page.goto('/tools/taiwan-id-photo');await expect(page.getByRole('heading',{level:1})).toContainText('Taiwan Passport');await expect(page.locator('meta[property="og:image"]')).toHaveAttribute('content','https://www.anytool.online/tool-art/taiwan-id-photo.svg')})
 
 
 test('key public controls expose accessible names', async ({ page }) => {
@@ -307,8 +306,7 @@ test('QR scanner decodes an uploaded QR image', async ({ page }) => {
 test('ordinary public pages keep WebPage structured data after hydration', async ({ page }) => {
   for (const path of ['/about','/privacy','/contact','/methodology','/sources']) {
     await page.goto(path)
-    const schemas=await page.locator('script[data-anytool-jsonld]').evaluateAll(nodes=>nodes.map(n=>JSON.parse(n.textContent)))
-    expect(schemas.some(s=>s['@type']==='WebPage'&&s.url==='https://www.anytool.online'+path)).toBeTruthy()
+    await expect.poll(async()=>page.locator('script[data-anytool-jsonld]').evaluateAll(nodes=>nodes.map(n=>JSON.parse(n.textContent)).some(s=>s['@type']==='WebPage'&&s.url==='https://www.anytool.online'+path))).toBeTruthy()
   }
   await page.goto('/zh-tw/about')
   await expect(page.locator('link[rel="canonical"]')).toHaveAttribute('href','https://www.anytool.online/zh-tw/about')
@@ -317,4 +315,51 @@ test('ordinary public pages keep WebPage structured data after hydration', async
 test('home publishes a Google-compatible PNG favicon', async ({ page }) => {
   await page.goto('/')
   await expect(page.locator('link[rel="icon"][type="image/png"]')).toHaveAttribute('href','/favicon-192.png')
+})
+
+
+test('every deterministic finance calculator has a useful dummy-data result', async ({ page }) => {
+ const cases=[
+  ['/tools/take-home-pay','Monthly salary (NT$)','60000','Estimated net'],
+  ['/tools/labor-insurance','Monthly salary (NT$)','36300','Employee premium'],
+  ['/tools/nhi','Monthly salary (NT$)','29500','Employee NHI'],
+  ['/tools/income-tax','Annual salary income (NT$)','720000','Estimated annual tax'],
+  ['/tools/overtime-pay','Monthly salary (NT$)','50000','Estimated overtime pay'],
+  ['/tools/minimum-wage','Hourly wage (NT$)','196','Hourly wage status'],
+  ['/tools/employer-cost','Monthly salary (NT$)','50000','Estimated monthly employer cost'],
+  ['/tools/annual-salary','Monthly salary (NT$)','50000','Annual package'],
+  ['/tools/percentage','Original','100','Change'],
+  ['/tools/loan-payment','Loan amount','1000000','Monthly payment'],
+ ]
+ for(const [path,label,value,result] of cases){await page.goto(path);await page.getByLabel(label).fill(value);await expect(page.getByText(result,{exact:false}).first()).toBeVisible()}
+ await page.goto('/tools/percentage');await page.getByLabel('Original').fill('0');await expect(page.getByText('—',{exact:true})).toBeVisible()
+})
+
+test('all local image utilities produce usable outputs with dummy images', async ({ page }) => {
+ const png=Buffer.from('iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/x8AAusB9Wl8V1kAAAAASUVORK5CYII=','base64')
+ for(const slug of ['image-resize','image-compress','png-to-jpg']){await page.goto('/tools/'+slug);await page.getByLabel('Choose image file').setInputFiles({name:'one.png',mimeType:'image/png',buffer:png});await expect(page.getByRole('link',{name:'Download result'})).toBeVisible()}
+ await page.goto('/tools/image-resize');await page.getByLabel('Choose image file').setInputFiles({name:'one.png',mimeType:'image/png',buffer:png});await expect(page.getByRole('link',{name:'Download result'})).toHaveAttribute('download','anytool-output.png')
+ await page.goto('/tools/image-to-sketch');await page.getByLabel('Choose image').setInputFiles({name:'one.png',mimeType:'image/png',buffer:png});await page.getByRole('button',{name:'Create sketch'}).click();await expect(page.getByRole('link',{name:'Download PNG'})).toBeVisible()
+})
+
+test('DPI QR and PDF utilities complete their main workflows', async ({ page }) => {
+ await page.goto('/tools/dpi-calculator');await page.getByLabel('Pixels').fill('3000');await page.getByLabel('Print width (inches)').fill('10');await expect(page.getByText('300.0',{exact:true})).toBeVisible()
+ await page.goto('/tools/qr-generator');await page.getByLabel('Text or URL').fill('AnyTool QA');await page.getByRole('button',{name:'Generate'}).click();await expect(page.locator('img[alt="QR code"]')).toBeVisible()
+ const doc=await PDFDocument.create();doc.addPage([200,200]);doc.addPage([200,200]);const bytes=Buffer.from(await doc.save())
+ await page.goto('/tools/pdf-merge');const merged=page.waitForEvent('download');await page.getByLabel('Choose PDF files').setInputFiles([{name:'a.pdf',mimeType:'application/pdf',buffer:bytes},{name:'b.pdf',mimeType:'application/pdf',buffer:bytes}]);expect((await merged).suggestedFilename()).toBe('merged.pdf')
+ await page.goto('/tools/pdf-split');await page.getByLabel('First page').fill('1');await page.getByLabel('Last page').fill('1');const split=page.waitForEvent('download');await page.getByLabel('Choose PDF file').setInputFiles({name:'a.pdf',mimeType:'application/pdf',buffer:bytes});expect((await split).suggestedFilename()).toBe('pages-1-1.pdf')
+})
+
+test('new random picker and timer work with editable dummy data', async ({ page }) => {
+ await page.goto('/tools/random-picker');const list=page.getByLabel('Names or numbers');await list.fill('Only winner');await page.getByRole('button',{name:'Spin the wheel'}).click();await expect(page.getByText('Only winner',{exact:true}).last()).toBeVisible({timeout:2500})
+ await page.goto('/tools/timer');await page.getByLabel('Minutes').fill('0');await page.getByLabel('Seconds').fill('1');await page.getByRole('button',{name:'Start'}).click();await expect(page.getByText("Time's up!",{exact:true}).first()).toBeVisible({timeout:3500})
+})
+
+test('AI tools fail safely when no user session exists', async ({ page }) => {
+ const png=Buffer.from('iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/x8AAusB9Wl8V1kAAAAASUVORK5CYII=','base64')
+ for(const slug of ['ocr','receipt-to-json']){await page.goto('/tools/'+slug);await page.getByLabel('Choose image or PDF file').setInputFiles({name:'one.png',mimeType:'image/png',buffer:png});await expect(page.getByText('Please sign in before using AI tools.')).toBeVisible()}
+})
+
+test('tool directory is large, searchable and includes all public tools', async ({ page }) => {
+ await page.goto('/tools');await expect(page.getByLabel('Search all tools')).toBeVisible();await expect(page.locator('.tool-browser-card')).toHaveCount(tools.length);await page.getByLabel('Search all tools').fill('wheel');await expect(page.getByRole('link',{name:/Random Name/})).toBeVisible()
 })

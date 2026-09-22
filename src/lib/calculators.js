@@ -15,11 +15,12 @@ export function laborInsurance(salary,employment=true){
 }
 export function nhi(salary,dependents=0){
  const b=bracket(salary,NHI_BRACKETS)
- const dependentCount=Math.min(3,Math.max(0,whole(dependents)))
+ const dependentCount=Math.min(3,Math.max(0,Math.floor(Number(dependents)||0)))
  const basePremium=whole(b*.0517*.3)
  return { bracket:b, basePremium, dependents:dependentCount, premium:basePremium*(1+dependentCount) }
 }
 export function salaryTax(annual,spouse=0,dependents=0){
+ annual=Math.max(0,Number(annual)||0);spouse=Math.max(0,Number(spouse)||0);dependents=Math.max(0,Math.floor(Number(dependents)||0))
  const salaryEarners=spouse>0?2:1
  const gross=annual+spouse
  const exemptions=101000*(1+dependents+(spouse>0?1:0))
@@ -36,6 +37,7 @@ export function takeHome(salary,dependents=0,employment=true){
  return { ...li, nhi:nh.premium, tax, deductions, net:salary-deductions }
 }
 export function overtime(salary,weekday=0,rest=0){
+ salary=Math.max(0,Number(salary)||0);weekday=Math.max(0,Number(weekday)||0);rest=Math.max(0,Number(rest)||0)
  const hourly=salary/240
  const w1=Math.min(2,weekday), w2=Math.max(0,Math.min(2,weekday-2))
  const r1=Math.min(2,rest), r2=Math.max(0,Math.min(6,rest-2)), r3=Math.max(0,Math.min(4,rest-8))
