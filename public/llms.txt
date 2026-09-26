@@ -17,6 +17,14 @@ Languages:
 
 Taiwan regulated calculations are deterministic and source-backed. AnyTool does not use generative AI to invent tax, insurance, wage, subsidy or eligibility rules. Source pages and verification dates are shown on regulated tools.
 
+## Tool categories
+- Money & Taiwan: https://www.anytool.online/categories/money
+- Image & ID Photo: https://www.anytool.online/categories/image
+- PDF & Document: https://www.anytool.online/categories/document
+- AI & OCR: https://www.anytool.online/categories/ai
+- General calculators: https://www.anytool.online/categories/general
+- Complete directory: https://www.anytool.online/tools
+
 ## Key Taiwan tools
 - Take-home pay: https://www.anytool.online/tools/take-home-pay
 - Labor insurance: https://www.anytool.online/tools/labor-insurance

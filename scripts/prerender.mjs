@@ -122,7 +122,7 @@ const contentLastmod=path=>{
  return staticDateByPath[clean]||lastmod
 }
 const metaDescription=(tool,locale,name)=>{
- if(locale.code==='en')return tool.description
+ if(locale.code==='en')return tool.seoDescription||tool.description
  if(locale.code==='zh-TW')return `${name}：免費互動式線上工具。提供清楚操作步驟與相關工具；涉及台灣法規或公共服務時，頁面會顯示官方來源、查核日期與限制。`
  if(locale.code==='ar')return `${name}: أداة تفاعلية مجانية مع خطوات واضحة وأدوات مرتبطة. عند التعامل مع قواعد أو خدمات تايوان، تعرض الصفحة المصادر الحكومية وتاريخ التحقق والقيود.`
  return `${name}: مفت انٹرایکٹو آن لائن ٹول، واضح استعمال کے مراحل اور متعلقہ ٹولز کے ساتھ۔ تائیوان کے قواعد یا عوامی خدمات کے لیے سرکاری ذرائع، تصدیق کی تاریخ اور حدود دکھائی جاتی ہیں۔`
@@ -197,7 +197,7 @@ for(const locale of locales){
    const image=SITE+'/tool-art/'+tool.slug+'.svg'
    const schemas=[
     {'@context':'https://schema.org','@type':'WebPage',name:title,url:canonical,description,inLanguage:locale.code,dateModified:contentLastmod(path),primaryImageOfPage:image,isPartOf:{'@type':'WebSite',name:'AnyTool.online',url:SITE+'/'}},
-    {'@context':'https://schema.org','@type':'SoftwareApplication',name,image,applicationCategory:'UtilitiesApplication',operatingSystem:'Web',url:canonical,description,isAccessibleForFree:true,featureList:[tool.description],publisher:{'@type':'Organization',name:'AnyTool.online',url:SITE+'/'},offers:{'@type':'Offer',price:'0',priceCurrency:'USD'}},
+    {'@context':'https://schema.org','@type':'SoftwareApplication',name,image,applicationCategory:'UtilitiesApplication',operatingSystem:'Web',url:canonical,description,isAccessibleForFree:true,featureList:[tool.seoDescription||tool.description],publisher:{'@type':'Organization',name:'AnyTool.online',url:SITE+'/'},offers:{'@type':'Offer',price:'0',priceCurrency:'USD'}},
     {'@context':'https://schema.org','@type':'BreadcrumbList',itemListElement:[{'@type':'ListItem',position:1,name:'AnyTool',item:SITE+'/'},{'@type':'ListItem',position:2,name,item:canonical}]}
    ]
    await emit(path,locale,title,description,schemas,image)
@@ -224,6 +224,7 @@ await writeFile(resolve(root,'dist','tool-catalog.json'),JSON.stringify({
   name:t.name,
   category:t.category,
   description:t.description,
+  seoDescription:t.seoDescription||t.description,
   url:SITE+'/tools/'+t.slug,
   image:SITE+'/tool-art/'+t.slug+'.svg',
   localizedUrls:Object.fromEntries(locales.map(l=>[l.code,SITE+localizedPath(l.prefix,'/tools/'+t.slug)])),

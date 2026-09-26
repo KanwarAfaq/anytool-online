@@ -1,16 +1,20 @@
-import { Link, NavLink, useNavigate } from 'react-router-dom'
+import { Link, NavLink, useLocation, useNavigate } from 'react-router-dom'
 import { Wrench, Search, UserRound, Languages, ShieldCheck, Command, X, ArrowRight, Menu, Mail } from 'lucide-react'
 import { useEffect, useMemo, useRef, useState } from 'react'
 import { tools } from '../data/tools'
+import SiteSidebar from './SiteSidebar'
 import { useI18n } from '../i18n'
 
 export default function Layout({children}){
  const {lang,setLang,languages,t,toolName,toolDescription,pathFor}=useI18n()
  const navigate=useNavigate()
+ const location=useLocation()
  const [q,setQ]=useState('')
  const [palette,setPalette]=useState(false)
  const [mobile,setMobile]=useState(false)
  const [active,setActive]=useState(0)
+ const cleanPath=location.pathname.replace(/^\/(zh-tw|ar|ur)(?=\/|$)/,'')||'/'
+ const showSidebar=!/^\/(auth|dashboard|profile)(?:\/|$)/.test(cleanPath)
  const inputRef=useRef(null)
  const N={
   en:{tools:'Tools',sources:'Sources',contact:'Contact',verified:'2026 Taiwan data verified',search:'Search tools',menu:'Menu',close:'Close',account:'Account',privacy:'Privacy',about:'About',method:'Methodology',footer:'Fast tools. Clear results. Less clutter.',need:'Need a tool?',send:'Tell us →'},
@@ -28,18 +32,18 @@ export default function Layout({children}){
  return <div className="site-shell min-h-screen">
   <a className="skip-link" href="#main-content">Skip to content</a>
   <span className="aurora aurora-a"/><span className="aurora aurora-b"/>
-  <header className="sticky top-0 z-50 px-3 pt-3">
-   <div className="glass mx-auto flex max-w-7xl items-center gap-2 rounded-2xl px-3 py-2.5">
-    <Link to={pathFor('/')} className="group flex shrink-0 items-center gap-2 font-black tracking-tight">
-      <span className="grid size-9 place-items-center rounded-xl bg-lime-300 text-[#07100c] transition group-hover:rotate-6"><Wrench size={17}/></span>
+  <header className="site-header sticky top-0 z-50 px-3 pt-3">
+   <div className="site-header-bar glass mx-auto flex max-w-[100rem] items-center gap-2 rounded-2xl px-3 py-2.5">
+    <Link to={pathFor('/')} className="site-brand group flex shrink-0 items-center gap-2 font-black tracking-tight">
+      <span className="site-brand-mark grid size-9 place-items-center rounded-xl text-[#07100c] transition group-hover:rotate-6"><Wrench size={17}/></span>
       <span className="hidden text-lg sm:inline">AnyTool<span className="text-lime-300">.online</span></span>
     </Link>
-    <nav className="ms-3 hidden items-center gap-1 lg:flex">
+    <nav className="header-nav ms-3 hidden items-center gap-1 lg:flex">
       <Link className="rounded-lg px-3 py-2 text-sm font-semibold text-slate-400 hover:bg-white/[0.04] hover:text-white" to={pathFor('/tools')}>{N.tools}</Link>
       <Link className="rounded-lg px-3 py-2 text-sm font-semibold text-slate-400 hover:bg-white/[0.04] hover:text-white" to={pathFor('/sources')}>{N.sources}</Link>
       <Link className="rounded-lg px-3 py-2 text-sm font-semibold text-slate-400 hover:bg-white/[0.04] hover:text-white" to={pathFor('/contact')}>{N.contact}</Link>
     </nav>
-    <button onClick={()=>setPalette(true)} aria-haspopup="dialog" aria-expanded={palette} className="ms-auto hidden min-w-[12rem] max-w-sm flex-1 items-center gap-2 rounded-xl border border-white/[0.08] bg-[#080e16] px-3 py-2.5 text-left text-sm text-slate-400 transition hover:border-lime-300/30 hover:bg-white/[0.045] md:flex">
+    <button onClick={()=>setPalette(true)} aria-haspopup="dialog" aria-expanded={palette} className="header-search ms-auto hidden min-w-[12rem] max-w-sm flex-1 items-center gap-2 rounded-xl px-3 py-2.5 text-left text-sm text-slate-400 transition md:flex">
       <Search size={16}/><span className="truncate">{N.search}</span><span className="ms-auto rounded-md border border-white/[0.07] px-1.5 py-0.5 text-[10px]">⌘K</span>
     </button>
     <button aria-label={N.search} aria-haspopup="dialog" aria-expanded={palette} className="btn-ghost px-3 md:hidden" onClick={()=>setPalette(true)}><Search size={17}/></button>
@@ -52,7 +56,7 @@ export default function Layout({children}){
     <NavLink aria-label={N.account} title={N.account} className="btn-ghost px-3" to={pathFor('/dashboard')}><UserRound size={17}/></NavLink>
     <button className="btn-ghost px-3 lg:hidden" aria-label={N.menu} aria-expanded={mobile} aria-controls="mobile-navigation" onClick={()=>setMobile(v=>!v)}>{mobile?<X size={18}/>:<Menu size={18}/>}</button>
    </div>
-   {mobile&&<div id="mobile-navigation" className="glass mx-auto mt-2 grid max-w-7xl gap-1 rounded-2xl p-3 lg:hidden">
+   {mobile&&<div id="mobile-navigation" className="glass mx-auto mt-2 grid max-w-[100rem] gap-1 rounded-2xl p-3 lg:hidden">
       <Link onClick={()=>setMobile(false)} className="rounded-lg px-3 py-2.5 text-sm text-slate-300 hover:bg-white/5" to={pathFor('/tools')}>{N.tools}</Link>
       <Link onClick={()=>setMobile(false)} className="rounded-lg px-3 py-2.5 text-sm text-slate-300 hover:bg-white/5" to={pathFor('/sources')}>{N.sources}</Link>
       <Link onClick={()=>setMobile(false)} className="rounded-lg px-3 py-2.5 text-sm text-slate-300 hover:bg-white/5" to={pathFor('/contact')}>{N.contact}</Link>
@@ -75,10 +79,13 @@ export default function Layout({children}){
     </div>
   </div>}
 
-  <main id="main-content">{children}</main>
+  <div className={showSidebar?'site-body-grid':'site-body-grid site-body-grid-plain'}>
+   {showSidebar&&<SiteSidebar/>}
+   <main id="main-content" className="min-w-0">{children}</main>
+  </div>
 
   <footer className="mt-20 border-t border-white/[0.06] bg-[#070c13]">
-   <div className="mx-auto max-w-7xl px-4 py-10">
+   <div className="mx-auto max-w-[100rem] px-4 py-10">
     <div className="grid gap-8 md:grid-cols-[1.4fr_.8fr_.8fr]">
       <div><div className="flex items-center gap-2 font-black"><span className="grid size-8 place-items-center rounded-lg bg-lime-300 text-[#07100c]"><Wrench size={14}/></span>AnyTool<span className="text-lime-300">.online</span></div><p className="mt-3 max-w-md text-sm text-slate-500">{N.footer}</p><Link to={pathFor('/contact')} className="mt-4 inline-flex items-center text-sm font-bold text-lime-300"><Mail className="me-2" size={14}/>{N.need} {N.send}</Link></div>
       <div><p className="text-xs font-black uppercase tracking-[.16em] text-slate-500">{N.tools}</p><div className="mt-3 grid gap-2 text-sm"><Link className="text-slate-400 hover:text-white" to={pathFor('/tools')}>{N.tools}</Link><Link className="text-slate-400 hover:text-white" to={pathFor('/sources')}>{N.sources}</Link><Link className="text-slate-400 hover:text-white" to={pathFor('/methodology')}>{N.method}</Link></div></div>
