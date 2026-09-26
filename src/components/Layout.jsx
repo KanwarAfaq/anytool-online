@@ -28,12 +28,6 @@ export default function Layout({children}){
  return <div className="site-shell min-h-screen">
   <a className="skip-link" href="#main-content">Skip to content</a>
   <span className="aurora aurora-a"/><span className="aurora aurora-b"/>
-  <div className="border-b border-white/[0.06] bg-[#090f17]">
-   <div className="mx-auto flex max-w-7xl items-center justify-center gap-2 px-4 py-2 text-xs font-semibold text-slate-400">
-    <span className="signal-dot"/><span>{N.verified}</span><Link className="text-lime-300 hover:text-lime-200" to={pathFor('/sources')}>{N.sources} →</Link>
-   </div>
-  </div>
-
   <header className="sticky top-0 z-50 px-3 pt-3">
    <div className="glass mx-auto flex max-w-7xl items-center gap-2 rounded-2xl px-3 py-2.5">
     <Link to={pathFor('/')} className="group flex shrink-0 items-center gap-2 font-black tracking-tight">

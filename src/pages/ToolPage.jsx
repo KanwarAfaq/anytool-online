@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useState } from 'react'
 import { useParams, Link } from 'react-router-dom'
-import { Heart, Download, Copy } from 'lucide-react'
-import { toolBySlug } from '../data/tools'
+import { Heart, Download, Copy, ArrowLeft, ArrowRight, LayoutGrid, Home as HomeIcon } from 'lucide-react'
+import { toolBySlug, tools, categories } from '../data/tools'
 import Seo from '../components/Seo'
 import { takeHome, laborInsurance, nhi, salaryTax, overtime, employerCost, money } from '../lib/calculators'
 import { supabase, logToolEvent, saveFavorite } from '../lib/supabase'
@@ -222,6 +222,46 @@ function AITool({slug}){
  </div>
 }
 
+
+function ToolNavigator({slug}){
+ const {lang,pathFor,toolName,t}=useI18n()
+ const copy={
+  en:{menu:'Tool menu',all:'All tools',home:'Home',previous:'Previous',next:'Next'},
+  'zh-TW':{menu:'工具選單',all:'全部工具',home:'首頁',previous:'上一個',next:'下一個'},
+  ar:{menu:'قائمة الأدوات',all:'كل الأدوات',home:'الرئيسية',previous:'السابق',next:'التالي'},
+  ur:{menu:'ٹول مینو',all:'تمام ٹولز',home:'ہوم',previous:'پچھلا',next:'اگلا'}
+ }[lang]||{menu:'Tool menu',all:'All tools',home:'Home',previous:'Previous',next:'Next'}
+ const index=tools.findIndex(x=>x.slug===slug)
+ const previous=tools[(index-1+tools.length)%tools.length]
+ const next=tools[(index+1)%tools.length]
+ const groups=categories.map(category=>({category,items:tools.filter(x=>x.category===category.id)}))
+ const links=<>
+   <div className="tool-nav-home">
+    <Link to={pathFor('/')}><HomeIcon size={15}/>{copy.home}</Link>
+    <Link to={pathFor('/tools')}><LayoutGrid size={15}/>{copy.all}</Link>
+   </div>
+   <div className="tool-nav-groups">
+    {groups.map(({category,items})=><div key={category.id} className="tool-nav-group">
+      <div className="tool-nav-heading">{t('categories.'+category.id)}</div>
+      {items.map(item=><Link key={item.slug} aria-current={item.slug===slug?'page':undefined} className={item.slug===slug?'tool-nav-link active':'tool-nav-link'} to={pathFor('/tools/'+item.slug)}>{toolName(item)}</Link>)}
+    </div>)}
+   </div>
+ </>
+ return <>
+  <details className="tool-mobile-menu lg:hidden">
+   <summary><LayoutGrid size={16}/><span>{copy.menu}</span></summary>
+   <div className="tool-mobile-menu-panel">{links}</div>
+  </details>
+  <aside className="tool-side-nav hidden lg:block" aria-label={copy.menu}>
+   <div className="tool-side-nav-inner"><div className="tool-side-title"><LayoutGrid size={16}/>{copy.menu}</div>{links}</div>
+  </aside>
+  <div className="tool-step-nav">
+   <Link to={pathFor('/tools/'+previous.slug)} className="tool-step-link"><ArrowLeft size={16}/><span><small>{copy.previous}</small><strong>{toolName(previous)}</strong></span></Link>
+   <Link to={pathFor('/tools/'+next.slug)} className="tool-step-link tool-step-next"><span><small>{copy.next}</small><strong>{toolName(next)}</strong></span><ArrowRight size={16}/></Link>
+  </div>
+ </>
+}
+
 export default function ToolPage(){
  const {lang,t,toolName,toolDescription,pathFor}=useI18n()
  const {slug}=useParams(),tool=toolBySlug[slug]
@@ -272,5 +312,18 @@ export default function ToolPage(){
   {'@context':'https://schema.org','@type':'SoftwareApplication',name:toolName(tool),description:toolDescription(tool),image:imageUrl,applicationCategory:'UtilitiesApplication',operatingSystem:'Web',url:toolUrl,isAccessibleForFree:true,offers:{'@type':'Offer',price:'0',priceCurrency:'USD'}},
   {'@context':'https://schema.org','@type':'BreadcrumbList',itemListElement:[{'@type':'ListItem',position:1,name:'AnyTool',item:'https://www.anytool.online/'},{'@type':'ListItem',position:2,name:categoryName,item:categoryUrl},{'@type':'ListItem',position:3,name:toolName(tool),item:toolUrl}]}
  ]
- return <section className="mx-auto max-w-6xl px-4 py-8"><Seo title={seoTitle} description={toolDescription(tool)} image={'/tool-art/'+slug+'.svg'} jsonLd={schemas}/><nav aria-label="Breadcrumb" className="mb-4 text-xs font-semibold text-slate-500"><ol className="flex flex-wrap items-center gap-2"><li><Link className="hover:text-white" to={pathFor('/tools')}>Tools</Link></li><li aria-hidden="true">/</li><li><Link className="hover:text-white" to={categoryPath}>{categoryName}</Link></li><li aria-hidden="true">/</li><li className="text-slate-300">{toolName(tool)}</li></ol></nav><header className={'tool-focus-header category-'+tool.category}><div className="min-w-0"><div className="tool-focus-kicker">{categoryName}</div><h1>{toolName(tool)}</h1><p>{toolDescription(tool)}</p>{sourceKeys.length>0&&<span className="tool-reviewed">{reviewedLabel}: <time dateTime={reviewed}>{reviewed}</time></span>}</div><div className="flex items-center gap-3"><div className="tool-focus-art"><ToolArt tool={tool} name={toolName(tool)}/></div><button aria-label={t('favorites')} className="btn-ghost shrink-0" onClick={()=>saveFavorite(slug).then(()=>alert(t('saved'))).catch(()=>alert(t('signInFirst')))}><Heart size={17}/></button></div></header><div className={'tool-workspace category-'+tool.category}>{view}</div><ToolGuide tool={tool}/>{sourceKeys.length>0&&<><SourceEvidence slug={slug}/><OfficialAssistant slug={slug}/></>}{regulated2026.has(slug)&&<p className="mt-5 text-xs text-slate-500">{t('planningOnly')}</p>}</section>
+ return <section className="mx-auto max-w-[90rem] px-4 py-6">
+  <Seo title={seoTitle} description={toolDescription(tool)} image={'/tool-art/'+slug+'.svg'} jsonLd={schemas}/>
+  <div className="tool-page-grid">
+   <div className="tool-page-rail"><ToolNavigator slug={slug}/></div>
+   <div className="min-w-0">
+    <nav aria-label="Breadcrumb" className="mb-4 text-xs font-semibold text-slate-500"><ol className="flex flex-wrap items-center gap-2"><li><Link className="hover:text-white" to={pathFor('/tools')}>Tools</Link></li><li aria-hidden="true">/</li><li><Link className="hover:text-white" to={categoryPath}>{categoryName}</Link></li><li aria-hidden="true">/</li><li className="text-slate-300">{toolName(tool)}</li></ol></nav>
+    <header className={'tool-focus-header category-'+tool.category}><div className="min-w-0"><div className="tool-focus-kicker">{categoryName}</div><h1>{toolName(tool)}</h1><p>{toolDescription(tool)}</p>{sourceKeys.length>0&&<span className="tool-reviewed">{reviewedLabel}: <time dateTime={reviewed}>{reviewed}</time></span>}</div><div className="flex items-center gap-3"><div className="tool-focus-art"><ToolArt tool={tool} name={toolName(tool)}/></div><button aria-label={t('favorites')} className="btn-ghost shrink-0" onClick={()=>saveFavorite(slug).then(()=>alert(t('saved'))).catch(()=>alert(t('signInFirst')))}><Heart size={17}/></button></div></header>
+    <div className={'tool-workspace category-'+tool.category}>{view}</div>
+    <ToolGuide tool={tool}/>
+    {sourceKeys.length>0&&<><SourceEvidence slug={slug}/><OfficialAssistant slug={slug}/></>}
+    {regulated2026.has(slug)&&<p className="mt-5 text-xs text-slate-500">{t('planningOnly')}</p>}
+   </div>
+  </div>
+ </section>
 }

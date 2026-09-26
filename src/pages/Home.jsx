@@ -78,18 +78,6 @@ export default function Home(){
    </div>
   </section>
 
-  <section className="mx-auto max-w-7xl px-4 py-6">
-    <div className="mb-3 flex items-center gap-2 text-xs font-black uppercase tracking-[.16em] text-slate-500"><Zap size={13} className="text-lime-300"/>{C.ticker}</div>
-    <div className="ticker"><div className="ticker-track">{ticker.map((tool,i)=>{const I=categoryIcon[tool.category]||Sparkles;return <Link key={tool.slug+'-'+i} to={pathFor('/tools/'+tool.slug)} className="tool-pill"><I size={14} className={categoryAccent[tool.category]}/>{toolName(tool)}</Link>})}</div></div>
-  </section>
-
-  <section className="mx-auto max-w-7xl px-4 py-5" aria-label="AnyTool benefits">
-    <div className="trust-grid">
-      <div className="trust-card"><span className="trust-icon"><Zap size={17}/></span><div><h2>{t('fast')}</h2><p>{t('fastDesc')}</p></div></div>
-      <div className="trust-card"><span className="trust-icon"><ShieldCheck size={17}/></span><div><h2>{t('privacy')}</h2><p>{t('privacyDesc')}</p></div></div>
-      <div className="trust-card"><span className="trust-icon"><BrainCircuit size={17}/></span><div><h2>{t('aiFallback')}</h2><p>{t('aiFallbackDesc')}</p></div></div>
-    </div>
-  </section>
 
   {recent.length>0&&<section className="mx-auto max-w-7xl px-4 py-7">
     <div className="mb-3 text-xs font-black uppercase tracking-[.16em] text-slate-500">{C.recent}</div>
