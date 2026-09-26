@@ -30,7 +30,7 @@ export default function SiteSidebar(){
    </div>
    <div className="site-sidebar-label">{copy.categories}</div>
    <nav className="site-sidebar-categories">
-    {categories.map(category=>{const I=categoryIcon[category.id]||Sparkles;const active=activeCategory===category.id;return <Link key={category.id} aria-current={active?'page':undefined} className={active?'active':''} to={pathFor('/categories/'+category.id)}><span className={'category-'+category.id}><I size={15}/></span><b>{t('categories.'+category.id)}</b><small>{tools.filter(x=>x.category===category.id).length}</small></Link>})}
+    {categories.map(category=>{const I=categoryIcon[category.id]||Sparkles;const active=activeCategory===category.id;return <Link key={category.id} aria-current={active?'page':undefined} className={'category-'+category.id+(active?' active':'')} to={pathFor('/categories/'+category.id)}><span className={'category-'+category.id}><I size={15}/></span><b>{t('categories.'+category.id)}</b><small>{tools.filter(x=>x.category===category.id).length}</small></Link>})}
    </nav>
    <div className="site-sidebar-divider"/>
    <div className="site-sidebar-label">{activeCategory?copy.inside:copy.quick}</div>

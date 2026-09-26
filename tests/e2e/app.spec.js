@@ -206,7 +206,7 @@ test('modern quick calculator command palette filters and recent tools work', as
 test('all-tools directory keeps every tool visible and reachable', async ({ page }) => {
   await page.goto('/tools')
   for (const tool of tools) {
-    const link=page.locator('a[href="/tools/'+tool.slug+'"]').first()
+    const link=page.locator('.directory-tool-button[href="/tools/'+tool.slug+'"]')
     await expect(link).toBeVisible()
     await expect(link).toContainText(tool.name)
     await expect(link).toHaveClass(/directory-tool-button/)
@@ -449,6 +449,25 @@ test('simple calculator performs arithmetic percent sign and keyboard input', as
   await expect(display).toHaveText('2')
   await page.getByRole('button',{name:'plus minus'}).click()
   await expect(display).toHaveText('-2')
+})
+
+test('desktop sidebar stays usable and calculator fits the viewport', async ({ page }) => {
+  await page.setViewportSize({width:1440,height:900})
+  await page.goto('/')
+  await expect(page.getByRole('complementary',{name:'Explore AnyTool'})).toBeVisible()
+  await expect(page.getByRole('complementary',{name:'Explore AnyTool'}).getByRole('link',{name:'All tools'})).toBeVisible()
+
+  await page.goto('/tools/simple-calculator')
+  const sidebar=page.getByRole('complementary',{name:'Explore AnyTool'})
+  await expect(sidebar).toBeVisible()
+  await expect(sidebar.getByRole('link',{name:'General Calculators'})).toHaveClass(/active/)
+  await expect(page.locator('.tool-mobile-menu')).toHaveCount(0)
+
+  const box=await page.locator('.iphone-calculator').boundingBox()
+  expect(box?.width||0).toBeLessThanOrEqual(360)
+  expect(box?.x||0).toBeGreaterThanOrEqual(0)
+  expect((box?.x||0)+(box?.width||0)).toBeLessThanOrEqual(1440)
+  expect(await page.evaluate(()=>document.documentElement.scrollWidth<=window.innerWidth)).toBeTruthy()
 })
 
 test('love calculator gives deterministic playful result for two names', async ({ page }) => {
