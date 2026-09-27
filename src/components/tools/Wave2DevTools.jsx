@@ -42,7 +42,7 @@ export function YamlJsonTool(){
  const [mode,setMode]=useState('yaml2json'),[input,setInput]=useState(sampleYaml),[output,setOutput]=useState(''),[error,setError]=useState(''),[indent,setIndent]=useState(2)
  const convert=async()=>{
   try{
-   const yaml=(await import('js-yaml')).default
+   const yamlModule=await import('js-yaml'),yaml=yamlModule.default||yamlModule
    if(mode==='yaml2json')setOutput(JSON.stringify(yaml.load(input),null,indent))
    else setOutput(yaml.dump(JSON.parse(input),{indent,lineWidth:100,noRefs:true}))
    setError('')
