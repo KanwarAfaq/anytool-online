@@ -42,7 +42,11 @@ const staticPages=[
  {path:'/categories/image',titles:{en:'Image & ID Photo Tools | AnyTool.online','zh-TW':'圖片與證件照工具 | AnyTool.online',ar:'أدوات الصور وصور الهوية | AnyTool.online',ur:'تصویر اور شناختی فوٹو ٹولز | AnyTool.online'},description:'Image resize, compression, format conversion, DPI, QR and Taiwan passport / ARC photo tools.'},
  {path:'/categories/document',titles:{en:'PDF & Document Tools | AnyTool.online','zh-TW':'PDF 與文件工具 | AnyTool.online',ar:'أدوات PDF والمستندات | AnyTool.online',ur:'PDF اور دستاویز ٹولز | AnyTool.online'},description:'Privacy-conscious PDF merge, split and document utilities.'},
  {path:'/categories/ai',titles:{en:'AI & OCR Tools | AnyTool.online','zh-TW':'AI 與 OCR 工具 | AnyTool.online',ar:'أدوات AI وOCR | AnyTool.online',ur:'AI اور OCR ٹولز | AnyTool.online'},description:'Authenticated OCR and structured document extraction with provider fallback.'},
- {path:'/categories/general',titles:{en:'General Calculators | AnyTool.online','zh-TW':'一般計算器 | AnyTool.online',ar:'حاسبات عامة | AnyTool.online',ur:'عام کیلکولیٹر | AnyTool.online'},description:'Practical percentage, loan and everyday calculators.'},
+ {path:'/categories/general',titles:{en:'General Calculators | AnyTool.online','zh-TW':'一般計算器 | AnyTool.online',ar:'حاسبات عامة | AnyTool.online',ur:'عام کیلکولیٹر | AnyTool.online'},description:'Practical percentage, loan, date, unit and everyday calculators.'},
+ {path:'/categories/developer',titles:{en:'Developer Tools | AnyTool.online','zh-TW':'開發者工具 | AnyTool.online',ar:'أدوات المطورين | AnyTool.online',ur:'ڈیولپر ٹولز | AnyTool.online'},description:'Browser-local JSON, Base64, URL, JWT, UUID, hashing, regex and timestamp utilities.'},
+ {path:'/categories/text',titles:{en:'Text Tools | AnyTool.online','zh-TW':'文字工具 | AnyTool.online',ar:'أدوات النص | AnyTool.online',ur:'ٹیکسٹ ٹولز | AnyTool.online'},description:'Privacy-friendly word counting and text-case conversion tools.'},
+ {path:'/categories/security',titles:{en:'Security & Privacy Tools | AnyTool.online','zh-TW':'安全與隱私工具 | AnyTool.online',ar:'أدوات الأمان والخصوصية | AnyTool.online',ur:'سیکیورٹی اور پرائیویسی ٹولز | AnyTool.online'},description:'Browser-local password generation and password strength checking utilities.'},
+ {path:'/categories/design',titles:{en:'Design & Color Tools | AnyTool.online','zh-TW':'設計與色彩工具 | AnyTool.online',ar:'أدوات التصميم والألوان | AnyTool.online',ur:'ڈیزائن اور رنگ ٹولز | AnyTool.online'},description:'Color conversion, contrast checking and aspect-ratio design helpers.'},
 ]
 const localizedStaticDescriptions={
  'zh-TW':{
@@ -57,7 +61,11 @@ const localizedStaticDescriptions={
   '/categories/image':'圖片縮放、壓縮、格式轉換、DPI、QR 與台灣護照／ARC 證件照工具。',
   '/categories/document':'重視隱私的 PDF 合併、分割與文件處理工具。',
   '/categories/ai':'登入後可使用的 OCR 與結構化文件擷取工具，支援多個 AI 供應商備援。',
-  '/categories/general':'百分比、貸款與日常實用計算器。'
+  '/categories/general':'百分比、貸款、日期、單位換算與日常實用計算器。',
+  '/categories/developer':'在瀏覽器本機執行的 JSON、Base64、URL、JWT、UUID、雜湊、正規表示式與 Unix 時間戳工具。',
+  '/categories/text':'重視隱私的字數、字元統計與文字大小寫轉換工具。',
+  '/categories/security':'在瀏覽器本機產生密碼並檢查密碼強度。',
+  '/categories/design':'色彩轉換、對比度檢查與長寬比設計輔助工具。'
  },
  ar:{
   '/':'أدوات مجانية لعام 2026 لرواتب وضرائب وتأمين تايوان والعمل الإضافي ورعاية المسنين، مع صور الجواز وARC وPDF وQR وOCR.',
@@ -71,7 +79,11 @@ const localizedStaticDescriptions={
   '/categories/image':'تغيير حجم الصور وضغطها وتحويلها وDPI وQR وصور جواز/ARC تايوان.',
   '/categories/document':'أدوات PDF والمستندات التي تراعي الخصوصية للدمج والتقسيم.',
   '/categories/ai':'أدوات OCR واستخراج المستندات المنظمة مع بدائل متعددة لمزودي AI.',
-  '/categories/general':'حاسبات عملية للنسب المئوية والقروض والاستخدام اليومي.'
+  '/categories/general':'حاسبات عملية للنسب والقروض والتواريخ والوحدات والاستخدام اليومي.',
+  '/categories/developer':'أدوات محلية في المتصفح لـ JSON وBase64 والروابط وJWT وUUID والتجزئة والتعبيرات النمطية والطوابع الزمنية.',
+  '/categories/text':'أدوات تراعي الخصوصية لعد الكلمات والأحرف وتحويل حالة النص.',
+  '/categories/security':'إنشاء كلمات مرور وفحص قوتها محلياً في المتصفح.',
+  '/categories/design':'أدوات لتحويل الألوان وفحص التباين وحساب نسب الأبعاد.'
  },
  ur:{
   '/':'2026 تائیوان تنخواہ، ٹیکس، انشورنس، اوور ٹائم اور بزرگ نگہداشت کے مفت ٹولز، نیز پاسپورٹ/ARC فوٹو، PDF، QR اور OCR۔',
@@ -85,7 +97,11 @@ const localizedStaticDescriptions={
   '/categories/image':'تصویر ریسائز، کمپریشن، فارمیٹ تبدیلی، DPI، QR اور تائیوان پاسپورٹ/ARC فوٹو ٹولز۔',
   '/categories/document':'پرائیویسی کا خیال رکھنے والے PDF merge، split اور دستاویز ٹولز۔',
   '/categories/ai':'OCR اور ساختی دستاویز extraction کے ٹولز، متعدد AI providers کے بیک اپ کے ساتھ۔',
-  '/categories/general':'فیصد، قرض اور روزمرہ کے عملی کیلکولیٹر۔'
+  '/categories/general':'فیصد، قرض، تاریخ، یونٹ اور روزمرہ کے عملی کیلکولیٹر۔',
+  '/categories/developer':'JSON، Base64، URL، JWT، UUID، ہیش، ریجیکس اور Unix ٹائم اسٹیمپ کے براؤزر لوکل ٹولز۔',
+  '/categories/text':'ورڈ اور کریکٹر کاؤنٹ اور ٹیکسٹ کیس کنورژن کے پرائیویسی فرینڈلی ٹولز۔',
+  '/categories/security':'براؤزر میں مقامی پاس ورڈ جنریشن اور طاقت چیکنگ۔',
+  '/categories/design':'رنگ کنورژن، کانٹراسٹ چیکنگ اور اسپیکٹ ریشو ڈیزائن ٹولز۔'
  }
 }
 const taiwan2026=new Set(['take-home-pay','labor-insurance','nhi','income-tax','overtime-pay','minimum-wage','employer-cost','taiwan-elder-care'])
@@ -110,6 +126,10 @@ const staticDateByPath={
  '/categories/document':gitDate('src/pages/Category.jsx'),
  '/categories/ai':gitDate('src/pages/Category.jsx'),
  '/categories/general':gitDate('src/pages/Category.jsx'),
+ '/categories/developer':gitDate('src/pages/Category.jsx'),
+ '/categories/text':gitDate('src/pages/Category.jsx'),
+ '/categories/security':gitDate('src/pages/Category.jsx'),
+ '/categories/design':gitDate('src/pages/Category.jsx'),
 }
 const maxDate=(...xs)=>xs.filter(Boolean).sort().at(-1)||lastmod
 const contentLastmod=path=>{
@@ -228,7 +248,7 @@ await writeFile(resolve(root,'dist','tool-catalog.json'),JSON.stringify({
   url:SITE+'/tools/'+t.slug,
   image:SITE+'/tool-art/'+t.slug+'.svg',
   localizedUrls:Object.fromEntries(locales.map(l=>[l.code,SITE+localizedPath(l.prefix,'/tools/'+t.slug)])),
-  processing:['image-resize','image-compress','png-to-jpg','jpg-to-png','dpi-calculator','qr-generator','qr-scanner','pdf-merge','pdf-split','percentage','loan-payment'].includes(t.slug)?'browser-local':t.category==='ai'?'authenticated-ai':'deterministic-web',
+  processing:t.localProcessing||['image-resize','image-compress','png-to-jpg','jpg-to-png','dpi-calculator','qr-generator','qr-scanner','pdf-merge','pdf-split','percentage','loan-payment','annual-salary','random-picker','timer','image-to-sketch','simple-calculator','love-calculator','zodiac-matcher','image-flip'].includes(t.slug)?'browser-local':t.category==='ai'?'authenticated-ai':'deterministic-web',
   lastModified:contentLastmod('/tools/'+t.slug),
   officialSources:(toolSourceKeys[t.slug]||[]).map(k=>({key:k,...officialSources[k]}))
  }))
