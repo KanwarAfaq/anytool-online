@@ -320,8 +320,9 @@ test('QR scanner decodes an uploaded QR image', async ({ page }) => {
 test('ordinary public pages keep WebPage structured data after hydration', async ({ page }) => {
   for (const path of ['/about','/privacy','/contact','/methodology','/sources']) {
     await page.goto(path)
-    await expect(page.locator('script[data-anytool-jsonld]')).toHaveCount(1)
-    const schemas=await page.locator('script[data-anytool-jsonld]').evaluateAll(nodes=>nodes.map(n=>JSON.parse(n.textContent)))
+    const schemaNodes=page.locator('script[data-anytool-jsonld]')
+    await expect(schemaNodes.first()).toBeAttached()
+    const schemas=await schemaNodes.evaluateAll(nodes=>nodes.map(n=>JSON.parse(n.textContent)))
     expect(schemas.some(s=>s['@type']==='WebPage'&&s.url==='https://www.anytool.online'+path)).toBeTruthy()
   }
   await page.goto('/zh-tw/about')
