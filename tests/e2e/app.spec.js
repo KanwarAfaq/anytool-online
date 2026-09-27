@@ -464,7 +464,7 @@ test('new image sketch tool creates a local downloadable PNG', async ({ page }) 
 test('tool directory search works across the full paginated catalog', async ({ page }) => {
   await page.goto('/tools')
   await expect(page.getByLabel('Search all tools')).toBeVisible()
-  await expect(page.getByText('60 tools')).toBeVisible()
+  await expect(page.locator('#main-content').getByText('60 tools')).toBeVisible()
   await page.getByLabel('Search all tools').fill('Timer with Sounds')
   await expect(page.locator('.directory-tool-button')).toHaveCount(1)
   await expect(page.getByRole('link',{name:/Timer with Sounds/})).toBeVisible()
