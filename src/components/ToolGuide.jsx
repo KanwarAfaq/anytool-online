@@ -25,7 +25,7 @@ export default function ToolGuide({tool}){
  const L=generic[lang]||generic.en
  const isAI=tool.category==='ai',isFile=['image','document'].includes(tool.category)
  const steps=tips[tool.slug]?.[lang]||(lang==='en'?tips[tool.slug]?.en:null)||(isAI?L.ai:isFile?L.file:L.calc)
- const privacy=isAI?L.server:localSlugs.has(tool.slug)||isFile?L.local:L.calc[2]
+ const privacy=isAI?L.server:(tool.localProcessing||localSlugs.has(tool.slug)||isFile)?L.local:L.calc[2]
  const related=tools.filter(x=>x.slug!==tool.slug&&(x.category===tool.category||(['take-home-pay','labor-insurance','nhi','income-tax','employer-cost'].includes(tool.slug)&&x.category==='money'))).slice(0,4)
  return <details className="compact-details">
   <summary><span className="flex items-center gap-2"><CheckCircle2 size={17} className="text-lime-300"/>{L.title}</span></summary>
