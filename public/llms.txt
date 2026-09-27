@@ -13,7 +13,10 @@ Languages:
 - Methodology: https://www.anytool.online/methodology
 - Official sources: https://www.anytool.online/sources
 - Privacy: https://www.anytool.online/privacy
+- Terms & limitations: https://www.anytool.online/terms
+- Accessibility: https://www.anytool.online/accessibility
 - Contact: https://www.anytool.online/contact
+- Owner/maintainer: Kanwar Afaq — kmafaq2@gmail.com
 
 Taiwan regulated calculations are deterministic and source-backed. AnyTool does not use generative AI to invent tax, insurance, wage, subsidy or eligibility rules. Source pages and verification dates are shown on regulated tools.
 
