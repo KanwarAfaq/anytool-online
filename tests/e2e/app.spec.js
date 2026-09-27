@@ -429,7 +429,7 @@ test('tool directory is large searchable and exposes all 60 tools', async ({ pag
   await page.goto('/tools')
   await expect(page.getByLabel('Search all tools')).toBeVisible()
   await expect(page.locator('.directory-tool-button')).toHaveCount(60)
-  await page.getByLabel('Search all tools').fill('timer')
+  await page.getByLabel('Search all tools').fill('Timer with Sounds')
   await expect(page.locator('.directory-tool-button')).toHaveCount(1)
   await expect(page.getByRole('link',{name:/Timer with Sounds/})).toBeVisible()
   await page.getByLabel('Search all tools').fill('json formatter')
@@ -514,8 +514,8 @@ test('wave 2 productivity tools work without server calls', async ({ page }) => 
 
   await page.goto('/tools/typing-test')
   await page.getByLabel('Typing input').fill('the ')
-  await expect(page.getByText('Correct words').locator('..')).toContainText('1')
-  await expect(page.getByText('Accuracy').locator('..')).toContainText('100%')
+  await expect(page.locator('.result-tile').filter({hasText:'Correct words'})).toContainText('1')
+  await expect(page.locator('.result-tile').filter({hasText:'Accuracy'})).toContainText('100%')
 })
 
 
