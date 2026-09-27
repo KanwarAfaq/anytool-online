@@ -171,6 +171,19 @@ test('public trust pages and auth recovery surfaces render', async ({ page }) =>
   await expect(page.locator('meta[name="robots"]')).toHaveAttribute('content','noindex,nofollow')
 })
 
+test('owner identity and direct contact details are public and structured', async ({ page }) => {
+  await page.goto('/about')
+  await expect(page.getByRole('heading',{name:'Kanwar Afaq'})).toBeVisible()
+  await expect(page.locator('img[alt="Kanwar Afaq, owner and maintainer of AnyTool.online"]')).toHaveAttribute('src','https://res.cloudinary.com/dfmi4udfs/image/upload/v1782224423/gallery/general/IMG_2017_dflq3u.jpg')
+  await expect(page.getByRole('link',{name:'kmafaq2@gmail.com'})).toHaveAttribute('href','mailto:kmafaq2@gmail.com')
+  const schemas=await page.locator('script[type="application/ld+json"]').allTextContents()
+  expect(schemas.join('\n')).toContain('"@type":"Person"')
+  expect(schemas.join('\n')).toContain('"email":"kmafaq2@gmail.com"')
+
+  await page.goto('/contact')
+  await expect(page.getByRole('link',{name:'kmafaq2@gmail.com'})).toHaveAttribute('href','mailto:kmafaq2@gmail.com')
+})
+
 test('localized tool pages publish hreflang alternates', async ({ page }) => {
   await page.goto('/zh-tw/tools/take-home-pay')
   await expect(page.locator('html')).toHaveAttribute('lang','zh-TW')
@@ -307,8 +320,9 @@ test('QR scanner decodes an uploaded QR image', async ({ page }) => {
 test('ordinary public pages keep WebPage structured data after hydration', async ({ page }) => {
   for (const path of ['/about','/privacy','/contact','/methodology','/sources']) {
     await page.goto(path)
-    await expect(page.locator('script[data-anytool-jsonld]')).toHaveCount(1)
-    const schemas=await page.locator('script[data-anytool-jsonld]').evaluateAll(nodes=>nodes.map(n=>JSON.parse(n.textContent)))
+    const schemaNodes=page.locator('script[data-anytool-jsonld]')
+    await expect(schemaNodes.first()).toBeAttached()
+    const schemas=await schemaNodes.evaluateAll(nodes=>nodes.map(n=>JSON.parse(n.textContent)))
     expect(schemas.some(s=>s['@type']==='WebPage'&&s.url==='https://www.anytool.online'+path)).toBeTruthy()
   }
   await page.goto('/zh-tw/about')
