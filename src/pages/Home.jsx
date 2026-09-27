@@ -26,7 +26,7 @@ function HeroVisual({pathFor}){
    <div className="home-tool-screen-top"><span/><span/><span/><b>AnyTool workspace</b></div>
    <div className="home-tool-screen-grid">{cards.map(([tag,label,slug,image],i)=><Link key={slug} to={pathFor('/tools/'+slug)} className={'home-floating-tool home-floating-tool-'+(i+1)}><img src={image} alt=""/><div><small>{tag}</small><strong>{label}</strong></div><ArrowRight size={15}/></Link>)}</div>
   </div>
-  <div className="home-tool-status"><span className="signal-dot"/>60 tools · browser-first</div>
+  <div className="home-tool-status"><span className="signal-dot"/>{tools.length} tools · browser-first</div>
   <a className="home-photo-credit" href="https://unsplash.com/photos/modern-desk-with-computer-and-plants-6xzZ0DvTtK8" target="_blank" rel="noreferrer">Photo: Martin Katler / Unsplash</a>
  </div>
 }
