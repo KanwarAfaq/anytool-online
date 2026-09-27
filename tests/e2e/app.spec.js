@@ -154,7 +154,7 @@ test('elder care tool shows source-backed subsidy and official city systems', as
 })
 
 test('public trust pages and auth recovery surfaces render', async ({ page }) => {
-  for (const path of ['/about','/contact','/privacy','/methodology','/sources']) {
+  for (const path of ['/about','/contact','/privacy','/methodology','/sources','/terms','/accessibility']) {
     await page.goto(path)
     await expect(page.locator('h1')).toBeVisible()
     await expect(page.locator('meta[name="robots"]')).toHaveAttribute('content',/index,follow/)
@@ -182,6 +182,28 @@ test('owner identity and direct contact details are public and structured', asyn
 
   await page.goto('/contact')
   await expect(page.getByRole('link',{name:'kmafaq2@gmail.com'})).toHaveAttribute('href','mailto:kmafaq2@gmail.com')
+})
+
+test('modern header uses AnyTool brand and animated primary navigation hooks', async ({ page }) => {
+  await page.goto('/')
+  const brand=page.locator('.site-brand')
+  await expect(brand).toContainText('AnyTool')
+  await expect(brand).not.toContainText('.online')
+  await expect(brand.locator('img[src="/favicon-192.png"]')).toBeVisible()
+  await expect(page.locator('.modern-nav-link')).toHaveCount(4)
+})
+
+test('tool feedback shows update history and prefills problem reports', async ({ page }) => {
+  await page.goto('/tools/percentage')
+  await expect(page.getByText(/Last updated/)).toBeVisible()
+  await expect(page.getByText('Was this tool useful?')).toBeVisible()
+  await page.getByRole('button',{name:'Yes'}).click()
+  await expect(page.getByText(/feedback helps us improve/)).toBeVisible()
+  await page.getByRole('link',{name:'Report a problem'}).click()
+  await expect(page).toHaveURL(/\/contact\?tool=percentage/)
+  await expect(page.getByLabel('Subject')).toHaveValue(/Problem with Percentage Calculator/)
+  await expect(page.getByLabel('Message')).toContainText('')
+  await expect(page.getByLabel('Message')).toHaveValue(/Tool: percentage/)
 })
 
 test('localized tool pages publish hreflang alternates', async ({ page }) => {
@@ -216,23 +238,23 @@ test('modern quick calculator command palette filters and recent tools work', as
 })
 
 
-test('all-tools directory keeps every tool visible and reachable', async ({ page }) => {
+test('tool directory paginates instead of rendering all tools at once', async ({ page }) => {
   await page.goto('/tools')
-  for (const tool of tools) {
-    const link=page.locator('.directory-tool-button[href="/tools/'+tool.slug+'"]')
-    await expect(link).toBeVisible()
-    await expect(link).toContainText(tool.name)
-    await expect(link).toHaveClass(/directory-tool-button/)
-  }
+  await expect(page.getByLabel('Search all tools')).toBeVisible()
+  await expect(page.locator('.directory-tool-button')).toHaveCount(12)
+  await expect(page.getByText('1 / 5',{exact:false})).toBeVisible()
+  await page.getByRole('button',{name:'Next'}).click()
+  await expect(page.locator('.directory-tool-button')).toHaveCount(12)
+  await expect(page.getByText('2 / 5',{exact:false})).toBeVisible()
+
+  await page.getByLabel('Search all tools').fill('Timer with Sounds')
+  await expect(page.locator('.directory-tool-button')).toHaveCount(1)
+  await expect(page.getByRole('link',{name:/Timer with Sounds/})).toBeVisible()
 
   await page.goto('/')
-  const cards=page.locator('#tools a[href^="/tools/"]')
-  await expect(cards).toHaveCount(tools.length)
-  for (const tool of tools) {
-    const card=page.locator('#tools a[href="/tools/'+tool.slug+'"]')
-    await expect(card).toBeVisible()
-    await expect(card.locator('img[src="/tool-art/'+tool.slug+'.svg"]')).toHaveAttribute('alt',/visual preview/)
-  }
+  await expect(page.locator('#tools a[href^="/tools/"]')).toHaveCount(12)
+  await expect(page.locator('.home-tool-hero')).toBeVisible()
+  await expect(page.locator('.home-tool-hero-photo')).toHaveAttribute('src',/images\.unsplash\.com/)
 })
 
 test('numeric inputs can be cleared and retyped without leading zero', async ({ page }) => {
@@ -318,7 +340,7 @@ test('QR scanner decodes an uploaded QR image', async ({ page }) => {
 
 
 test('ordinary public pages keep WebPage structured data after hydration', async ({ page }) => {
-  for (const path of ['/about','/privacy','/contact','/methodology','/sources']) {
+  for (const path of ['/about','/privacy','/contact','/methodology','/sources','/terms','/accessibility']) {
     await page.goto(path)
     const schemaNodes=page.locator('script[data-anytool-jsonld]')
     await expect(schemaNodes.first()).toBeAttached()
@@ -439,10 +461,10 @@ test('new image sketch tool creates a local downloadable PNG', async ({ page }) 
   expect(dims[0]).toBeGreaterThan(0);expect(dims[1]).toBeGreaterThan(0)
 })
 
-test('tool directory is large searchable and exposes all 60 tools', async ({ page }) => {
+test('tool directory search works across the full paginated catalog', async ({ page }) => {
   await page.goto('/tools')
   await expect(page.getByLabel('Search all tools')).toBeVisible()
-  await expect(page.locator('.directory-tool-button')).toHaveCount(60)
+  await expect(page.getByText('60 tools')).toBeVisible()
   await page.getByLabel('Search all tools').fill('Timer with Sounds')
   await expect(page.locator('.directory-tool-button')).toHaveCount(1)
   await expect(page.getByRole('link',{name:/Timer with Sounds/})).toBeVisible()
