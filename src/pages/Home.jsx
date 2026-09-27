@@ -10,6 +10,27 @@ import { useI18n } from '../i18n'
 const categoryIcon={money:WalletCards,image:ImageIcon,document:FileText,ai:BrainCircuit,general:Calculator,developer:Code2,text:Type,security:Shield,design:Palette}
 const categoryAccent={money:'text-lime-300',image:'text-sky-300',document:'text-indigo-300',ai:'text-violet-300',general:'text-amber-300',developer:'text-cyan-300',text:'text-fuchsia-300',security:'text-emerald-300',design:'text-pink-300'}
 
+const HERO_IMAGE='https://images.unsplash.com/photo-1764588037085-a78240016f8b?auto=format&fit=crop&fm=jpg&ixlib=rb-4.1.0&q=78&w=1600'
+
+function HeroVisual({pathFor}){
+ const cards=[
+  ['QR','Scan & create','qr-generator','/tool-art/qr-generator.svg'],
+  ['PDF','Merge files','pdf-merge','/tool-art/pdf-merge.svg'],
+  ['AI','Read documents','ocr','/tool-art/ocr.svg'],
+ ]
+ return <div className="home-tool-hero" aria-label="Animated AnyTool workspace">
+  <img className="home-tool-hero-photo" src={HERO_IMAGE} alt="Modern digital workspace" fetchPriority="high"/>
+  <div className="home-tool-hero-shade"/>
+  <div className="home-tool-orbit"/>
+  <div className="home-tool-screen">
+   <div className="home-tool-screen-top"><span/><span/><span/><b>AnyTool workspace</b></div>
+   <div className="home-tool-screen-grid">{cards.map(([tag,label,slug,image],i)=><Link key={slug} to={pathFor('/tools/'+slug)} className={'home-floating-tool home-floating-tool-'+(i+1)}><img src={image} alt=""/><div><small>{tag}</small><strong>{label}</strong></div><ArrowRight size={15}/></Link>)}</div>
+  </div>
+  <div className="home-tool-status"><span className="signal-dot"/>60 tools · browser-first</div>
+  <a className="home-photo-credit" href="https://unsplash.com/photos/modern-desk-with-computer-and-plants-6xzZ0DvTtK8" target="_blank" rel="noreferrer">Photo: Martin Katler / Unsplash</a>
+ </div>
+}
+
 function QuickSalary({copy,pathFor}){
  const [salary,setSalary]=useState(50000)
  const [dependents,setDependents]=useState(0)
@@ -53,6 +74,7 @@ export default function Home(){
  }[lang]
  const filtered=useMemo(()=>tools.filter(tool=>(filter==='all'||tool.category===filter)&&(!query.trim()||(toolName(tool)+' '+toolDescription(tool)).toLowerCase().includes(query.toLowerCase()))),[filter,query,lang,toolName,toolDescription])
  const ticker=[...tools.slice(0,10),...tools.slice(0,10)]
+ const homeTools=filtered.slice(0,12)
  return <>
   <Seo title={seo.title} description={seo.description} image="/tool-art/take-home-pay.svg" jsonLd={[
     {'@context':'https://schema.org','@type':'WebSite',name:'AnyTool.online',alternateName:'AnyTool',url:'https://www.anytool.online/',inLanguage:lang,potentialAction:{'@type':'SearchAction',target:'https://www.anytool.online/?q={search_term_string}','query-input':'required name=search_term_string'}},
@@ -74,10 +96,13 @@ export default function Home(){
         <div className="proof-item"><ShieldCheck size={15} className="text-lime-300"/>{C.private}</div>
       </div>
     </div>
-    <div className="reveal reveal-delay-1 lg:ps-5"><QuickSalary copy={C} pathFor={pathFor}/></div>
+    <div className="reveal reveal-delay-1 lg:ps-5"><HeroVisual pathFor={pathFor}/></div>
    </div>
   </section>
 
+  <section className="mx-auto max-w-7xl px-4 pb-4 pt-2">
+   <div className="home-live-demo"><div><span className="home-live-kicker"><Zap size={14}/>Interactive preview</span><h2>{C.quick}</h2><p>{C.body}</p></div><QuickSalary copy={C} pathFor={pathFor}/></div>
+  </section>
 
   {recent.length>0&&<section className="mx-auto max-w-7xl px-4 py-7">
     <div className="mb-3 text-xs font-black uppercase tracking-[.16em] text-slate-500">{C.recent}</div>
@@ -90,7 +115,8 @@ export default function Home(){
     <label className="relative block w-full lg:max-w-sm"><span className="sr-only">{C.find}</span><Search className="absolute start-4 top-3.5 text-slate-500" size={16}/><input aria-label={C.find} className="input ps-11" value={query} onChange={e=>setQuery(e.target.value)} placeholder={C.find}/></label>
    </div>
    <div className="flex flex-wrap gap-2 pb-4"><button onClick={()=>setFilter('all')} className={filter==='all'?'btn-primary whitespace-nowrap':'btn-ghost whitespace-nowrap'}>{C.all}</button>{categories.map(c=>{const I=categoryIcon[c.id]||Sparkles;return <button key={c.id} onClick={()=>setFilter(c.id)} className={filter===c.id?'btn-primary whitespace-nowrap':'btn-ghost whitespace-nowrap'}><I className="me-2" size={14}/>{t('categories.'+c.id)}</button>})}</div>
-   <div className="mt-3 grid gap-3 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">{filtered.map((tool,i)=>{const I=categoryIcon[tool.category]||Sparkles;return <Link to={pathFor('/tools/'+tool.slug)} key={tool.slug} className={'card tool-card tool-card-visual category-'+tool.category+' group overflow-hidden'}><ToolArt tool={tool} name={toolName(tool)}/><div className="p-4"><div className="flex items-start gap-3"><span className="tool-icon shrink-0"><I className={categoryAccent[tool.category]} size={16}/></span><div className="min-w-0 flex-1"><h3 className="font-black leading-snug tracking-tight group-hover:text-lime-200">{toolName(tool)}</h3><p className="mt-2 text-xs leading-5 text-slate-400">{toolDescription(tool)}</p></div><ArrowRight className="shrink-0 text-slate-700 transition group-hover:translate-x-1 group-hover:text-lime-300" size={15}/></div></div></Link>})}</div>
+   <div className="mt-3 grid gap-3 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">{homeTools.map(tool=>{const I=categoryIcon[tool.category]||Sparkles;return <Link to={pathFor('/tools/'+tool.slug)} key={tool.slug} className={'card tool-card tool-card-visual category-'+tool.category+' group overflow-hidden'}><ToolArt tool={tool} name={toolName(tool)}/><div className="p-4"><div className="flex items-start gap-3"><span className="tool-icon shrink-0"><I className={categoryAccent[tool.category]} size={16}/></span><div className="min-w-0 flex-1"><h3 className="font-black leading-snug tracking-tight group-hover:text-lime-200">{toolName(tool)}</h3><p className="mt-2 text-xs leading-5 text-slate-400">{toolDescription(tool)}</p></div><ArrowRight className="shrink-0 text-slate-700 transition group-hover:translate-x-1 group-hover:text-lime-300" size={15}/></div></div></Link>})}</div>
+   {filtered.length>12&&<div className="mt-6 text-center"><Link className="btn-ghost" to={pathFor('/tools')}>{C.viewAll} ({filtered.length})<ArrowRight className="ms-2" size={15}/></Link></div>}
    {filtered.length===0&&<div className="card mt-4 p-10 text-center text-slate-500">{C.noMatch}</div>}
   </section>
  </>
