@@ -6,7 +6,7 @@ const OWNER_EMAIL='kmafaq2@gmail.com'
 const OWNER_IMAGE='https://res.cloudinary.com/dfmi4udfs/image/upload/v1782224423/gallery/general/IMG_2017_dflq3u.jpg'
 
 export default function About(){
- const {lang}=useI18n()
+ const {lang,pathFor}=useI18n()
  const c={
   en:{title:'About AnyTool',p1:'AnyTool.online is a practical utility platform for calculators, image and document tasks, and source-backed Taiwan tools.',p2:'We keep deterministic calculations in code, process files in the browser when practical, and link regulated calculations to official sources. AI is used only where it adds value, such as OCR and structured extraction.',owner:'Owner & maintainer',ownerText:'AnyTool.online is built and maintained by Kanwar Afaq. For corrections, partnerships, accessibility issues, or product feedback, you can contact me directly.',email:'Direct email'},
   'zh-TW':{title:'關於 AnyTool',p1:'AnyTool.online 是實用工具平台，提供計算器、圖片與文件處理，以及有官方來源依據的台灣工具。',p2:'可確定的計算以程式公式執行；能在瀏覽器本機完成的檔案處理優先留在本機；涉及法規的計算會連結官方來源。AI 僅用於 OCR、結構化擷取等真正需要的工作。',owner:'網站擁有者與維護者',ownerText:'AnyTool.online 由 Kanwar Afaq 建置與維護。如需回報錯誤、合作、無障礙問題或產品建議，可直接透過電子郵件聯絡。',email:'直接聯絡信箱'},
@@ -15,8 +15,8 @@ export default function About(){
  }[lang]||null
  const L=c||{title:'About AnyTool',p1:'',p2:'',owner:'Owner & maintainer',ownerText:'',email:'Direct email'}
  const jsonLd=[
-  {'@context':'https://schema.org','@type':'WebPage',name:L.title+' | AnyTool.online',description:L.p1,url:'https://www.anytool.online/about',about:{'@type':'Organization',name:'AnyTool.online',url:'https://www.anytool.online/'}},
-  {'@context':'https://schema.org','@type':'Person',name:OWNER_NAME,url:'https://www.anytool.online/about',image:OWNER_IMAGE,email:OWNER_EMAIL,jobTitle:'Creator and maintainer of AnyTool.online',worksFor:{'@type':'Organization',name:'AnyTool.online',url:'https://www.anytool.online/'}}
+  {'@context':'https://schema.org','@type':'WebPage',name:L.title+' | AnyTool.online',description:L.p1,url:'https://www.anytool.online'+pathFor('/about'),about:{'@type':'Organization',name:'AnyTool.online',url:'https://www.anytool.online/'}},
+  {'@context':'https://schema.org','@type':'Person',name:OWNER_NAME,url:'https://www.anytool.online'+pathFor('/about'),image:OWNER_IMAGE,email:OWNER_EMAIL,jobTitle:'Creator and maintainer of AnyTool.online',worksFor:{'@type':'Organization',name:'AnyTool.online',url:'https://www.anytool.online/'}}
  ]
  return <section className="mx-auto max-w-4xl px-4 py-16">
   <Seo title={L.title+' | AnyTool.online'} description={L.p1} jsonLd={jsonLd}/>
