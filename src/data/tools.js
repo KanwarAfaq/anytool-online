@@ -4,6 +4,10 @@ export const categories = [
   { id: 'document', label: 'PDF & Document' },
   { id: 'ai', label: 'AI & OCR' },
   { id: 'general', label: 'General Calculators' },
+  { id: 'developer', label: 'Developer Tools' },
+  { id: 'text', label: 'Text Tools' },
+  { id: 'security', label: 'Security & Privacy' },
+  { id: 'design', label: 'Design & Color' },
 ]
 
 export const tools = [
@@ -37,6 +41,22 @@ export const tools = [
   ['taiwan-elder-care','Taiwan Elderly Care Subsidy & Bed Finder','money','Check care subsidies and official bed sources.','Check Taiwan\'s 2026 residential-care subsidy (up to NT$180,000/year), selected local placement subsidies, and official facility capacity or vacancy sources by city.'],
   ['ocr','AI OCR','ai','Extract text from images and PDFs.','Extract text from an image or PDF using the configured AI gateway.'],
   ['receipt-to-json','Receipt → JSON','ai','Extract structured receipt data with AI.','Extract structured receipt data using AI.'],
-].map(([slug,name,category,description,seoDescription]) => ({ slug,name,category,description,seoDescription }))
+  ['json-formatter','JSON Formatter & Validator','developer','Format, minify and validate JSON locally.','Format, minify, validate, copy and download JSON directly in your browser.','2026-09-27',true],
+  ['base64','Base64 Encoder / Decoder','developer','Encode UTF-8 text, decode Base64 and create file Data URLs.','Free browser-local Base64 encoder and decoder with URL-safe mode and file-to-Data-URL support.','2026-09-27',true],
+  ['url-encoder','URL Encoder / Decoder','developer','Encode and decode URL components safely.','Encode or decode URL components instantly in your browser with no server upload.','2026-09-27',true],
+  ['jwt-decoder','JWT Decoder','developer','Decode JWT headers and payload claims without uploading tokens.','Decode JWT header and payload claims locally, inspect expiry and copy structured JSON.','2026-09-27',true],
+  ['uuid-generator','UUID Generator','developer','Generate secure UUID v4 and time-sortable UUID v7 values.','Generate UUID v4 and RFC 9562 UUID v7 identifiers locally with secure browser randomness.','2026-09-27',true],
+  ['hash-generator','Hash Generator','developer','Create SHA hashes for text and local files.','Generate SHA-256, SHA-384, SHA-512 and SHA-1 hashes for text or files in your browser.','2026-09-27',true],
+  ['regex-tester','Regex Tester','developer','Test regular expressions and inspect matches and capture groups.','Test JavaScript regular expressions locally with match positions and capture-group details.','2026-09-27',true],
+  ['timestamp-converter','Unix Timestamp Converter','developer','Convert Unix timestamps to local, UTC and ISO date/time.','Convert Unix seconds or milliseconds to local, UTC and ISO 8601 dates and back.','2026-09-27',true],
+  ['word-counter','Word & Character Counter','text','Count words, characters, lines, sentences and reading time.','Count words, characters, lines, sentences and estimated reading time instantly in your browser.','2026-09-27',true],
+  ['text-case','Text Case Converter','text','Convert text to uppercase, title, camel, snake, kebab and more.','Convert text between uppercase, lowercase, title, sentence, camelCase, snake_case and kebab-case locally.','2026-09-27',true],
+  ['password-generator','Password Generator','security','Generate strong passwords with secure browser randomness.','Generate strong configurable passwords locally using the Web Crypto API.','2026-09-27',true],
+  ['password-strength-checker','Password Strength Checker','security','Estimate password entropy and rough resistance to guessing.','Check password composition and estimated entropy locally without sending the password anywhere.','2026-09-27',true],
+  ['color-converter','Color Converter & Contrast Checker','design','Convert HEX to RGB/HSL and check contrast against black and white.','Convert HEX colors to RGB and HSL and inspect WCAG-style contrast ratios locally.','2026-09-27',true],
+  ['aspect-ratio-calculator','Aspect Ratio Calculator','design','Simplify ratios and calculate matching image dimensions.','Calculate simplified aspect ratios, matching dimensions and megapixels for images and displays.','2026-09-27',true],
+  ['date-calculator','Date Calculator','general','Calculate date differences, weekdays, ages and date offsets.','Calculate days between dates, weekdays, ages, and add or subtract calendar offsets.','2026-09-27',true],
+  ['unit-converter','Unit Converter','general','Convert length, mass, temperature, area, volume, speed and data units.','Convert common length, mass, temperature, area, volume, speed and digital-storage units instantly.','2026-09-27',true],
+].map(([slug,name,category,description,seoDescription,updatedAt,localProcessing]) => ({ slug,name,category,description,seoDescription,updatedAt,localProcessing }))
 
 export const toolBySlug = Object.fromEntries(tools.map(t => [t.slug, t]))
