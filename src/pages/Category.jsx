@@ -31,10 +31,34 @@ const descriptions={
     ur:'AI OCR اور ساختی extraction، سائن اِن، provider fallback اور استعمال شدہ provider کی واضح معلومات کے ساتھ۔'
   },
   general:{
-    en:'Everyday calculators for percentages, loans and other practical tasks.',
-    'zh-TW':'百分比、貸款等日常實用計算器。',
-    ar:'حاسبات يومية للنسب والقروض والمهام العملية.',
-    ur:'فیصد، قرض اور دیگر روزمرہ عملی کیلکولیٹر۔'
+    en:'Everyday calculators for percentages, loans, dates, units and other practical tasks.',
+    'zh-TW':'百分比、貸款、日期、單位換算等日常實用計算器。',
+    ar:'حاسبات يومية للنسب والقروض والتواريخ والوحدات والمهام العملية.',
+    ur:'فیصد، قرض، تاریخ، یونٹ اور دیگر روزمرہ عملی کیلکولیٹر۔'
+  },
+  developer:{
+    en:'Fast browser-local developer utilities for JSON, Base64, URLs, JWTs, UUIDs, hashes, regex and Unix timestamps.',
+    'zh-TW':'在瀏覽器本機執行的開發者工具：JSON、Base64、URL、JWT、UUID、雜湊、正規表示式與 Unix 時間戳。',
+    ar:'أدوات مطور محلية في المتصفح لـ JSON وBase64 والروابط وJWT وUUID والتجزئة والتعبيرات النمطية والطوابع الزمنية.',
+    ur:'براؤزر میں مقامی طور پر چلنے والے JSON، Base64، URL، JWT، UUID، ہیش، ریجیکس اور Unix ٹائم اسٹیمپ ٹولز۔'
+  },
+  text:{
+    en:'Privacy-friendly writing utilities for word counts, character counts and text-case conversion.',
+    'zh-TW':'重視隱私的文字工具，可統計字數、字元、行數並轉換大小寫與命名格式。',
+    ar:'أدوات نصية تراعي الخصوصية لعد الكلمات والأحرف وتحويل حالة النص.',
+    ur:'پرائیویسی پر مبنی ورڈ، کریکٹر کاؤنٹ اور ٹیکسٹ کیس کنورژن ٹولز۔'
+  },
+  security:{
+    en:'Browser-local password generation and strength checking using secure Web Crypto randomness where applicable.',
+    'zh-TW':'密碼產生與強度檢查均在瀏覽器本機執行，產生器使用 Web Crypto 安全亂數。',
+    ar:'إنشاء كلمات مرور وفحص قوتها محلياً في المتصفح مع استخدام Web Crypto للعشوائية الآمنة.',
+    ur:'پاس ورڈ جنریشن اور طاقت چیکنگ براؤزر میں مقامی طور پر، محفوظ Web Crypto رینڈم نس کے ساتھ۔'
+  },
+  design:{
+    en:'Practical browser-based design helpers for color conversion, contrast and aspect-ratio calculations.',
+    'zh-TW':'瀏覽器設計輔助工具，包含色彩轉換、對比度與長寬比計算。',
+    ar:'أدوات تصميم عملية داخل المتصفح لتحويل الألوان والتباين وحساب نسب الأبعاد.',
+    ur:'رنگ کنورژن، کانٹراسٹ اور اسپیکٹ ریشو کے لیے عملی براؤزر بیسڈ ڈیزائن ٹولز۔'
   }
 }
 
