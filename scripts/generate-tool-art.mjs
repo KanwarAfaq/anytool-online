@@ -29,7 +29,11 @@ const tags={
   'json-formatter':['{ }','FORMAT'],'base64':['64','ENCODE'],'url-encoder':['%20','URL'],'jwt-decoder':['JWT','DECODE'],
   'uuid-generator':['UUID','V7'],'hash-generator':['SHA','256'],'regex-tester':['.*','REGEX'],'timestamp-converter':['UNIX','TIME'],
   'word-counter':['123','WORDS'],'text-case':['Aa','CASE'],'password-generator':['••••','SECURE'],'password-strength-checker':['BITS','CHECK'],
-  'color-converter':['HEX','RGB'],'aspect-ratio-calculator':['16:9','RATIO'],'date-calculator':['±30','DATE'],'unit-converter':['m→ft','UNITS']
+  'color-converter':['HEX','RGB'],'aspect-ratio-calculator':['16:9','RATIO'],'date-calculator':['±30','DATE'],'unit-converter':['m→ft','UNITS'],
+  'csv-converter':['CSV','↔ JSON'],'yaml-json-converter':['YAML','↔ JSON'],'json-to-types':['JSON','→ TS'],'sql-formatter':['SQL','FORMAT'],'cron-generator':['CRON','NEXT'],
+  'favicon-generator':['32²','FAVICON'],'gradient-generator':['CSS','GRADIENT'],'box-shadow-generator':['CSS','SHADOW'],
+  'exif-viewer':['EXIF','META'],'image-watermark':['©','WATERMARK'],'barcode-generator':['||||','BARCODE'],
+  'pomodoro-timer':['25:00','FOCUS'],'world-clock':['UTC','WORLD'],'typing-test':['WPM','TYPE']
 }
 
 const esc=s=>String(s).replaceAll('&','&amp;').replaceAll('<','&lt;').replaceAll('>','&gt;').replaceAll('"','&quot;')
