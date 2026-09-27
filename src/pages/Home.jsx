@@ -56,7 +56,7 @@ export default function Home(){
  return <>
   <Seo title={seo.title} description={seo.description} image="/tool-art/take-home-pay.svg" jsonLd={[
     {'@context':'https://schema.org','@type':'WebSite',name:'AnyTool.online',alternateName:'AnyTool',url:'https://www.anytool.online/',inLanguage:lang,potentialAction:{'@type':'SearchAction',target:'https://www.anytool.online/?q={search_term_string}','query-input':'required name=search_term_string'}},
-    {'@context':'https://schema.org','@type':'Organization',name:'AnyTool.online',alternateName:'AnyTool',url:'https://www.anytool.online/',logo:{'@type':'ImageObject',url:'https://www.anytool.online/favicon-192.png',width:192,height:192},contactPoint:{'@type':'ContactPoint',contactType:'customer support',url:'https://www.anytool.online'+pathFor('/contact')}},
+    {'@context':'https://schema.org','@type':'Organization',name:'AnyTool.online',alternateName:'AnyTool',url:'https://www.anytool.online/',logo:{'@type':'ImageObject',url:'https://www.anytool.online/favicon-192.png',width:192,height:192},email:'kmafaq2@gmail.com',founder:{'@type':'Person',name:'Kanwar Afaq',url:'https://www.anytool.online'+pathFor('/about'),image:'https://res.cloudinary.com/dfmi4udfs/image/upload/v1782224423/gallery/general/IMG_2017_dflq3u.jpg'},contactPoint:{'@type':'ContactPoint',contactType:'customer support',email:'kmafaq2@gmail.com',url:'https://www.anytool.online'+pathFor('/contact')}},
     {'@context':'https://schema.org','@type':'ItemList',name:C.toolsTitle,itemListElement:tools.map((tool,i)=>({'@type':'ListItem',position:i+1,name:toolName(tool),url:'https://www.anytool.online'+pathFor('/tools/'+tool.slug),image:'https://www.anytool.online/tool-art/'+tool.slug+'.svg'}))}
   ]}/>
 
