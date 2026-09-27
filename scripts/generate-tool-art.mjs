@@ -10,7 +10,11 @@ const palette={
   image:['#4cc9ff','#6f8cff'],
   document:['#8ca7ff','#7968ff'],
   ai:['#d3a7ff','#a76cff'],
-  general:['#ffd166','#ff9f43']
+  general:['#ffd166','#ff9f43'],
+  developer:['#22d3ee','#38bdf8'],
+  text:['#e879f9','#c084fc'],
+  security:['#34d399','#2dd4bf'],
+  design:['#fb7185','#f472b6']
 }
 
 const tags={
@@ -21,7 +25,11 @@ const tags={
   'jpg-to-png':['JPG','→ PNG'],'dpi-calculator':['DPI','300'],'qr-generator':['QR','CREATE'],
   'qr-scanner':['SCAN','DECODE'],'pdf-merge':['PDF','MERGE'],'pdf-split':['PDF','SPLIT'],
   'loan-payment':['APR','PAYMENT'],'simple-calculator':['123','CALCULATE'],'love-calculator':['86%','LOVE'],'zodiac-matcher':['♈♎','MATCH'],'random-picker':['SPIN','RANDOM'],'timer':['05:00','TIMER'],'taiwan-id-photo':['35×45','ID PHOTO'],'image-to-sketch':['SKETCH','PENCIL'],'image-flip':['↔','FLIP'],
-  'taiwan-elder-care':['15K','CARE'],'ocr':['OCR','TEXT'],'receipt-to-json':['JSON','RECEIPT']
+  'taiwan-elder-care':['15K','CARE'],'ocr':['OCR','TEXT'],'receipt-to-json':['JSON','RECEIPT'],
+  'json-formatter':['{ }','FORMAT'],'base64':['64','ENCODE'],'url-encoder':['%20','URL'],'jwt-decoder':['JWT','DECODE'],
+  'uuid-generator':['UUID','V7'],'hash-generator':['SHA','256'],'regex-tester':['.*','REGEX'],'timestamp-converter':['UNIX','TIME'],
+  'word-counter':['123','WORDS'],'text-case':['Aa','CASE'],'password-generator':['••••','SECURE'],'password-strength-checker':['BITS','CHECK'],
+  'color-converter':['HEX','RGB'],'aspect-ratio-calculator':['16:9','RATIO'],'date-calculator':['±30','DATE'],'unit-converter':['m→ft','UNITS']
 }
 
 const esc=s=>String(s).replaceAll('&','&amp;').replaceAll('<','&lt;').replaceAll('>','&gt;').replaceAll('"','&quot;')
@@ -93,7 +101,7 @@ for(const tool of tools){
   const [tag,sub]=tags[tool.slug]||['TOOL','READY']
   const title=esc(tool.name.length>34?tool.name.slice(0,32)+'…':tool.name)
   const category=esc(tool.category.toUpperCase())
-  const privacy=['image-resize','image-compress','png-to-jpg','jpg-to-png','qr-generator','qr-scanner','pdf-merge','pdf-split','dpi-calculator','percentage','loan-payment','simple-calculator','love-calculator','zodiac-matcher','random-picker','timer','image-to-sketch','image-flip'].includes(tool.slug)
+  const privacy=tool.localProcessing||['image-resize','image-compress','png-to-jpg','jpg-to-png','qr-generator','qr-scanner','pdf-merge','pdf-split','dpi-calculator','percentage','loan-payment','simple-calculator','love-calculator','zodiac-matcher','random-picker','timer','image-to-sketch','image-flip'].includes(tool.slug)
     ? 'BROWSER-FIRST'
     : tool.category==='money' ? 'SOURCE-BACKED' : 'SMART TOOL'
 
