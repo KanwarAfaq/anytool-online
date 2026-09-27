@@ -1,9 +1,9 @@
 import { Link, useLocation } from 'react-router-dom'
-import { BrainCircuit, Calculator, FileText, Home, Image as ImageIcon, LayoutGrid, Sparkles, WalletCards, Wrench } from 'lucide-react'
+import { BrainCircuit, Calculator, Code2, FileText, Home, Image as ImageIcon, LayoutGrid, Palette, Shield, Sparkles, Type, WalletCards, Wrench } from 'lucide-react'
 import { categories, tools, toolBySlug } from '../data/tools'
 import { useI18n } from '../i18n'
 
-const categoryIcon={money:WalletCards,image:ImageIcon,document:FileText,ai:BrainCircuit,general:Calculator}
+const categoryIcon={money:WalletCards,image:ImageIcon,document:FileText,ai:BrainCircuit,general:Calculator,developer:Code2,text:Type,security:Shield,design:Palette}
 const stripLocale=path=>path.replace(/^\/(zh-tw|ar|ur)(?=\/|$)/,'')||'/'
 
 export default function SiteSidebar(){
