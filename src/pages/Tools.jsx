@@ -1,11 +1,12 @@
 import { useMemo, useState } from 'react'
 import { Link } from 'react-router-dom'
-import { ArrowUpRight, BrainCircuit, Calculator, FileText, Image as ImageIcon, Search, Sparkles, WalletCards } from 'lucide-react'
+import { ArrowUpRight, BrainCircuit, Calculator, Code2, FileText, Image as ImageIcon, Palette, Search, Shield, Sparkles, Type, WalletCards } from 'lucide-react'
 import { categories, tools } from '../data/tools'
 import Seo from '../components/Seo'
 import { useI18n } from '../i18n'
 
-const categoryIcon={money:WalletCards,image:ImageIcon,document:FileText,ai:BrainCircuit,general:Calculator}
+const categoryIcon={money:WalletCards,image:ImageIcon,document:FileText,ai:BrainCircuit,general:Calculator,developer:Code2,text:Type,security:Shield,design:Palette}
+const isNew=tool=>Boolean(tool.updatedAt)&&Date.now()-new Date(tool.updatedAt+'T00:00:00Z').getTime()>=0&&Date.now()-new Date(tool.updatedAt+'T00:00:00Z').getTime()<45*864e5
 
 export default function Tools(){
  const {lang,t,toolName,toolDescription,pathFor}=useI18n()
@@ -24,7 +25,7 @@ export default function Tools(){
   <div className="tool-library-hero"><span>{C.eyebrow}</span><h1>{C.title}</h1><p>{C.body}</p></div>
   <label className="tool-library-search"><Search size={25}/><span className="sr-only">{C.search}</span><input aria-label={C.search} value={query} onChange={e=>setQuery(e.target.value)} placeholder={C.search}/><b>{filtered.length} {C.count}</b></label>
   <nav aria-label="Tool categories" className="tool-library-tabs">{categories.map(category=>{const I=categoryIcon[category.id]||Sparkles;return <a key={category.id} href={'#category-'+category.id}><I size={16}/>{t('categories.'+category.id)}</a>})}</nav>
-  <div className="mt-10 space-y-11">{categories.map(category=>{const list=filtered.filter(tool=>tool.category===category.id);if(!list.length)return null;const I=categoryIcon[category.id]||Sparkles;return <section key={category.id} id={'category-'+category.id} className="scroll-mt-28"><div className={'directory-category-title category-'+category.id}><span><I size={19}/></span><div><h2>{t('categories.'+category.id)}</h2><p>{list.length} {C.count}</p></div></div><div className="directory-tool-grid">{list.map(tool=><Link key={tool.slug} to={pathFor('/tools/'+tool.slug)} className={'directory-tool-button category-'+tool.category}><span className="directory-tool-icon"><I size={20}/></span><span className="min-w-0"><strong>{toolName(tool)}</strong><small>{toolDescription(tool)}</small></span><ArrowUpRight className="directory-tool-arrow" size={18}/></Link>)}</div></section>})}</div>
+  <div className="mt-10 space-y-11">{categories.map(category=>{const list=filtered.filter(tool=>tool.category===category.id);if(!list.length)return null;const I=categoryIcon[category.id]||Sparkles;return <section key={category.id} id={'category-'+category.id} className="scroll-mt-28"><div className={'directory-category-title category-'+category.id}><span><I size={19}/></span><div><h2>{t('categories.'+category.id)}</h2><p>{list.length} {C.count}</p></div></div><div className="directory-tool-grid">{list.map(tool=><Link key={tool.slug} to={pathFor('/tools/'+tool.slug)} className={'directory-tool-button category-'+tool.category}><span className="directory-tool-icon"><I size={20}/></span><span className="min-w-0"><span className="flex items-center gap-2"><strong>{toolName(tool)}</strong>{isNew(tool)&&<em className="tool-new-badge">New</em>}</span><small>{toolDescription(tool)}</small></span><ArrowUpRight className="directory-tool-arrow" size={18}/></Link>)}</div></section>})}</div>
   {filtered.length===0&&<div className="card mt-8 p-10 text-center text-slate-500">{C.empty}</div>}
  </section>
 }

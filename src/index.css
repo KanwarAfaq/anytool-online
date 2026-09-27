@@ -110,6 +110,10 @@ button,a{-webkit-tap-highlight-color:transparent}
 .category-document{--card-line:#8ca7ff}
 .category-ai{--card-line:#d3a7ff}
 .category-general{--card-line:#ffd166}
+.category-developer{--card-line:#22d3ee}
+.category-text{--card-line:#e879f9}
+.category-security{--card-line:#34d399}
+.category-design{--card-line:#fb7185}
 
 .hero-console{
   position:relative;overflow:hidden;border:1px solid rgba(255,255,255,.1);border-radius:26px;background:linear-gradient(180deg,rgba(17,28,42,.96),rgba(8,14,22,.98));
@@ -367,3 +371,8 @@ input[type=file]::file-selector-button:hover{border-color:rgba(183,243,74,.28);b
 @media(max-width:1279px){.site-body-grid{display:block;max-width:none;padding:0}.site-global-sidebar{display:none}.tool-page-wide{max-width:90rem}}
 @media(min-width:1024px){.tool-mobile-menu{display:none!important}}
 @media(max-width:680px){.tool-workspace{padding:.7rem}.tool-focus-art{width:126px}.calculator-stage{min-height:500px}.iphone-calculator{width:min(330px,100%)}}
+
+.tool-trust-row{display:flex;flex-wrap:wrap;gap:.45rem;margin-top:.75rem}
+.tool-trust-chip{display:inline-flex;align-items:center;gap:.3rem;border:1px solid color-mix(in srgb,var(--tool-accent) 18%,rgba(255,255,255,.08));border-radius:999px;background:rgba(255,255,255,.04);padding:.32rem .58rem;color:#a9bbca;font-size:.68rem;font-weight:850}
+.tool-trust-new,.tool-new-badge{border-color:rgba(183,243,74,.2);background:rgba(183,243,74,.09);color:#c9ff6a}
+.tool-new-badge{display:inline-flex;align-items:center;border-radius:999px;padding:.14rem .4rem;font-size:.58rem;font-style:normal;font-weight:950;letter-spacing:.08em;text-transform:uppercase}

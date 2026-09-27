@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useState } from 'react'
 import { useParams, Link } from 'react-router-dom'
-import { Heart, Download, Copy, ArrowLeft, ArrowRight } from 'lucide-react'
+import { Heart, Download, Copy, ArrowLeft, ArrowRight, Share2, ShieldCheck, Zap } from 'lucide-react'
 import { toolBySlug, tools } from '../data/tools'
 import Seo from '../components/Seo'
 import { takeHome, laborInsurance, nhi, salaryTax, overtime, employerCost, money } from '../lib/calculators'
@@ -15,6 +15,7 @@ import SimpleCalculator from '../components/tools/SimpleCalculator'
 import LoveCalculator from '../components/tools/LoveCalculator'
 import ZodiacMatcher from '../components/tools/ZodiacMatcher'
 import ImageFlipTool from '../components/tools/ImageFlipTool'
+import UtilityToolSuite, { utilityToolSlugs } from '../components/tools/UtilityToolSuite'
 import SourceEvidence from '../components/SourceEvidence'
 import ToolGuide from '../components/ToolGuide'
 import OfficialAssistant from '../components/OfficialAssistant'
@@ -32,6 +33,7 @@ const fieldLabels={
  ur:{qrText:'متن یا URL',imageFile:'تصویری فائل منتخب کریں',qrFile:'QR کوڈ تصویر منتخب کریں',pdfFile:'PDF فائل منتخب کریں',pdfFiles:'PDF فائلیں منتخب کریں',aiFile:'تصویر یا PDF فائل منتخب کریں'}
 }
 const labelFor=(lang,key)=>fieldLabels[lang]?.[key]||fieldLabels.en[key]
+const browserLocalSlugs=new Set(['image-resize','image-compress','png-to-jpg','jpg-to-png','dpi-calculator','qr-generator','qr-scanner','pdf-merge','pdf-split','percentage','loan-payment','annual-salary','random-picker','timer','image-to-sketch','simple-calculator','love-calculator','zodiac-matcher','image-flip'])
 
 function MoneyTool({slug}){
  const {t}=useI18n()
@@ -274,6 +276,7 @@ export default function ToolPage(){
   if(slug==='qr-generator')return <QRGenerator/>
   if(slug==='qr-scanner')return <QRScanner/>
   if(['pdf-merge','pdf-split'].includes(slug))return <PdfTool slug={slug}/>
+  if(utilityToolSlugs.has(slug))return <UtilityToolSuite slug={slug}/>
   return <AITool slug={slug}/>
  },[slug])
  const toolPath=pathFor('/tools/'+slug)
@@ -287,6 +290,15 @@ export default function ToolPage(){
  const seoTitle=toolName(tool)+(regulated2026.has(slug)?' 2026':'')+' | AnyTool.online'
  const imageUrl='https://www.anytool.online/tool-art/'+slug+'.svg'
  const seoDescription=lang==='en'?(tool.seoDescription||tool.description):toolDescription(tool)
+ const isBrowserLocal=Boolean(tool.localProcessing)||browserLocalSlugs.has(slug)
+ const isNew=Boolean(tool.updatedAt)&&Date.now()-new Date(tool.updatedAt+'T00:00:00Z').getTime()>=0&&Date.now()-new Date(tool.updatedAt+'T00:00:00Z').getTime()<45*864e5
+ const trustCopy={
+  en:{local:'Runs in your browser',private:'No upload',free:'Free tool',new:'New'},
+  'zh-TW':{local:'在瀏覽器執行',private:'不需上傳',free:'免費工具',new:'新工具'},
+  ar:{local:'يعمل في المتصفح',private:'بدون رفع',free:'أداة مجانية',new:'جديد'},
+  ur:{local:'براؤزر میں چلتا ہے',private:'اپ لوڈ نہیں',free:'مفت ٹول',new:'نیا'}
+ }[lang]||{local:'Runs in your browser',private:'No upload',free:'Free tool',new:'New'}
+ const shareTool=async()=>{try{if(navigator.share)await navigator.share({title:toolName(tool),text:toolDescription(tool),url:toolUrl});else{await navigator.clipboard.writeText(toolUrl);alert('Link copied')}}catch{}}
  const schemas=[
   {'@context':'https://schema.org','@type':'WebPage',name:seoTitle,description:seoDescription,url:toolUrl,inLanguage:lang,dateModified:reviewed,primaryImageOfPage:imageUrl,isPartOf:{'@type':'WebSite',name:'AnyTool.online',url:'https://www.anytool.online/'}},
   {'@context':'https://schema.org','@type':'SoftwareApplication',name:toolName(tool),description:seoDescription,image:imageUrl,applicationCategory:'UtilitiesApplication',operatingSystem:'Web',url:toolUrl,isAccessibleForFree:true,offers:{'@type':'Offer',price:'0',priceCurrency:'USD'}},
@@ -296,7 +308,13 @@ export default function ToolPage(){
   <Seo title={seoTitle} description={seoDescription} image={'/tool-art/'+slug+'.svg'} jsonLd={schemas}/>
   <nav aria-label="Breadcrumb" className="mb-3 text-xs font-semibold text-slate-500"><ol className="flex flex-wrap items-center gap-2"><li><Link className="hover:text-white" to={pathFor('/tools')}>Tools</Link></li><li aria-hidden="true">/</li><li><Link className="hover:text-white" to={categoryPath}>{categoryName}</Link></li><li aria-hidden="true">/</li><li className="text-slate-300">{toolName(tool)}</li></ol></nav>
   <ToolPager slug={slug}/>
-  <header className={'tool-focus-header category-'+tool.category}><div className="min-w-0"><div className="tool-focus-kicker">{categoryName}</div><h1>{toolName(tool)}</h1><p>{toolDescription(tool)}</p>{sourceKeys.length>0&&<span className="tool-reviewed">{reviewedLabel}: <time dateTime={reviewed}>{reviewed}</time></span>}</div><div className="flex items-center gap-3"><div className="tool-focus-art"><ToolArt tool={tool} name={toolName(tool)}/></div><button aria-label={t('favorites')} className="btn-ghost shrink-0" onClick={()=>saveFavorite(slug).then(()=>alert(t('saved'))).catch(()=>alert(t('signInFirst')))}><Heart size={17}/></button></div></header>
+  <header className={'tool-focus-header category-'+tool.category}>
+   <div className="min-w-0"><div className="tool-focus-kicker">{categoryName}</div><h1>{toolName(tool)}</h1><p>{toolDescription(tool)}</p>
+    <div className="tool-trust-row">{isBrowserLocal&&<><span className="tool-trust-chip"><Zap size={13}/>{trustCopy.local}</span><span className="tool-trust-chip"><ShieldCheck size={13}/>{trustCopy.private}</span></>}<span className="tool-trust-chip">{trustCopy.free}</span>{isNew&&<span className="tool-trust-chip tool-trust-new">{trustCopy.new}</span>}</div>
+    {sourceKeys.length>0&&<span className="tool-reviewed">{reviewedLabel}: <time dateTime={reviewed}>{reviewed}</time></span>}
+   </div>
+   <div className="flex items-center gap-2"><div className="tool-focus-art"><ToolArt tool={tool} name={toolName(tool)}/></div><div className="grid gap-2"><button aria-label={t('favorites')} title={t('favorites')} className="btn-ghost shrink-0 px-3" onClick={()=>saveFavorite(slug).then(()=>alert(t('saved'))).catch(()=>alert(t('signInFirst')))}><Heart size={17}/></button><button aria-label="Share tool" title="Share tool" className="btn-ghost shrink-0 px-3" onClick={shareTool}><Share2 size={17}/></button></div></div>
+  </header>
   <div className={'tool-workspace category-'+tool.category}>{view}</div>
   <ToolGuide tool={tool}/>
   {sourceKeys.length>0&&<><SourceEvidence slug={slug}/><OfficialAssistant slug={slug}/></>}

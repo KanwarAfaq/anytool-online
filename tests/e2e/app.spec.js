@@ -425,13 +425,16 @@ test('new image sketch tool creates a local downloadable PNG', async ({ page }) 
   expect(dims[0]).toBeGreaterThan(0);expect(dims[1]).toBeGreaterThan(0)
 })
 
-test('tool directory is large searchable and exposes all 30 tools', async ({ page }) => {
+test('tool directory is large searchable and exposes all 46 tools', async ({ page }) => {
   await page.goto('/tools')
   await expect(page.getByLabel('Search all tools')).toBeVisible()
-  await expect(page.locator('.directory-tool-button')).toHaveCount(30)
+  await expect(page.locator('.directory-tool-button')).toHaveCount(46)
   await page.getByLabel('Search all tools').fill('timer')
   await expect(page.locator('.directory-tool-button')).toHaveCount(1)
   await expect(page.getByRole('link',{name:/Timer with Sounds/})).toBeVisible()
+  await page.getByLabel('Search all tools').fill('json formatter')
+  await expect(page.locator('.directory-tool-button')).toHaveCount(1)
+  await expect(page.getByRole('link',{name:/JSON Formatter/})).toBeVisible()
 })
 
 

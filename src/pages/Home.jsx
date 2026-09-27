@@ -1,14 +1,14 @@
 import { useEffect, useMemo, useState } from 'react'
 import { Link, useLocation } from 'react-router-dom'
-import { ArrowRight, BadgeCheck, Calculator, FileText, Image as ImageIcon, BrainCircuit, Search, ShieldCheck, Sparkles, WalletCards, Zap, Languages, ScanLine } from 'lucide-react'
+import { ArrowRight, BadgeCheck, Calculator, Code2, FileText, Image as ImageIcon, BrainCircuit, Palette, Search, Shield, ShieldCheck, Sparkles, Type, WalletCards, Zap, Languages, ScanLine } from 'lucide-react'
 import { categories, tools, toolBySlug } from '../data/tools'
 import { takeHome, money } from '../lib/calculators'
 import Seo from '../components/Seo'
 import ToolArt from '../components/ToolArt'
 import { useI18n } from '../i18n'
 
-const categoryIcon={money:WalletCards,image:ImageIcon,document:FileText,ai:BrainCircuit,general:Calculator}
-const categoryAccent={money:'text-lime-300',image:'text-sky-300',document:'text-indigo-300',ai:'text-violet-300',general:'text-amber-300'}
+const categoryIcon={money:WalletCards,image:ImageIcon,document:FileText,ai:BrainCircuit,general:Calculator,developer:Code2,text:Type,security:Shield,design:Palette}
+const categoryAccent={money:'text-lime-300',image:'text-sky-300',document:'text-indigo-300',ai:'text-violet-300',general:'text-amber-300',developer:'text-cyan-300',text:'text-fuchsia-300',security:'text-emerald-300',design:'text-pink-300'}
 
 function QuickSalary({copy,pathFor}){
  const [salary,setSalary]=useState(50000)
