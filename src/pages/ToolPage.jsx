@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useState } from 'react'
 import { useParams, Link } from 'react-router-dom'
-import { Heart, Download, Copy, ArrowLeft, ArrowRight, Share2, ShieldCheck, Zap } from 'lucide-react'
+import { Heart, Download, Copy, ArrowLeft, ArrowRight, Share2, ShieldCheck, Zap, CalendarClock } from 'lucide-react'
 import { toolBySlug, tools } from '../data/tools'
 import Seo from '../components/Seo'
 import { takeHome, laborInsurance, nhi, salaryTax, overtime, employerCost, money } from '../lib/calculators'
@@ -21,6 +21,7 @@ import SourceEvidence from '../components/SourceEvidence'
 import ToolGuide from '../components/ToolGuide'
 import OfficialAssistant from '../components/OfficialAssistant'
 import ToolArt from '../components/ToolArt'
+import ToolFeedback from '../components/ToolFeedback'
 import { officialSources, toolSourceKeys } from '../data/officialSources'
 
 const Num=({label,value,onChange,min=0,step=1})=><label className="block"><span className="mb-1.5 block text-sm text-slate-400">{label}</span><input className="input" type="number" inputMode="decimal" min={min} step={step} value={Number(value)===0?'':value} placeholder="0" onFocus={e=>e.target.select()} onChange={e=>onChange(e.target.value===''?0:Number(e.target.value))}/></label>
@@ -288,6 +289,7 @@ export default function ToolPage(){
  const categoryName=t('categories.'+tool.category)
  const sourceKeys=toolSourceKeys[slug]||[]
  const reviewed=sourceKeys.map(k=>officialSources[k]?.verified).filter(Boolean).sort().at(-1)||'2026-09-20'
+ const updated=tool.updatedAt||reviewed
  const reviewedLabel={en:'Reviewed against official sources','zh-TW':'已依官方來源查核',ar:'تمت المراجعة وفق المصادر الرسمية',ur:'سرکاری ذرائع کے مطابق جائزہ لیا گیا'}[lang]||'Reviewed against official sources'
  const seoTitle=toolName(tool)+(regulated2026.has(slug)?' 2026':'')+' | AnyTool.online'
  const imageUrl='https://www.anytool.online/tool-art/'+slug+'.svg'
@@ -295,11 +297,11 @@ export default function ToolPage(){
  const isBrowserLocal=Boolean(tool.localProcessing)||browserLocalSlugs.has(slug)
  const isNew=Boolean(tool.updatedAt)&&Date.now()-new Date(tool.updatedAt+'T00:00:00Z').getTime()>=0&&Date.now()-new Date(tool.updatedAt+'T00:00:00Z').getTime()<45*864e5
  const trustCopy={
-  en:{local:'Runs in your browser',private:'No upload',free:'Free tool',new:'New'},
-  'zh-TW':{local:'在瀏覽器執行',private:'不需上傳',free:'免費工具',new:'新工具'},
-  ar:{local:'يعمل في المتصفح',private:'بدون رفع',free:'أداة مجانية',new:'جديد'},
-  ur:{local:'براؤزر میں چلتا ہے',private:'اپ لوڈ نہیں',free:'مفت ٹول',new:'نیا'}
- }[lang]||{local:'Runs in your browser',private:'No upload',free:'Free tool',new:'New'}
+  en:{local:'Runs in your browser',private:'No upload',free:'Free tool',new:'New',updated:'Last updated'},
+  'zh-TW':{local:'在瀏覽器執行',private:'不需上傳',free:'免費工具',new:'新工具',updated:'最後更新'},
+  ar:{local:'يعمل في المتصفح',private:'بدون رفع',free:'أداة مجانية',new:'جديد',updated:'آخر تحديث'},
+  ur:{local:'براؤزر میں چلتا ہے',private:'اپ لوڈ نہیں',free:'مفت ٹول',new:'نیا',updated:'آخری اپ ڈیٹ'}
+ }[lang]||{local:'Runs in your browser',private:'No upload',free:'Free tool',new:'New',updated:'Last updated'}
  const shareTool=async()=>{try{if(navigator.share)await navigator.share({title:toolName(tool),text:toolDescription(tool),url:toolUrl});else{await navigator.clipboard.writeText(toolUrl);alert('Link copied')}}catch{}}
  const schemas=[
   {'@context':'https://schema.org','@type':'WebPage',name:seoTitle,description:seoDescription,url:toolUrl,inLanguage:lang,dateModified:reviewed,primaryImageOfPage:imageUrl,isPartOf:{'@type':'WebSite',name:'AnyTool.online',url:'https://www.anytool.online/'}},
@@ -313,12 +315,13 @@ export default function ToolPage(){
   <header className={'tool-focus-header category-'+tool.category}>
    <div className="min-w-0"><div className="tool-focus-kicker">{categoryName}</div><h1>{toolName(tool)}</h1><p>{toolDescription(tool)}</p>
     <div className="tool-trust-row">{isBrowserLocal&&<><span className="tool-trust-chip"><Zap size={13}/>{trustCopy.local}</span><span className="tool-trust-chip"><ShieldCheck size={13}/>{trustCopy.private}</span></>}<span className="tool-trust-chip">{trustCopy.free}</span>{isNew&&<span className="tool-trust-chip tool-trust-new">{trustCopy.new}</span>}</div>
-    {sourceKeys.length>0&&<span className="tool-reviewed">{reviewedLabel}: <time dateTime={reviewed}>{reviewed}</time></span>}
+    <div className="tool-review-row">{sourceKeys.length>0&&<span className="tool-reviewed">{reviewedLabel}: <time dateTime={reviewed}>{reviewed}</time></span>}<span className="tool-reviewed"><CalendarClock size={12}/>{trustCopy.updated}: <time dateTime={updated}>{updated}</time></span></div>
    </div>
    <div className="flex items-center gap-2"><div className="tool-focus-art"><ToolArt tool={tool} name={toolName(tool)}/></div><div className="grid gap-2"><button aria-label={t('favorites')} title={t('favorites')} className="btn-ghost shrink-0 px-3" onClick={()=>saveFavorite(slug).then(()=>alert(t('saved'))).catch(()=>alert(t('signInFirst')))}><Heart size={17}/></button><button aria-label="Share tool" title="Share tool" className="btn-ghost shrink-0 px-3" onClick={shareTool}><Share2 size={17}/></button></div></div>
   </header>
   <div className={'tool-workspace category-'+tool.category}>{view}</div>
   <ToolGuide tool={tool}/>
+  <ToolFeedback tool={tool}/>
   {sourceKeys.length>0&&<><SourceEvidence slug={slug}/><OfficialAssistant slug={slug}/></>}
   {regulated2026.has(slug)&&<p className="mt-5 text-xs text-slate-500">{t('planningOnly')}</p>}
  </section>

@@ -1,11 +1,16 @@
 import { useState } from 'react'
+import { useLocation } from 'react-router-dom'
 import Seo from '../components/Seo'
 import { supabase } from '../lib/supabase'
 import { useI18n } from '../i18n'
 
 export default function Contact(){
  const {lang}=useI18n()
- const [form,setForm]=useState({name:'',email:'',subject:'General inquiry',message:'',website:''})
+ const location=useLocation()
+ const params=new URLSearchParams(location.search)
+ const initialSubject=params.get('subject')||'General inquiry'
+ const initialTool=params.get('tool')||''
+ const [form,setForm]=useState({name:'',email:'',subject:initialSubject,message:initialTool?'Tool: '+initialTool+'\n\n':'',website:''})
  const [status,setStatus]=useState('')
  const labels={
   en:{title:'Contact us',intro:'Report a calculation issue, source update, broken tool, partnership idea or accessibility problem.',direct:'Direct email',directHint:'Prefer email? Contact the site owner directly.',name:'Name',email:'Email',subject:'Subject',message:'Message',send:'Send message',ok:'Thanks — your message was received.'},

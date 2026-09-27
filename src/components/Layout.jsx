@@ -17,10 +17,10 @@ export default function Layout({children}){
  const showSidebar=!/^\/(auth|dashboard|profile)(?:\/|$)/.test(cleanPath)
  const inputRef=useRef(null)
  const N={
-  en:{tools:'Tools',sources:'Sources',contact:'Contact',verified:'2026 Taiwan data verified',search:'Search tools',menu:'Menu',close:'Close',account:'Account',privacy:'Privacy',about:'About',method:'Methodology',footer:'Fast tools. Clear results. Less clutter.',need:'Need a tool?',send:'Tell us →'},
-  'zh-TW':{tools:'工具',sources:'來源',contact:'聯絡',verified:'2026 台灣資料已查核',search:'搜尋工具',menu:'選單',close:'關閉',account:'帳戶',privacy:'隱私權',about:'關於',method:'方法',footer:'快速工具、清楚結果、少一點干擾。',need:'需要其他工具？',send:'告訴我們 →'},
-  ar:{tools:'الأدوات',sources:'المصادر',contact:'اتصل',verified:'تم التحقق من بيانات تايوان 2026',search:'ابحث عن أداة',menu:'القائمة',close:'إغلاق',account:'الحساب',privacy:'الخصوصية',about:'حول',method:'المنهجية',footer:'أدوات سريعة. نتائج واضحة. فوضى أقل.',need:'تحتاج أداة؟',send:'أخبرنا ←'},
-  ur:{tools:'ٹولز',sources:'ذرائع',contact:'رابطہ',verified:'2026 تائیوان ڈیٹا تصدیق شدہ',search:'ٹول تلاش کریں',menu:'مینو',close:'بند کریں',account:'اکاؤنٹ',privacy:'پرائیویسی',about:'تعارف',method:'طریقۂ کار',footer:'تیز ٹولز۔ واضح نتائج۔ کم شور۔',need:'کوئی ٹول چاہیے؟',send:'ہمیں بتائیں ←'}
+  en:{tools:'Tools',sources:'Sources',contact:'Contact',verified:'2026 Taiwan data verified',search:'Search tools',menu:'Menu',close:'Close',account:'Account',privacy:'Privacy',about:'About',method:'Methodology',terms:'Terms',accessibility:'Accessibility',footer:'Fast tools. Clear results. Less clutter.',need:'Need a tool?',send:'Tell us →'},
+  'zh-TW':{tools:'工具',sources:'來源',contact:'聯絡',verified:'2026 台灣資料已查核',search:'搜尋工具',menu:'選單',close:'關閉',account:'帳戶',privacy:'隱私權',about:'關於',method:'方法',terms:'使用條款',accessibility:'無障礙',footer:'快速工具、清楚結果、少一點干擾。',need:'需要其他工具？',send:'告訴我們 →'},
+  ar:{tools:'الأدوات',sources:'المصادر',contact:'اتصل',verified:'تم التحقق من بيانات تايوان 2026',search:'ابحث عن أداة',menu:'القائمة',close:'إغلاق',account:'الحساب',privacy:'الخصوصية',about:'حول',method:'المنهجية',terms:'الشروط',accessibility:'إمكانية الوصول',footer:'أدوات سريعة. نتائج واضحة. فوضى أقل.',need:'تحتاج أداة؟',send:'أخبرنا ←'},
+  ur:{tools:'ٹولز',sources:'ذرائع',contact:'رابطہ',verified:'2026 تائیوان ڈیٹا تصدیق شدہ',search:'ٹول تلاش کریں',menu:'مینو',close:'بند کریں',account:'اکاؤنٹ',privacy:'پرائیویسی',about:'تعارف',method:'طریقۂ کار',terms:'شرائط',accessibility:'رسائی',footer:'تیز ٹولز۔ واضح نتائج۔ کم شور۔',need:'کوئی ٹول چاہیے؟',send:'ہمیں بتائیں ←'}
  }[lang]
  const hits=useMemo(()=>q.trim()?tools.filter(tool=>(toolName(tool)+' '+toolDescription(tool)).toLowerCase().includes(q.toLowerCase())).slice(0,10):tools.slice(0,8),[q,lang,toolName,toolDescription])
  useEffect(()=>{const onKey=e=>{if((e.metaKey||e.ctrlKey)&&e.key.toLowerCase()==='k'){e.preventDefault();setPalette(v=>!v)}if(e.key==='Escape'){setPalette(false);setMobile(false)}};window.addEventListener('keydown',onKey);return()=>window.removeEventListener('keydown',onKey)},[])
@@ -34,14 +34,15 @@ export default function Layout({children}){
   <span className="aurora aurora-a"/><span className="aurora aurora-b"/>
   <header className="site-header sticky top-0 z-50 px-3 pt-3">
    <div className="site-header-bar glass mx-auto flex max-w-[100rem] items-center gap-2 rounded-2xl px-3 py-2.5">
-    <Link to={pathFor('/')} className="site-brand group flex shrink-0 items-center gap-2 font-black tracking-tight">
-      <span className="site-brand-mark grid size-9 place-items-center rounded-xl text-[#07100c] transition group-hover:rotate-6"><Wrench size={17}/></span>
-      <span className="hidden text-lg sm:inline">AnyTool<span className="text-lime-300">.online</span></span>
+    <Link to={pathFor('/')} className="site-brand group flex shrink-0 items-center gap-2.5 font-black tracking-tight" aria-label="AnyTool home">
+      <span className="site-brand-mark grid size-10 place-items-center overflow-hidden rounded-xl transition"><img src="/favicon-192.png" alt="" className="size-full object-cover"/></span>
+      <span className="text-lg sm:text-xl">AnyTool</span>
     </Link>
-    <nav className="header-nav ms-3 hidden items-center gap-1 lg:flex">
-      <Link className="rounded-lg px-3 py-2 text-sm font-semibold text-slate-400 hover:bg-white/[0.04] hover:text-white" to={pathFor('/tools')}>{N.tools}</Link>
-      <Link className="rounded-lg px-3 py-2 text-sm font-semibold text-slate-400 hover:bg-white/[0.04] hover:text-white" to={pathFor('/sources')}>{N.sources}</Link>
-      <Link className="rounded-lg px-3 py-2 text-sm font-semibold text-slate-400 hover:bg-white/[0.04] hover:text-white" to={pathFor('/contact')}>{N.contact}</Link>
+    <nav className="header-nav ms-3 hidden items-center gap-1 lg:flex" aria-label="Primary navigation">
+      <NavLink className={({isActive})=>'modern-nav-link '+(isActive?'active':'')} to={pathFor('/tools')}>{N.tools}</NavLink>
+      <NavLink className={({isActive})=>'modern-nav-link '+(isActive?'active':'')} to={pathFor('/sources')}>{N.sources}</NavLink>
+      <NavLink className={({isActive})=>'modern-nav-link '+(isActive?'active':'')} to={pathFor('/about')}>{N.about}</NavLink>
+      <NavLink className={({isActive})=>'modern-nav-link '+(isActive?'active':'')} to={pathFor('/contact')}>{N.contact}</NavLink>
     </nav>
     <button onClick={()=>setPalette(true)} aria-haspopup="dialog" aria-expanded={palette} className="header-search ms-auto hidden min-w-[12rem] max-w-sm flex-1 items-center gap-2 rounded-xl px-3 py-2.5 text-left text-sm text-slate-400 transition md:flex">
       <Search size={16}/><span className="truncate">{N.search}</span><span className="ms-auto rounded-md border border-white/[0.07] px-1.5 py-0.5 text-[10px]">⌘K</span>
@@ -59,6 +60,7 @@ export default function Layout({children}){
    {mobile&&<div id="mobile-navigation" className="glass mx-auto mt-2 grid max-w-[100rem] gap-1 rounded-2xl p-3 lg:hidden">
       <Link onClick={()=>setMobile(false)} className="rounded-lg px-3 py-2.5 text-sm text-slate-300 hover:bg-white/5" to={pathFor('/tools')}>{N.tools}</Link>
       <Link onClick={()=>setMobile(false)} className="rounded-lg px-3 py-2.5 text-sm text-slate-300 hover:bg-white/5" to={pathFor('/sources')}>{N.sources}</Link>
+      <Link onClick={()=>setMobile(false)} className="rounded-lg px-3 py-2.5 text-sm text-slate-300 hover:bg-white/5" to={pathFor('/about')}>{N.about}</Link>
       <Link onClick={()=>setMobile(false)} className="rounded-lg px-3 py-2.5 text-sm text-slate-300 hover:bg-white/5" to={pathFor('/contact')}>{N.contact}</Link>
       <select aria-label="Mobile language" className="input mt-1 sm:hidden" value={lang} onChange={e=>setLang(e.target.value)}>{languages.map(l=><option key={l.code} value={l.code} className="bg-slate-950">{l.label}</option>)}</select>
    </div>}
@@ -87,9 +89,9 @@ export default function Layout({children}){
   <footer className="mt-20 border-t border-white/[0.06] bg-[#070c13]">
    <div className="mx-auto max-w-[100rem] px-4 py-10">
     <div className="grid gap-8 md:grid-cols-[1.4fr_.8fr_.8fr]">
-      <div><div className="flex items-center gap-2 font-black"><span className="grid size-8 place-items-center rounded-lg bg-lime-300 text-[#07100c]"><Wrench size={14}/></span>AnyTool<span className="text-lime-300">.online</span></div><p className="mt-3 max-w-md text-sm text-slate-500">{N.footer}</p><Link to={pathFor('/contact')} className="mt-4 inline-flex items-center text-sm font-bold text-lime-300"><Mail className="me-2" size={14}/>{N.need} {N.send}</Link></div>
+      <div><div className="flex items-center gap-2 font-black"><span className="grid size-8 place-items-center overflow-hidden rounded-lg"><img src="/favicon-192.png" alt="" className="size-full object-cover"/></span>AnyTool</div><p className="mt-3 max-w-md text-sm text-slate-500">{N.footer}</p><Link to={pathFor('/contact')} className="mt-4 inline-flex items-center text-sm font-bold text-lime-300"><Mail className="me-2" size={14}/>{N.need} {N.send}</Link></div>
       <div><p className="text-xs font-black uppercase tracking-[.16em] text-slate-500">{N.tools}</p><div className="mt-3 grid gap-2 text-sm"><Link className="text-slate-400 hover:text-white" to={pathFor('/tools')}>{N.tools}</Link><Link className="text-slate-400 hover:text-white" to={pathFor('/sources')}>{N.sources}</Link><Link className="text-slate-400 hover:text-white" to={pathFor('/methodology')}>{N.method}</Link></div></div>
-      <div><p className="text-xs font-black uppercase tracking-[.16em] text-slate-500">AnyTool</p><div className="mt-3 grid gap-2 text-sm"><Link className="text-slate-400 hover:text-white" to={pathFor('/about')}>{N.about}</Link><Link className="text-slate-400 hover:text-white" to={pathFor('/privacy')}>{N.privacy}</Link><Link className="text-slate-400 hover:text-white" to={pathFor('/contact')}>{N.contact}</Link></div></div>
+      <div><p className="text-xs font-black uppercase tracking-[.16em] text-slate-500">AnyTool</p><div className="mt-3 grid gap-2 text-sm"><Link className="text-slate-400 hover:text-white" to={pathFor('/about')}>{N.about}</Link><Link className="text-slate-400 hover:text-white" to={pathFor('/privacy')}>{N.privacy}</Link><Link className="text-slate-400 hover:text-white" to={pathFor('/terms')}>{N.terms}</Link><Link className="text-slate-400 hover:text-white" to={pathFor('/accessibility')}>{N.accessibility}</Link><Link className="text-slate-400 hover:text-white" to={pathFor('/contact')}>{N.contact}</Link></div></div>
     </div>
     <div className="mt-8 border-t border-white/[0.06] pt-5 text-xs text-slate-500">© {new Date().getFullYear()} AnyTool.online</div>
    </div>
