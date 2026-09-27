@@ -12,6 +12,8 @@ const Contact=lazy(()=>import('./pages/Contact'))
 const Privacy=lazy(()=>import('./pages/Privacy'))
 const Methodology=lazy(()=>import('./pages/Methodology'))
 const Sources=lazy(()=>import('./pages/Sources'))
+const Terms=lazy(()=>import('./pages/Terms'))
+const Accessibility=lazy(()=>import('./pages/Accessibility'))
 const Profile=lazy(()=>import('./pages/Profile'))
 const Category=lazy(()=>import('./pages/Category'))
 const NotFound=lazy(()=>import('./pages/NotFound'))
@@ -32,11 +34,13 @@ export default function App(){
   <Route key="privacy" path="/privacy" element={<Privacy/>}/>,
   <Route key="method" path="/methodology" element={<Methodology/>}/>,
   <Route key="sources" path="/sources" element={<Sources/>}/>,
+  <Route key="terms" path="/terms" element={<Terms/>}/>,
+  <Route key="accessibility" path="/accessibility" element={<Accessibility/>}/>,
   <Route key="profile" path="/profile" element={<Profile/>}/>,
  ]
  const localized=[
   ['/:locale',<Home/>],['/:locale/tools',<Tools/>],['/:locale/tools/:slug',<ToolPage/>],['/:locale/categories/:category',<Category/>],['/:locale/auth',<AuthPage/>],['/:locale/dashboard',<Dashboard/>],
-  ['/:locale/about',<About/>],['/:locale/contact',<Contact/>],['/:locale/privacy',<Privacy/>],['/:locale/methodology',<Methodology/>],['/:locale/sources',<Sources/>],['/:locale/profile',<Profile/>]
+  ['/:locale/about',<About/>],['/:locale/contact',<Contact/>],['/:locale/privacy',<Privacy/>],['/:locale/methodology',<Methodology/>],['/:locale/sources',<Sources/>],['/:locale/terms',<Terms/>],['/:locale/accessibility',<Accessibility/>],['/:locale/profile',<Profile/>]
  ].map(([path,el])=><Route key={path} path={path} element={<LocaleGate>{el}</LocaleGate>}/>)
  return <Layout><Suspense fallback={<Loading/>}><Routes>{base}{localized}<Route path="*" element={<NotFound/>}/></Routes></Suspense></Layout>
 }
