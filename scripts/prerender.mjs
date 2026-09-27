@@ -7,6 +7,9 @@ import { officialSources, toolSourceKeys } from '../src/data/officialSources.js'
 const root=process.cwd()
 const template=await readFile(resolve(root,'dist/index.html'),'utf8')
 const SITE='https://www.anytool.online'
+const OWNER_NAME='Kanwar Afaq'
+const OWNER_EMAIL='kmafaq2@gmail.com'
+const OWNER_IMAGE='https://res.cloudinary.com/dfmi4udfs/image/upload/v1782224423/gallery/general/IMG_2017_dflq3u.jpg'
 let lastmod=process.env.SEO_LASTMOD||''
 if(!lastmod){try{lastmod=execFileSync('git',['log','-1','--format=%cs'],{encoding:'utf8'}).trim()}catch{lastmod=new Date().toISOString().slice(0,10)}}
 const esc=s=>String(s).replaceAll('&','&amp;').replaceAll('"','&quot;').replaceAll('<','&lt;').replaceAll('>','&gt;')
@@ -197,11 +200,12 @@ for(const locale of locales){
    if(page.path==='/'){
     schemas=[
      {'@context':'https://schema.org','@type':'WebSite',name:'AnyTool.online',alternateName:'AnyTool',url:SITE+'/',inLanguage:locale.code,potentialAction:{'@type':'SearchAction',target:SITE+'/?q={search_term_string}','query-input':'required name=search_term_string'}},
-     {'@context':'https://schema.org','@type':'Organization',name:'AnyTool.online',alternateName:'AnyTool',url:SITE+'/',logo:{'@type':'ImageObject',url:SITE+'/favicon-192.png',width:192,height:192},contactPoint:{'@type':'ContactPoint',contactType:'customer support',url:SITE+localizedPath(locale.prefix,'/contact')}},
+     {'@context':'https://schema.org','@type':'Organization',name:'AnyTool.online',alternateName:'AnyTool',url:SITE+'/',logo:{'@type':'ImageObject',url:SITE+'/favicon-192.png',width:192,height:192},email:OWNER_EMAIL,founder:{'@type':'Person',name:OWNER_NAME,url:SITE+localizedPath(locale.prefix,'/about'),image:OWNER_IMAGE},contactPoint:{'@type':'ContactPoint',contactType:'customer support',email:OWNER_EMAIL,url:SITE+localizedPath(locale.prefix,'/contact')}},
      {'@context':'https://schema.org','@type':'ItemList',name:title,itemListElement:tools.map((tool,i)=>({'@type':'ListItem',position:i+1,name:localizedToolName(tool,locale),url:SITE+localizedPath(locale.prefix,'/tools/'+tool.slug),image:SITE+'/tool-art/'+tool.slug+'.svg'}))}
     ]
    }else{
     schemas=[{'@context':'https://schema.org','@type':page.path.startsWith('/categories/')||page.path==='/tools'?'CollectionPage':'WebPage',name:title,description,url:canonical,inLanguage:locale.code,isPartOf:{'@type':'WebSite',name:'AnyTool.online',url:SITE+'/'}}]
+    if(page.path==='/about')schemas.push({'@context':'https://schema.org','@type':'Person',name:OWNER_NAME,url:canonical,image:OWNER_IMAGE,email:OWNER_EMAIL,jobTitle:'Creator and maintainer of AnyTool.online',worksFor:{'@type':'Organization',name:'AnyTool.online',url:SITE+'/'}})
     if(pageTools.length)schemas.push({'@context':'https://schema.org','@type':'ItemList',name:title,itemListElement:pageTools.map((tool,i)=>({'@type':'ListItem',position:i+1,name:localizedToolName(tool,locale),url:SITE+localizedPath(locale.prefix,'/tools/'+tool.slug),image:SITE+'/tool-art/'+tool.slug+'.svg'}))})
    }
    await emit(path,locale,title,description,schemas)
