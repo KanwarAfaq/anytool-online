@@ -425,16 +425,97 @@ test('new image sketch tool creates a local downloadable PNG', async ({ page }) 
   expect(dims[0]).toBeGreaterThan(0);expect(dims[1]).toBeGreaterThan(0)
 })
 
-test('tool directory is large searchable and exposes all 46 tools', async ({ page }) => {
+test('tool directory is large searchable and exposes all 60 tools', async ({ page }) => {
   await page.goto('/tools')
   await expect(page.getByLabel('Search all tools')).toBeVisible()
-  await expect(page.locator('.directory-tool-button')).toHaveCount(46)
-  await page.getByLabel('Search all tools').fill('timer')
+  await expect(page.locator('.directory-tool-button')).toHaveCount(60)
+  await page.getByLabel('Search all tools').fill('Timer with Sounds')
   await expect(page.locator('.directory-tool-button')).toHaveCount(1)
   await expect(page.getByRole('link',{name:/Timer with Sounds/})).toBeVisible()
   await page.getByLabel('Search all tools').fill('json formatter')
   await expect(page.locator('.directory-tool-button')).toHaveCount(1)
   await expect(page.getByRole('link',{name:/JSON Formatter/})).toBeVisible()
+})
+
+
+test('wave 2 developer tools perform representative conversions', async ({ page }) => {
+  await page.goto('/tools/csv-converter')
+  await page.getByRole('button',{name:'Convert'}).click()
+  await expect(page.locator('pre')).toContainText('"Avery"')
+
+  await page.goto('/tools/yaml-json-converter')
+  await page.getByRole('button',{name:'Convert'}).click()
+  await expect(page.locator('pre')).toContainText('"app": "anytool"')
+
+  await page.goto('/tools/json-to-types')
+  await expect(page.locator('pre')).toContainText('export interface RootObject')
+  await page.getByLabel('Root type name').fill('ApiResponse')
+  await expect(page.locator('pre')).toContainText('export interface ApiResponse')
+
+  await page.goto('/tools/sql-formatter')
+  await page.getByRole('button',{name:'Format SQL'}).click()
+  await expect(page.locator('pre')).toContainText('SELECT')
+
+  await page.goto('/tools/cron-generator')
+  await page.getByLabel('Cron expression').fill('*/15 * * * *')
+  await expect(page.getByText('Valid cron schedule')).toBeVisible()
+  await expect(page.getByText('Next runs (local time)')).toBeVisible()
+})
+
+test('wave 2 design and image tools render and process locally', async ({ page }) => {
+  const png=Buffer.from('iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/x8AAusB9Wl8V1kAAAAASUVORK5CYII=','base64')
+
+  await page.goto('/tools/favicon-generator')
+  await expect(page.getByLabel('Favicon preview')).toBeVisible()
+  await page.getByLabel('Favicon character').fill('A')
+  await expect(page.getByRole('button',{name:/32×32/})).toBeVisible()
+
+  await page.goto('/tools/gradient-generator')
+  await expect(page.getByLabel('Gradient preview')).toBeVisible()
+  await expect(page.locator('pre')).toContainText('linear-gradient')
+
+  await page.goto('/tools/box-shadow-generator')
+  await expect(page.getByLabel('Box shadow preview')).toBeVisible()
+  await expect(page.locator('pre')).toContainText('box-shadow:')
+
+  await page.goto('/tools/exif-viewer')
+  await page.getByLabel('Choose image for EXIF').setInputFiles({name:'one.png',mimeType:'image/png',buffer:png})
+  await expect(page.getByText('No embedded JPEG EXIF metadata found. Basic file metadata is shown below.')).toBeVisible()
+  await expect(page.getByText('one.png',{exact:true})).toBeVisible()
+
+  await page.goto('/tools/image-watermark')
+  await page.getByLabel('Choose image to watermark').setInputFiles({name:'one.png',mimeType:'image/png',buffer:png})
+  await expect(page.getByLabel('Watermarked image preview')).toBeVisible()
+  await page.getByLabel('Watermark text').fill('TEST')
+  await expect(page.getByRole('button',{name:/Download PNG/})).toBeEnabled()
+
+  await page.goto('/tools/barcode-generator')
+  await page.getByLabel('Barcode value').fill('ABC123')
+  await expect(page.getByLabel('Barcode preview')).toBeVisible()
+  await expect(page.getByRole('button',{name:'SVG'})).toBeVisible()
+})
+
+test('wave 2 productivity tools work without server calls', async ({ page }) => {
+  await page.goto('/tools/pomodoro-timer')
+  await page.getByLabel('Focus minutes').fill('1')
+  await expect(page.getByLabel('Pomodoro time')).toHaveText('01:00')
+  await page.getByRole('button',{name:'Start'}).click()
+  await expect(page.getByRole('button',{name:'Pause'})).toBeVisible()
+  await page.getByRole('button',{name:'Pause'}).click()
+  await page.getByLabel('Pomodoro task').fill('Write report')
+  await page.getByRole('button',{name:'Add'}).click()
+  await expect(page.getByText('Write report')).toBeVisible()
+
+  await page.goto('/tools/world-clock')
+  await expect(page.getByRole('heading',{name:'Taipei'})).toBeVisible()
+  await page.getByLabel('Add world clock city').selectOption('Asia/Singapore')
+  await page.getByRole('button',{name:'Add clock'}).click()
+  await expect(page.getByRole('heading',{name:'Singapore'})).toBeVisible()
+
+  await page.goto('/tools/typing-test')
+  await page.getByLabel('Typing input').fill('the ')
+  await expect(page.locator('.result-tile').filter({hasText:'Correct words'})).toContainText('1')
+  await expect(page.locator('.result-tile').filter({hasText:'Accuracy'})).toContainText('100%')
 })
 
 
