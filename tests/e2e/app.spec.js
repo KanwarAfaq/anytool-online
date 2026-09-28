@@ -242,10 +242,10 @@ test('tool directory paginates instead of rendering all tools at once', async ({
   await page.goto('/tools')
   await expect(page.getByLabel('Search all tools')).toBeVisible()
   await expect(page.locator('.directory-tool-button')).toHaveCount(12)
-  await expect(page.getByText('1 / 5',{exact:false})).toBeVisible()
+  await expect(page.getByText('1 / 6',{exact:false})).toBeVisible()
   await page.getByRole('button',{name:'Next'}).click()
   await expect(page.locator('.directory-tool-button')).toHaveCount(12)
-  await expect(page.getByText('2 / 5',{exact:false})).toBeVisible()
+  await expect(page.getByText('2 / 6',{exact:false})).toBeVisible()
 
   await page.getByLabel('Search all tools').fill('Timer with Sounds')
   await expect(page.locator('.directory-tool-button')).toHaveCount(1)
@@ -477,7 +477,7 @@ test('tool directory search works across the full paginated catalog', async ({ p
 test('wave 4 table converter handles CSV to Markdown locally', async ({ page }) => {
   await page.goto('/tools/table-converter')
   await expect(page.getByRole('heading',{name:/Table Converter/})).toBeVisible()
-  await page.getByLabel('Table input').fill('Name,City\nAvery,Taipei\nMina,Kaohsiung')
+  await page.getByRole('textbox',{name:'Table input',exact:true}).fill('Name,City\nAvery,Taipei\nMina,Kaohsiung')
   await page.getByLabel('Table output format').selectOption('markdown')
   await page.getByRole('button',{name:'Convert table'}).click()
   await expect(page.getByLabel('Converted table output')).toContainText('| Name | City |')
