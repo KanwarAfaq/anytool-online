@@ -20,6 +20,18 @@ jobs:
           VITE_SITE_URL: https://www.anytool.online
       - name: Live crawl and indexability checks
         run: node scripts/live-seo-check.mjs
+      - name: Install Chromium for live Lighthouse
+        run: npx playwright install --with-deps chromium
+      - name: Live Lighthouse page-experience audit
+        continue-on-error: true
+        run: |
+          mkdir -p .lighthouse-live
+          export CHROME_PATH=$(node -e "const { chromium }=require('playwright'); process.stdout.write(chromium.executablePath())")
+          npx --yes lighthouse@13.0.1 https://www.anytool.online/ --quiet --chrome-flags="--headless --no-sandbox" --only-categories=performance,accessibility,best-practices,seo --output=json --output-path=.lighthouse-live/home.json
+          npx --yes lighthouse@13.0.1 https://www.anytool.online/tools --quiet --chrome-flags="--headless --no-sandbox" --only-categories=performance,accessibility,best-practices,seo --output=json --output-path=.lighthouse-live/tools.json
+          npx --yes lighthouse@13.0.1 https://www.anytool.online/tools/take-home-pay --quiet --chrome-flags="--headless --no-sandbox" --only-categories=performance,accessibility,best-practices,seo --output=json --output-path=.lighthouse-live/take-home-pay.json
+          npx --yes lighthouse@13.0.1 https://www.anytool.online/tools/image-resize --quiet --chrome-flags="--headless --no-sandbox" --only-categories=performance,accessibility,best-practices,seo --output=json --output-path=.lighthouse-live/image-resize.json
+          node scripts/lighthouse-budget.mjs .lighthouse-live
       - name: Search-readiness summary
         run: |
           echo "## AnyTool SEO/GEO checks" >> "$GITHUB_STEP_SUMMARY"
@@ -28,3 +40,4 @@ jobs:
           echo "- Canonicals, hreflang and SoftwareApplication schema validated by dist tests" >> "$GITHUB_STEP_SUMMARY"
           echo "- Public source pages and methodology are included in sitemap" >> "$GITHUB_STEP_SUMMARY"
           echo "- Live canonical, favicon, sitemap, private noindex and true-404 checks passed" >> "$GITHUB_STEP_SUMMARY"
+          echo "- Lighthouse audits representative home, directory, calculator and image-tool pages; live performance findings are advisory while CI budgets are enforced" >> "$GITHUB_STEP_SUMMARY"
