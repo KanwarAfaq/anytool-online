@@ -2,6 +2,7 @@ import assert from 'node:assert/strict'
 import { readFile, access } from 'node:fs/promises'
 import { resolve } from 'node:path'
 import { tools } from '../src/data/tools.js'
+import { priorityToolContent } from '../src/data/toolContent.js'
 
 const root=process.cwd()
 const locales=['','zh-tw','ar','ur']
@@ -20,6 +21,8 @@ for(const tool of tools) await access(resolve(root,'dist','tool-art',tool.slug+'
 const sitemap=await readFile(resolve(root,'dist/sitemap.xml'),'utf8')
 assert.ok(sitemap.includes('xmlns:xhtml='),'sitemap missing hreflang namespace')
 assert.ok(sitemap.includes('xmlns:image='),'sitemap missing image namespace')
+assert.ok(sitemap.includes('<image:title>'),'sitemap image titles missing')
+assert.ok(sitemap.includes('<image:caption>'),'sitemap image captions missing')
 assert.ok(/<lastmod>\d{4}-\d{2}-\d{2}<\/lastmod>/.test(sitemap),'sitemap missing meaningful lastmod dates')
 assert.ok(!sitemap.includes('/auth</loc>'),'auth must not be in sitemap')
 assert.ok(!sitemap.includes('/dashboard</loc>'),'dashboard must not be in sitemap')
@@ -71,11 +74,17 @@ for(const loc of locales){
   assert.ok(sitemap.includes(url),'sitemap missing '+url)
   assert.ok(html.includes(url),'canonical missing '+url)
   assert.ok(html.includes('SoftwareApplication'),'schema missing '+tool.slug)
+  assert.ok(html.includes('ImageObject'),'image schema missing '+tool.slug)
   assert.ok(html.includes('/tool-art/'+tool.slug+'.svg'),'tool image metadata missing '+tool.slug)
   assert.ok(html.includes('visual preview'),'visible tool image alt missing '+tool.slug)
   assert.ok(html.includes('hreflang="zh-TW"'),'hreflang missing '+tool.slug)
   assert.ok(html.includes('seo-prerender'),'visible prerender content missing '+tool.slug)
   if(!loc) assert.ok(html.includes('How to use it'),'useful prerender guidance missing '+tool.slug)
+  if(!loc&&priorityToolContent[tool.slug]){
+   assert.ok(html.includes('Common uses'),'priority common-use content missing '+tool.slug)
+   assert.ok(html.includes('Worked example'),'priority worked example missing '+tool.slug)
+   assert.ok(html.includes('Common questions'),'priority Q&A content missing '+tool.slug)
+  }
   if(!loc&&['take-home-pay','taiwan-id-photo','taiwan-elder-care'].includes(tool.slug)) assert.ok(html.includes('Official sources'),'official source text missing '+tool.slug)
  }
 }
