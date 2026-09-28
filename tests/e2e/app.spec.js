@@ -474,6 +474,17 @@ test('tool directory search works across the full paginated catalog', async ({ p
 })
 
 
+test('priority tool pages expose useful examples and common questions', async ({ page }) => {
+  await page.goto('/tools/take-home-pay')
+  await expect(page.getByRole('heading',{name:'NT$60,000 monthly salary example'})).toBeVisible()
+  await expect(page.getByText('Compare job offers in Taiwan using estimated monthly take-home pay.')).toBeVisible()
+  await expect(page.getByRole('heading',{name:'Is this the same as an employer payroll slip?'})).toBeVisible()
+
+  await page.goto('/tools/image-resize')
+  await expect(page.getByRole('heading',{name:'Web image example'})).toBeVisible()
+  await expect(page.getByText('Is my image uploaded?')).toBeVisible()
+})
+
 test('wave 4 table converter handles CSV to Markdown locally', async ({ page }) => {
   await page.goto('/tools/table-converter')
   await expect(page.getByRole('heading',{name:/Table Converter/})).toBeVisible()
