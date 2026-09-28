@@ -29,6 +29,17 @@ jobs:
           if [ -f source-monitor-report.json ]; then
             cat source-monitor-report.json >> "$GITHUB_STEP_SUMMARY"
           fi
+      - name: Resolve review issue when authoritative checks are healthy
+        if: steps.sources.outcome == 'success'
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          TITLE="Official source review needed"
+          EXISTING=$(gh issue list --state open --search "$TITLE in:title" --json number --jq '.[0].number // empty')
+          if [ -n "$EXISTING" ]; then
+            gh issue comment "$EXISTING" --body "Automated authoritative source checks are healthy again. Crawler-blocked interactive sources, if any, are reported as warnings and remain subject to freshness review. Workflow: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}"
+            gh issue close "$EXISTING" --reason completed
+          fi
       - name: Open review issue when a source changed or failed
         if: steps.sources.outcome == 'failure'
         env:
