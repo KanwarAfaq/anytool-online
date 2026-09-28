@@ -17,6 +17,7 @@ import ZodiacMatcher from '../components/tools/ZodiacMatcher'
 import ImageFlipTool from '../components/tools/ImageFlipTool'
 import UtilityToolSuite, { utilityToolSlugs } from '../components/tools/UtilityToolSuite'
 import Wave2ToolSuite, { wave2ToolSlugs } from '../components/tools/Wave2ToolSuite'
+import Wave4ToolSuite, { wave4ToolSlugs } from '../components/tools/Wave4ToolSuite'
 import SourceEvidence from '../components/SourceEvidence'
 import ToolGuide from '../components/ToolGuide'
 import OfficialAssistant from '../components/OfficialAssistant'
@@ -280,6 +281,7 @@ export default function ToolPage(){
   if(['pdf-merge','pdf-split'].includes(slug))return <PdfTool slug={slug}/>
   if(utilityToolSlugs.has(slug))return <UtilityToolSuite slug={slug}/>
   if(wave2ToolSlugs.has(slug))return <Wave2ToolSuite slug={slug}/>
+  if(wave4ToolSlugs.has(slug))return <Wave4ToolSuite slug={slug}/>
   return <AITool slug={slug}/>
  },[slug])
  const toolPath=pathFor('/tools/'+slug)
@@ -304,7 +306,7 @@ export default function ToolPage(){
  }[lang]||{local:'Runs in your browser',private:'No upload',free:'Free tool',new:'New',updated:'Last updated'}
  const shareTool=async()=>{try{if(navigator.share)await navigator.share({title:toolName(tool),text:toolDescription(tool),url:toolUrl});else{await navigator.clipboard.writeText(toolUrl);alert('Link copied')}}catch{}}
  const schemas=[
-  {'@context':'https://schema.org','@type':'WebPage',name:seoTitle,description:seoDescription,url:toolUrl,inLanguage:lang,dateModified:reviewed,primaryImageOfPage:imageUrl,isPartOf:{'@type':'WebSite',name:'AnyTool.online',url:'https://www.anytool.online/'}},
+  {'@context':'https://schema.org','@type':'WebPage',name:seoTitle,description:seoDescription,url:toolUrl,inLanguage:lang,dateModified:updated,primaryImageOfPage:imageUrl,isPartOf:{'@type':'WebSite',name:'AnyTool.online',url:'https://www.anytool.online/'}},
   {'@context':'https://schema.org','@type':'SoftwareApplication',name:toolName(tool),description:seoDescription,image:imageUrl,applicationCategory:'UtilitiesApplication',operatingSystem:'Web',url:toolUrl,isAccessibleForFree:true,offers:{'@type':'Offer',price:'0',priceCurrency:'USD'}},
   {'@context':'https://schema.org','@type':'BreadcrumbList',itemListElement:[{'@type':'ListItem',position:1,name:'AnyTool',item:'https://www.anytool.online/'},{'@type':'ListItem',position:2,name:categoryName,item:categoryUrl},{'@type':'ListItem',position:3,name:toolName(tool),item:toolUrl}]}
  ]

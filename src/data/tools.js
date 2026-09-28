@@ -71,6 +71,8 @@ export const tools = [
   ['pomodoro-timer','Pomodoro Focus Timer','general','Run focus and break sessions with a lightweight task list.','Use a configurable Pomodoro focus timer with short and long breaks plus browser-local task tracking.','2026-09-27',true],
   ['world-clock','World Clock','general','Compare current time across major global time zones.','View live local times and dates across major world cities using browser Intl time-zone data.','2026-09-27',true],
   ['typing-test','Typing Speed Test','text','Measure typing speed and accuracy against a fixed prompt.','Measure words per minute, accuracy, correct words and time remaining in a privacy-friendly typing test.','2026-09-27',true],
+  ['table-converter','Table Converter — CSV, TSV, Markdown & HTML','developer','Convert tables between CSV, TSV, Markdown and HTML.','Free browser-local table converter for CSV, TSV, Markdown and HTML tables with automatic format detection, copy and download.','2026-09-28',true],
+  ['screenshot-beautifier','Screenshot Beautifier','image','Turn screenshots into polished shareable images.','Beautify screenshots online with gradient backgrounds, padding, rounded corners, shadows and an optional browser frame, processed locally in your browser.','2026-09-28',true],
 ].map(([slug,name,category,description,seoDescription,updatedAt,localProcessing]) => ({ slug,name,category,description,seoDescription,updatedAt,localProcessing }))
 
 export const toolBySlug = Object.fromEntries(tools.map(t => [t.slug, t]))

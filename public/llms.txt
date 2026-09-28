@@ -40,7 +40,10 @@ Taiwan regulated calculations are deterministic and source-backed. AnyTool does 
 - Elderly care subsidy & bed finder: https://www.anytool.online/tools/taiwan-elder-care
 
 ## File and AI tools
-Image resize/conversion and PDF merge/split run locally in the browser where practical. AI OCR and structured receipt extraction require a signed-in account and report the provider used.
+Image resize/conversion, PDF merge/split, the Table Converter, and Screenshot Beautifier run locally in the browser where practical. AI OCR and structured receipt extraction require a signed-in account and report the provider used.
+
+- Table Converter (CSV, TSV, Markdown, HTML): https://www.anytool.online/tools/table-converter
+- Screenshot Beautifier: https://www.anytool.online/tools/screenshot-beautifier
 
 Sitemap: https://www.anytool.online/sitemap.xml
 
