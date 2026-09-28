@@ -464,7 +464,7 @@ test('new image sketch tool creates a local downloadable PNG', async ({ page }) 
 test('tool directory search works across the full paginated catalog', async ({ page }) => {
   await page.goto('/tools')
   await expect(page.getByLabel('Search all tools')).toBeVisible()
-  await expect(page.locator('#main-content').getByText('60 tools')).toBeVisible()
+  await expect(page.locator('#main-content').getByText('62 tools')).toBeVisible()
   await page.getByLabel('Search all tools').fill('Timer with Sounds')
   await expect(page.locator('.directory-tool-button')).toHaveCount(1)
   await expect(page.getByRole('link',{name:/Timer with Sounds/})).toBeVisible()
@@ -473,6 +473,28 @@ test('tool directory search works across the full paginated catalog', async ({ p
   await expect(page.getByRole('link',{name:/JSON Formatter/})).toBeVisible()
 })
 
+
+test('wave 4 table converter handles CSV to Markdown locally', async ({ page }) => {
+  await page.goto('/tools/table-converter')
+  await expect(page.getByRole('heading',{name:/Table Converter/})).toBeVisible()
+  await page.getByLabel('Table input').fill('Name,City\nAvery,Taipei\nMina,Kaohsiung')
+  await page.getByLabel('Table output format').selectOption('markdown')
+  await page.getByRole('button',{name:'Convert table'}).click()
+  await expect(page.getByLabel('Converted table output')).toContainText('| Name | City |')
+  await expect(page.getByLabel('Converted table output')).toContainText('| Avery | Taipei |')
+  await expect(page.getByText('3 rows')).toBeVisible()
+})
+
+test('wave 4 screenshot beautifier renders a local downloadable canvas', async ({ page }) => {
+  const png=Buffer.from('iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/x8AAusB9Wl8V1kAAAAASUVORK5CYII=','base64')
+  await page.goto('/tools/screenshot-beautifier')
+  await page.getByLabel('Choose screenshot to beautify').setInputFiles({name:'screen.png',mimeType:'image/png',buffer:png})
+  await expect(page.getByLabel('Beautified screenshot preview')).toBeVisible()
+  await expect(page.getByRole('button',{name:'Download PNG'})).toBeEnabled()
+  await page.getByLabel('Screenshot padding').fill('120')
+  const dims=await page.getByLabel('Beautified screenshot preview').evaluate(c=>[c.width,c.height])
+  expect(dims[0]).toBeGreaterThan(1);expect(dims[1]).toBeGreaterThan(1)
+})
 
 test('wave 2 developer tools perform representative conversions', async ({ page }) => {
   await page.goto('/tools/csv-converter')
