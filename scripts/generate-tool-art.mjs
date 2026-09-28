@@ -33,7 +33,8 @@ const tags={
   'csv-converter':['CSV','↔ JSON'],'yaml-json-converter':['YAML','↔ JSON'],'json-to-types':['JSON','→ TS'],'sql-formatter':['SQL','FORMAT'],'cron-generator':['CRON','NEXT'],
   'favicon-generator':['32²','FAVICON'],'gradient-generator':['CSS','GRADIENT'],'box-shadow-generator':['CSS','SHADOW'],
   'exif-viewer':['EXIF','META'],'image-watermark':['©','WATERMARK'],'barcode-generator':['||||','BARCODE'],
-  'pomodoro-timer':['25:00','FOCUS'],'world-clock':['UTC','WORLD'],'typing-test':['WPM','TYPE']
+  'pomodoro-timer':['25:00','FOCUS'],'world-clock':['UTC','WORLD'],'typing-test':['WPM','TYPE'],
+  'table-converter':['CSV↔MD','TABLE'],'screenshot-beautifier':['▣','BEAUTIFY']
 }
 
 const esc=s=>String(s).replaceAll('&','&amp;').replaceAll('<','&lt;').replaceAll('>','&gt;').replaceAll('"','&quot;')
