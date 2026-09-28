@@ -3,6 +3,7 @@ import { dirname, resolve } from 'node:path'
 import { execFileSync } from 'node:child_process'
 import { tools } from '../src/data/tools.js'
 import { officialSources, toolSourceKeys } from '../src/data/officialSources.js'
+import { priorityToolContent } from '../src/data/toolContent.js'
 
 const root=process.cwd()
 const template=await readFile(resolve(root,'dist/index.html'),'utf8')
@@ -149,8 +150,9 @@ const contentLastmod=path=>{
  const clean=basePath(path)
  const slug=clean.match(/^\/tools\/([^/]+)$/)?.[1]
  if(slug){
+   const tool=tools.find(t=>t.slug===slug)
    const verified=(toolSourceKeys[slug]||[]).map(k=>officialSources[k]?.verified).filter(Boolean)
-   return maxDate(toolTemplateDate,toolsDataDate,...verified)
+   return maxDate(toolTemplateDate,toolsDataDate,tool?.updatedAt,...verified)
  }
  return staticDateByPath[clean]||lastmod
 }
@@ -176,10 +178,12 @@ const fallbackHtml=(title,description,path)=>{
  const prefix=code==='zh-TW'?'/zh-tw':code==='ar'?'/ar':code==='ur'?'/ur':''
  const related=tool?tools.filter(x=>x.slug!==tool.slug&&x.category===tool.category).slice(0,4):[]
  const relatedHtml=related.length?`<section><h2>${esc(ui.related)}</h2><ul>${related.map(x=>`<li><a href="${SITE}${prefix}/tools/${x.slug}">${esc(localizedToolName(x,{code}))}</a></li>`).join('')}</ul></section>`:''
+ const extra=code==='en'&&tool?priorityToolContent[tool.slug]:null
+ const insightsHtml=extra?`<section><h2>Common uses</h2><ul>${extra.useCases.map(x=>`<li>${esc(x)}</li>`).join('')}</ul><h2>Worked example</h2><h3>${esc(extra.example.title)}</h3><p>${esc(extra.example.body)}</p><h2>Common questions</h2>${extra.questions.map(([q,a])=>`<h3>${esc(q)}</h3><p>${esc(a)}</p>`).join('')}</section>`:''
  const categoryMatch=clean.match(/^\/categories\/([^/]+)$/)
  const listing=!tool&&(clean==='/'||categoryMatch)?tools.filter(x=>!categoryMatch||x.category===categoryMatch[1]):[]
  const listingHtml=listing.length?`<section><h2>${esc(code==='zh-TW'?'可用工具':code==='ar'?'الأدوات المتاحة':code==='ur'?'دستیاب ٹولز':'Available tools')}</h2><ul>${listing.map(x=>`<li><a href="${SITE}${prefix}/tools/${x.slug}">${esc(localizedToolName(x,{code}))}</a> — ${esc(x.description)}</li>`).join('')}</ul></section>`:''
- return `<main class="seo-prerender" style="max-width:70rem;margin:0 auto;padding:3rem 1rem;color:#e8f0f7;background:#07111f;font-family:system-ui,sans-serif"><nav><a href="${SITE}/" style="color:#6ee7b7">AnyTool.online</a> · <a href="${SITE}/sources" style="color:#6ee7b7">${esc(ui.sources)}</a> · <a href="${SITE}/methodology" style="color:#6ee7b7">Methodology</a></nav><h1 style="font-size:2.25rem;line-height:1.15;margin:1rem 0">${esc(title)}</h1>${tool?`<img src="${SITE}/tool-art/${tool.slug}.svg" alt="${esc(localizedToolName(tool,{code}))} visual preview" width="640" height="360" style="width:min(100%,40rem);height:auto;border-radius:1.25rem;border:1px solid #203044;margin:1rem 0 1.25rem" />`:''}<p style="max-width:52rem;color:#cbd5e1;line-height:1.75">${esc(description)}</p>${tool?`<section><h2>${esc(ui.about)}</h2><p style="max-width:52rem;line-height:1.7">${esc(description)}</p></section><section><h2>${esc(ui.how)}</h2><ol><li>${esc(ui.step1)}</li><li>${esc(ui.step2)}</li><li>${esc(ui.step3)}</li></ol></section><section><h2>${esc(ui.privacy)}</h2><p style="max-width:52rem;line-height:1.7">${esc(ui.privacyText)}</p></section>`:''}${sourceHtml}${relatedHtml}${listingHtml}<p style="margin-top:1.5rem;color:#94a3b8;font-size:.875rem">Interactive URL: ${esc(SITE+path)}</p></main>`
+ return `<main class="seo-prerender" style="max-width:70rem;margin:0 auto;padding:3rem 1rem;color:#e8f0f7;background:#07111f;font-family:system-ui,sans-serif"><nav><a href="${SITE}/" style="color:#6ee7b7">AnyTool.online</a> · <a href="${SITE}/sources" style="color:#6ee7b7">${esc(ui.sources)}</a> · <a href="${SITE}/methodology" style="color:#6ee7b7">Methodology</a></nav><h1 style="font-size:2.25rem;line-height:1.15;margin:1rem 0">${esc(title)}</h1>${tool?`<img src="${SITE}/tool-art/${tool.slug}.svg" alt="${esc(localizedToolName(tool,{code}))} visual preview" width="640" height="360" style="width:min(100%,40rem);height:auto;border-radius:1.25rem;border:1px solid #203044;margin:1rem 0 1.25rem" />`:''}<p style="max-width:52rem;color:#cbd5e1;line-height:1.75">${esc(description)}</p>${tool?`<section><h2>${esc(ui.about)}</h2><p style="max-width:52rem;line-height:1.7">${esc(description)}</p></section><section><h2>${esc(ui.how)}</h2><ol><li>${esc(ui.step1)}</li><li>${esc(ui.step2)}</li><li>${esc(ui.step3)}</li></ol></section><section><h2>${esc(ui.privacy)}</h2><p style="max-width:52rem;line-height:1.7">${esc(ui.privacyText)}</p></section>`:''}${insightsHtml}${sourceHtml}${relatedHtml}${listingHtml}<p style="margin-top:1.5rem;color:#94a3b8;font-size:.875rem">Interactive URL: ${esc(SITE+path)}</p></main>`
 }
 
 async function emit(path,locale,title,description,schemas=[],image=''){
@@ -232,6 +236,7 @@ for(const locale of locales){
    const schemas=[
     {'@context':'https://schema.org','@type':'WebPage',name:title,url:canonical,description,inLanguage:locale.code,dateModified:contentLastmod(path),primaryImageOfPage:image,isPartOf:{'@type':'WebSite',name:'AnyTool.online',url:SITE+'/'}},
     {'@context':'https://schema.org','@type':'SoftwareApplication',name,image,applicationCategory:'UtilitiesApplication',operatingSystem:'Web',url:canonical,description,isAccessibleForFree:true,featureList:[tool.seoDescription||tool.description],publisher:{'@type':'Organization',name:'AnyTool.online',url:SITE+'/'},offers:{'@type':'Offer',price:'0',priceCurrency:'USD'}},
+    {'@context':'https://schema.org','@type':'ImageObject',name:name+' visual preview',contentUrl:image,url:image,caption:name+' — '+description,encodingFormat:'image/svg+xml',representativeOfPage:true},
     {'@context':'https://schema.org','@type':'BreadcrumbList',itemListElement:[{'@type':'ListItem',position:1,name:'AnyTool',item:SITE+'/'},{'@type':'ListItem',position:2,name,item:canonical}]}
    ]
    await emit(path,locale,title,description,schemas,image)
@@ -244,7 +249,8 @@ for(const path of indexable){
  const alternates=locales.map(l=>({code:l.code,loc:SITE+localizedPath(l.prefix,path)}))
  for(const alt of alternates){
    const toolSlug=path.match(/^\/tools\/([^/]+)$/)?.[1]
-   const imageTag=toolSlug?`<image:image><image:loc>${xml(SITE+'/tool-art/'+toolSlug+'.svg')}</image:loc></image:image>`:''
+   const sitemapTool=toolSlug?tools.find(t=>t.slug===toolSlug):null
+   const imageTag=sitemapTool?`<image:image><image:loc>${xml(SITE+'/tool-art/'+toolSlug+'.svg')}</image:loc><image:title>${xml(sitemapTool.name+' visual preview')}</image:title><image:caption>${xml(sitemapTool.seoDescription||sitemapTool.description)}</image:caption></image:image>`:''
    entries.push(`<url><loc>${xml(alt.loc)}</loc><lastmod>${contentLastmod(path)}</lastmod>${imageTag}${alternates.map(a=>`<xhtml:link rel="alternate" hreflang="${a.code}" href="${xml(a.loc)}" />`).join('')}<xhtml:link rel="alternate" hreflang="x-default" href="${xml(SITE+path)}" /></url>`)
  }
 }

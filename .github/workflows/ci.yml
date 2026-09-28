@@ -22,3 +22,21 @@ jobs:
       - run: npm run test:e2e
         env:
           VITE_SITE_URL: https://www.anytool.online
+      - name: Start local preview for Lighthouse
+        run: |
+          npm run preview -- --host 127.0.0.1 --port 4173 > /tmp/anytool-preview.log 2>&1 &
+          for i in {1..30}; do
+            if curl -fsS http://127.0.0.1:4173/ >/dev/null; then exit 0; fi
+            sleep 1
+          done
+          cat /tmp/anytool-preview.log
+          exit 1
+      - name: Lighthouse page-experience budgets
+        run: |
+          mkdir -p .lighthouse
+          export CHROME_PATH=$(node -e "const { chromium }=require('playwright'); process.stdout.write(chromium.executablePath())")
+          npx --yes lighthouse@13.0.1 http://127.0.0.1:4173/ --quiet --chrome-flags="--headless --no-sandbox" --only-categories=performance,accessibility,best-practices,seo --output=json --output-path=.lighthouse/home.json
+          npx --yes lighthouse@13.0.1 http://127.0.0.1:4173/tools --quiet --chrome-flags="--headless --no-sandbox" --only-categories=performance,accessibility,best-practices,seo --output=json --output-path=.lighthouse/tools.json
+          npx --yes lighthouse@13.0.1 http://127.0.0.1:4173/tools/take-home-pay --quiet --chrome-flags="--headless --no-sandbox" --only-categories=performance,accessibility,best-practices,seo --output=json --output-path=.lighthouse/take-home-pay.json
+          npx --yes lighthouse@13.0.1 http://127.0.0.1:4173/tools/image-resize --quiet --chrome-flags="--headless --no-sandbox" --only-categories=performance,accessibility,best-practices,seo --output=json --output-path=.lighthouse/image-resize.json
+          node scripts/lighthouse-budget.mjs .lighthouse

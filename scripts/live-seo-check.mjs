@@ -15,6 +15,8 @@ assert.ok((sitemapText.match(/<url>/g)||[]).length>=100,'sitemap unexpectedly sm
 assert.ok(sitemapText.includes(SITE+'/tools/take-home-pay'),'priority tool missing from sitemap')
 assert.ok(sitemapText.includes(SITE+'/tools/table-converter'),'table converter missing from sitemap')
 assert.ok(sitemapText.includes(SITE+'/tools/screenshot-beautifier'),'screenshot beautifier missing from sitemap')
+assert.ok(sitemapText.includes('<image:title>'),'sitemap image title metadata missing')
+assert.ok(sitemapText.includes('<image:caption>'),'sitemap image caption metadata missing')
 for(const slug of ['table-converter','screenshot-beautifier']){
  const tool=await get('/tools/'+slug)
  assert.equal(tool.status,200,slug+' must return 200')

@@ -24,8 +24,8 @@ export const officialSources = {
   nhi2026: {
     title: '2026 NHI Premium Co-payment Chart — Employees',
     authority: 'National Health Insurance Administration, Ministry of Health and Welfare',
-    url: 'https://www.nhi.gov.tw/en/cp-19434-822cf-64-2.html',
-    verified: '2026-09-20',
+    url: 'https://www.nhi.gov.tw/ch/cp-19418-9eefb-2576-1.html',
+    verified: '2026-09-28',
     summary: 'For employees with a fixed employer: 5.17% premium rate, 30% employee share and up to three charged dependents; the employer column includes the published average dependent factor.'
   },
   minimumWage2026: {
@@ -66,9 +66,9 @@ export const officialSources = {
   taiwanIdPhoto: {
     title: 'National ID Photo Specifications — Household Registration',
     authority: 'Department of Household Registration, Ministry of the Interior',
-    url: 'https://www.ris.gov.tw/documents/html/5/3/187.html',
-    verified: '2026-09-20',
-    summary: '35×45 mm, white background, head height 32–36 mm; digital JPG at least 413×531 px and no larger than 5 MB.'
+    url: 'https://www.ris.gov.tw/apply-idCardChange/app/aw0726/main?retrievalPath=%2Faw0726%2F',
+    verified: '2026-09-28',
+    summary: 'Official ID-photo upload guidance: 35×45 mm, white background, head height 32–36 mm; digital JPG/JPEG in RGB, at least 413×531 px and no larger than 5 MB.'
   },
   arcPhoto: {
     title: 'ARC application photo guidance — National Immigration Agency',
