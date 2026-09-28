@@ -29,16 +29,27 @@ jobs:
           if [ -f source-monitor-report.json ]; then
             cat source-monitor-report.json >> "$GITHUB_STEP_SUMMARY"
           fi
-      - name: Open review issue when a source changed or failed
+      - name: Open review issue for confirmed source changes
         if: steps.sources.outcome == 'failure'
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
           TITLE="Official source review needed"
           EXISTING=$(gh issue list --state open --search "$TITLE in:title" --json number --jq '.[0].number // empty')
-          BODY="The daily source monitor detected an unavailable source or a missing expected marker. Review the workflow summary before changing any calculator or public-service rule. Workflow: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}"
+          BODY="The monitor confirmed a critical content-marker change, stale verification, or broken source mapping. Transport-only blocks are reported as warnings and do not open issues. Workflow: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}"
           if [ -n "$EXISTING" ]; then
             gh issue comment "$EXISTING" --body "$BODY"
           else
             gh issue create --title "$TITLE" --body "$BODY"
+          fi
+      - name: Close resolved source-review issue
+        if: steps.sources.outcome == 'success'
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          TITLE="Official source review needed"
+          EXISTING=$(gh issue list --state open --search "$TITLE in:title" --json number --jq '.[0].number // empty')
+          if [ -n "$EXISTING" ]; then
+            gh issue comment "$EXISTING" --body "Latest source monitor passed all critical content and registry checks. Transport-only government-site blocks, if any, are advisory and remain visible in the workflow report."
+            gh issue close "$EXISTING" --reason completed
           fi

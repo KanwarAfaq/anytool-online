@@ -1,0 +1,30 @@
+name: Lighthouse performance audit
+
+on:
+  schedule:
+    - cron: '23 4 * * 1'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  lighthouse:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-node@v7
+        with:
+          node-version: 22.12.0
+      - run: npm install --no-audit --no-fund
+      - run: npm run build
+        env:
+          VITE_SITE_URL: https://www.anytool.online
+      - name: Audit key pages with Lighthouse
+        run: npx -y @lhci/cli@0.15.1 autorun
+      - name: Performance summary
+        if: always()
+        run: |
+          echo "## AnyTool Lighthouse audit" >> "$GITHUB_STEP_SUMMARY"
+          echo "- Mobile-style Lighthouse lab checks for homepage, tool directory, Taiwan take-home pay, and Screenshot Beautifier" >> "$GITHUB_STEP_SUMMARY"
+          echo "- Accessibility, best-practices and SEO are enforced; performance, LCP and TBT are tracked as warnings to avoid flaky deploy blocks" >> "$GITHUB_STEP_SUMMARY"

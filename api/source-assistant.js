@@ -12,7 +12,7 @@ const TOPICS={
   ['BOCA — Taiwan passport photo specifications','https://www.boca.gov.tw/cp-25-4123-c2932-1.html'],
   ['BOCA — passport digital photo file requirements','https://epass.boca.gov.tw/cp-13-244-3fec5-1.html'],
   ['National Immigration Agency — ARC photo guidance','https://www.immigration.gov.tw/5475/5478/141465/141469/367160/cp_news'],
-  ['Household Registration — National ID photo specifications','https://www.ris.gov.tw/documents/html/5/3/187.html']
+  ['Household Registration — National ID photo specifications','https://www.ris.gov.tw/apply-idCardChange/app/aw0726/main?retrievalPath=%2Faw0726%2F']
  ],
  elderly:[
   ['MOHW — 2026 residential institution subsidy rules','https://www.mohw.gov.tw/cp-16-87895-1.html'],
