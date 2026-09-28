@@ -12,7 +12,25 @@ const tips={
  'taiwan-id-photo':{en:['Choose Passport, National ID or ARC/APRC.','Upload a recent original photo and adjust the crop.','Compare the final result with the official guide before submitting.'],'zh-TW':['先選擇護照、國民身分證或 ARC/APRC。','上傳近期原始照片並調整裁切。','送件前再對照官方規格。']},
  'taiwan-elder-care':{en:['Review central subsidy conditions first.','Search official local facility/bed data.','Call the institution before making a placement decision because availability changes.'],'zh-TW':['先確認中央補助條件。','搜尋地方政府公開的機構與床位資料。','床位會變動，入住前請直接致電機構確認。']},
  'image-resize':{en:['Upload a JPG, PNG or WebP.','Set size, format and quality.','Review output dimensions and file size, then download.'],'zh-TW':['上傳 JPG、PNG 或 WebP。','設定尺寸、格式與品質。','確認輸出尺寸與檔案大小後下載。']},
- 'ocr':{en:['Sign in and upload a readable image or PDF.','Run OCR and review the extracted text.','Verify important names, amounts and identifiers against the original.'],'zh-TW':['登入後上傳清晰圖片或 PDF。','執行 OCR 並檢查辨識文字。','重要姓名、金額與編號請與原檔核對。']}
+ 'ocr':{en:['Sign in and upload a readable image or PDF.','Run OCR and review the extracted text.','Verify important names, amounts and identifiers against the original.'],'zh-TW':['登入後上傳清晰圖片或 PDF。','執行 OCR 並檢查辨識文字。','重要姓名、金額與編號請與原檔核對。']},
+ 'overtime-pay':{en:['Enter monthly salary and the overtime hours that actually apply.','Separate weekday and rest-day overtime so the correct multipliers are used.','Compare the estimate with your payroll record and the official labor rules.']},
+ 'minimum-wage':{en:['Enter monthly and hourly pay separately.','Review each result against the current 2026 threshold.','Use the official source below when checking special employment arrangements.']},
+ 'employer-cost':{en:['Enter monthly salary and NHI dependents where relevant.','Review salary, insurance, NHI and pension components separately.','Treat occupational-accident insurance as an additional variable cost because its rate depends on the employer.']},
+ 'image-compress':{en:['Upload a JPG, PNG or WebP image.','Adjust output format and quality while watching the resulting file size.','Download only after checking that text and fine detail still look acceptable.']},
+ 'pdf-merge':{en:['Choose two or more PDF files in the order you want them combined.','The files are merged locally in your browser.','Download the merged PDF and quickly verify page order before sharing it.']},
+ 'qr-generator':{en:['Paste the final URL or text you want to encode.','Choose an export size large enough for your intended print or screen use.','Scan the generated QR code once before publishing it.']},
+ 'table-converter':{en:['Paste CSV, TSV, Markdown or HTML table data.','Use auto-detect or select the source format explicitly, then choose the target format.','Copy the converted table or download it without sending the data to a server.']},
+ 'screenshot-beautifier':{en:['Upload a screenshot or image.','Choose a background preset, padding, corner radius, shadow and optional browser frame.','Download the PNG after checking that important UI text is still readable.']}
+}
+const useCases={
+ 'take-home-pay':['Compare job offers in Taiwan','Estimate the effect of dependents on NHI','Plan a monthly budget from gross salary'],
+ 'income-tax':['Estimate annual salary tax before filing','Compare salary scenarios','Understand how deductions affect taxable income'],
+ 'taiwan-id-photo':['Prepare passport photo dimensions','Prepare National ID digital photos','Prepare ARC/APRC application photos'],
+ 'pdf-merge':['Combine application documents','Merge scanned forms and supporting files','Create one submission-ready PDF'],
+ 'image-compress':['Reduce upload size limits','Optimize images for websites','Shrink email attachments'],
+ 'qr-generator':['Create website QR codes','Share Wi-Fi or plain text information','Prepare QR codes for print materials'],
+ 'table-converter':['Move spreadsheet data into Markdown','Convert HTML tables to CSV','Prepare tabular data for documentation or code'],
+ 'screenshot-beautifier':['Create polished product screenshots','Prepare social-media visuals','Present UI mockups and bug reports clearly']
 }
 const generic={
  en:{title:'How to use · privacy · related tools',privacy:'Privacy',related:'Related',calc:['Enter the values for your situation.','Review the result as inputs change.','Check official sources for regulated calculations.'],file:['Choose a file.','Adjust the available settings.','Review and download the result.'],ai:['Sign in and choose a file.','Run the AI task.','Verify important output against the original.'],local:'Main processing stays in your browser when possible.',server:'The selected file is sent only when you start the AI task.'},
@@ -27,11 +45,12 @@ export default function ToolGuide({tool}){
  const steps=tips[tool.slug]?.[lang]||(lang==='en'?tips[tool.slug]?.en:null)||(isAI?L.ai:isFile?L.file:L.calc)
  const privacy=isAI?L.server:(tool.localProcessing||localSlugs.has(tool.slug)||isFile)?L.local:L.calc[2]
  const related=tools.filter(x=>x.slug!==tool.slug&&(x.category===tool.category||(['take-home-pay','labor-insurance','nhi','income-tax','employer-cost'].includes(tool.slug)&&x.category==='money'))).slice(0,4)
+ const uses=lang==='en'?(useCases[tool.slug]||[]):[]
  return <details className="compact-details">
   <summary><span className="flex items-center gap-2"><CheckCircle2 size={17} className="text-lime-300"/>{L.title}</span></summary>
   <div className="grid gap-5 border-t border-white/[0.06] p-4 lg:grid-cols-[1fr_280px]">
    <div><ol className="grid gap-2">{steps.map((s,i)=><li key={s} className="flex gap-3 text-sm leading-6 text-slate-400"><span className="text-lime-300">{i+1}.</span><span>{s}</span></li>)}</ol><p className="mt-4 flex items-start gap-2 text-xs leading-5 text-slate-500"><LockKeyhole size={14} className="mt-0.5 shrink-0 text-lime-300"/>{privacy}</p></div>
-   <div><p className="text-xs font-black uppercase tracking-[.14em] text-slate-500">{L.related}</p><div className="mt-2 grid gap-1">{related.map(x=><Link key={x.slug} to={pathFor('/tools/'+x.slug)} className="flex items-center justify-between rounded-lg px-2.5 py-2 text-sm text-slate-400 hover:bg-white/[0.04] hover:text-white"><span>{toolName(x)}</span><ArrowRight size={13}/></Link>)}</div></div>
+   <div>{uses.length>0&&<div className="mb-5"><p className="text-xs font-black uppercase tracking-[.14em] text-slate-500">Common uses</p><ul className="mt-2 grid gap-1 text-sm text-slate-400">{uses.map(x=><li key={x} className="rounded-lg bg-white/[0.03] px-2.5 py-2">{x}</li>)}</ul></div>}<p className="text-xs font-black uppercase tracking-[.14em] text-slate-500">{L.related}</p><div className="mt-2 grid gap-1">{related.map(x=><Link key={x.slug} to={pathFor('/tools/'+x.slug)} className="flex items-center justify-between rounded-lg px-2.5 py-2 text-sm text-slate-400 hover:bg-white/[0.04] hover:text-white"><span>{toolName(x)}</span><ArrowRight size={13}/></Link>)}</div></div>
   </div>
  </details>
 }
