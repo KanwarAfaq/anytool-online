@@ -23,6 +23,7 @@ import ToolGuide from '../components/ToolGuide'
 import OfficialAssistant from '../components/OfficialAssistant'
 import ToolArt from '../components/ToolArt'
 import ToolFeedback from '../components/ToolFeedback'
+import ToolInsights from '../components/ToolInsights'
 import { officialSources, toolSourceKeys } from '../data/officialSources'
 
 const Num=({label,value,onChange,min=0,step=1})=><label className="block"><span className="mb-1.5 block text-sm text-slate-400">{label}</span><input className="input" type="number" inputMode="decimal" min={min} step={step} value={Number(value)===0?'':value} placeholder="0" onFocus={e=>e.target.select()} onChange={e=>onChange(e.target.value===''?0:Number(e.target.value))}/></label>
@@ -308,6 +309,7 @@ export default function ToolPage(){
  const schemas=[
   {'@context':'https://schema.org','@type':'WebPage',name:seoTitle,description:seoDescription,url:toolUrl,inLanguage:lang,dateModified:updated,primaryImageOfPage:imageUrl,isPartOf:{'@type':'WebSite',name:'AnyTool.online',url:'https://www.anytool.online/'}},
   {'@context':'https://schema.org','@type':'SoftwareApplication',name:toolName(tool),description:seoDescription,image:imageUrl,applicationCategory:'UtilitiesApplication',operatingSystem:'Web',url:toolUrl,isAccessibleForFree:true,offers:{'@type':'Offer',price:'0',priceCurrency:'USD'}},
+  {'@context':'https://schema.org','@type':'ImageObject',name:toolName(tool)+' visual preview',contentUrl:imageUrl,url:imageUrl,caption:toolName(tool)+' — '+seoDescription,encodingFormat:'image/svg+xml',representativeOfPage:true},
   {'@context':'https://schema.org','@type':'BreadcrumbList',itemListElement:[{'@type':'ListItem',position:1,name:'AnyTool',item:'https://www.anytool.online/'},{'@type':'ListItem',position:2,name:categoryName,item:categoryUrl},{'@type':'ListItem',position:3,name:toolName(tool),item:toolUrl}]}
  ]
  return <section className="tool-page-wide mx-auto w-full px-4 py-6">
@@ -323,6 +325,7 @@ export default function ToolPage(){
   </header>
   <div className={'tool-workspace category-'+tool.category}>{view}</div>
   <ToolGuide tool={tool}/>
+  <ToolInsights tool={tool}/>
   <ToolFeedback tool={tool}/>
   {sourceKeys.length>0&&<><SourceEvidence slug={slug}/><OfficialAssistant slug={slug}/></>}
   {regulated2026.has(slug)&&<p className="mt-5 text-xs text-slate-500">{t('planningOnly')}</p>}
