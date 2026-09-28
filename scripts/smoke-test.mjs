@@ -7,9 +7,9 @@ import cloudinaryHandler from '../api/cloudinary-sign.js'
 import healthHandler from '../api/health.js'
 import sourceAssistantHandler from '../api/source-assistant.js'
 
-assert.equal(tools.length,60,'expected 60 public tools')
+assert.equal(tools.length,62,'expected 62 public tools')
 assert.equal(new Set(tools.map(t=>t.slug)).size,tools.length,'tool slugs must be unique')
-for(const slug of ['random-picker','timer','image-to-sketch','simple-calculator','love-calculator','zodiac-matcher','image-flip','json-formatter','base64','jwt-decoder','uuid-generator','regex-tester','word-counter','password-generator','color-converter','date-calculator','unit-converter','csv-converter','yaml-json-converter','json-to-types','sql-formatter','cron-generator','favicon-generator','gradient-generator','box-shadow-generator','exif-viewer','image-watermark','barcode-generator','pomodoro-timer','world-clock','typing-test']) assert.ok(tools.some(t=>t.slug===slug),'missing public tool '+slug)
+for(const slug of ['random-picker','timer','image-to-sketch','simple-calculator','love-calculator','zodiac-matcher','image-flip','json-formatter','base64','jwt-decoder','uuid-generator','regex-tester','word-counter','password-generator','color-converter','date-calculator','unit-converter','csv-converter','yaml-json-converter','json-to-types','sql-formatter','cron-generator','favicon-generator','gradient-generator','box-shadow-generator','exif-viewer','image-watermark','barcode-generator','pomodoro-timer','world-clock','typing-test','table-converter','screenshot-beautifier']) assert.ok(tools.some(t=>t.slug===slug),'missing public tool '+slug)
 
 const labor=laborInsurance(36300)
 assert.equal(labor.labor,835,'labor insurance regression')
