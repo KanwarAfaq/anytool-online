@@ -50,8 +50,12 @@ assert.ok(manifest.icons?.some(x=>x.src==='/favicon-192.png'&&x.type==='image/pn
 const notFoundHtml=await readFile(resolve(root,'dist/404.html'),'utf8')
 assert.ok(notFoundHtml.includes('noindex,nofollow'),'static 404 must be noindex')
 const vercelConfig=JSON.parse(await readFile(resolve(root,'vercel.json'),'utf8'))
-assert.ok(!vercelConfig.routes?.some(r=>r.src==='/.*'&&r.dest==='/index.html'),'global SPA fallback would create soft 404s')
-assert.ok(vercelConfig.routes?.some(r=>r.src?.includes('auth|dashboard|profile')&&r.dest==='/index.html'),'private SPA fallback missing')
+assert.ok(!vercelConfig.routes,'legacy routes must not be mixed with higher-level headers/rewrites')
+assert.ok(!vercelConfig.rewrites?.some(r=>r.source==='/:path*'&&r.destination==='/index.html'),'global SPA fallback would create soft 404s')
+for(const privatePath of ['/auth','/dashboard','/profile','/zh-tw/auth','/ar/auth','/ur/auth']){
+ assert.ok(vercelConfig.rewrites?.some(r=>r.source===privatePath&&r.destination==='/index.html'),'private SPA rewrite missing '+privatePath)
+ assert.ok(vercelConfig.headers?.some(r=>r.source===privatePath&&r.headers?.some(h=>h.key==='X-Robots-Tag'&&/noindex/i.test(h.value))),'private noindex header missing '+privatePath)
+}
 for(const tool of tools) assert.ok(homeHtml.includes('/tools/'+tool.slug),'homepage prerender missing internal link '+tool.slug)
 assert.equal((sitemap.match(/<url>/g)||[]).length,expectedUrls,'unexpected sitemap URL count')
 

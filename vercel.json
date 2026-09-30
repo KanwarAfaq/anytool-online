@@ -2,21 +2,54 @@
   "framework": "vite",
   "buildCommand": "npm test && npm run build",
   "outputDirectory": "dist",
-  "routes": [
+  "rewrites": [
     {
-      "handle": "filesystem"
+      "source": "/auth",
+      "destination": "/index.html"
     },
     {
-      "src": "/api/(.*)",
-      "dest": "/api/$1"
+      "source": "/dashboard",
+      "destination": "/index.html"
     },
     {
-      "src": "/(auth|dashboard|profile)/?",
-      "dest": "/index.html"
+      "source": "/profile",
+      "destination": "/index.html"
     },
     {
-      "src": "/(zh-tw|ar|ur)/(auth|dashboard|profile)/?",
-      "dest": "/index.html"
+      "source": "/zh-tw/auth",
+      "destination": "/index.html"
+    },
+    {
+      "source": "/zh-tw/dashboard",
+      "destination": "/index.html"
+    },
+    {
+      "source": "/zh-tw/profile",
+      "destination": "/index.html"
+    },
+    {
+      "source": "/ar/auth",
+      "destination": "/index.html"
+    },
+    {
+      "source": "/ar/dashboard",
+      "destination": "/index.html"
+    },
+    {
+      "source": "/ar/profile",
+      "destination": "/index.html"
+    },
+    {
+      "source": "/ur/auth",
+      "destination": "/index.html"
+    },
+    {
+      "source": "/ur/dashboard",
+      "destination": "/index.html"
+    },
+    {
+      "source": "/ur/profile",
+      "destination": "/index.html"
     }
   ],
   "headers": [
