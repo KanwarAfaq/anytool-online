@@ -16,7 +16,7 @@ export default function About(){
  const L=c||{title:'About AnyTool',p1:'',p2:'',owner:'Owner & maintainer',ownerText:'',email:'Direct email'}
  const jsonLd=[
   {'@context':'https://schema.org','@type':'WebPage',name:L.title+' | AnyTool.online',description:L.p1,url:'https://www.anytool.online'+pathFor('/about'),about:{'@type':'Organization',name:'AnyTool.online',url:'https://www.anytool.online/'}},
-  {'@context':'https://schema.org','@type':'Person',name:OWNER_NAME,url:'https://www.anytool.online'+pathFor('/about'),image:OWNER_IMAGE,email:OWNER_EMAIL,jobTitle:'Creator and maintainer of AnyTool.online',worksFor:{'@type':'Organization',name:'AnyTool.online',url:'https://www.anytool.online/'}}
+  {'@context':'https://schema.org','@type':'Person',name:OWNER_NAME,url:'https://www.anytool.online'+pathFor('/about'),image:OWNER_IMAGE,email:OWNER_EMAIL,jobTitle:'Creator and maintainer of AnyTool.online',sameAs:['https://github.com/KanwarAfaq'],worksFor:{'@type':'Organization',name:'AnyTool.online',url:'https://www.anytool.online/'}}
  ]
  return <section className="mx-auto max-w-4xl px-4 py-16">
   <Seo title={L.title+' | AnyTool.online'} description={L.p1} jsonLd={jsonLd}/>

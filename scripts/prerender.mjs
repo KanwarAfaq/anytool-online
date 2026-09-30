@@ -3,6 +3,7 @@ import { dirname, resolve } from 'node:path'
 import { execFileSync } from 'node:child_process'
 import { tools } from '../src/data/tools.js'
 import { officialSources, toolSourceKeys } from '../src/data/officialSources.js'
+import { toolTranslations, toolDescriptionTranslations } from '../src/data/toolTranslations.js'
 
 const root=process.cwd()
 const template=await readFile(resolve(root,'dist/index.html'),'utf8')
@@ -20,18 +21,6 @@ const locales=[
  {code:'ar',prefix:'/ar',dir:'rtl',og:'ar_AR',free:'أداة مجانية عبر الإنترنت'},
  {code:'ur',prefix:'/ur',dir:'rtl',og:'ur_PK',free:'مفت آن لائن ٹول'},
 ]
-
-const localizedToolNames={
- 'zh-TW':{
-  'take-home-pay':'台灣實領薪資計算器','labor-insurance':'台灣勞保計算器','nhi':'台灣健保費計算器','income-tax':'台灣所得稅計算器','overtime-pay':'台灣加班費計算器','minimum-wage':'台灣最低工資檢查','employer-cost':'台灣雇主總成本計算器','annual-salary':'年薪 ↔ 月薪換算','percentage':'百分比計算器','image-resize':'圖片尺寸調整','image-compress':'圖片壓縮','png-to-jpg':'PNG 轉 JPG','jpg-to-png':'JPG 轉 PNG','dpi-calculator':'DPI 計算器','qr-generator':'QR Code 產生器','qr-scanner':'QR Code 掃描器','pdf-merge':'合併 PDF','pdf-split':'分割 PDF','loan-payment':'貸款月付計算器','taiwan-id-photo':'台灣護照／ARC 證件照製作','taiwan-elder-care':'台灣老人照護補助與床位查詢','ocr':'AI OCR 文字辨識','receipt-to-json':'收據轉 JSON'
- },
- ar:{
-  'take-home-pay':'حاسبة صافي راتب تايوان','labor-insurance':'حاسبة تأمين العمل في تايوان','nhi':'حاسبة تأمين NHI في تايوان','income-tax':'حاسبة ضريبة الدخل في تايوان','overtime-pay':'حاسبة العمل الإضافي في تايوان','minimum-wage':'فحص الحد الأدنى للأجور في تايوان','employer-cost':'حاسبة تكلفة صاحب العمل في تايوان','annual-salary':'الراتب السنوي ↔ الشهري','percentage':'حاسبة النسبة المئوية','image-resize':'تغيير حجم الصورة','image-compress':'ضغط الصورة','png-to-jpg':'PNG إلى JPG','jpg-to-png':'JPG إلى PNG','dpi-calculator':'حاسبة DPI','qr-generator':'منشئ QR','qr-scanner':'ماسح QR','pdf-merge':'دمج PDF','pdf-split':'تقسيم PDF','loan-payment':'حاسبة دفعات القرض','taiwan-id-photo':'صانع صور جواز / ARC تايوان','taiwan-elder-care':'دعم رعاية المسنين وأسرة تايوان','ocr':'استخراج النص AI OCR','receipt-to-json':'إيصال إلى JSON'
- },
- ur:{
-  'take-home-pay':'تائیوان نیٹ تنخواہ کیلکولیٹر','labor-insurance':'تائیوان لیبر انشورنس کیلکولیٹر','nhi':'تائیوان NHI کیلکولیٹر','income-tax':'تائیوان انکم ٹیکس کیلکولیٹر','overtime-pay':'تائیوان اوور ٹائم کیلکولیٹر','minimum-wage':'تائیوان کم از کم اجرت چیک','employer-cost':'تائیوان آجر لاگت کیلکولیٹر','annual-salary':'سالانہ ↔ ماہانہ تنخواہ','percentage':'فیصد کیلکولیٹر','image-resize':'تصویر ریسائز','image-compress':'تصویر کمپریس','png-to-jpg':'PNG سے JPG','jpg-to-png':'JPG سے PNG','dpi-calculator':'DPI کیلکولیٹر','qr-generator':'QR کوڈ جنریٹر','qr-scanner':'QR کوڈ اسکینر','pdf-merge':'PDF ضم کریں','pdf-split':'PDF تقسیم کریں','loan-payment':'قرض ادائیگی کیلکولیٹر','taiwan-id-photo':'تائیوان پاسپورٹ / ARC فوٹو میکر','taiwan-elder-care':'تائیوان بزرگ نگہداشت سبسڈی اور بیڈ فائنڈر','ocr':'AI OCR','receipt-to-json':'رسید سے JSON'
- }
-}
 
 const staticPages=[
  {path:'/',titles:{en:'Taiwan Calculators 2026, Passport/ARC Photo & Free Tools | AnyTool','zh-TW':'2026 台灣薪資稅務計算、護照 ARC 證件照與實用工具 | AnyTool',ar:'حاسبات تايوان 2026 وأدوات صور الجواز وARC | AnyTool',ur:'تائیوان کیلکولیٹر 2026، پاسپورٹ/ARC فوٹو اور مفت ٹولز | AnyTool'},description:'Free 2026 Taiwan salary, tax, insurance, overtime and elderly-care tools plus official passport/ARC photo guidance, PDF, QR and OCR utilities.'},
@@ -120,7 +109,8 @@ const cleanPath=p=>p==='/'?'/':p.replace(/\/$/,'')
 const localizedPath=(prefix,path)=>prefix+(path==='/'?'/':path)
 const basePath=p=>p.replace(/^\/(zh-tw|ar|ur)(?=\/|$)/,'')||'/'
 const alternateLinks=path=>locales.map(l=>`<link rel="alternate" hreflang="${l.code}" href="${SITE+localizedPath(l.prefix,path)}" />`).join('')+`<link rel="alternate" hreflang="x-default" href="${SITE+path}" />`
-const localizedToolName=(tool,locale)=>localizedToolNames[locale.code]?.[tool.slug]||tool.name
+const localizedToolName=(tool,locale)=>{const x=toolTranslations[tool.slug];if(locale.code==='zh-TW')return x?.zh||tool.name;if(locale.code==='ar')return x?.ar||tool.name;if(locale.code==='ur')return x?.ur||tool.name;return tool.name}
+const localizedToolDescription=(tool,locale)=>{const x=toolDescriptionTranslations[tool.slug];if(locale.code==='zh-TW')return x?.zh||tool.seoDescription||tool.description;if(locale.code==='ar')return x?.ar||tool.seoDescription||tool.description;if(locale.code==='ur')return x?.ur||tool.seoDescription||tool.description;return tool.seoDescription||tool.description}
 const gitDate=file=>{try{return execFileSync('git',['log','-1','--format=%cs','--',file],{encoding:'utf8'}).trim()||lastmod}catch{return lastmod}}
 const toolTemplateDate=gitDate('src/pages/ToolPage.jsx')
 const toolsDataDate=gitDate('src/data/tools.js')
@@ -154,12 +144,7 @@ const contentLastmod=path=>{
  }
  return staticDateByPath[clean]||lastmod
 }
-const metaDescription=(tool,locale,name)=>{
- if(locale.code==='en')return tool.seoDescription||tool.description
- if(locale.code==='zh-TW')return `${name}：免費互動式線上工具。提供清楚操作步驟與相關工具；涉及台灣法規或公共服務時，頁面會顯示官方來源、查核日期與限制。`
- if(locale.code==='ar')return `${name}: أداة تفاعلية مجانية مع خطوات واضحة وأدوات مرتبطة. عند التعامل مع قواعد أو خدمات تايوان، تعرض الصفحة المصادر الحكومية وتاريخ التحقق والقيود.`
- return `${name}: مفت انٹرایکٹو آن لائن ٹول، واضح استعمال کے مراحل اور متعلقہ ٹولز کے ساتھ۔ تائیوان کے قواعد یا عوامی خدمات کے لیے سرکاری ذرائع، تصدیق کی تاریخ اور حدود دکھائی جاتی ہیں۔`
-}
+const metaDescription=(tool,locale)=>localizedToolDescription(tool,locale)
 const fallbackHtml=(title,description,path)=>{
  const clean=basePath(path)
  const slug=clean.match(/^\/tools\/([^/]+)$/)?.[1]||''
@@ -178,7 +163,7 @@ const fallbackHtml=(title,description,path)=>{
  const relatedHtml=related.length?`<section><h2>${esc(ui.related)}</h2><ul>${related.map(x=>`<li><a href="${SITE}${prefix}/tools/${x.slug}">${esc(localizedToolName(x,{code}))}</a></li>`).join('')}</ul></section>`:''
  const categoryMatch=clean.match(/^\/categories\/([^/]+)$/)
  const listing=!tool&&(clean==='/'||categoryMatch)?tools.filter(x=>!categoryMatch||x.category===categoryMatch[1]):[]
- const listingHtml=listing.length?`<section><h2>${esc(code==='zh-TW'?'可用工具':code==='ar'?'الأدوات المتاحة':code==='ur'?'دستیاب ٹولز':'Available tools')}</h2><ul>${listing.map(x=>`<li><a href="${SITE}${prefix}/tools/${x.slug}">${esc(localizedToolName(x,{code}))}</a> — ${esc(x.description)}</li>`).join('')}</ul></section>`:''
+ const listingHtml=listing.length?`<section><h2>${esc(code==='zh-TW'?'可用工具':code==='ar'?'الأدوات المتاحة':code==='ur'?'دستیاب ٹولز':'Available tools')}</h2><ul>${listing.map(x=>`<li><a href="${SITE}${prefix}/tools/${x.slug}">${esc(localizedToolName(x,{code}))}</a> — ${esc(localizedToolDescription(x,{code}))}</li>`).join('')}</ul></section>`:''
  return `<main class="seo-prerender" style="max-width:70rem;margin:0 auto;padding:3rem 1rem;color:#e8f0f7;background:#07111f;font-family:system-ui,sans-serif"><nav><a href="${SITE}/" style="color:#6ee7b7">AnyTool.online</a> · <a href="${SITE}/sources" style="color:#6ee7b7">${esc(ui.sources)}</a> · <a href="${SITE}/methodology" style="color:#6ee7b7">Methodology</a></nav><h1 style="font-size:2.25rem;line-height:1.15;margin:1rem 0">${esc(title)}</h1>${tool?`<img src="${SITE}/tool-art/${tool.slug}.svg" alt="${esc(localizedToolName(tool,{code}))} visual preview" width="640" height="360" style="width:min(100%,40rem);height:auto;border-radius:1.25rem;border:1px solid #203044;margin:1rem 0 1.25rem" />`:''}<p style="max-width:52rem;color:#cbd5e1;line-height:1.75">${esc(description)}</p>${tool?`<section><h2>${esc(ui.about)}</h2><p style="max-width:52rem;line-height:1.7">${esc(description)}</p></section><section><h2>${esc(ui.how)}</h2><ol><li>${esc(ui.step1)}</li><li>${esc(ui.step2)}</li><li>${esc(ui.step3)}</li></ol></section><section><h2>${esc(ui.privacy)}</h2><p style="max-width:52rem;line-height:1.7">${esc(ui.privacyText)}</p></section>`:''}${sourceHtml}${relatedHtml}${listingHtml}<p style="margin-top:1.5rem;color:#94a3b8;font-size:.875rem">Interactive URL: ${esc(SITE+path)}</p></main>`
 }
 
@@ -210,12 +195,12 @@ for(const locale of locales){
    if(page.path==='/'){
     schemas=[
      {'@context':'https://schema.org','@type':'WebSite',name:'AnyTool.online',alternateName:'AnyTool',url:SITE+'/',inLanguage:locale.code,potentialAction:{'@type':'SearchAction',target:SITE+'/?q={search_term_string}','query-input':'required name=search_term_string'}},
-     {'@context':'https://schema.org','@type':'Organization',name:'AnyTool.online',alternateName:'AnyTool',url:SITE+'/',logo:{'@type':'ImageObject',url:SITE+'/favicon-192.png',width:192,height:192},email:OWNER_EMAIL,founder:{'@type':'Person',name:OWNER_NAME,url:SITE+localizedPath(locale.prefix,'/about'),image:OWNER_IMAGE},contactPoint:{'@type':'ContactPoint',contactType:'customer support',email:OWNER_EMAIL,url:SITE+localizedPath(locale.prefix,'/contact')}},
+     {'@context':'https://schema.org','@type':'Organization',name:'AnyTool.online',alternateName:'AnyTool',url:SITE+'/',logo:{'@type':'ImageObject',url:SITE+'/favicon-192.png',width:192,height:192},email:OWNER_EMAIL,founder:{'@type':'Person',name:OWNER_NAME,url:SITE+localizedPath(locale.prefix,'/about'),image:OWNER_IMAGE,sameAs:['https://github.com/KanwarAfaq']},contactPoint:{'@type':'ContactPoint',contactType:'customer support',email:OWNER_EMAIL,url:SITE+localizedPath(locale.prefix,'/contact')},sameAs:['https://github.com/KanwarAfaq/anytool-online']},
      {'@context':'https://schema.org','@type':'ItemList',name:title,itemListElement:tools.map((tool,i)=>({'@type':'ListItem',position:i+1,name:localizedToolName(tool,locale),url:SITE+localizedPath(locale.prefix,'/tools/'+tool.slug),image:SITE+'/tool-art/'+tool.slug+'.svg'}))}
     ]
    }else{
     schemas=[{'@context':'https://schema.org','@type':page.path.startsWith('/categories/')||page.path==='/tools'?'CollectionPage':'WebPage',name:title,description,url:canonical,inLanguage:locale.code,isPartOf:{'@type':'WebSite',name:'AnyTool.online',url:SITE+'/'}}]
-    if(page.path==='/about')schemas.push({'@context':'https://schema.org','@type':'Person',name:OWNER_NAME,url:canonical,image:OWNER_IMAGE,email:OWNER_EMAIL,jobTitle:'Creator and maintainer of AnyTool.online',worksFor:{'@type':'Organization',name:'AnyTool.online',url:SITE+'/'}})
+    if(page.path==='/about')schemas.push({'@context':'https://schema.org','@type':'Person',name:OWNER_NAME,url:canonical,image:OWNER_IMAGE,email:OWNER_EMAIL,jobTitle:'Creator and maintainer of AnyTool.online',sameAs:['https://github.com/KanwarAfaq'],worksFor:{'@type':'Organization',name:'AnyTool.online',url:SITE+'/'}})
     if(pageTools.length)schemas.push({'@context':'https://schema.org','@type':'ItemList',name:title,itemListElement:pageTools.map((tool,i)=>({'@type':'ListItem',position:i+1,name:localizedToolName(tool,locale),url:SITE+localizedPath(locale.prefix,'/tools/'+tool.slug),image:SITE+'/tool-art/'+tool.slug+'.svg'}))})
    }
    await emit(path,locale,title,description,schemas)
@@ -226,12 +211,13 @@ for(const locale of locales){
    const name=localizedToolName(tool,locale)
    const yr=taiwan2026.has(tool.slug)?' 2026':''
    const title=`${name}${yr} | AnyTool.online`
-   const description=metaDescription(tool,locale,name)
+   const description=metaDescription(tool,locale)
+   const sourceUrls=(toolSourceKeys[tool.slug]||[]).map(k=>officialSources[k]?.url).filter(Boolean)
    const canonical=SITE+path
    const image=SITE+'/tool-art/'+tool.slug+'.svg'
    const schemas=[
-    {'@context':'https://schema.org','@type':'WebPage',name:title,url:canonical,description,inLanguage:locale.code,dateModified:contentLastmod(path),primaryImageOfPage:image,isPartOf:{'@type':'WebSite',name:'AnyTool.online',url:SITE+'/'}},
-    {'@context':'https://schema.org','@type':'SoftwareApplication',name,image,applicationCategory:'UtilitiesApplication',operatingSystem:'Web',url:canonical,description,isAccessibleForFree:true,featureList:[tool.seoDescription||tool.description],publisher:{'@type':'Organization',name:'AnyTool.online',url:SITE+'/'},offers:{'@type':'Offer',price:'0',priceCurrency:'USD'}},
+    {'@context':'https://schema.org','@type':'WebPage',name:title,url:canonical,description,inLanguage:locale.code,dateModified:contentLastmod(path),primaryImageOfPage:image,citation:sourceUrls,isPartOf:{'@type':'WebSite',name:'AnyTool.online',url:SITE+'/'}},
+    {'@context':'https://schema.org','@type':'SoftwareApplication',name,image,applicationCategory:'UtilitiesApplication',operatingSystem:'Web',url:canonical,description,isAccessibleForFree:true,featureList:[localizedToolDescription(tool,locale)],citation:sourceUrls,publisher:{'@type':'Organization',name:'AnyTool.online',url:SITE+'/',sameAs:['https://github.com/KanwarAfaq/anytool-online']},offers:{'@type':'Offer',price:'0',priceCurrency:'USD'}},
     {'@context':'https://schema.org','@type':'BreadcrumbList',itemListElement:[{'@type':'ListItem',position:1,name:'AnyTool',item:SITE+'/'},{'@type':'ListItem',position:2,name,item:canonical}]}
    ]
    await emit(path,locale,title,description,schemas,image)
@@ -262,6 +248,8 @@ await writeFile(resolve(root,'dist','tool-catalog.json'),JSON.stringify({
   url:SITE+'/tools/'+t.slug,
   image:SITE+'/tool-art/'+t.slug+'.svg',
   localizedUrls:Object.fromEntries(locales.map(l=>[l.code,SITE+localizedPath(l.prefix,'/tools/'+t.slug)])),
+  localizedNames:Object.fromEntries(locales.map(l=>[l.code,localizedToolName(t,l)])),
+  localizedDescriptions:Object.fromEntries(locales.map(l=>[l.code,localizedToolDescription(t,l)])),
   processing:t.localProcessing||['image-resize','image-compress','png-to-jpg','jpg-to-png','dpi-calculator','qr-generator','qr-scanner','pdf-merge','pdf-split','percentage','loan-payment','annual-salary','random-picker','timer','image-to-sketch','simple-calculator','love-calculator','zodiac-matcher','image-flip'].includes(t.slug)?'browser-local':t.category==='ai'?'authenticated-ai':'deterministic-web',
   lastModified:contentLastmod('/tools/'+t.slug),
   officialSources:(toolSourceKeys[t.slug]||[]).map(k=>({key:k,...officialSources[k]}))
