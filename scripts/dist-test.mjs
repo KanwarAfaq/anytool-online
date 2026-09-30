@@ -30,6 +30,8 @@ assert.ok(catalog.tools.every(t=>t.url.startsWith('https://www.anytool.online/to
 assert.ok(catalog.tools.every(t=>/^\d{4}-\d{2}-\d{2}$/.test(t.lastModified)),'tool catalog missing lastModified')
 assert.ok(catalog.tools.every(t=>t.image===`https://www.anytool.online/tool-art/${t.slug}.svg`),'tool catalog image mismatch')
 assert.ok(catalog.tools.every(t=>t.localizedUrls?.['zh-TW']&&t.localizedUrls?.ar&&t.localizedUrls?.ur),'tool catalog localized URLs missing')
+assert.ok(catalog.tools.every(t=>t.localizedNames?.['zh-TW']&&t.localizedNames?.ar&&t.localizedNames?.ur),'tool catalog localized names missing')
+assert.ok(catalog.tools.every(t=>t.localizedDescriptions?.['zh-TW']&&t.localizedDescriptions?.ar&&t.localizedDescriptions?.ur),'tool catalog localized descriptions missing')
 assert.ok(catalog.tools.every(t=>['browser-local','authenticated-ai','deterministic-web'].includes(t.processing)),'tool catalog processing mode missing')
 const sourceRegistry=JSON.parse(await readFile(resolve(root,'dist/official-sources.json'),'utf8'))
 assert.ok(Object.keys(sourceRegistry.sources||{}).length>=10,'official source registry unexpectedly small')
@@ -78,6 +80,14 @@ for(const loc of locales){
   if(!loc) assert.ok(html.includes('How to use it'),'useful prerender guidance missing '+tool.slug)
   if(!loc&&['take-home-pay','taiwan-id-photo','taiwan-elder-care'].includes(tool.slug)) assert.ok(html.includes('Official sources'),'official source text missing '+tool.slug)
  }
+}
+for(const slug of ['json-formatter','password-generator','world-clock','typing-test']){
+ const zh=await readFile(resolve(root,'dist','zh-tw','tools',slug,'index.html'),'utf8')
+ const ar=await readFile(resolve(root,'dist','ar','tools',slug,'index.html'),'utf8')
+ const ur=await readFile(resolve(root,'dist','ur','tools',slug,'index.html'),'utf8')
+ assert.ok(!zh.includes('>'+tools.find(t=>t.slug===slug).name+'<'),'Traditional Chinese prerender fell back to English tool name '+slug)
+ assert.ok(!ar.includes('>'+tools.find(t=>t.slug===slug).name+'<'),'Arabic prerender fell back to English tool name '+slug)
+ assert.ok(!ur.includes('>'+tools.find(t=>t.slug===slug).name+'<'),'Urdu prerender fell back to English tool name '+slug)
 }
 console.log('SEO/dist smoke tests passed for '+tools.length+' tools × '+locales.length+' locales')
 
