@@ -36,15 +36,19 @@ export default function Seo({title,description,jsonLd,noindex=false,image=''}){
    const ogLocale=langCode==='zh-TW'?'zh_TW':langCode==='ar'?'ar_AR':langCode==='ur'?'ur_PK':'en_US'
    setMeta('meta[property="og:locale"]',{property:'og:locale',content:ogLocale})
    setLink('link[rel="canonical"]',{rel:'canonical',href:canonical})
-   for(const [hreflang,prefix] of locales){
-     const href=SITE+(prefix||'')+(clean==='/'?'/':clean)
-     setLink('link[rel="alternate"][hreflang="'+hreflang+'"]',{rel:'alternate',hreflang,href})
+   // Private/noindex pages must not advertise themselves as alternate search results.
+   document.head.querySelectorAll('link[rel="alternate"][hreflang]').forEach(el=>el.remove())
+   if(!noindex){
+     for(const [hreflang,prefix] of locales){
+       const href=SITE+(prefix||'')+(clean==='/'?'/':clean)
+       setLink('link[rel="alternate"][hreflang="'+hreflang+'"]',{rel:'alternate',hreflang,href})
+     }
+     setLink('link[rel="alternate"][hreflang="x-default"]',{rel:'alternate',hreflang:'x-default',href:SITE+(clean==='/'?'/':clean)})
    }
-   setLink('link[rel="alternate"][hreflang="x-default"]',{rel:'alternate',hreflang:'x-default',href:SITE+(clean==='/'?'/':clean)})
 
    document.head.querySelectorAll('script[data-anytool-jsonld],script[data-anytool-prerender-jsonld]').forEach(x=>x.remove())
    const explicitSchemas=Array.isArray(jsonLd)?jsonLd:(jsonLd?[jsonLd]:[])
-   const schemas=explicitSchemas.length||noindex?explicitSchemas:[{'@context':'https://schema.org','@type':'WebPage',name:title,description:description||'',url:canonical,inLanguage:langCode,isPartOf:{'@type':'WebSite',name:'AnyTool.online',url:SITE+'/'}}]
+   const schemas=noindex?[]:explicitSchemas.length?explicitSchemas:[{'@context':'https://schema.org','@type':'WebPage',name:title,description:description||'',url:canonical,inLanguage:langCode,isPartOf:{'@type':'WebSite',name:'AnyTool.online',url:SITE+'/'}}]
    for(const schema of schemas){
      const el=document.createElement('script');el.type='application/ld+json';el.dataset.anytoolJsonld='1';el.textContent=JSON.stringify(schema);document.head.appendChild(el)
    }
