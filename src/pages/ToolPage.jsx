@@ -316,14 +316,14 @@ export default function ToolPage(){
   <nav aria-label="Breadcrumb" className="mb-3 text-xs font-semibold text-slate-500"><ol className="flex flex-wrap items-center gap-2"><li><Link className="hover:text-white" to={pathFor('/tools')}>Tools</Link></li><li aria-hidden="true">/</li><li><Link className="hover:text-white" to={categoryPath}>{categoryName}</Link></li><li aria-hidden="true">/</li><li className="text-slate-300">{toolName(tool)}</li></ol></nav>
   <ToolPager slug={slug}/>
   <header className={'tool-focus-header category-'+tool.category}>
-   <div className="min-w-0"><div className="tool-focus-kicker">{categoryName}</div><h1>{toolName(tool)}</h1><p>{toolDescription(tool)}</p>
+   <div className="min-w-0"><div className="tool-focus-kicker">{categoryName}</div><h1>{toolName(tool)}</h1><p>{toolName(tool)} — {toolDescription(tool)}</p>
     <div className="tool-trust-row">{isBrowserLocal&&<><span className="tool-trust-chip"><Zap size={13}/>{trustCopy.local}</span><span className="tool-trust-chip"><ShieldCheck size={13}/>{trustCopy.private}</span></>}<span className="tool-trust-chip">{trustCopy.free}</span>{isNew&&<span className="tool-trust-chip tool-trust-new">{trustCopy.new}</span>}</div>
     <div className="tool-review-row">{sourceKeys.length>0&&<span className="tool-reviewed">{reviewedLabel}: <time dateTime={reviewed}>{reviewed}</time></span>}<span className="tool-reviewed"><CalendarClock size={12}/>{trustCopy.updated}: <time dateTime={updated}>{updated}</time></span></div>
    </div>
    <div className="flex items-center gap-2"><div className="tool-focus-art"><ToolArt tool={tool} name={toolName(tool)}/></div><div className="grid gap-2"><button aria-label={t('favorites')} title={t('favorites')} className="btn-ghost shrink-0 px-3" onClick={()=>saveFavorite(slug).then(()=>alert(t('saved'))).catch(()=>alert(t('signInFirst')))}><Heart size={17}/></button><button aria-label="Share tool" title="Share tool" className="btn-ghost shrink-0 px-3" onClick={shareTool}><Share2 size={17}/></button></div></div>
   </header>
   <div className={'tool-workspace category-'+tool.category}>{view}</div>
-  <ToolGuide tool={tool}/>
+  <section className="mt-6"><h2 className="mb-3 text-2xl font-black">{toolName(tool)} — {lang==='zh-TW'?'使用指南':lang==='ar'?'دليل الاستخدام':lang==='ur'?'استعمال کی رہنمائی':'Usage guide'}</h2><ToolGuide tool={tool}/></section>
   <ToolFeedback tool={tool}/>
   {sourceKeys.length>0&&<><SourceEvidence slug={slug}/><OfficialAssistant slug={slug}/></>}
   {regulated2026.has(slug)&&<p className="mt-5 text-xs text-slate-500">{t('planningOnly')}</p>}

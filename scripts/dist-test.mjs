@@ -2,6 +2,7 @@ import assert from 'node:assert/strict'
 import { readFile, access } from 'node:fs/promises'
 import { resolve } from 'node:path'
 import { tools } from '../src/data/tools.js'
+import { officialSources, toolSourceKeys } from '../src/data/officialSources.js'
 
 const root=process.cwd()
 const locales=['','zh-tw','ar','ur']
@@ -68,6 +69,10 @@ for(const loc of locales){
   const url=parts.length?'https://www.anytool.online/'+parts.join('/'):'https://www.anytool.online/'
   assert.ok(html.includes('<link rel="canonical" href="'+url+'"'),'exact canonical missing '+url)
   assert.ok(html.includes('hreflang="x-default"'),'x-default hreflang missing '+url)
+  assert.ok(html.includes('<h1'),'H1 missing '+url)
+  assert.ok(html.includes('<h2'),'keyword H2 missing '+url)
+  assert.ok(html.includes('<p'),'introductory paragraph missing '+url)
+  for(const m of html.matchAll(/<script type="application\/ld\+json"[^>]*>([\s\S]*?)<\/script>/g)) assert.equal(JSON.parse(m[1])['@context'],'https://schema.org')
  }
  for(const tool of tools){
   const parts=[loc,'tools',tool.slug].filter(Boolean)
@@ -77,6 +82,12 @@ for(const loc of locales){
   assert.ok(sitemap.includes(url),'sitemap missing '+url)
   assert.ok(html.includes(url),'canonical missing '+url)
   assert.ok(html.includes('SoftwareApplication'),'schema missing '+tool.slug)
+  assert.ok(html.includes('<h2'),'keyword H2 missing '+url)
+  assert.ok(html.includes('alt="'),'image alt missing '+url)
+  assert.ok(html.includes('/tools/'),'internal link missing '+url)
+  const official=(toolSourceKeys[tool.slug]||[]).map(k=>officialSources[k]?.url).filter(Boolean)
+  if(official.length) assert.ok(official.some(x=>html.includes('href="'+x+'"')),'official external source link missing '+url)
+  for(const m of html.matchAll(/<script type="application\/ld\+json"[^>]*>([\s\S]*?)<\/script>/g)) assert.equal(JSON.parse(m[1])['@context'],'https://schema.org')
   assert.ok(html.includes('/tool-art/'+tool.slug+'.svg'),'tool image metadata missing '+tool.slug)
   assert.ok(html.includes('visual preview'),'visible tool image alt missing '+tool.slug)
   assert.ok(html.includes('hreflang="zh-TW"'),'hreflang missing '+tool.slug)
