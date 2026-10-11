@@ -19,7 +19,7 @@ function HeroVisual({pathFor}){
   ['AI','Read documents','ocr','/tool-art/ocr.svg'],
  ]
  return <div className="home-tool-hero" aria-label="Animated AnyTool workspace">
-  <img className="home-tool-hero-photo" src={HERO_IMAGE} alt="Modern digital workspace" fetchPriority="high"/>
+  <img className="home-tool-hero-photo" src={HERO_IMAGE} alt="AnyTool online calculators, passport photo and digital tools workspace" fetchPriority="high"/>
   <div className="home-tool-hero-shade"/>
   <div className="home-tool-orbit"/>
   <div className="home-tool-screen">
