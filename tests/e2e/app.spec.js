@@ -230,7 +230,7 @@ test('modern quick calculator command palette filters and recent tools work', as
   await expect(page.getByRole('heading',{name:'QR Code Generator'})).toBeVisible()
 
   await page.goto('/tools/loan-payment')
-  await expect(page.getByRole('heading',{name:'Loan Payment Calculator'})).toBeVisible()
+  await expect(page.getByRole('heading',{level:1,name:'Loan Payment Calculator'})).toBeVisible()
   await page.waitForTimeout(100)
   await page.goto('/')
   await expect(page.getByText('Recent')).toBeVisible()
@@ -476,7 +476,7 @@ test('tool directory search works across the full paginated catalog', async ({ p
 
 test('wave 4 table converter handles CSV to Markdown locally', async ({ page }) => {
   await page.goto('/tools/table-converter')
-  await expect(page.getByRole('heading',{name:/Table Converter/})).toBeVisible()
+  await expect(page.getByRole('heading',{level:1,name:/Table Converter/})).toBeVisible()
   await page.getByRole('textbox',{name:'Table input',exact:true}).fill('Name,City\nAvery,Taipei\nMina,Kaohsiung')
   await page.getByLabel('Table output format').selectOption('markdown')
   await page.getByRole('button',{name:'Convert table'}).click()
