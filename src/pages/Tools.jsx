@@ -7,7 +7,7 @@ import { useI18n } from '../i18n'
 
 const categoryIcon={money:WalletCards,image:ImageIcon,document:FileText,ai:BrainCircuit,general:Calculator,developer:Code2,text:Type,security:Shield,design:Palette}
 const isNew=tool=>Boolean(tool.updatedAt)&&Date.now()-new Date(tool.updatedAt+'T00:00:00Z').getTime()>=0&&Date.now()-new Date(tool.updatedAt+'T00:00:00Z').getTime()<45*864e5
-const PAGE_SIZE=12
+const PAGE_SIZE=24
 
 export default function Tools(){
  const {lang,t,toolName,toolDescription,pathFor}=useI18n()
@@ -15,7 +15,7 @@ export default function Tools(){
  const [category,setCategory]=useState('all')
  const [page,setPage]=useState(1)
  const C={
-  en:{eyebrow:'AnyTool library',title:'Find a tool. Get it done.',body:'Focused utilities without the wall of cards. Search, filter and move through the library in smaller pages.',search:'Search all tools',count:'tools',empty:'No tools match your search.',all:'All tools',showing:'Showing',of:'of',page:'Page',previous:'Previous',next:'Next'},
+  en:{eyebrow:'AnyTool library',title:'Free online tools for everyday tasks',body:'Browse free PDF, image, calculator, QR and productivity tools. Filter by category or search to find the right tool quickly.',search:'Search all tools',count:'tools',empty:'No tools match your search.',all:'All tools',showing:'Showing',of:'of',page:'Page',previous:'Previous',next:'Next'},
   'zh-TW':{eyebrow:'AnyTool 工具庫',title:'找到工具，立即完成。',body:'不用一次面對整頁工具卡。搜尋、分類，分頁瀏覽更容易。',search:'搜尋所有工具',count:'個工具',empty:'找不到相符工具。',all:'全部工具',showing:'顯示',of:'共',page:'第',previous:'上一頁',next:'下一頁'},
   ar:{eyebrow:'مكتبة AnyTool',title:'ابحث عن أداة وأنجز المهمة.',body:'أدوات واضحة بدون جدار طويل من البطاقات. ابحث وصفّح المكتبة على صفحات أصغر.',search:'ابحث في كل الأدوات',count:'أداة',empty:'لا توجد أدوات مطابقة.',all:'كل الأدوات',showing:'عرض',of:'من',page:'صفحة',previous:'السابق',next:'التالي'},
   ur:{eyebrow:'AnyTool لائبریری',title:'ٹول تلاش کریں، کام مکمل کریں۔',body:'لمبی کارڈ وال کے بجائے تلاش، فلٹر اور چھوٹے صفحات کے ذریعے ٹولز دیکھیں۔',search:'تمام ٹولز تلاش کریں',count:'ٹولز',empty:'کوئی ٹول نہیں ملا۔',all:'تمام ٹولز',showing:'دکھائے جا رہے ہیں',of:'از',page:'صفحہ',previous:'پچھلا',next:'اگلا'}
