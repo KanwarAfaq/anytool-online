@@ -1,5 +1,5 @@
 import { Link, NavLink, useLocation, useNavigate } from 'react-router-dom'
-import { Wrench, Search, UserRound, Languages, ShieldCheck, Command, X, ArrowRight, Menu, Mail } from 'lucide-react'
+import { Wrench, Search, UserRound, Languages, ShieldCheck, Command, X, ArrowRight, Menu, Mail, Sun, Moon } from 'lucide-react'
 import { useEffect, useMemo, useRef, useState } from 'react'
 import { tools } from '../data/tools'
 import SiteSidebar from './SiteSidebar'
@@ -13,6 +13,8 @@ export default function Layout({children}){
  const [palette,setPalette]=useState(false)
  const [mobile,setMobile]=useState(false)
  const [active,setActive]=useState(0)
+ const [theme,setTheme]=useState(()=>{try{return localStorage.getItem('anytool-theme')==='dark'?'dark':'light'}catch{return 'light'}})
+ useEffect(()=>{document.documentElement.dataset.theme=theme;document.documentElement.style.colorScheme=theme;try{localStorage.setItem('anytool-theme',theme)}catch{}},[theme])
  const cleanPath=location.pathname.replace(/^\/(zh-tw|ar|ur)(?=\/|$)/,'')||'/'
  const showSidebar=!/^\/(auth|dashboard|profile)(?:\/|$)/.test(cleanPath)
  const inputRef=useRef(null)
@@ -54,6 +56,7 @@ export default function Layout({children}){
        {languages.map(l=><option key={l.code} value={l.code} className="bg-slate-950">{l.label}</option>)}
       </select>
     </div>
+    <button type="button" className="theme-toggle" aria-label={theme==='dark'?'Switch to light theme':'Switch to dark theme'} title={theme==='dark'?'Light theme':'Dark theme'} aria-pressed={theme==='dark'} onClick={()=>setTheme(v=>v==='dark'?'light':'dark')}>{theme==='dark'?<Sun size={19}/>:<Moon size={19}/>}</button>
     <NavLink aria-label={N.account} title={N.account} className="btn-ghost px-3" to={pathFor('/dashboard')}><UserRound size={17}/></NavLink>
     <button className="btn-ghost px-3 lg:hidden" aria-label={N.menu} aria-expanded={mobile} aria-controls="mobile-navigation" onClick={()=>setMobile(v=>!v)}>{mobile?<X size={18}/>:<Menu size={18}/>}</button>
    </div>
