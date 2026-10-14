@@ -14,7 +14,7 @@ export default function Layout({children}){
  const [mobile,setMobile]=useState(false)
  const [active,setActive]=useState(0)
  const cleanPath=location.pathname.replace(/^\/(zh-tw|ar|ur)(?=\/|$)/,'')||'/'
- const showSidebar=!/^\/(auth|dashboard|profile)(?:\/|$)/.test(cleanPath) && cleanPath!=='/'
+ const showSidebar=!/^\/(auth|dashboard|profile)(?:\/|$)/.test(cleanPath)
  const inputRef=useRef(null)
  const N={
   en:{tools:'Tools',sources:'Sources',contact:'Contact',verified:'2026 Taiwan data verified',search:'Search tools',menu:'Menu',close:'Close',account:'Account',privacy:'Privacy',about:'About',method:'Methodology',terms:'Terms',accessibility:'Accessibility',footer:'Fast tools. Clear results. Less clutter.',need:'Need a tool?',send:'Tell us →'},
