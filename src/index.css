@@ -480,3 +480,91 @@ input[type=file]::file-selector-button:hover{border-color:rgba(183,243,74,.28);b
 @media(max-width:700px){.home-tool-hero{min-height:390px;border-radius:22px}.home-tool-screen{inset:9% 5% 15%}.home-floating-tool{width:min(230px,82%)}.home-floating-tool img{width:52px}.tool-feedback{grid-template-columns:1fr}.tool-feedback-actions{justify-content:flex-start}.tool-pagination{align-items:stretch;flex-direction:column}.tool-pagination-pages{justify-content:center}.tool-pagination>button{width:100%}}
 @media(max-width:520px){.home-floating-tool-1{left:2%}.home-floating-tool-2{right:0}.home-floating-tool-3{left:7%}.home-photo-credit{display:none}.home-tool-status{font-size:.62rem}.tool-pagination-summary{flex-direction:column;gap:.2rem}}
 @media(prefers-reduced-motion:reduce){.home-tool-hero-photo,.home-tool-orbit,.home-floating-tool{animation:none!important}.site-brand-mark,.modern-nav-link{transition:none!important}}
+
+
+/* Wide, clear utility-catalog refresh: scoped to home to protect tool workflows. */
+.anytool-light-home{--paper:#f5f6fa;--ink:#252b36;--subtle:#5e6978;--accent:#e94d50;--line:#dfe3eb;background:var(--paper);color:var(--ink);min-height:100vh}
+.anytool-light-home .hero-grid,.anytool-light-home .hero-glow{opacity:.08}
+.anytool-light-home h1,.anytool-light-home h2,.anytool-light-home h3{color:var(--ink)}
+.anytool-light-home .gradient-text{background:linear-gradient(110deg,#dc4348,#f36b55);-webkit-background-clip:text;background-clip:text;color:transparent}
+.anytool-light-home h1 .text-white{color:var(--ink)!important}
+.anytool-light-home p,.anytool-light-home .text-slate-400,.anytool-light-home .text-slate-500{color:var(--subtle)}
+.anytool-light-home .text-lime-300,.anytool-light-home .text-lime-200{color:var(--accent)}
+.anytool-light-home .btn-primary{background:var(--accent);color:white;box-shadow:none}
+.anytool-light-home .btn-ghost{background:white;color:var(--ink);border-color:var(--line)}
+.anytool-light-home .btn-ghost:hover{border-color:var(--accent);color:var(--accent);background:#fff5f4}
+.anytool-light-home .card,.anytool-light-home .tool-card{background:white;border:1px solid var(--line);box-shadow:0 2px 12px rgba(28,37,54,.035);border-radius:17px}
+.anytool-light-home .tool-card:hover{border-color:#f3a39d;box-shadow:0 8px 24px rgba(28,37,54,.075);transform:translateY(-2px)}
+.anytool-light-home .tool-card .tool-icon{background:#f6f7fa}
+.anytool-light-home .tool-card h3{font-size:1.08rem}
+.anytool-light-home .tool-card:hover h3{color:#d64045}
+.anytool-light-home .input{background:white;color:var(--ink);border:1px solid #d7dce6}
+.anytool-light-home .input:focus{border-color:var(--accent);box-shadow:0 0 0 3px #e94d501c}
+.anytool-light-home .proof-strip,.anytool-light-home .home-live-demo,.anytool-light-home .hero-console{border-color:#e1e5eb}
+.anytool-light-home .proof-item{color:#394356}
+.anytool-light-home .home-live-demo{background:#fff}
+.anytool-light-home .tool-card-visual img{object-fit:contain}
+.anytool-light-home .home-tool-hero{border-radius:20px}
+.anytool-light-home section[id="tools"]{padding-top:3.5rem;padding-bottom:4.5rem}
+@media(min-width:1280px){.anytool-light-home section[id="tools"]{padding-left:2rem;padding-right:2rem}}
+
+
+/* AnyTool 2026: accessible, airy utility UI across all routes */
+:root{color-scheme:light;--bg:#f5f6fa;--panel:#ffffff;--panel-2:#f8fafc;--line:#dfe3ea;--muted:#596679;--lime:#e94d50;--sky:#3679c8;--white:#273041;color:#273041;background:#f5f6fa}
+html{background:#f5f6fa}
+body{color:#273041;background:#f5f6fa}
+body::before,.site-shell>.aurora{display:none}
+::selection{background:#ffd5d5;color:#202a36}
+.glass{background:rgba(255,255,255,.96);border:1px solid #e2e5ec;box-shadow:0 5px 24px rgba(40,50,70,.06);backdrop-filter:blur(12px)}
+.card{background:white;border:1px solid #e1e4eb;box-shadow:0 3px 16px rgba(36,46,62,.045);color:#273041}
+.card:hover{border-color:#f3a39d;box-shadow:0 9px 28px rgba(36,46,62,.07)}
+.input{background:#fff;border:1px solid #d9dfe8;color:#222b3c;box-shadow:none}
+.input:hover{border-color:#bbc5d2}
+.input:focus{border-color:#e94d50;box-shadow:0 0 0 3px #e94d501c}
+.btn-primary{background:#e94d50;color:#fff;box-shadow:0 4px 15px #e94d5018}
+.btn-primary:hover{box-shadow:0 7px 18px #e94d5024}
+.btn-ghost{background:#fff;border:1px solid #dce1ea;color:#364151}
+.btn-ghost:hover{background:#fff5f5;border-color:#f5b2af;color:#c93d43}
+.site-header{padding-top:0;background:#fff;border-bottom:1px solid #e7e9ee}
+.site-header-bar{max-width:none;border:0;border-radius:0;box-shadow:none;background:#fff;padding:12px clamp(12px,3vw,45px)}
+.site-brand,.modern-nav-link{color:#273041}
+.site-header .header-search{color:#667284;background:#f7f8fb;border:1px solid #e2e5ec}
+.site-header select{background:#fff!important;color:#364151!important;border-color:#dce1ea!important}
+.site-header select option{background:#fff!important;color:#273041!important}
+.site-shell .text-white{color:#273041}
+.site-shell .text-slate-100,.site-shell .text-slate-200,.site-shell .text-slate-300{color:#374358}
+.site-shell .text-slate-400,.site-shell .text-slate-500{color:#596679}
+.site-shell .text-lime-300,.site-shell .text-emerald-300{color:#d64248}
+.site-shell .bg-slate-950,.site-shell .bg-\[\#080e16\]{background:#fff}
+.site-shell .border-white\/10,.site-shell .border-white\/\[0\.08\]{border-color:#dfe4ed}
+.site-shell .tool-card,.site-shell .directory-tool-button{background:white;border-color:#dfe3eb;color:#273041;box-shadow:0 3px 14px #2834490a}
+.site-shell .tool-card:hover,.site-shell .directory-tool-button:hover{background:#fff;border-color:#ec9e9b;box-shadow:0 8px 22px #28344917}
+.site-shell .tool-filter-pill{color:#414e60;background:#fff;border-color:#dfe3eb}
+.site-shell .tool-filter-pill.active{background:#e94d50;border-color:#e94d50;color:#fff}
+.site-shell .tool-pagination button{color:#3c485a;border-color:#dce1e8;background:white}
+.site-shell .tool-pagination button.active{background:#e94d50;color:white}
+.site-shell .site-global-sidebar{background:#f5f6fa}
+.site-shell .site-sidebar-card{background:#fff;border-color:#e2e6ec;box-shadow:0 3px 16px #28344908}
+.site-shell .site-sidebar-card a{color:#4c586b}
+.site-shell .site-sidebar-card a.active,.site-shell .site-sidebar-card a[aria-current=page]{color:#d34145;background:#fff1f1}
+.site-shell .site-sidebar-title,.site-shell .site-sidebar-label{color:#273041}
+.site-shell .tool-workspace,.site-shell .tool-focus-header,.site-shell .tool-guide,.site-shell .result-tile{color:#273041;border-color:#e1e5eb}
+.site-shell .tool-trust-chip{border-color:#dce4ee;color:#435063}
+.site-shell .tool-workspace input,.site-shell .tool-workspace textarea,.site-shell .tool-workspace select{color:#273041}
+.site-shell footer{background:#fff;border-top:1px solid #e2e5eb}
+.site-shell footer .text-slate-400,.site-shell footer .text-slate-500{color:#5b6778}
+.site-shell a:focus-visible,.site-shell button:focus-visible,.site-shell input:focus-visible,.site-shell select:focus-visible{outline:3px solid #e94d50;outline-offset:2px}
+.site-shell .site-body-grid{max-width:none}
+.site-shell main{min-width:0}
+.site-shell main>section{max-width:100rem}
+.site-shell .anytool-light-home main{max-width:none}
+@media(max-width:767px){.site-header-bar{padding:10px 12px}.site-shell .site-body-grid{display:block}.site-shell main>section{padding-left:16px;padding-right:16px}}
+@media(prefers-reduced-motion:reduce){.site-shell *{animation-duration:.01ms!important;transition-duration:.01ms!important}}
+
+/* Persistent navigational sidebar: independently scrollable on large displays. */
+@media(min-width:768px){
+.site-shell .site-body-grid:not(.site-body-grid-plain){display:grid;grid-template-columns:clamp(215px,18vw,270px) minmax(0,1fr);gap:clamp(12px,1.4vw,24px);padding:0 clamp(10px,1.1vw,24px);max-width:none;align-items:start}
+.site-shell .site-global-sidebar{position:sticky;top:78px;max-height:calc(100vh - 88px);overflow-y:auto;overscroll-behavior:contain;scrollbar-width:thin;border-radius:18px}
+.site-shell .site-global-sidebar .site-sidebar-card{margin:0}
+}
+@media(max-width:767px){.site-shell .site-global-sidebar{display:block;position:static;padding:10px 12px}.site-shell .site-sidebar-subtools{display:none}.site-shell .site-sidebar-categories{max-height:160px;overflow-y:auto}.site-shell .site-sidebar-card{padding:12px}}

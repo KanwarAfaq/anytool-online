@@ -14,7 +14,7 @@ export default function SiteSidebar(){
  const routeCategory=clean.match(/^\/categories\/([^/]+)$/)?.[1]
  const activeTool=slug?toolBySlug[slug]:null
  const activeCategory=activeTool?.category||routeCategory||null
- const subTools=activeCategory?tools.filter(x=>x.category===activeCategory):tools.slice(0,7)
+ const subTools=activeCategory?tools.filter(x=>x.category===activeCategory):tools.filter(x=>['pdf-merge','pdf-split','image-compress','image-resize','qr-generator','take-home-pay','taiwan-id-photo','ocr'].includes(x.slug))
  const copy={
   en:{explore:'Explore AnyTool',categories:'Categories',quick:'Quick access',inside:'In this category',home:'Home',all:'All tools'},
   'zh-TW':{explore:'探索 AnyTool',categories:'分類',quick:'快速工具',inside:'此分類工具',home:'首頁',all:'全部工具'},
