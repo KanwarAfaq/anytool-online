@@ -14,7 +14,7 @@ export default function Layout({children}){
  const [mobile,setMobile]=useState(false)
  const [active,setActive]=useState(0)
  const cleanPath=location.pathname.replace(/^\/(zh-tw|ar|ur)(?=\/|$)/,'')||'/'
- const showSidebar=!/^\/(auth|dashboard|profile)(?:\/|$)/.test(cleanPath)
+ const showSidebar=!/^\/(auth|dashboard|profile)(?:\/|$)/.test(cleanPath) && cleanPath!=='/'
  const inputRef=useRef(null)
  const N={
   en:{tools:'Tools',sources:'Sources',contact:'Contact',verified:'2026 Taiwan data verified',search:'Search tools',menu:'Menu',close:'Close',account:'Account',privacy:'Privacy',about:'About',method:'Methodology',terms:'Terms',accessibility:'Accessibility',footer:'Fast tools. Clear results. Less clutter.',need:'Need a tool?',send:'Tell us →'},
@@ -86,7 +86,7 @@ export default function Layout({children}){
    <main id="main-content" className="min-w-0">{children}</main>
   </div>
 
-  <footer className="mt-20 border-t border-white/[0.06] bg-[#070c13]">
+  <footer className="mt-20 border-t border-[#e2e5eb] bg-white">
    <div className="mx-auto max-w-[100rem] px-4 py-10">
     <div className="grid gap-8 md:grid-cols-[1.4fr_.8fr_.8fr]">
       <div><div className="flex items-center gap-2 font-black"><span className="grid size-8 place-items-center overflow-hidden rounded-lg"><img src="/favicon-192.png" alt="" className="size-full object-cover"/></span>AnyTool</div><p className="mt-3 max-w-md text-sm text-slate-500">{N.footer}</p><Link to={pathFor('/contact')} className="mt-4 inline-flex items-center text-sm font-bold text-lime-300"><Mail className="me-2" size={14}/>{N.need} {N.send}</Link></div>
