@@ -5,7 +5,7 @@ import QRCode from 'qrcode'
 
 test('home and four languages including RTL', async ({ page }) => {
   await page.goto('/')
-  await expect(page.getByRole('heading', { level: 1 })).toContainText('Calculate. Convert.')
+  await expect(page.getByRole('heading', { level: 1 })).toContainText('Every tool you need.')
   const language=page.getByLabel('Language')
 
   await language.selectOption('zh-TW')
@@ -241,18 +241,18 @@ test('modern quick calculator command palette filters and recent tools work', as
 test('tool directory paginates instead of rendering all tools at once', async ({ page }) => {
   await page.goto('/tools')
   await expect(page.getByLabel('Search all tools')).toBeVisible()
-  await expect(page.locator('.directory-tool-button')).toHaveCount(12)
-  await expect(page.getByText('1 / 6',{exact:false})).toBeVisible()
+  await expect(page.locator('.directory-tool-button')).toHaveCount(24)
+  await expect(page.getByText('1 / '+Math.ceil(tools.length/24),{exact:false})).toBeVisible()
   await page.getByRole('button',{name:'Next'}).click()
-  await expect(page.locator('.directory-tool-button')).toHaveCount(12)
-  await expect(page.getByText('2 / 6',{exact:false})).toBeVisible()
+  await expect(page.locator('.directory-tool-button')).toHaveCount(Math.min(24,tools.length-24))
+  await expect(page.getByText('2 / '+Math.ceil(tools.length/24),{exact:false})).toBeVisible()
 
   await page.getByLabel('Search all tools').fill('Timer with Sounds')
   await expect(page.locator('.directory-tool-button')).toHaveCount(1)
   await expect(page.getByRole('link',{name:/Timer with Sounds/})).toBeVisible()
 
   await page.goto('/')
-  await expect(page.locator('#tools a[href^="/tools/"]')).toHaveCount(12)
+  await expect(page.locator('#tools a[href^="/tools/"]')).toHaveCount(24)
   await expect(page.locator('.home-tool-hero')).toBeVisible()
   await expect(page.locator('.home-tool-hero-photo')).toHaveAttribute('src',/images\.unsplash\.com/)
 })
