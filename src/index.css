@@ -480,3 +480,30 @@ input[type=file]::file-selector-button:hover{border-color:rgba(183,243,74,.28);b
 @media(max-width:700px){.home-tool-hero{min-height:390px;border-radius:22px}.home-tool-screen{inset:9% 5% 15%}.home-floating-tool{width:min(230px,82%)}.home-floating-tool img{width:52px}.tool-feedback{grid-template-columns:1fr}.tool-feedback-actions{justify-content:flex-start}.tool-pagination{align-items:stretch;flex-direction:column}.tool-pagination-pages{justify-content:center}.tool-pagination>button{width:100%}}
 @media(max-width:520px){.home-floating-tool-1{left:2%}.home-floating-tool-2{right:0}.home-floating-tool-3{left:7%}.home-photo-credit{display:none}.home-tool-status{font-size:.62rem}.tool-pagination-summary{flex-direction:column;gap:.2rem}}
 @media(prefers-reduced-motion:reduce){.home-tool-hero-photo,.home-tool-orbit,.home-floating-tool{animation:none!important}.site-brand-mark,.modern-nav-link{transition:none!important}}
+
+
+/* Wide, clear utility-catalog refresh: scoped to home to protect tool workflows. */
+.anytool-light-home{--paper:#f5f6fa;--ink:#252b36;--subtle:#5e6978;--accent:#e94d50;--line:#dfe3eb;background:var(--paper);color:var(--ink);min-height:100vh}
+.anytool-light-home .hero-grid,.anytool-light-home .hero-glow{opacity:.08}
+.anytool-light-home h1,.anytool-light-home h2,.anytool-light-home h3{color:var(--ink)}
+.anytool-light-home .gradient-text{background:linear-gradient(110deg,#dc4348,#f36b55);-webkit-background-clip:text;background-clip:text;color:transparent}
+.anytool-light-home h1 .text-white{color:var(--ink)!important}
+.anytool-light-home p,.anytool-light-home .text-slate-400,.anytool-light-home .text-slate-500{color:var(--subtle)}
+.anytool-light-home .text-lime-300,.anytool-light-home .text-lime-200{color:var(--accent)}
+.anytool-light-home .btn-primary{background:var(--accent);color:white;box-shadow:none}
+.anytool-light-home .btn-ghost{background:white;color:var(--ink);border-color:var(--line)}
+.anytool-light-home .btn-ghost:hover{border-color:var(--accent);color:var(--accent);background:#fff5f4}
+.anytool-light-home .card,.anytool-light-home .tool-card{background:white;border:1px solid var(--line);box-shadow:0 2px 12px rgba(28,37,54,.035);border-radius:17px}
+.anytool-light-home .tool-card:hover{border-color:#f3a39d;box-shadow:0 8px 24px rgba(28,37,54,.075);transform:translateY(-2px)}
+.anytool-light-home .tool-card .tool-icon{background:#f6f7fa}
+.anytool-light-home .tool-card h3{font-size:1.08rem}
+.anytool-light-home .tool-card:hover h3{color:#d64045}
+.anytool-light-home .input{background:white;color:var(--ink);border:1px solid #d7dce6}
+.anytool-light-home .input:focus{border-color:var(--accent);box-shadow:0 0 0 3px #e94d501c}
+.anytool-light-home .proof-strip,.anytool-light-home .home-live-demo,.anytool-light-home .hero-console{border-color:#e1e5eb}
+.anytool-light-home .proof-item{color:#394356}
+.anytool-light-home .home-live-demo{background:#fff}
+.anytool-light-home .tool-card-visual img{object-fit:contain}
+.anytool-light-home .home-tool-hero{border-radius:20px}
+.anytool-light-home section[id="tools"]{padding-top:3.5rem;padding-bottom:4.5rem}
+@media(min-width:1280px){.anytool-light-home section[id="tools"]{padding-left:2rem;padding-right:2rem}}
