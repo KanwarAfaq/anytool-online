@@ -560,3 +560,11 @@ body::before,.site-shell>.aurora{display:none}
 .site-shell .anytool-light-home main{max-width:none}
 @media(max-width:767px){.site-header-bar{padding:10px 12px}.site-shell .site-body-grid{display:block}.site-shell main>section{padding-left:16px;padding-right:16px}}
 @media(prefers-reduced-motion:reduce){.site-shell *{animation-duration:.01ms!important;transition-duration:.01ms!important}}
+
+/* Persistent navigational sidebar: independently scrollable on large displays. */
+@media(min-width:768px){
+.site-shell .site-body-grid:not(.site-body-grid-plain){display:grid;grid-template-columns:clamp(215px,18vw,270px) minmax(0,1fr);gap:clamp(12px,1.4vw,24px);padding:0 clamp(10px,1.1vw,24px);max-width:none;align-items:start}
+.site-shell .site-global-sidebar{position:sticky;top:78px;max-height:calc(100vh - 88px);overflow-y:auto;overscroll-behavior:contain;scrollbar-width:thin;border-radius:18px}
+.site-shell .site-global-sidebar .site-sidebar-card{margin:0}
+}
+@media(max-width:767px){.site-shell .site-global-sidebar{display:block;position:static;padding:10px 12px}.site-shell .site-sidebar-subtools{display:none}.site-shell .site-sidebar-categories{max-height:160px;overflow-y:auto}.site-shell .site-sidebar-card{padding:12px}}
