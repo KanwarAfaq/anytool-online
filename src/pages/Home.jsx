@@ -73,12 +73,39 @@ export default function Home(){
   ur:{title:'تائیوان کیلکولیٹر 2026، پاسپورٹ/ARC فوٹو اور مفت ٹولز | AnyTool',description:'مفت تائیوان تنخواہ، ٹیکس، انشورنس، بزرگ نگہداشت، پاسپورٹ/ARC فوٹو، PDF، QR اور OCR ٹولز۔'}
  }[lang]
  const filtered=useMemo(()=>tools.filter(tool=>(filter==='all'||tool.category===filter)&&(!query.trim()||(toolName(tool)+' '+toolDescription(tool)).toLowerCase().includes(query.toLowerCase()))),[filter,query,lang,toolName,toolDescription])
+ const faqByLang={
+  en:[
+   ['What can I do with AnyTool?','AnyTool offers online calculators, PDF merging and splitting, image resizing and compression, QR code generation, OCR and productivity utilities. Choose a tool to see its supported features.'],
+   ['Can I merge or split PDFs for free?','Yes. Open Merge PDF to combine PDF files, or Split PDF to extract selected pages. These tools work locally in your browser.'],
+   ['Does every tool process files privately?','No. Many utilities process data directly in your browser, while AI-assisted tools may send input to a configured service. Check each tool page before sharing sensitive information.'],
+   ['Do I need to install software?','Most tools work directly in a modern web browser without installing a desktop application.']
+  ],
+  'zh-TW':[
+   ['AnyTool 提供哪些工具？','AnyTool 提供計算器、PDF 合併與分割、圖片調整與壓縮、QR Code、OCR 及生產力工具。'],
+   ['可以免費合併或分割 PDF 嗎？','可以。PDF 合併與分割工具可以直接在瀏覽器本機處理檔案。'],
+   ['所有工具都在本機處理資料嗎？','不是。許多工具在瀏覽器本機運作，但 AI 工具可能將資料傳送至設定的服務。請先確認工具說明。'],
+   ['需要安裝軟體嗎？','多數工具可以在現代瀏覽器直接使用，不需要安裝桌面程式。']
+  ],
+  ar:[
+   ['ما الأدوات التي يقدمها AnyTool؟','يوفر AnyTool حاسبات وأدوات لدمج ملفات PDF وتقسيمها والصور ورموز QR واستخراج النصوص.'],
+   ['هل يمكن دمج PDF وتقسيمه مجاناً؟','نعم، تعمل أداتا دمج PDF وتقسيم PDF محلياً داخل المتصفح.'],
+   ['هل تعالج جميع الأدوات البيانات محلياً؟','لا. تعمل أدوات كثيرة داخل المتصفح، لكن أدوات الذكاء الاصطناعي قد ترسل البيانات إلى خدمة خارجية.'],
+   ['هل أحتاج إلى تثبيت برنامج؟','تعمل معظم الأدوات مباشرة في متصفح حديث دون تثبيت برامج.']
+  ],
+  ur:[
+   ['AnyTool پر کون سے ٹولز دستیاب ہیں؟','AnyTool میں کیلکولیٹر، PDF ضم اور تقسیم کرنے، تصاویر، QR کوڈ اور OCR کے ٹولز موجود ہیں۔'],
+   ['کیا PDF مفت میں ضم یا تقسیم ہو سکتی ہے؟','جی ہاں، یہ دونوں PDF ٹولز براہ راست براؤزر میں کام کرتے ہیں۔'],
+   ['کیا تمام ٹولز ڈیٹا مقامی طور پر پراسیس کرتے ہیں؟','نہیں۔ کئی ٹولز براؤزر میں کام کرتے ہیں مگر AI ٹولز ڈیٹا بیرونی سروس کو بھیج سکتے ہیں۔'],
+   ['کیا سافٹ ویئر انسٹال کرنا پڑتا ہے؟','زیادہ تر ٹولز جدید ویب براؤزر میں بغیر انسٹالیشن چلتے ہیں۔']
+  ]
+ }[lang]||[]
  const ticker=[...tools.slice(0,10),...tools.slice(0,10)]
  const homeTools=filtered.slice(0,24)
  return <>
   <Seo title={seo.title} description={seo.description} image="/tool-art/take-home-pay.svg" jsonLd={[
     {'@context':'https://schema.org','@type':'WebSite',name:'AnyTool.online',alternateName:'AnyTool',url:'https://www.anytool.online/',inLanguage:lang,potentialAction:{'@type':'SearchAction',target:'https://www.anytool.online/?q={search_term_string}','query-input':'required name=search_term_string'}},
     {'@context':'https://schema.org','@type':'Organization',name:'AnyTool.online',alternateName:'AnyTool',url:'https://www.anytool.online/',logo:{'@type':'ImageObject',url:'https://www.anytool.online/favicon-192.png',width:192,height:192},email:'kmafaq2@gmail.com',founder:{'@type':'Person',name:'Kanwar Afaq',url:'https://www.anytool.online'+pathFor('/about'),image:'https://res.cloudinary.com/dfmi4udfs/image/upload/v1782224423/gallery/general/IMG_2017_dflq3u.jpg',sameAs:['https://github.com/KanwarAfaq']},contactPoint:{'@type':'ContactPoint',contactType:'customer support',email:'kmafaq2@gmail.com',url:'https://www.anytool.online'+pathFor('/contact')},sameAs:['https://github.com/KanwarAfaq/anytool-online']},
+    {'@context':'https://schema.org','@type':'FAQPage',mainEntity:faqByLang.map(([question,answer])=>({'@type':'Question',name:question,acceptedAnswer:{'@type':'Answer',text:answer}}))},
     {'@context':'https://schema.org','@type':'ItemList',name:C.toolsTitle,itemListElement:tools.map((tool,i)=>({'@type':'ListItem',position:i+1,name:toolName(tool),url:'https://www.anytool.online'+pathFor('/tools/'+tool.slug),image:'https://www.anytool.online/tool-art/'+tool.slug+'.svg'}))}
   ]}/>
 
@@ -118,6 +145,7 @@ export default function Home(){
    <div className="mt-3 grid gap-3 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5">{homeTools.map(tool=>{const I=categoryIcon[tool.category]||Sparkles;return <Link to={pathFor('/tools/'+tool.slug)} key={tool.slug} className={'card tool-card tool-card-visual category-'+tool.category+' group overflow-hidden'}><ToolArt tool={tool} name={toolName(tool)}/><div className="p-4"><div className="flex items-start gap-3"><span className="tool-icon shrink-0"><I className={categoryAccent[tool.category]} size={16}/></span><div className="min-w-0 flex-1"><h3 className="font-black leading-snug tracking-tight group-hover:text-lime-200">{toolName(tool)}</h3><p className="mt-2 text-xs leading-5 text-slate-400">{toolDescription(tool)}</p></div><ArrowRight className="shrink-0 text-slate-700 transition group-hover:translate-x-1 group-hover:text-lime-300" size={15}/></div></div></Link>})}</div>
    {filtered.length>24&&<div className="mt-6 text-center"><Link className="btn-ghost" to={pathFor('/tools')}>{C.viewAll} ({filtered.length})<ArrowRight className="ms-2" size={15}/></Link></div>}
    {filtered.length===0&&<div className="card mt-4 p-10 text-center text-slate-500">{C.noMatch}</div>}
-  </section></div>
+  </section>
+  <section className="mx-auto max-w-[100rem] px-4 pb-16" aria-label="Frequently asked questions"><h2 className="mb-5 text-2xl font-black tracking-tight sm:text-3xl">{lang==='zh-TW'?'常見問題':lang==='ar'?'الأسئلة الشائعة':lang==='ur'?'اکثر پوچھے گئے سوالات':'Frequently asked questions'}</h2><div className="grid gap-3 md:grid-cols-2">{faqByLang.map(([question,answer])=><article key={question} className="rounded-2xl border border-[#e0e4eb] bg-white p-5"><h3 className="font-bold text-[#273041]">{question}</h3><p className="mt-2 text-sm leading-6 text-[#5b6878]">{answer}</p></article>)}</div></section></div>
  </>
 }
