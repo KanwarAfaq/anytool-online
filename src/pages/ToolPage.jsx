@@ -324,6 +324,16 @@ export default function ToolPage(){
   </header>
   <div className={'tool-workspace category-'+tool.category}>{view}</div>
   <section className="mt-6"><h2 className="mb-3 text-2xl font-black">{toolName(tool)} — {lang==='zh-TW'?'使用指南':lang==='ar'?'دليل الاستخدام':lang==='ur'?'استعمال کی رہنمائی':'Usage guide'}</h2><ToolGuide tool={tool}/></section>
+  <section className="mt-8 rounded-2xl border border-[#dfe4ec] bg-white p-5" aria-label="Helpful resources">
+    <h2 className="text-xl font-bold">{toolName(tool)} — {lang==='zh-TW'?'實用資源':lang==='ar'?'مصادر مفيدة':lang==='ur'?'مفید وسائل':'Helpful resources'}</h2>
+    <p className="mt-2 text-sm text-slate-600">{toolName(tool)}: {toolDescription(tool)}</p>
+    <div className="mt-3 flex flex-wrap gap-3 text-sm">
+      <Link className="font-semibold text-[#c73f47] underline" to={categoryPath}>{categoryName}</Link>
+      <Link className="font-semibold text-[#c73f47] underline" to={pathFor('/tools')}>{lang==='en'?'Explore all tools':t('categories.'+tool.category)}</Link>
+      {sourceUrls.slice(0,3).map(url=><a key={url} href={url} target="_blank" rel="noopener noreferrer" className="font-semibold text-[#c73f47] underline">{lang==='en'?'Official reference':'Reference'} ↗</a>)}
+      {!sourceUrls.length&&['image','document'].includes(tool.category)&&<a href="https://developer.mozilla.org/en-US/docs/Web/API/File_API/Using_files_from_web_applications" target="_blank" rel="noopener noreferrer" className="font-semibold text-[#c73f47] underline">Web File API reference ↗</a>}
+    </div>
+  </section>
   <ToolFeedback tool={tool}/>
   {sourceKeys.length>0&&<><SourceEvidence slug={slug}/><OfficialAssistant slug={slug}/></>}
   {regulated2026.has(slug)&&<p className="mt-5 text-xs text-slate-500">{t('planningOnly')}</p>}
