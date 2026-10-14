@@ -241,18 +241,18 @@ test('modern quick calculator command palette filters and recent tools work', as
 test('tool directory paginates instead of rendering all tools at once', async ({ page }) => {
   await page.goto('/tools')
   await expect(page.getByLabel('Search all tools')).toBeVisible()
-  await expect(page.locator('.directory-tool-button')).toHaveCount(24)
-  await expect(page.getByText('1 / '+Math.ceil(tools.length/24),{exact:false})).toBeVisible()
+  await expect(page.locator('.directory-tool-button')).toHaveCount(12)
+  await expect(page.getByText('1 / '+Math.ceil(tools.length/12),{exact:false})).toBeVisible()
   await page.getByRole('button',{name:'Next'}).click()
-  await expect(page.locator('.directory-tool-button')).toHaveCount(Math.min(24,tools.length-24))
-  await expect(page.getByText('2 / '+Math.ceil(tools.length/24),{exact:false})).toBeVisible()
+  await expect(page.locator('.directory-tool-button')).toHaveCount(Math.min(12,tools.length-12))
+  await expect(page.getByText('2 / '+Math.ceil(tools.length/12),{exact:false})).toBeVisible()
 
   await page.getByLabel('Search all tools').fill('Timer with Sounds')
   await expect(page.locator('.directory-tool-button')).toHaveCount(1)
   await expect(page.getByRole('link',{name:/Timer with Sounds/})).toBeVisible()
 
   await page.goto('/')
-  await expect(page.locator('#tools a[href^="/tools/"]')).toHaveCount(24)
+  await expect(page.locator('#tools a[href^="/tools/"]')).toHaveCount(12)
   await expect(page.locator('.home-tool-hero')).toBeVisible()
   await expect(page.locator('.home-tool-hero-photo')).toHaveAttribute('src',/images\.unsplash\.com/)
 })
@@ -651,4 +651,18 @@ test('image flip toggles horizontal and vertical states locally', async ({ page 
   await page.getByRole('button',{name:/Flip top/}).click()
   await expect(canvas).toHaveAttribute('data-flip-y','true')
   await expect(page.getByRole('button',{name:'Download PNG'})).toBeVisible()
+})
+
+
+test('global theme toggle persists and tool grid is limited', async ({ page }) => {
+ await page.goto('/')
+ await expect(page.locator('#tools a[href^="/tools/"]')).toHaveCount(12)
+ await page.getByRole('button',{name:'Switch to dark theme'}).click()
+ await expect(page.locator('html')).toHaveAttribute('data-theme','dark')
+ await page.reload()
+ await expect(page.locator('html')).toHaveAttribute('data-theme','dark')
+ await page.getByRole('button',{name:'Switch to light theme'}).click()
+ await expect(page.locator('html')).toHaveAttribute('data-theme','light')
+ await page.goto('/tools')
+ await expect(page.locator('.directory-tool-button')).toHaveCount(12)
 })
