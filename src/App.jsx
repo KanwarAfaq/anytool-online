@@ -1,5 +1,5 @@
-import { lazy, Suspense } from 'react'
-import { Routes, Route, Navigate, useParams } from 'react-router-dom'
+import { lazy, Suspense, useLayoutEffect } from 'react'
+import { Routes, Route, Navigate, useParams, useLocation } from 'react-router-dom'
 import Layout from './components/Layout'
 import Home from './pages/Home'
 
@@ -20,6 +20,14 @@ const NotFound=lazy(()=>import('./pages/NotFound'))
 
 function Loading(){return <div className="mx-auto max-w-7xl px-4 py-20 text-slate-400">Loading…</div>}
 function LocaleGate({children}){const {locale}=useParams();return ['zh-tw','ar','ur'].includes(locale)?children:<Navigate to="/" replace/>}
+
+function ScrollToTopOnNavigation(){
+ const {pathname,hash}=useLocation()
+ useLayoutEffect(()=>{
+  if(!hash)window.scrollTo({top:0,left:0,behavior:'instant'})
+ },[pathname,hash])
+ return null
+}
 
 export default function App(){
  const base=[
@@ -42,5 +50,5 @@ export default function App(){
   ['/:locale',<Home/>],['/:locale/tools',<Tools/>],['/:locale/tools/:slug',<ToolPage/>],['/:locale/categories/:category',<Category/>],['/:locale/auth',<AuthPage/>],['/:locale/dashboard',<Dashboard/>],
   ['/:locale/about',<About/>],['/:locale/contact',<Contact/>],['/:locale/privacy',<Privacy/>],['/:locale/methodology',<Methodology/>],['/:locale/sources',<Sources/>],['/:locale/terms',<Terms/>],['/:locale/accessibility',<Accessibility/>],['/:locale/profile',<Profile/>]
  ].map(([path,el])=><Route key={path} path={path} element={<LocaleGate>{el}</LocaleGate>}/>)
- return <Layout><Suspense fallback={<Loading/>}><Routes>{base}{localized}<Route path="*" element={<NotFound/>}/></Routes></Suspense></Layout>
+ return <><ScrollToTopOnNavigation/><Layout><Suspense fallback={<Loading/>}><Routes>{base}{localized}<Route path="*" element={<NotFound/>}/></Routes></Suspense></Layout></>
 }
