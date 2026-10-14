@@ -666,3 +666,14 @@ test('global theme toggle persists and tool grid is limited', async ({ page }) =
  await page.goto('/tools')
  await expect(page.locator('.directory-tool-button')).toHaveCount(12)
 })
+
+
+test('navigating between pages resets previous scroll position', async ({ page }) => {
+ await page.goto('/')
+ await page.evaluate(() => window.scrollTo(0, document.body.scrollHeight))
+ await expect.poll(() => page.evaluate(() => window.scrollY)).toBeGreaterThan(100)
+ await page.getByRole('link', {name:'Contact', exact:true}).first().click()
+ await expect(page).toHaveURL(/\/contact$/)
+ await expect.poll(() => page.evaluate(() => window.scrollY)).toBeLessThan(5)
+ await expect(page.getByRole('heading', {level:1})).toBeVisible()
+})
