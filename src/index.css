@@ -568,3 +568,33 @@ body::before,.site-shell>.aurora{display:none}
 .site-shell .site-global-sidebar .site-sidebar-card{margin:0}
 }
 @media(max-width:767px){.site-shell .site-global-sidebar{display:block;position:static;padding:10px 12px}.site-shell .site-sidebar-subtools{display:none}.site-shell .site-sidebar-categories{max-height:160px;overflow-y:auto}.site-shell .site-sidebar-card{padding:12px}}
+
+/* Minimal, readable design; theme is user-controlled and saved. */
+html{font-size:17px}
+body,html{background:#f5f6f8!important}
+body{background-image:none!important;line-height:1.55}
+body::before,.hero-grid,.hero-glow,.aurora{display:none!important}
+.site-shell{background:#f5f6f8}
+.site-shell .text-xs{font-size:.78rem}
+.site-shell .text-sm{font-size:.91rem}
+.site-shell p{line-height:1.65}
+.site-shell .text-slate-500,.site-shell .text-slate-400{color:#526073}
+.theme-toggle{display:inline-flex;align-items:center;justify-content:center;width:43px;height:43px;border:1px solid #d3d9e2;border-radius:12px;background:#fff;color:#293548;cursor:pointer;flex-shrink:0}
+.theme-toggle:hover{border-color:#d84d50;background:#fff4f4}
+.theme-toggle:focus-visible{outline:3px solid #e94d50;outline-offset:2px}
+.anytool-light-home{background:#f5f6f8}
+.anytool-light-home .home-tool-hero-photo{filter:saturate(.65)}
+.site-shell .tool-card p,.site-shell .directory-tool-button small{color:#526073}
+[data-theme="dark"]{color-scheme:dark!important;--bg:#151b25;--panel:#202938;--line:#465366;--muted:#c2cada;--white:#f6f8fb}
+[data-theme="dark"] body,[data-theme="dark"] html{background:#151b25!important;color:#f6f8fb}
+[data-theme="dark"] .site-shell,[data-theme="dark"] .anytool-light-home{background:#151b25!important;color:#f6f8fb}
+[data-theme="dark"] .site-header,[data-theme="dark"] .site-header-bar,[data-theme="dark"] footer{background:#1c2430!important;border-color:#435065!important}
+[data-theme="dark"] .glass,[data-theme="dark"] .card,[data-theme="dark"] .site-sidebar-card,[data-theme="dark"] .tool-card,[data-theme="dark"] .directory-tool-button,[data-theme="dark"] .home-live-demo,[data-theme="dark"] .tool-focus-header,[data-theme="dark"] .tool-workspace,[data-theme="dark"] .compact-details,[data-theme="dark"] .result-tile,[data-theme="dark"] article{background:#202938!important;color:#f6f8fb!important;border-color:#465366!important}
+[data-theme="dark"] .site-global-sidebar,[data-theme="dark"] .site-header .header-search{background:#151b25!important}
+[data-theme="dark"] .site-shell h1,[data-theme="dark"] .site-shell h2,[data-theme="dark"] .site-shell h3,[data-theme="dark"] .site-shell .text-white,[data-theme="dark"] .site-shell .text-slate-100,[data-theme="dark"] .site-shell .text-slate-200,[data-theme="dark"] .site-shell .text-slate-300,[data-theme="dark"] .site-shell strong,[data-theme="dark"] .site-shell .site-brand,[data-theme="dark"] .site-shell .modern-nav-link{color:#f6f8fb!important}
+[data-theme="dark"] .site-shell p,[data-theme="dark"] .site-shell small,[data-theme="dark"] .site-shell .text-slate-400,[data-theme="dark"] .site-shell .text-slate-500,[data-theme="dark"] .site-shell .tool-card p,[data-theme="dark"] .site-shell .directory-tool-button small,[data-theme="dark"] .site-shell .site-sidebar-card a,[data-theme="dark"] .site-shell .site-sidebar-label{color:#c4ccda!important}
+[data-theme="dark"] .input,[data-theme="dark"] .site-shell input,[data-theme="dark"] .site-shell select,[data-theme="dark"] .site-shell textarea,[data-theme="dark"] .btn-ghost,[data-theme="dark"] .theme-toggle,[data-theme="dark"] .tool-filter-pill,[data-theme="dark"] .site-shell .tool-pagination button{background:#263244!important;color:#f6f8fb!important;border-color:#526075!important}
+[data-theme="dark"] .btn-primary,[data-theme="dark"] .tool-filter-pill.active,[data-theme="dark"] .site-shell .tool-pagination button.active{background:#e94d50!important;color:#fff!important}
+[data-theme="dark"] .anytool-light-home .gradient-text{background:linear-gradient(110deg,#ff9994,#ffc6a6);-webkit-background-clip:text;background-clip:text;color:transparent}
+[data-theme="dark"] .site-shell a:focus-visible,[data-theme="dark"] .site-shell button:focus-visible{outline-color:#ff9994}
+@media(max-width:600px){html{font-size:16.5px}}
