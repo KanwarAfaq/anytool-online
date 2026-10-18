@@ -44,7 +44,7 @@ function Base64Tool(){
 }
 
 function UrlTool(){
- const [input,setInput]=useState('https://www.anytool.online/tools?query=hello world&lang=繁體中文'),[output,setOutput]=useState(''),[error,setError]=useState('')
+ const [input,setInput]=useState('https://anytool.online/tools?query=hello world&lang=繁體中文'),[output,setOutput]=useState(''),[error,setError]=useState('')
  const run=mode=>{try{setOutput(mode==='encode'?encodeURIComponent(input):decodeURIComponent(input));setError('')}catch{setError('Invalid URL-encoded input.');setOutput('')}}
  useEffect(()=>{run('encode')},[])
  return <div className="card p-5 space-y-4"><Field label="Text or URL"><textarea className="input min-h-40 font-mono" value={input} onChange={e=>setInput(e.target.value)}/></Field><div className="flex flex-wrap gap-2"><Action primary onClick={()=>run('encode')}>Encode</Action><Action onClick={()=>run('decode')}>Decode</Action><Action onClick={()=>copyText(output)}><Copy size={15}/> Copy</Action></div>{error&&<p className="text-sm text-rose-300">{error}</p>}<Output>{output}</Output></div>
