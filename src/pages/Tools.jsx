@@ -26,8 +26,8 @@ export default function Tools(){
  useEffect(()=>{if(page>pages)setPage(pages)},[page,pages])
  const start=(page-1)*PAGE_SIZE
  const visible=filtered.slice(start,start+PAGE_SIZE)
- const pageUrl='https://www.anytool.online'+pathFor('/tools')
- const schemas=[{'@context':'https://schema.org','@type':'CollectionPage',name:C.title,description:C.body,url:pageUrl,inLanguage:lang,isPartOf:{'@type':'WebSite',name:'AnyTool.online',url:'https://www.anytool.online/'}},{'@context':'https://schema.org','@type':'ItemList',name:C.title,itemListElement:tools.map((tool,i)=>({'@type':'ListItem',position:i+1,name:toolName(tool),url:'https://www.anytool.online'+pathFor('/tools/'+tool.slug),image:'https://www.anytool.online/tool-art/'+tool.slug+'.svg'}))}]
+ const pageUrl='https://anytool.online'+pathFor('/tools')
+ const schemas=[{'@context':'https://schema.org','@type':'CollectionPage',name:C.title,description:C.body,url:pageUrl,inLanguage:lang,isPartOf:{'@type':'WebSite',name:'AnyTool.online',url:'https://anytool.online/'}},{'@context':'https://schema.org','@type':'ItemList',name:C.title,itemListElement:tools.map((tool,i)=>({'@type':'ListItem',position:i+1,name:toolName(tool),url:'https://anytool.online'+pathFor('/tools/'+tool.slug),image:'https://anytool.online/tool-art/'+tool.slug+'.svg'}))}]
  return <section className="mx-auto max-w-7xl px-4 py-12">
   <Seo title={C.title+' | AnyTool.online'} description={C.body} jsonLd={schemas}/>
   <div className="tool-library-hero"><span>{C.eyebrow}</span><h1>{C.title}</h1><p>{C.body}</p></div>
