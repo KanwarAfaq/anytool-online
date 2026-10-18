@@ -1,5 +1,5 @@
 import assert from 'node:assert/strict'
-const SITE='https://www.anytool.online'
+const SITE='https://anytool.online'
 const get=path=>fetch(SITE+path,{redirect:'manual',headers:{'user-agent':'AnyTool-LiveSEOAudit/1.0','cache-control':'no-cache'}})
 
 const home=await get('/')

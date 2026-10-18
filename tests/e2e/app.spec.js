@@ -33,7 +33,7 @@ test('all public tool routes render and have canonical URLs', async ({ page }) =
   for (const tool of tools) {
     await page.goto('/tools/'+tool.slug)
     await expect(page.getByRole('heading', { level: 1 })).toContainText(tool.name)
-    await expect(page.locator('link[rel="canonical"]')).toHaveAttribute('href','https://www.anytool.online/tools/'+tool.slug)
+    await expect(page.locator('link[rel="canonical"]')).toHaveAttribute('href','https://anytool.online/tools/'+tool.slug)
   }
 })
 
@@ -66,7 +66,7 @@ test('salary percentage tax minimum wage and loan calculators respond', async ({
 
 test('QR generation works', async ({ page }) => {
   await page.goto('/tools/qr-generator')
-  await page.getByRole('textbox').fill('https://www.anytool.online/test')
+  await page.getByRole('textbox').fill('https://anytool.online/test')
   await page.getByRole('button',{name:'Generate'}).click()
   await expect(page.locator('img[alt="QR code"]')).toBeVisible()
   await expect(page.getByRole('link',{name:'Download'})).toHaveAttribute('download','qr.png')
@@ -115,8 +115,8 @@ test('auth dashboard AI and SEO surfaces render', async ({ page, request }) => {
   const sitemap=await request.get('/sitemap.xml')
   expect(sitemap.ok()).toBeTruthy()
   const body=await sitemap.text()
-  expect(body).toContain('https://www.anytool.online/tools/take-home-pay')
-  expect(body).toContain('https://www.anytool.online/tools/receipt-to-json')
+  expect(body).toContain('https://anytool.online/tools/take-home-pay')
+  expect(body).toContain('https://anytool.online/tools/receipt-to-json')
 })
 
 
@@ -158,7 +158,7 @@ test('public trust pages and auth recovery surfaces render', async ({ page }) =>
     await page.goto(path)
     await expect(page.locator('h1')).toBeVisible()
     await expect(page.locator('meta[name="robots"]')).toHaveAttribute('content',/index,follow/)
-    await expect(page.locator('link[rel="canonical"]')).toHaveAttribute('href',new RegExp('https://www\\.anytool\\.online'))
+    await expect(page.locator('link[rel="canonical"]')).toHaveAttribute('href',new RegExp('https://anytool\\.online'))
   }
   await page.goto('/auth')
   await page.getByRole('button',{name:'Email OTP'}).click()
@@ -209,8 +209,8 @@ test('tool feedback shows update history and prefills problem reports', async ({
 test('localized tool pages publish hreflang alternates', async ({ page }) => {
   await page.goto('/zh-tw/tools/take-home-pay')
   await expect(page.locator('html')).toHaveAttribute('lang','zh-TW')
-  await expect(page.locator('link[rel="canonical"]')).toHaveAttribute('href','https://www.anytool.online/zh-tw/tools/take-home-pay')
-  await expect(page.locator('link[rel="alternate"][hreflang="ar"]')).toHaveAttribute('href','https://www.anytool.online/ar/tools/take-home-pay')
+  await expect(page.locator('link[rel="canonical"]')).toHaveAttribute('href','https://anytool.online/zh-tw/tools/take-home-pay')
+  await expect(page.locator('link[rel="alternate"][hreflang="ar"]')).toHaveAttribute('href','https://anytool.online/ar/tools/take-home-pay')
 })
 
 
@@ -266,7 +266,7 @@ test('numeric inputs can be cleared and retyped without leading zero', async ({ 
   await expect(salary).toHaveValue('50000')
 })
 
-test('tool pages expose a representative visual and image metadata', async ({ page }) => {await page.goto('/tools/taiwan-id-photo');await expect(page.locator('img[src="/tool-art/taiwan-id-photo.svg"]')).toBeVisible();await expect(page.locator('meta[property="og:image"]')).toHaveAttribute('content','https://www.anytool.online/tool-art/taiwan-id-photo.svg')})
+test('tool pages expose a representative visual and image metadata', async ({ page }) => {await page.goto('/tools/taiwan-id-photo');await expect(page.locator('img[src="/tool-art/taiwan-id-photo.svg"]')).toBeVisible();await expect(page.locator('meta[property="og:image"]')).toHaveAttribute('content','https://anytool.online/tool-art/taiwan-id-photo.svg')})
 
 
 test('key public controls expose accessible names', async ({ page }) => {
@@ -330,7 +330,7 @@ test('homepage search query parameter drives the visible catalog', async ({ page
 
 
 test('QR scanner decodes an uploaded QR image', async ({ page }) => {
-  const value='https://www.anytool.online/tools/qr-scanner'
+  const value='https://anytool.online/tools/qr-scanner'
   const dataUrl=await QRCode.toDataURL(value,{width:320,margin:4,errorCorrectionLevel:'M'})
   const png=Buffer.from(dataUrl.split(',')[1],'base64')
   await page.goto('/tools/qr-scanner')
@@ -345,10 +345,10 @@ test('ordinary public pages keep WebPage structured data after hydration', async
     const schemaNodes=page.locator('script[data-anytool-jsonld]')
     await expect(schemaNodes.first()).toBeAttached()
     const schemas=await schemaNodes.evaluateAll(nodes=>nodes.map(n=>JSON.parse(n.textContent)))
-    expect(schemas.some(s=>s['@type']==='WebPage'&&s.url==='https://www.anytool.online'+path)).toBeTruthy()
+    expect(schemas.some(s=>s['@type']==='WebPage'&&s.url==='https://anytool.online'+path)).toBeTruthy()
   }
   await page.goto('/zh-tw/about')
-  await expect(page.locator('link[rel="canonical"]')).toHaveAttribute('href','https://www.anytool.online/zh-tw/about')
+  await expect(page.locator('link[rel="canonical"]')).toHaveAttribute('href','https://anytool.online/zh-tw/about')
 })
 
 test('home publishes a Google-compatible PNG favicon', async ({ page }) => {

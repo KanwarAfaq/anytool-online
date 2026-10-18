@@ -1,4 +1,4 @@
-const SITE='https://www.anytool.online'
+const SITE='https://anytool.online'
 const KEY='a7f0d3e9b2c14f688e5a91c3d7b4f260'
 const KEY_URL=SITE+'/'+KEY+'.txt'
 const sleep=ms=>new Promise(r=>setTimeout(r,ms))

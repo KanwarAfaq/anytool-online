@@ -17,7 +17,7 @@ jobs:
       - run: npm test
       - run: npm run build
         env:
-          VITE_SITE_URL: https://www.anytool.online
+          VITE_SITE_URL: https://anytool.online
       - name: Live crawl and indexability checks
         run: node scripts/live-seo-check.mjs
       - name: Search-readiness summary

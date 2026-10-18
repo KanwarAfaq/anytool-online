@@ -169,7 +169,7 @@ function Dpi(){
 
 function QRGenerator(){
  const {t,lang}=useI18n()
- const [text,setText]=useState('https://www.anytool.online'),[url,setUrl]=useState(''),[size,setSize]=useState(768)
+ const [text,setText]=useState('https://anytool.online'),[url,setUrl]=useState(''),[size,setSize]=useState(768)
  async function make(){const {default:QRCode}=await import('qrcode');setUrl(await QRCode.toDataURL(text,{width:size,margin:2,errorCorrectionLevel:'M'}));logToolEvent('qr-generator','calculation_completed').catch(()=>{})}
  return <div className="card p-5"><div className="grid gap-4 md:grid-cols-[1fr_180px]"><label><span className="mb-1.5 block text-sm text-slate-400">{labelFor(lang,'qrText')}</span><input aria-label={labelFor(lang,'qrText')} className="input" value={text} onChange={e=>setText(e.target.value)}/></label><Num label={t('qrSize')} value={size} onChange={setSize} min={128}/></div><button className="btn-primary mt-4" onClick={make}>{t('generate')}</button>{url&&<div className="mt-5"><img alt="QR code" className="max-w-xs rounded-xl bg-white p-3" src={url}/><a className="btn-ghost mt-3" href={url} download="qr.png">{t('download')}</a></div>}</div>
 }
@@ -286,15 +286,15 @@ export default function ToolPage(){
  },[slug])
  const toolPath=pathFor('/tools/'+slug)
  const categoryPath=pathFor('/categories/'+tool.category)
- const toolUrl='https://www.anytool.online'+toolPath
- const categoryUrl='https://www.anytool.online'+categoryPath
+ const toolUrl='https://anytool.online'+toolPath
+ const categoryUrl='https://anytool.online'+categoryPath
  const categoryName=t('categories.'+tool.category)
  const sourceKeys=toolSourceKeys[slug]||[]
  const reviewed=sourceKeys.map(k=>officialSources[k]?.verified).filter(Boolean).sort().at(-1)||'2026-09-20'
  const updated=tool.updatedAt||reviewed
  const reviewedLabel={en:'Reviewed against official sources','zh-TW':'已依官方來源查核',ar:'تمت المراجعة وفق المصادر الرسمية',ur:'سرکاری ذرائع کے مطابق جائزہ لیا گیا'}[lang]||'Reviewed against official sources'
  const seoTitle=toolName(tool)+(regulated2026.has(slug)?' 2026':'')+' | AnyTool.online'
- const imageUrl='https://www.anytool.online/tool-art/'+slug+'.svg'
+ const imageUrl='https://anytool.online/tool-art/'+slug+'.svg'
  const seoDescription=lang==='en'?(tool.seoDescription||tool.description):toolDescription(tool)
  const isBrowserLocal=Boolean(tool.localProcessing)||browserLocalSlugs.has(slug)
  const isNew=Boolean(tool.updatedAt)&&Date.now()-new Date(tool.updatedAt+'T00:00:00Z').getTime()>=0&&Date.now()-new Date(tool.updatedAt+'T00:00:00Z').getTime()<45*864e5
@@ -307,9 +307,9 @@ export default function ToolPage(){
  const shareTool=async()=>{try{if(navigator.share)await navigator.share({title:toolName(tool),text:toolDescription(tool),url:toolUrl});else{await navigator.clipboard.writeText(toolUrl);alert('Link copied')}}catch{}}
  const sourceUrls=(toolSourceKeys[slug]||[]).map(k=>officialSources[k]?.url).filter(Boolean)
  const schemas=[
-  {'@context':'https://schema.org','@type':'WebPage',name:seoTitle,description:seoDescription,url:toolUrl,inLanguage:lang,dateModified:updated,primaryImageOfPage:imageUrl,citation:sourceUrls,isPartOf:{'@type':'WebSite',name:'AnyTool.online',url:'https://www.anytool.online/'}},
-  {'@context':'https://schema.org','@type':'SoftwareApplication',name:toolName(tool),description:seoDescription,image:imageUrl,applicationCategory:'UtilitiesApplication',operatingSystem:'Web',url:toolUrl,isAccessibleForFree:true,citation:sourceUrls,publisher:{'@type':'Organization',name:'AnyTool.online',url:'https://www.anytool.online/',sameAs:['https://github.com/KanwarAfaq/anytool-online']},offers:{'@type':'Offer',price:'0',priceCurrency:'USD'}},
-  {'@context':'https://schema.org','@type':'BreadcrumbList',itemListElement:[{'@type':'ListItem',position:1,name:'AnyTool',item:'https://www.anytool.online/'},{'@type':'ListItem',position:2,name:categoryName,item:categoryUrl},{'@type':'ListItem',position:3,name:toolName(tool),item:toolUrl}]}
+  {'@context':'https://schema.org','@type':'WebPage',name:seoTitle,description:seoDescription,url:toolUrl,inLanguage:lang,dateModified:updated,primaryImageOfPage:imageUrl,citation:sourceUrls,isPartOf:{'@type':'WebSite',name:'AnyTool.online',url:'https://anytool.online/'}},
+  {'@context':'https://schema.org','@type':'SoftwareApplication',name:toolName(tool),description:seoDescription,image:imageUrl,applicationCategory:'UtilitiesApplication',operatingSystem:'Web',url:toolUrl,isAccessibleForFree:true,citation:sourceUrls,publisher:{'@type':'Organization',name:'AnyTool.online',url:'https://anytool.online/',sameAs:['https://github.com/KanwarAfaq/anytool-online']},offers:{'@type':'Offer',price:'0',priceCurrency:'USD'}},
+  {'@context':'https://schema.org','@type':'BreadcrumbList',itemListElement:[{'@type':'ListItem',position:1,name:'AnyTool',item:'https://anytool.online/'},{'@type':'ListItem',position:2,name:categoryName,item:categoryUrl},{'@type':'ListItem',position:3,name:toolName(tool),item:toolUrl}]}
  ]
  return <section className="tool-page-wide mx-auto w-full px-4 py-6">
   <Seo title={seoTitle} description={seoDescription} image={'/tool-art/'+slug+'.svg'} jsonLd={schemas}/>
