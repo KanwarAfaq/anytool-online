@@ -7,7 +7,7 @@ import { toolTranslations, toolDescriptionTranslations } from '../src/data/toolT
 
 const root=process.cwd()
 const template=await readFile(resolve(root,'dist/index.html'),'utf8')
-const SITE='https://www.anytool.online'
+const SITE='https://anytool.online'
 const OWNER_NAME='Kanwar Afaq'
 const OWNER_EMAIL='kmafaq2@gmail.com'
 const OWNER_IMAGE='https://res.cloudinary.com/dfmi4udfs/image/upload/v1782224423/gallery/general/IMG_2017_dflq3u.jpg'
