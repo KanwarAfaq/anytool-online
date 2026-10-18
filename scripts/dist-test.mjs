@@ -27,9 +27,9 @@ assert.ok(!sitemap.includes('/dashboard</loc>'),'dashboard must not be in sitema
 
 const catalog=JSON.parse(await readFile(resolve(root,'dist/tool-catalog.json'),'utf8'))
 assert.equal(catalog.tools.length,tools.length,'tool catalog count mismatch')
-assert.ok(catalog.tools.every(t=>t.url.startsWith('https://www.anytool.online/tools/')),'tool catalog canonical host mismatch')
+assert.ok(catalog.tools.every(t=>t.url.startsWith('https://anytool.online/tools/')),'tool catalog canonical host mismatch')
 assert.ok(catalog.tools.every(t=>/^\d{4}-\d{2}-\d{2}$/.test(t.lastModified)),'tool catalog missing lastModified')
-assert.ok(catalog.tools.every(t=>t.image===`https://www.anytool.online/tool-art/${t.slug}.svg`),'tool catalog image mismatch')
+assert.ok(catalog.tools.every(t=>t.image===`https://anytool.online/tool-art/${t.slug}.svg`),'tool catalog image mismatch')
 assert.ok(catalog.tools.every(t=>t.localizedUrls?.['zh-TW']&&t.localizedUrls?.ar&&t.localizedUrls?.ur),'tool catalog localized URLs missing')
 assert.ok(catalog.tools.every(t=>t.localizedNames?.['zh-TW']&&t.localizedNames?.ar&&t.localizedNames?.ur),'tool catalog localized names missing')
 assert.ok(catalog.tools.every(t=>t.localizedDescriptions?.['zh-TW']&&t.localizedDescriptions?.ar&&t.localizedDescriptions?.ur),'tool catalog localized descriptions missing')
@@ -66,7 +66,7 @@ for(const loc of locales){
   const file=parts.length?resolve(root,'dist',...parts,'index.html'):resolve(root,'dist','index.html')
   await access(file)
   const html=await readFile(file,'utf8')
-  const url=parts.length?'https://www.anytool.online/'+parts.join('/'):'https://www.anytool.online/'
+  const url=parts.length?'https://anytool.online/'+parts.join('/'):'https://anytool.online/'
   assert.ok(html.includes('<link rel="canonical" href="'+url+'"'),'exact canonical missing '+url)
   assert.ok(html.includes('hreflang="x-default"'),'x-default hreflang missing '+url)
   assert.ok(html.includes('<h1'),'H1 missing '+url)
@@ -78,7 +78,7 @@ for(const loc of locales){
   const parts=[loc,'tools',tool.slug].filter(Boolean)
   const file=resolve(root,'dist',...parts,'index.html')
   const html=await readFile(file,'utf8')
-  const url='https://www.anytool.online/'+parts.join('/')
+  const url='https://anytool.online/'+parts.join('/')
   assert.ok(sitemap.includes(url),'sitemap missing '+url)
   assert.ok(html.includes(url),'canonical missing '+url)
   assert.ok(html.includes('SoftwareApplication'),'schema missing '+tool.slug)
