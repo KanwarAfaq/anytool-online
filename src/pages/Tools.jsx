@@ -15,10 +15,10 @@ export default function Tools(){
  const [category,setCategory]=useState('all')
  const [page,setPage]=useState(1)
  const C={
-  en:{eyebrow:'AnyTool library',title:'Free online tools for everyday tasks',body:'Browse free PDF, image, calculator, QR and productivity tools. Filter by category or search to find the right tool quickly.',search:'Search all tools',count:'tools',empty:'No tools match your search.',all:'All tools',showing:'Showing',of:'of',page:'Page',previous:'Previous',next:'Next'},
-  'zh-TW':{eyebrow:'AnyTool 工具庫',title:'找到工具，立即完成。',body:'不用一次面對整頁工具卡。搜尋、分類，分頁瀏覽更容易。',search:'搜尋所有工具',count:'個工具',empty:'找不到相符工具。',all:'全部工具',showing:'顯示',of:'共',page:'第',previous:'上一頁',next:'下一頁'},
-  ar:{eyebrow:'مكتبة AnyTool',title:'ابحث عن أداة وأنجز المهمة.',body:'أدوات واضحة بدون جدار طويل من البطاقات. ابحث وصفّح المكتبة على صفحات أصغر.',search:'ابحث في كل الأدوات',count:'أداة',empty:'لا توجد أدوات مطابقة.',all:'كل الأدوات',showing:'عرض',of:'من',page:'صفحة',previous:'السابق',next:'التالي'},
-  ur:{eyebrow:'AnyTool لائبریری',title:'ٹول تلاش کریں، کام مکمل کریں۔',body:'لمبی کارڈ وال کے بجائے تلاش، فلٹر اور چھوٹے صفحات کے ذریعے ٹولز دیکھیں۔',search:'تمام ٹولز تلاش کریں',count:'ٹولز',empty:'کوئی ٹول نہیں ملا۔',all:'تمام ٹولز',showing:'دکھائے جا رہے ہیں',of:'از',page:'صفحہ',previous:'پچھلا',next:'اگلا'}
+  en:{eyebrow:'AnyTool library',title:'Free online tools for everyday tasks',body:'Search PDF, image, calculator and QR tools by name or category.',search:'Search all tools',count:'tools',empty:'No tools match your search.',all:'All tools',showing:'Showing',of:'of',page:'Page',previous:'Previous',next:'Next'},
+  'zh-TW':{eyebrow:'AnyTool 工具庫',title:'找到工具，立即完成。',body:'搜尋或依類別篩選 PDF、圖片與計算工具。',search:'搜尋所有工具',count:'個工具',empty:'找不到相符工具。',all:'全部工具',showing:'顯示',of:'共',page:'第',previous:'上一頁',next:'下一頁'},
+  ar:{eyebrow:'مكتبة AnyTool',title:'ابحث عن أداة وأنجز المهمة.',body:'ابحث عن أدوات PDF والصور والحاسبات حسب الاسم أو الفئة.',search:'ابحث في كل الأدوات',count:'أداة',empty:'لا توجد أدوات مطابقة.',all:'كل الأدوات',showing:'عرض',of:'من',page:'صفحة',previous:'السابق',next:'التالي'},
+  ur:{eyebrow:'AnyTool لائبریری',title:'ٹول تلاش کریں، کام مکمل کریں۔',body:'PDF، تصاویر اور کیلکولیٹر ٹولز نام یا زمرے کے مطابق تلاش کریں۔',search:'تمام ٹولز تلاش کریں',count:'ٹولز',empty:'کوئی ٹول نہیں ملا۔',all:'تمام ٹولز',showing:'دکھائے جا رہے ہیں',of:'از',page:'صفحہ',previous:'پچھلا',next:'اگلا'}
  }[lang]
  const filtered=useMemo(()=>tools.filter(tool=>(category==='all'||tool.category===category)&&(!query.trim()||(toolName(tool)+' '+toolDescription(tool)+' '+tool.category).toLowerCase().includes(query.toLowerCase()))),[query,category,lang,toolName,toolDescription])
  const pages=Math.max(1,Math.ceil(filtered.length/PAGE_SIZE))
