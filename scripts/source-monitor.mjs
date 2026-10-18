@@ -30,7 +30,7 @@ const sources=[
 ]
 
 const headers={
- 'user-agent':'Mozilla/5.0 (compatible; AnyTool-SourceMonitor/2.0; +https://www.anytool.online/sources)',
+ 'user-agent':'Mozilla/5.0 (compatible; AnyTool-SourceMonitor/2.0; +https://anytool.online/sources)',
  'accept':'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
  'accept-language':'zh-TW,zh;q=0.9,en;q=0.8'
 }
