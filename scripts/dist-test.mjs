@@ -111,3 +111,12 @@ const pdfArt=await readFile(resolve(root,'dist','tool-art','pdf-merge.svg'),'utf
 assert.ok(qrArt.includes('QR Code Generator visual preview'),'QR preview metadata missing')
 assert.ok(pdfArt.includes('Merge PDF visual preview'),'PDF preview metadata missing')
 assert.notEqual(qrArt,pdfArt,'tool preview art should be function-specific')
+
+for (const locale of locales) {
+ const html = await readFile(resolve(root, 'dist', locale, 'tools/index.html'), 'utf8');
+ for (const tool of tools) assert.ok(html.includes('href="https://anytool.online'+(locale?'/'+locale:'')+'/tools/'+tool.slug+'"'), 'directory missing tool link '+locale+'/'+tool.slug);
+ if (locale) {
+  assert.ok(sitemap.includes('<loc>https://anytool.online/'+locale+'</loc>'));
+  assert.ok(!sitemap.includes('<loc>https://anytool.online/'+locale+'/</loc>'));
+ }
+}

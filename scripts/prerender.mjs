@@ -106,7 +106,7 @@ const localizedStaticDescriptions={
 }
 const taiwan2026=new Set(['take-home-pay','labor-insurance','nhi','income-tax','overtime-pay','minimum-wage','employer-cost','taiwan-elder-care'])
 const cleanPath=p=>p==='/'?'/':p.replace(/\/$/,'')
-const localizedPath=(prefix,path)=>prefix+(path==='/'?'/':path)
+const localizedPath=(prefix,path)=>path==='/'?(prefix||'/'):prefix+path
 const basePath=p=>p.replace(/^\/(zh-tw|ar|ur)(?=\/|$)/,'')||'/'
 const alternateLinks=path=>locales.map(l=>`<link rel="alternate" hreflang="${l.code}" href="${SITE+localizedPath(l.prefix,path)}" />`).join('')+`<link rel="alternate" hreflang="x-default" href="${SITE+path}" />`
 const localizedToolName=(tool,locale)=>{const x=toolTranslations[tool.slug];if(locale.code==='zh-TW')return x?.zh||tool.name;if(locale.code==='ar')return x?.ar||tool.name;if(locale.code==='ur')return x?.ur||tool.name;return tool.name}
@@ -164,7 +164,7 @@ const fallbackHtml=(title,description,path)=>{
  const staticSourceHtml=staticSources.length?'<section><h2>'+esc(ui.sources)+'</h2><ul>'+staticSources.map(s=>'<li><a rel="noopener noreferrer" href="'+esc(s.url)+'">'+esc(s.title)+'</a> — '+esc(s.authority)+'</li>').join('')+'</ul></section>':''
  const relatedHtml=related.length?`<section><h2>${esc(ui.related)}</h2><ul>${related.map(x=>`<li><a href="${SITE}${prefix}/tools/${x.slug}">${esc(localizedToolName(x,{code}))}</a></li>`).join('')}</ul></section>`:''
  const categoryMatch=clean.match(/^\/categories\/([^/]+)$/)
- const listing=!tool&&(clean==='/'||categoryMatch)?tools.filter(x=>!categoryMatch||x.category===categoryMatch[1]):[]
+ const listing=!tool&&(clean==='/'||clean==='/tools'||categoryMatch)?tools.filter(x=>!categoryMatch||x.category===categoryMatch[1]):[]
  const listingHtml=listing.length?`<section><h2>${esc(code==='zh-TW'?'可用工具':code==='ar'?'الأدوات المتاحة':code==='ur'?'دستیاب ٹولز':'Available tools')}</h2><ul>${listing.map(x=>`<li><a href="${SITE}${prefix}/tools/${x.slug}">${esc(localizedToolName(x,{code}))}</a> — ${esc(localizedToolDescription(x,{code}))}</li>`).join('')}</ul></section>`:''
  const focus=tool?localizedToolName(tool,{code}):title.split('|')[0].trim()
  const lead=description.includes(focus)?description:focus+' — '+description
