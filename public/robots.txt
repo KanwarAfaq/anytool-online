@@ -1,4 +1,26 @@
+# AnyTool.online — public tools are open to search engines and AI search/answer crawlers.
+# Private account pages (/auth, /dashboard, /profile) are kept out of the index with an
+# X-Robots-Tag: noindex header (see vercel.json); they are intentionally not disallowed here
+# so crawlers can fetch the page and see that header.
 User-agent: *
+Allow: /
+
+User-agent: OAI-SearchBot
+Allow: /
+
+User-agent: ChatGPT-User
+Allow: /
+
+User-agent: Claude-SearchBot
+Allow: /
+
+User-agent: Claude-User
+Allow: /
+
+User-agent: PerplexityBot
+Allow: /
+
+User-agent: Perplexity-User
 Allow: /
 
 Sitemap: https://anytool.online/sitemap.xml

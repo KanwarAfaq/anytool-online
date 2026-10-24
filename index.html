@@ -3,7 +3,10 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="theme-color" content="#07111f" />
+    <meta name="theme-color" content="#f6f7fb" media="(prefers-color-scheme: light)" />
+    <meta name="theme-color" content="#0b0d13" media="(prefers-color-scheme: dark)" />
+    <meta name="color-scheme" content="light dark" />
+    <script>try{var t=localStorage.getItem('anytool-theme');if(t!=='light'&&t!=='dark')t=matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light';document.documentElement.dataset.theme=t}catch(e){}</script>
     <meta name="description" content="AnyTool.online — fast calculators, image, PDF and AI document tools." />
     <link rel="canonical" href="https://anytool.online/" />
     <link rel="manifest" href="/manifest.webmanifest" />

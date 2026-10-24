@@ -29,9 +29,9 @@ export default function Seo({title,description,jsonLd,noindex=false,image=''}){
    setMeta('meta[name="twitter:card"]',{name:'twitter:card',content:'summary_large_image'})
    setMeta('meta[name="twitter:title"]',{name:'twitter:title',content:title})
    setMeta('meta[name="twitter:description"]',{name:'twitter:description',content:description||''})
-   const imageUrl=image?(image.startsWith('http')?image:SITE+image):''
-   if(imageUrl){setMeta('meta[property="og:image"]',{property:'og:image',content:imageUrl});setMeta('meta[property="og:image:alt"]',{property:'og:image:alt',content:title});setMeta('meta[property="og:image:width"]',{property:'og:image:width',content:'640'});setMeta('meta[property="og:image:height"]',{property:'og:image:height',content:'360'});setMeta('meta[name="twitter:image"]',{name:'twitter:image',content:imageUrl});setMeta('meta[name="twitter:image:alt"]',{name:'twitter:image:alt',content:title})}
-   else{document.head.querySelector('meta[property="og:image"]')?.remove();document.head.querySelector('meta[property="og:image:alt"]')?.remove();document.head.querySelector('meta[property="og:image:width"]')?.remove();document.head.querySelector('meta[property="og:image:height"]')?.remove();document.head.querySelector('meta[name="twitter:image"]')?.remove();document.head.querySelector('meta[name="twitter:image:alt"]')?.remove()}
+   // Social cards need a raster image (SVG previews are ignored by most platforms); tool art stays in structured data.
+   const imageUrl=SITE+'/og-default.png'
+   setMeta('meta[property="og:image"]',{property:'og:image',content:imageUrl});setMeta('meta[property="og:image:type"]',{property:'og:image:type',content:'image/png'});setMeta('meta[property="og:image:alt"]',{property:'og:image:alt',content:'AnyTool.online — free online tools'});setMeta('meta[property="og:image:width"]',{property:'og:image:width',content:'1200'});setMeta('meta[property="og:image:height"]',{property:'og:image:height',content:'630'});setMeta('meta[name="twitter:image"]',{name:'twitter:image',content:imageUrl});setMeta('meta[name="twitter:image:alt"]',{name:'twitter:image:alt',content:'AnyTool.online — free online tools'})
    const langCode=path.startsWith('/zh-tw')?'zh-TW':path.startsWith('/ar')?'ar':path.startsWith('/ur')?'ur':'en'
    const ogLocale=langCode==='zh-TW'?'zh_TW':langCode==='ar'?'ar_AR':langCode==='ur'?'ur_PK':'en_US'
    setMeta('meta[property="og:locale"]',{property:'og:locale',content:ogLocale})

@@ -216,6 +216,7 @@ test('localized tool pages publish hreflang alternates', async ({ page }) => {
 
 test('modern quick calculator command palette filters and recent tools work', async ({ page }) => {
   await page.goto('/')
+  await expect(page.getByRole('heading',{level:1})).toBeVisible() // wait for hydration so the Ctrl+K handler exists
   const quickSalary=page.getByLabel('Monthly salary (NT$)').first()
   await quickSalary.fill('65000')
   await expect(page.getByText('Estimated take-home')).toBeVisible()
@@ -253,8 +254,8 @@ test('tool directory paginates instead of rendering all tools at once', async ({
 
   await page.goto('/')
   await expect(page.locator('#tools a[href^="/tools/"]')).toHaveCount(12)
-  await expect(page.locator('.home-tool-hero')).toBeVisible()
-  await expect(page.locator('.home-tool-hero-photo')).toHaveAttribute('src',/images\.unsplash\.com/)
+  await expect(page.locator('.home-showcase')).toBeVisible()
+  await expect(page.locator('.home-showcase a[href^="/tools/"]')).toHaveCount(4)
 })
 
 test('numeric inputs can be cleared and retyped without leading zero', async ({ page }) => {
@@ -266,7 +267,7 @@ test('numeric inputs can be cleared and retyped without leading zero', async ({ 
   await expect(salary).toHaveValue('50000')
 })
 
-test('tool pages expose a representative visual and image metadata', async ({ page }) => {await page.goto('/tools/taiwan-id-photo');await expect(page.locator('img[src="/tool-art/taiwan-id-photo.svg"]')).toBeVisible();await expect(page.locator('meta[property="og:image"]')).toHaveAttribute('content','https://anytool.online/tool-art/taiwan-id-photo.svg')})
+test('tool pages expose a representative visual and image metadata', async ({ page }) => {await page.goto('/tools/taiwan-id-photo');await expect(page.locator('img[src="/tool-art/taiwan-id-photo.svg"]')).toBeVisible();await expect(page.locator('meta[property="og:image"]')).toHaveAttribute('content','https://anytool.online/og-default.png')})
 
 
 test('key public controls expose accessible names', async ({ page }) => {
@@ -312,6 +313,7 @@ test('image compression honors PNG output and conversion inputs are constrained'
 
 test('command palette supports keyboard selection', async ({ page }) => {
   await page.goto('/')
+  await expect(page.getByRole('heading',{level:1})).toBeVisible() // wait for hydration so the Ctrl+K handler exists
   await page.keyboard.press('Control+k')
   const dialog=page.getByRole('dialog',{name:'Search tools'})
   await dialog.getByRole('textbox').fill('passport')

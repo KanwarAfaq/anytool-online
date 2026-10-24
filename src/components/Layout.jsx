@@ -13,8 +13,9 @@ export default function Layout({children}){
  const [palette,setPalette]=useState(false)
  const [mobile,setMobile]=useState(false)
  const [active,setActive]=useState(0)
- const [theme,setTheme]=useState(()=>{try{return localStorage.getItem('anytool-theme')==='dark'?'dark':'light'}catch{return 'light'}})
- useEffect(()=>{document.documentElement.dataset.theme=theme;document.documentElement.style.colorScheme=theme;try{localStorage.setItem('anytool-theme',theme)}catch{}},[theme])
+ const [theme,setTheme]=useState(()=>{try{const saved=localStorage.getItem('anytool-theme');if(saved==='dark'||saved==='light')return saved}catch{}return typeof window!=='undefined'&&window.matchMedia?.('(prefers-color-scheme: dark)').matches?'dark':'light'})
+ useEffect(()=>{document.documentElement.dataset.theme=theme;document.documentElement.style.colorScheme=theme;document.querySelector('meta[name="theme-color"]')?.setAttribute('content',theme==='dark'?'#0b0d13':'#f6f7fb')},[theme])
+ const chooseTheme=next=>{setTheme(next);try{localStorage.setItem('anytool-theme',next)}catch{}}
  const cleanPath=location.pathname.replace(/^\/(zh-tw|ar|ur)(?=\/|$)/,'')||'/'
  const showSidebar=!/^\/(auth|dashboard|profile)(?:\/|$)/.test(cleanPath)
  const inputRef=useRef(null)
@@ -31,56 +32,57 @@ export default function Layout({children}){
  useEffect(()=>{if(!palette)return;const old=document.body.style.overflow;document.body.style.overflow='hidden';return()=>{document.body.style.overflow=old}},[palette])
  const openTool=tool=>{if(!tool)return;setPalette(false);setQ('');navigate(pathFor('/tools/'+tool.slug))}
  const paletteKey=e=>{if(e.key==='ArrowDown'){e.preventDefault();setActive(v=>Math.min(hits.length-1,v+1))}else if(e.key==='ArrowUp'){e.preventDefault();setActive(v=>Math.max(0,v-1))}else if(e.key==='Enter'&&hits[active]){e.preventDefault();openTool(hits[active])}}
- return <div className="site-shell min-h-screen">
+ return <div className="site-shell">
   <a className="skip-link" href="#main-content">Skip to content</a>
-  <span className="aurora aurora-a"/><span className="aurora aurora-b"/>
-  <header className="site-header sticky top-0 z-50 px-3 pt-3">
-   <div className="site-header-bar glass mx-auto flex max-w-[100rem] items-center gap-2 rounded-2xl px-3 py-2.5">
-    <Link to={pathFor('/')} className="site-brand group flex shrink-0 items-center gap-2.5 font-black tracking-tight" aria-label="AnyTool home">
-      <span className="site-brand-mark grid size-10 place-items-center overflow-hidden rounded-xl transition"><img src="/favicon-192.png" alt="" className="size-full object-cover"/></span>
-      <span className="text-lg sm:text-xl">AnyTool</span>
+  <header className="site-header">
+   <div className="site-header-bar">
+    <Link to={pathFor('/')} className="site-brand" aria-label="AnyTool home">
+      <span className="site-brand-mark"><img src="/favicon-192.png" alt="" width="36" height="36" className="size-full object-cover"/></span>
+      <span className="text-lg">AnyTool</span>
     </Link>
-    <nav className="header-nav ms-3 hidden items-center gap-1 lg:flex" aria-label="Primary navigation">
+    <nav className="header-nav" aria-label="Primary navigation">
       <NavLink className={({isActive})=>'modern-nav-link '+(isActive?'active':'')} to={pathFor('/tools')}>{N.tools}</NavLink>
       <NavLink className={({isActive})=>'modern-nav-link '+(isActive?'active':'')} to={pathFor('/sources')}>{N.sources}</NavLink>
       <NavLink className={({isActive})=>'modern-nav-link '+(isActive?'active':'')} to={pathFor('/about')}>{N.about}</NavLink>
       <NavLink className={({isActive})=>'modern-nav-link '+(isActive?'active':'')} to={pathFor('/contact')}>{N.contact}</NavLink>
     </nav>
-    <button onClick={()=>setPalette(true)} aria-haspopup="dialog" aria-expanded={palette} className="header-search ms-auto hidden min-w-[12rem] max-w-sm flex-1 items-center gap-2 rounded-xl px-3 py-2.5 text-left text-sm text-slate-400 transition md:flex">
-      <Search size={16}/><span className="truncate">{N.search}</span><span className="ms-auto rounded-md border border-white/[0.07] px-1.5 py-0.5 text-[10px]">⌘K</span>
+    <button type="button" onClick={()=>setPalette(true)} aria-haspopup="dialog" aria-expanded={palette} className="header-search">
+      <Search size={16}/><span className="truncate">{N.search}</span><span>⌘K</span>
     </button>
-    <button aria-label={N.search} aria-haspopup="dialog" aria-expanded={palette} className="btn-ghost px-3 md:hidden" onClick={()=>setPalette(true)}><Search size={17}/></button>
-    <div className="relative hidden sm:flex">
-      <Languages className="pointer-events-none absolute start-2.5 top-3 text-slate-500" size={15}/>
-      <select aria-label="Language" className="rounded-xl border border-white/[0.08] bg-[#080e16] py-2.5 ps-8 pe-7 text-sm font-semibold text-slate-300 outline-none" value={lang} onChange={e=>setLang(e.target.value)}>
-       {languages.map(l=><option key={l.code} value={l.code} className="bg-slate-950">{l.label}</option>)}
+    <div className="header-actions">
+     <button type="button" aria-label={N.search} aria-haspopup="dialog" aria-expanded={palette} className="icon-btn md:hidden" onClick={()=>setPalette(true)}><Search size={17}/></button>
+     <div className="lang-select">
+      <Languages size={15}/>
+      <select aria-label="Language" value={lang} onChange={e=>setLang(e.target.value)}>
+       {languages.map(l=><option key={l.code} value={l.code}>{l.label}</option>)}
       </select>
+     </div>
+     <button type="button" className="theme-toggle" aria-label={theme==='dark'?'Switch to light theme':'Switch to dark theme'} title={theme==='dark'?'Light theme':'Dark theme'} aria-pressed={theme==='dark'} onClick={()=>chooseTheme(theme==='dark'?'light':'dark')}>{theme==='dark'?<Sun size={18}/>:<Moon size={18}/>}</button>
+     <NavLink aria-label={N.account} title={N.account} className="icon-btn" to={pathFor('/dashboard')}><UserRound size={17}/></NavLink>
+     <button type="button" className="icon-btn mobile-toggle" aria-label={N.menu} aria-expanded={mobile} aria-controls="mobile-navigation" onClick={()=>setMobile(v=>!v)}>{mobile?<X size={18}/>:<Menu size={18}/>}</button>
     </div>
-    <button type="button" className="theme-toggle" aria-label={theme==='dark'?'Switch to light theme':'Switch to dark theme'} title={theme==='dark'?'Light theme':'Dark theme'} aria-pressed={theme==='dark'} onClick={()=>setTheme(v=>v==='dark'?'light':'dark')}>{theme==='dark'?<Sun size={19}/>:<Moon size={19}/>}</button>
-    <NavLink aria-label={N.account} title={N.account} className="btn-ghost px-3" to={pathFor('/dashboard')}><UserRound size={17}/></NavLink>
-    <button className="btn-ghost px-3 lg:hidden" aria-label={N.menu} aria-expanded={mobile} aria-controls="mobile-navigation" onClick={()=>setMobile(v=>!v)}>{mobile?<X size={18}/>:<Menu size={18}/>}</button>
    </div>
-   {mobile&&<div id="mobile-navigation" className="glass mx-auto mt-2 grid max-w-[100rem] gap-1 rounded-2xl p-3 lg:hidden">
-      <Link onClick={()=>setMobile(false)} className="rounded-lg px-3 py-2.5 text-sm text-slate-300 hover:bg-white/5" to={pathFor('/tools')}>{N.tools}</Link>
-      <Link onClick={()=>setMobile(false)} className="rounded-lg px-3 py-2.5 text-sm text-slate-300 hover:bg-white/5" to={pathFor('/sources')}>{N.sources}</Link>
-      <Link onClick={()=>setMobile(false)} className="rounded-lg px-3 py-2.5 text-sm text-slate-300 hover:bg-white/5" to={pathFor('/about')}>{N.about}</Link>
-      <Link onClick={()=>setMobile(false)} className="rounded-lg px-3 py-2.5 text-sm text-slate-300 hover:bg-white/5" to={pathFor('/contact')}>{N.contact}</Link>
-      <select aria-label="Mobile language" className="input mt-1 sm:hidden" value={lang} onChange={e=>setLang(e.target.value)}>{languages.map(l=><option key={l.code} value={l.code} className="bg-slate-950">{l.label}</option>)}</select>
-   </div>}
+   {mobile&&<div id="mobile-navigation" className="mobile-menu"><div className="mobile-menu-panel">
+      <Link onClick={()=>setMobile(false)} to={pathFor('/tools')}>{N.tools}</Link>
+      <Link onClick={()=>setMobile(false)} to={pathFor('/sources')}>{N.sources}</Link>
+      <Link onClick={()=>setMobile(false)} to={pathFor('/about')}>{N.about}</Link>
+      <Link onClick={()=>setMobile(false)} to={pathFor('/contact')}>{N.contact}</Link>
+      <select aria-label="Mobile language" className="input mt-1 sm:hidden" value={lang} onChange={e=>setLang(e.target.value)}>{languages.map(l=><option key={l.code} value={l.code}>{l.label}</option>)}</select>
+   </div></div>}
   </header>
 
   {palette&&<div className="command-backdrop" role="dialog" aria-modal="true" aria-label={N.search} onMouseDown={e=>{if(e.target===e.currentTarget)setPalette(false)}}>
     <div className="command-panel reveal">
-      <div className="flex items-center gap-3 border-b border-white/[0.07] p-4">
-        <Search className="text-lime-300" size={19}/>
-        <input ref={inputRef} value={q} onChange={e=>setQ(e.target.value)} onKeyDown={paletteKey} aria-label={N.search} aria-controls="tool-search-results" aria-activedescendant={hits[active]?'tool-search-'+hits[active].slug:undefined} className="w-full bg-transparent text-base text-white outline-none placeholder:text-slate-500" placeholder={N.search}/>
-        <button onClick={()=>setPalette(false)} className="rounded-lg border border-white/[0.07] p-2 text-slate-500 hover:text-white" aria-label={N.close}><X size={16}/></button>
+      <div className="flex items-center gap-3 border-b border-[var(--line)] p-4">
+        <Search className="text-slate-500" size={19}/>
+        <input ref={inputRef} value={q} onChange={e=>setQ(e.target.value)} onKeyDown={paletteKey} aria-label={N.search} aria-controls="tool-search-results" aria-activedescendant={hits[active]?'tool-search-'+hits[active].slug:undefined} className="w-full" placeholder={N.search}/>
+        <button onClick={()=>setPalette(false)} className="icon-btn" aria-label={N.close}><X size={16}/></button>
       </div>
       <div id="tool-search-results" role="listbox" aria-label={N.search} className="max-h-[55vh] overflow-auto p-2">{hits.map((tool,i)=><button id={'tool-search-'+tool.slug} role="option" aria-selected={i===active} key={tool.slug} onMouseEnter={()=>setActive(i)} onClick={()=>openTool(tool)} className="command-result flex w-full items-center gap-3 rounded-xl p-3 text-left" data-active={i===active?'true':'false'}>
         <span className={'tool-icon category-'+tool.category}><Wrench size={15}/></span>
         <span className="min-w-0"><span className="block truncate font-bold">{toolName(tool)}</span><span className="mt-0.5 block truncate text-xs text-slate-500">{toolDescription(tool)}</span></span><ArrowRight className="ms-auto text-slate-500" size={15}/>
       </button>)}</div>
-      <div className="border-t border-white/[0.07] px-4 py-3 text-xs text-slate-500"><Command className="me-1 inline" size={12}/> Ctrl / ⌘ + K</div>
+      <div className="border-t border-[var(--line)] px-4 py-3 text-xs text-slate-500"><Command className="me-1 inline" size={12}/> Ctrl / ⌘ + K</div>
     </div>
   </div>}
 
@@ -89,14 +91,14 @@ export default function Layout({children}){
    <main id="main-content" className="min-w-0">{children}</main>
   </div>
 
-  <footer className="mt-20 border-t border-[#e2e5eb] bg-white">
+  <footer className="site-footer">
    <div className="mx-auto max-w-[100rem] px-4 py-10">
     <div className="grid gap-8 md:grid-cols-[1.4fr_.8fr_.8fr]">
-      <div><div className="flex items-center gap-2 font-black"><span className="grid size-8 place-items-center overflow-hidden rounded-lg"><img src="/favicon-192.png" alt="" className="size-full object-cover"/></span>AnyTool</div><p className="mt-3 max-w-md text-sm text-slate-500">{N.footer}</p><Link to={pathFor('/contact')} className="mt-4 inline-flex items-center text-sm font-bold text-lime-300"><Mail className="me-2" size={14}/>{N.need} {N.send}</Link></div>
-      <div><p className="text-xs font-black uppercase tracking-[.16em] text-slate-500">{N.tools}</p><div className="mt-3 grid gap-2 text-sm"><Link className="text-slate-400 hover:text-white" to={pathFor('/tools')}>{N.tools}</Link><Link className="text-slate-400 hover:text-white" to={pathFor('/sources')}>{N.sources}</Link><Link className="text-slate-400 hover:text-white" to={pathFor('/methodology')}>{N.method}</Link></div></div>
-      <div><p className="text-xs font-black uppercase tracking-[.16em] text-slate-500">AnyTool</p><div className="mt-3 grid gap-2 text-sm"><Link className="text-slate-400 hover:text-white" to={pathFor('/about')}>{N.about}</Link><Link className="text-slate-400 hover:text-white" to={pathFor('/privacy')}>{N.privacy}</Link><Link className="text-slate-400 hover:text-white" to={pathFor('/terms')}>{N.terms}</Link><Link className="text-slate-400 hover:text-white" to={pathFor('/accessibility')}>{N.accessibility}</Link><Link className="text-slate-400 hover:text-white" to={pathFor('/contact')}>{N.contact}</Link></div></div>
+      <div><div className="flex items-center gap-2 font-black"><span className="grid size-8 place-items-center overflow-hidden rounded-lg"><img src="/favicon-192.png" alt="" className="size-full object-cover"/></span>AnyTool</div><p className="mt-3 max-w-md text-sm text-slate-500">{N.footer}</p><Link to={pathFor('/contact')} className="mt-4 inline-flex items-center text-sm font-bold text-[var(--accent-text)]"><Mail className="me-2" size={14}/>{N.need} {N.send}</Link></div>
+      <div><h2>{N.tools}</h2><div className="mt-3 grid gap-2 text-sm"><Link  to={pathFor('/tools')}>{N.tools}</Link><Link  to={pathFor('/sources')}>{N.sources}</Link><Link  to={pathFor('/methodology')}>{N.method}</Link></div></div>
+      <div><h2>AnyTool</h2><div className="mt-3 grid gap-2 text-sm"><Link  to={pathFor('/about')}>{N.about}</Link><Link  to={pathFor('/privacy')}>{N.privacy}</Link><Link  to={pathFor('/terms')}>{N.terms}</Link><Link  to={pathFor('/accessibility')}>{N.accessibility}</Link><Link  to={pathFor('/contact')}>{N.contact}</Link></div></div>
     </div>
-    <div className="mt-8 border-t border-white/[0.06] pt-5 text-xs text-slate-500">© {new Date().getFullYear()} AnyTool.online</div>
+    <div className="mt-8 border-t border-[var(--line)] pt-5 text-xs text-slate-500">© {new Date().getFullYear()} AnyTool.online</div>
    </div>
   </footer>
  </div>

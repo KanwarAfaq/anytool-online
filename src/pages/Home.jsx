@@ -6,28 +6,20 @@ import { takeHome, money } from '../lib/calculators'
 import Seo from '../components/Seo'
 import ToolArt from '../components/ToolArt'
 import { useI18n } from '../i18n'
+import { faqFor } from '../data/homeFaq'
 
 const categoryIcon={money:WalletCards,image:ImageIcon,document:FileText,ai:BrainCircuit,general:Calculator,developer:Code2,text:Type,security:Shield,design:Palette}
 const categoryAccent={money:'text-lime-300',image:'text-sky-300',document:'text-indigo-300',ai:'text-violet-300',general:'text-amber-300',developer:'text-cyan-300',text:'text-fuchsia-300',security:'text-emerald-300',design:'text-pink-300'}
 
-const HERO_IMAGE='https://images.unsplash.com/photo-1764588037085-a78240016f8b?auto=format&fit=crop&fm=jpg&ixlib=rb-4.1.0&q=78&w=1600'
-
-function HeroVisual({pathFor}){
- const cards=[
-  ['QR','Scan & create','qr-generator','/tool-art/qr-generator.svg'],
-  ['PDF','Merge files','pdf-merge','/tool-art/pdf-merge.svg'],
-  ['AI','Read documents','ocr','/tool-art/ocr.svg'],
- ]
- return <div className="home-tool-hero" aria-label="Animated AnyTool workspace">
-  <img className="home-tool-hero-photo" src={HERO_IMAGE} alt="AnyTool online calculators, passport photo and digital tools workspace" fetchPriority="high"/>
-  <div className="home-tool-hero-shade"/>
-  <div className="home-tool-orbit"/>
-  <div className="home-tool-screen">
-   <div className="home-tool-screen-top"><span/><span/><span/><b>AnyTool workspace</b></div>
-   <div className="home-tool-screen-grid">{cards.map(([tag,label,slug,image],i)=><Link key={slug} to={pathFor('/tools/'+slug)} className={'home-floating-tool home-floating-tool-'+(i+1)}><img src={image} alt=""/><div><small>{tag}</small><strong>{label}</strong></div><ArrowRight size={15}/></Link>)}</div>
-  </div>
-  <div className="home-tool-status"><span className="signal-dot"/>{tools.length} tools · browser-first</div>
-  <a className="home-photo-credit" href="https://unsplash.com/photos/modern-desk-with-computer-and-plants-6xzZ0DvTtK8" target="_blank" rel="noreferrer">Photo: Martin Katler / Unsplash</a>
+function HeroShowcase({pathFor,toolName,count}){
+ const picks=['take-home-pay','pdf-merge','qr-generator','taiwan-id-photo'].map(slug=>toolBySlug[slug]).filter(Boolean)
+ return <div className="home-showcase" aria-label="Popular tools">
+  {picks.map(tool=><Link key={tool.slug} to={pathFor('/tools/'+tool.slug)} className={'home-showcase-card category-'+tool.category}>
+   <img src={'/tool-art/'+tool.slug+'.svg'} alt="" width="104" height="65" loading={tool.slug==='take-home-pay'?'eager':'lazy'} decoding="async"/>
+   <div className="min-w-0"><small>{tool.category.toUpperCase()}</small><strong>{toolName(tool)}</strong></div>
+   <span className="arrow"><ArrowRight size={16}/></span>
+  </Link>)}
+  <div className="home-status"><span className="signal-dot"/>{count} tools · browser-first</div>
  </div>
 }
 
@@ -61,10 +53,10 @@ export default function Home(){
  useEffect(()=>{try{const ids=JSON.parse(localStorage.getItem('anytool_recent')||'[]');setRecent(ids.map(x=>toolBySlug[x]).filter(Boolean).slice(0,5))}catch{}},[])
  useEffect(()=>{const q=new URLSearchParams(location.search).get('q')||'';setQuery(q)},[location.search])
  const C={
-  en:{eyebrow:'Simple tools. Better results.',heroA:'Every tool you need.',heroB:'In one place.',body:'Free online tools for PDF, images, calculators, QR codes and productivity. Choose a tool and get started in seconds.',browse:'Find a tool',salaryCta:'Try salary',live:'Live tool',quick:'Take-home pay',salary:'Monthly salary (NT$)',dependents:'NHI dependents',net:'Estimated take-home',deduct:'Estimated deductions',open:'Open full calculator',verified:'Official-source checks',langs:'4 languages',private:'Browser-first',ticker:'Popular right now',all:'All',find:'Search tools…',recent:'Recent',toolsTitle:'Popular free online tools',viewAll:'View all tools',noMatch:'No matching tools.'},
-  'zh-TW':{eyebrow:'真正能完成工作的工具',heroA:'計算、轉換、',heroB:'掃描，完成。',body:'台灣計算器、證件照、PDF、QR 與 AI 工具，快速又專注。',browse:'找工具',salaryCta:'試算薪資',live:'即時工具',quick:'實領薪資',salary:'月薪（NT$）',dependents:'健保眷屬',net:'預估實領',deduct:'預估扣除',open:'開啟完整計算器',verified:'官方來源查核',langs:'4 種語言',private:'瀏覽器優先',ticker:'熱門工具',all:'全部',find:'搜尋工具…',recent:'最近使用',toolsTitle:'選一個工具就開始',viewAll:'查看全部工具',noMatch:'找不到相符工具。'},
-  ar:{eyebrow:'أدوات تنجز المهمة فعلاً',heroA:'احسب. حوّل.',heroB:'امسح. انتهى.',body:'حاسبات تايوان والصور وPDF وQR وأدوات AI — سريعة ومباشرة.',browse:'اعثر على أداة',salaryCta:'جرّب الراتب',live:'أداة مباشرة',quick:'صافي الراتب',salary:'الراتب الشهري (NT$)',dependents:'المعالون في NHI',net:'صافي الراتب التقديري',deduct:'الخصومات المقدرة',open:'افتح الحاسبة',verified:'مصادر رسمية',langs:'4 لغات',private:'المتصفح أولاً',ticker:'الأكثر استخداماً',all:'الكل',find:'ابحث عن أداة…',recent:'الأخيرة',toolsTitle:'اختر أداة وابدأ',viewAll:'عرض كل الأدوات',noMatch:'لا توجد أداة مطابقة.'},
-  ur:{eyebrow:'ٹولز جو واقعی کام کریں',heroA:'حساب کریں۔ تبدیل کریں۔',heroB:'اسکین کریں۔ مکمل۔',body:'تائیوان کیلکولیٹر، فوٹو، PDF، QR اور AI ٹولز — تیز اور سیدھے۔',browse:'ٹول تلاش کریں',salaryCta:'تنخواہ آزمائیں',live:'لائیو ٹول',quick:'نیٹ تنخواہ',salary:'ماہانہ تنخواہ (NT$)',dependents:'NHI زیرِ کفالت',net:'تخمینی نیٹ تنخواہ',deduct:'تخمینی کٹوتیاں',open:'مکمل کیلکولیٹر',verified:'سرکاری ذرائع',langs:'4 زبانیں',private:'براؤزر فرسٹ',ticker:'مقبول ٹولز',all:'سب',find:'ٹول تلاش کریں…',recent:'حالیہ',toolsTitle:'ٹول منتخب کریں اور شروع کریں',viewAll:'تمام ٹولز دیکھیں',noMatch:'کوئی ٹول نہیں ملا۔'}
+  en:{try:'Try “passport”, “PDF” or “salary”',eyebrow:'Simple tools. Better results.',heroA:'Every tool you need.',heroB:'In one place.',body:'Free online tools for PDF, images, calculators, QR codes and productivity. Choose a tool and get started in seconds.',browse:'Find a tool',salaryCta:'Try salary',live:'Live tool',quick:'Take-home pay',salary:'Monthly salary (NT$)',dependents:'NHI dependents',net:'Estimated take-home',deduct:'Estimated deductions',open:'Open full calculator',verified:'Official-source checks',langs:'4 languages',private:'Browser-first',ticker:'Popular right now',all:'All',find:'Search tools…',recent:'Recent',toolsTitle:'Popular free online tools',viewAll:'View all tools',noMatch:'No matching tools.'},
+  'zh-TW':{try:'試試「護照」、「PDF」或「薪資」',eyebrow:'真正能完成工作的工具',heroA:'計算、轉換、',heroB:'掃描，完成。',body:'台灣計算器、證件照、PDF、QR 與 AI 工具，快速又專注。',browse:'找工具',salaryCta:'試算薪資',live:'即時工具',quick:'實領薪資',salary:'月薪（NT$）',dependents:'健保眷屬',net:'預估實領',deduct:'預估扣除',open:'開啟完整計算器',verified:'官方來源查核',langs:'4 種語言',private:'瀏覽器優先',ticker:'熱門工具',all:'全部',find:'搜尋工具…',recent:'最近使用',toolsTitle:'選一個工具就開始',viewAll:'查看全部工具',noMatch:'找不到相符工具。'},
+  ar:{try:'جرّب «جواز» أو «PDF» أو «راتب»',eyebrow:'أدوات تنجز المهمة فعلاً',heroA:'احسب. حوّل.',heroB:'امسح. انتهى.',body:'حاسبات تايوان والصور وPDF وQR وأدوات AI — سريعة ومباشرة.',browse:'اعثر على أداة',salaryCta:'جرّب الراتب',live:'أداة مباشرة',quick:'صافي الراتب',salary:'الراتب الشهري (NT$)',dependents:'المعالون في NHI',net:'صافي الراتب التقديري',deduct:'الخصومات المقدرة',open:'افتح الحاسبة',verified:'مصادر رسمية',langs:'4 لغات',private:'المتصفح أولاً',ticker:'الأكثر استخداماً',all:'الكل',find:'ابحث عن أداة…',recent:'الأخيرة',toolsTitle:'اختر أداة وابدأ',viewAll:'عرض كل الأدوات',noMatch:'لا توجد أداة مطابقة.'},
+  ur:{try:'آزمائیں: «پاسپورٹ»، «PDF» یا «تنخواہ»',eyebrow:'ٹولز جو واقعی کام کریں',heroA:'حساب کریں۔ تبدیل کریں۔',heroB:'اسکین کریں۔ مکمل۔',body:'تائیوان کیلکولیٹر، فوٹو، PDF، QR اور AI ٹولز — تیز اور سیدھے۔',browse:'ٹول تلاش کریں',salaryCta:'تنخواہ آزمائیں',live:'لائیو ٹول',quick:'نیٹ تنخواہ',salary:'ماہانہ تنخواہ (NT$)',dependents:'NHI زیرِ کفالت',net:'تخمینی نیٹ تنخواہ',deduct:'تخمینی کٹوتیاں',open:'مکمل کیلکولیٹر',verified:'سرکاری ذرائع',langs:'4 زبانیں',private:'براؤزر فرسٹ',ticker:'مقبول ٹولز',all:'سب',find:'ٹول تلاش کریں…',recent:'حالیہ',toolsTitle:'ٹول منتخب کریں اور شروع کریں',viewAll:'تمام ٹولز دیکھیں',noMatch:'کوئی ٹول نہیں ملا۔'}
  }[lang]
  const seo={
   en:{title:'Free Online Tools: PDF, Images, Calculators & QR | AnyTool',description:'Free 2026 Taiwan salary, tax, insurance, overtime and elderly-care tools plus passport/ARC photo, PDF, QR and OCR utilities.'},
@@ -73,32 +65,7 @@ export default function Home(){
   ur:{title:'تائیوان کیلکولیٹر 2026، پاسپورٹ/ARC فوٹو اور مفت ٹولز | AnyTool',description:'مفت تائیوان تنخواہ، ٹیکس، انشورنس، بزرگ نگہداشت، پاسپورٹ/ARC فوٹو، PDF، QR اور OCR ٹولز۔'}
  }[lang]
  const filtered=useMemo(()=>tools.filter(tool=>(filter==='all'||tool.category===filter)&&(!query.trim()||(toolName(tool)+' '+toolDescription(tool)).toLowerCase().includes(query.toLowerCase()))),[filter,query,lang,toolName,toolDescription])
- const faqByLang={
-  en:[
-   ['What can I do with AnyTool?','AnyTool offers online calculators, PDF merging and splitting, image resizing and compression, QR code generation, OCR and productivity utilities. Choose a tool to see its supported features.'],
-   ['Can I merge or split PDFs for free?','Yes. Open Merge PDF to combine PDF files, or Split PDF to extract selected pages. These tools work locally in your browser.'],
-   ['Does every tool process files privately?','No. Many utilities process data directly in your browser, while AI-assisted tools may send input to a configured service. Check each tool page before sharing sensitive information.'],
-   ['Do I need to install software?','Most tools work directly in a modern web browser without installing a desktop application.']
-  ],
-  'zh-TW':[
-   ['AnyTool 提供哪些工具？','AnyTool 提供計算器、PDF 合併與分割、圖片調整與壓縮、QR Code、OCR 及生產力工具。'],
-   ['可以免費合併或分割 PDF 嗎？','可以。PDF 合併與分割工具可以直接在瀏覽器本機處理檔案。'],
-   ['所有工具都在本機處理資料嗎？','不是。許多工具在瀏覽器本機運作，但 AI 工具可能將資料傳送至設定的服務。請先確認工具說明。'],
-   ['需要安裝軟體嗎？','多數工具可以在現代瀏覽器直接使用，不需要安裝桌面程式。']
-  ],
-  ar:[
-   ['ما الأدوات التي يقدمها AnyTool؟','يوفر AnyTool حاسبات وأدوات لدمج ملفات PDF وتقسيمها والصور ورموز QR واستخراج النصوص.'],
-   ['هل يمكن دمج PDF وتقسيمه مجاناً؟','نعم، تعمل أداتا دمج PDF وتقسيم PDF محلياً داخل المتصفح.'],
-   ['هل تعالج جميع الأدوات البيانات محلياً؟','لا. تعمل أدوات كثيرة داخل المتصفح، لكن أدوات الذكاء الاصطناعي قد ترسل البيانات إلى خدمة خارجية.'],
-   ['هل أحتاج إلى تثبيت برنامج؟','تعمل معظم الأدوات مباشرة في متصفح حديث دون تثبيت برامج.']
-  ],
-  ur:[
-   ['AnyTool پر کون سے ٹولز دستیاب ہیں؟','AnyTool میں کیلکولیٹر، PDF ضم اور تقسیم کرنے، تصاویر، QR کوڈ اور OCR کے ٹولز موجود ہیں۔'],
-   ['کیا PDF مفت میں ضم یا تقسیم ہو سکتی ہے؟','جی ہاں، یہ دونوں PDF ٹولز براہ راست براؤزر میں کام کرتے ہیں۔'],
-   ['کیا تمام ٹولز ڈیٹا مقامی طور پر پراسیس کرتے ہیں؟','نہیں۔ کئی ٹولز براؤزر میں کام کرتے ہیں مگر AI ٹولز ڈیٹا بیرونی سروس کو بھیج سکتے ہیں۔'],
-   ['کیا سافٹ ویئر انسٹال کرنا پڑتا ہے؟','زیادہ تر ٹولز جدید ویب براؤزر میں بغیر انسٹالیشن چلتے ہیں۔']
-  ]
- }[lang]||[]
+ const faqByLang=faqFor(lang)
  const ticker=[...tools.slice(0,10),...tools.slice(0,10)]
  const homeTools=filtered.slice(0,12)
  return <>
@@ -109,43 +76,47 @@ export default function Home(){
     {'@context':'https://schema.org','@type':'ItemList',name:C.toolsTitle,itemListElement:tools.map((tool,i)=>({'@type':'ListItem',position:i+1,name:toolName(tool),url:'https://anytool.online'+pathFor('/tools/'+tool.slug),image:'https://anytool.online/tool-art/'+tool.slug+'.svg'}))}
   ]}/>
 
-  <div className="anytool-light-home"><section className="relative overflow-hidden pb-8 pt-12 sm:pt-18">
-   <div className="hero-grid"/><div className="hero-glow left-[42%] top-8"/>
-   <div className="relative mx-auto grid max-w-[100rem] gap-8 px-4 lg:grid-cols-[1.08fr_.92fr] lg:items-center">
+  <div className="anytool-light-home"><section className="home-hero">
+   <div className="home-hero-inner">
     <div className="reveal">
-      <div className="inline-flex items-center gap-2 rounded-full border border-lime-300/15 bg-lime-300/[0.045] px-3 py-1.5 text-xs font-black text-lime-300"><Sparkles size={14}/>{C.eyebrow}</div>
-      <h1 className="mt-5 max-w-4xl text-5xl font-black leading-[.96] tracking-[-.05em] sm:text-7xl"><span className="text-white">{C.heroA}</span><br/><span className="gradient-text">{C.heroB}</span></h1>
-      <p className="mt-5 max-w-xl text-base leading-7 text-slate-400 sm:text-lg">{C.body}</p>
-      <div className="mt-7 flex flex-wrap gap-3"><a href="#tools" className="btn-primary">{C.browse}<ArrowRight className="ms-2" size={16}/></a><Link to={pathFor('/tools/take-home-pay')} className="btn-ghost"><WalletCards className="me-2 text-lime-300" size={16}/>{C.salaryCta}</Link></div>
-      <div className="mt-7 proof-strip max-w-2xl">
-        <div className="proof-item"><BadgeCheck size={15} className="text-lime-300"/>{C.verified}</div>
-        <div className="proof-item"><Languages size={15} className="text-sky-300"/>{C.langs}</div>
-        <div className="proof-item"><ShieldCheck size={15} className="text-lime-300"/>{C.private}</div>
-      </div>
+      <div className="home-eyebrow"><Sparkles size={14}/>{C.eyebrow}</div>
+      <h1 className="home-title">{C.heroA}<br/><span className="gradient-text">{C.heroB}</span></h1>
+      <p className="home-lead">{C.body}</p>
+      <form className="home-search" role="search" onSubmit={e=>{e.preventDefault();document.getElementById('tools')?.scrollIntoView({behavior:'smooth'})}}>
+        <Search size={18} aria-hidden="true"/>
+        <input type="search" aria-label={C.browse} value={query} onChange={e=>setQuery(e.target.value)} placeholder={C.try} enterKeyHint="search"/>
+        <button type="submit" className="btn-primary"><span>{C.browse}</span><ArrowRight size={16}/></button>
+      </form>
+      <div className="home-actions"><Link to={pathFor('/tools/take-home-pay')} className="btn-ghost"><WalletCards size={16}/>{C.salaryCta}</Link></div>
+      <ul className="proof-strip" aria-label="Highlights">
+        <li className="proof-item"><BadgeCheck size={15}/>{C.verified}</li>
+        <li className="proof-item"><Languages size={15}/>{C.langs}</li>
+        <li className="proof-item"><ShieldCheck size={15}/>{C.private}</li>
+      </ul>
     </div>
-    <div className="reveal reveal-delay-1 lg:ps-5"><HeroVisual pathFor={pathFor}/></div>
+    <div className="reveal reveal-delay-1"><HeroShowcase pathFor={pathFor} toolName={toolName} count={tools.length}/></div>
    </div>
   </section>
 
-  <section className="mx-auto max-w-[100rem] px-4 pb-4 pt-2">
+  <section className="mx-auto max-w-[80rem] px-4 pb-4 pt-2">
    <div className="home-live-demo"><div><span className="home-live-kicker"><Zap size={14}/>Interactive preview</span><h2>{C.quick}</h2><p>{C.body}</p></div><QuickSalary copy={C} pathFor={pathFor}/></div>
   </section>
 
-  {recent.length>0&&<section className="mx-auto max-w-[100rem] px-4 py-7">
+  {recent.length>0&&<section className="mx-auto max-w-[80rem] px-4 py-7">
     <div className="mb-3 text-xs font-black uppercase tracking-[.16em] text-slate-500">{C.recent}</div>
-    <div className="scrollbar-none flex gap-3 overflow-x-auto pb-2">{recent.map(tool=>{const I=categoryIcon[tool.category]||Sparkles;return <Link key={tool.slug} to={pathFor('/tools/'+tool.slug)} className={'tool-card category-'+tool.category+' min-w-[220px] rounded-2xl border border-white/[0.08] bg-[#0d1520] p-4'}><div className="flex items-center gap-3"><span className="tool-icon"><I size={16}/></span><span className="font-bold leading-snug">{toolName(tool)}</span></div></Link>})}</div>
+    <div className="scrollbar-none flex gap-3 overflow-x-auto pb-2">{recent.map(tool=>{const I=categoryIcon[tool.category]||Sparkles;return <Link key={tool.slug} to={pathFor('/tools/'+tool.slug)} className={'tool-card category-'+tool.category+' min-w-[220px] p-4'}><div className="flex items-center gap-3"><span className="tool-icon"><I size={16}/></span><span className="font-bold leading-snug">{toolName(tool)}</span></div></Link>})}</div>
   </section>}
 
-  <section id="tools" className="mx-auto max-w-[100rem] px-4 py-10">
-   <div className="mb-6 flex flex-col gap-4 lg:flex-row lg:items-end lg:justify-between">
-    <div><div className="flex items-center gap-2 text-xs font-black uppercase tracking-[.16em] text-lime-300"><ScanLine size={13}/>{tools.length} tools</div><h2 className="mt-2 text-3xl font-black tracking-tight sm:text-4xl">{C.toolsTitle}</h2><Link className="mt-2 inline-flex items-center gap-1 text-sm font-bold text-lime-300 hover:text-lime-200" to={pathFor('/tools')}>{C.viewAll}<ArrowRight size={14}/></Link></div>
+  <section id="tools" className="mx-auto max-w-[80rem] px-4 py-10">
+   <div className="section-head">
+    <div><div className="section-kicker"><ScanLine size={13}/>{tools.length} tools</div><h2 className="section-title">{C.toolsTitle}</h2><Link className="mt-2 inline-flex items-center gap-1 text-sm font-bold text-[var(--accent-text)] hover:underline" to={pathFor('/tools')}>{C.viewAll}<ArrowRight size={14}/></Link></div>
     <label className="relative block w-full lg:max-w-sm"><span className="sr-only">{C.find}</span><Search className="absolute start-4 top-3.5 text-slate-500" size={16}/><input aria-label={C.find} className="input ps-11" value={query} onChange={e=>setQuery(e.target.value)} placeholder={C.find}/></label>
    </div>
-   <div className="flex flex-wrap gap-2 pb-4"><button onClick={()=>setFilter('all')} className={filter==='all'?'btn-primary whitespace-nowrap':'btn-ghost whitespace-nowrap'}>{C.all}</button>{categories.map(c=>{const I=categoryIcon[c.id]||Sparkles;return <button key={c.id} onClick={()=>setFilter(c.id)} className={filter===c.id?'btn-primary whitespace-nowrap':'btn-ghost whitespace-nowrap'}><I className="me-2" size={14}/>{t('categories.'+c.id)}</button>})}</div>
-   <div className="mt-3 grid gap-3 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">{homeTools.map(tool=>{const I=categoryIcon[tool.category]||Sparkles;return <Link to={pathFor('/tools/'+tool.slug)} key={tool.slug} className={'card tool-card tool-card-visual category-'+tool.category+' group overflow-hidden'}><ToolArt tool={tool} name={toolName(tool)}/><div className="p-4"><div className="flex items-start gap-3"><span className="tool-icon shrink-0"><I className={categoryAccent[tool.category]} size={16}/></span><div className="min-w-0 flex-1"><h3 className="font-black leading-snug tracking-tight group-hover:text-lime-200">{toolName(tool)}</h3><p className="mt-2 text-xs leading-5 text-slate-400">{toolDescription(tool)}</p></div><ArrowRight className="shrink-0 text-slate-700 transition group-hover:translate-x-1 group-hover:text-lime-300" size={15}/></div></div></Link>})}</div>
+   <div className="chip-row pb-4"><button onClick={()=>setFilter('all')} className={filter==='all'?'btn-primary whitespace-nowrap':'btn-ghost whitespace-nowrap'}>{C.all}</button>{categories.map(c=>{const I=categoryIcon[c.id]||Sparkles;return <button key={c.id} onClick={()=>setFilter(c.id)} className={filter===c.id?'btn-primary whitespace-nowrap':'btn-ghost whitespace-nowrap'}><I className="me-2" size={14}/>{t('categories.'+c.id)}</button>})}</div>
+   <div className="mt-3 grid gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">{homeTools.map(tool=>{const I=categoryIcon[tool.category]||Sparkles;return <Link to={pathFor('/tools/'+tool.slug)} key={tool.slug} className={'card tool-card tool-card-visual category-'+tool.category+' group overflow-hidden'}><ToolArt tool={tool} name={toolName(tool)}/><div className="p-4"><div className="flex items-start gap-3"><span className="tool-icon shrink-0"><I className={categoryAccent[tool.category]} size={16}/></span><div className="min-w-0 flex-1"><h3 className="font-black leading-snug tracking-tight ">{toolName(tool)}</h3><p className="mt-2 text-xs leading-5 text-slate-400">{toolDescription(tool)}</p></div><ArrowRight className="shrink-0 text-slate-500 transition group-hover:translate-x-1" size={15}/></div></div></Link>})}</div>
    {filtered.length>12&&<div className="mt-6 text-center"><Link className="btn-ghost" to={pathFor('/tools')}>{C.viewAll} ({filtered.length})<ArrowRight className="ms-2" size={15}/></Link></div>}
    {filtered.length===0&&<div className="card mt-4 p-10 text-center text-slate-500">{C.noMatch}</div>}
   </section>
-  <section className="mx-auto max-w-[100rem] px-4 pb-16" aria-label="Frequently asked questions"><h2 className="mb-5 text-2xl font-black tracking-tight sm:text-3xl">{lang==='zh-TW'?'常見問題':lang==='ar'?'الأسئلة الشائعة':lang==='ur'?'اکثر پوچھے گئے سوالات':'Frequently asked questions'}</h2><div className="grid gap-3 md:grid-cols-2">{faqByLang.map(([question,answer])=><article key={question} className="rounded-2xl border border-[#e0e4eb] bg-white p-5"><h3 className="font-bold text-[#273041]">{question}</h3><p className="mt-2 text-sm leading-6 text-[#5b6878]">{answer}</p></article>)}</div></section></div>
+  <section className="mx-auto max-w-[80rem] px-4 pb-16" aria-label="Frequently asked questions"><h2 className="section-title mb-5">{lang==='zh-TW'?'常見問題':lang==='ar'?'الأسئلة الشائعة':lang==='ur'?'اکثر پوچھے گئے سوالات':'Frequently asked questions'}</h2><div className="home-faq md:grid-cols-2">{faqByLang.map(([question,answer],i)=><details key={question} className="compact-details" style={{marginTop:0}} open={i===0}><summary><h3 className="text-base font-bold">{question}</h3></summary><p className="px-4 pb-4 text-sm leading-6 text-slate-500">{answer}</p></details>)}</div></section></div>
  </>
 }

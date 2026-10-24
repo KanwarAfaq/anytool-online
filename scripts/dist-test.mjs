@@ -59,6 +59,13 @@ for(const privatePath of ['/auth','/dashboard','/profile','/zh-tw/auth','/ar/aut
 }
 for(const tool of tools) assert.ok(homeHtml.includes('/tools/'+tool.slug),'homepage prerender missing internal link '+tool.slug)
 assert.equal((sitemap.match(/<url>/g)||[]).length,expectedUrls,'unexpected sitemap URL count')
+// Social cards: one raster 1200x630 image on every page, FAQPage schema on every localized home page.
+await access(resolve(root,'dist/og-default.png'))
+for(const bot of ['OAI-SearchBot','ChatGPT-User','Claude-SearchBot','PerplexityBot']) assert.ok(robots.includes('User-agent: '+bot),'robots should explicitly allow '+bot)
+for(const loc of locales){
+ const home=await readFile(loc?resolve(root,'dist',loc,'index.html'):resolve(root,'dist/index.html'),'utf8')
+ assert.ok(/"@type":"FAQPage"/.test(home),'FAQPage schema missing on home '+(loc||'en'))
+}
 
 for(const loc of locales){
  for(const page of staticPages){
@@ -69,6 +76,8 @@ for(const loc of locales){
   const url=parts.length?'https://anytool.online/'+parts.join('/'):'https://anytool.online/'
   assert.ok(html.includes('<link rel="canonical" href="'+url+'"'),'exact canonical missing '+url)
   assert.ok(html.includes('hreflang="x-default"'),'x-default hreflang missing '+url)
+  assert.ok(html.includes('<meta property="og:image" content="https://anytool.online/og-default.png"'),'raster og:image missing '+url)
+  assert.ok(!html.includes('background:#07111f'),'prerender fallback must not paint a dark background before hydration '+url)
   assert.ok(html.includes('<h1'),'H1 missing '+url)
   assert.ok(html.includes('<h2'),'keyword H2 missing '+url)
   assert.ok(html.includes('<p'),'introductory paragraph missing '+url)
