@@ -4,6 +4,7 @@ import { useEffect, useMemo, useRef, useState } from 'react'
 import { tools } from '../data/tools'
 import SiteSidebar from './SiteSidebar'
 import { useI18n } from '../i18n'
+import { refsForPath } from '../data/externalRefs'
 
 export default function Layout({children}){
  const {lang,setLang,languages,t,toolName,toolDescription,pathFor}=useI18n()
@@ -17,13 +18,13 @@ export default function Layout({children}){
  useEffect(()=>{document.documentElement.dataset.theme=theme;document.documentElement.style.colorScheme=theme;document.querySelector('meta[name="theme-color"]')?.setAttribute('content',theme==='dark'?'#0b0d13':'#f6f7fb')},[theme])
  const chooseTheme=next=>{setTheme(next);try{localStorage.setItem('anytool-theme',next)}catch{}}
  const cleanPath=location.pathname.replace(/^\/(zh-tw|ar|ur)(?=\/|$)/,'')||'/'
- const showSidebar=!/^\/(auth|dashboard|profile)(?:\/|$)/.test(cleanPath)
+ const showSidebar=cleanPath!=='/'&&!/^\/(auth|dashboard|profile)(?:\/|$)/.test(cleanPath)
  const inputRef=useRef(null)
  const N={
-  en:{tools:'Tools',sources:'Sources',contact:'Contact',verified:'2026 Taiwan data verified',search:'Search tools',menu:'Menu',close:'Close',account:'Account',privacy:'Privacy',about:'About',method:'Methodology',terms:'Terms',accessibility:'Accessibility',footer:'Fast tools. Clear results. Less clutter.',need:'Need a tool?',send:'Tell us →'},
-  'zh-TW':{tools:'工具',sources:'來源',contact:'聯絡',verified:'2026 台灣資料已查核',search:'搜尋工具',menu:'選單',close:'關閉',account:'帳戶',privacy:'隱私權',about:'關於',method:'方法',terms:'使用條款',accessibility:'無障礙',footer:'快速工具、清楚結果、少一點干擾。',need:'需要其他工具？',send:'告訴我們 →'},
-  ar:{tools:'الأدوات',sources:'المصادر',contact:'اتصل',verified:'تم التحقق من بيانات تايوان 2026',search:'ابحث عن أداة',menu:'القائمة',close:'إغلاق',account:'الحساب',privacy:'الخصوصية',about:'حول',method:'المنهجية',terms:'الشروط',accessibility:'إمكانية الوصول',footer:'أدوات سريعة. نتائج واضحة. فوضى أقل.',need:'تحتاج أداة؟',send:'أخبرنا ←'},
-  ur:{tools:'ٹولز',sources:'ذرائع',contact:'رابطہ',verified:'2026 تائیوان ڈیٹا تصدیق شدہ',search:'ٹول تلاش کریں',menu:'مینو',close:'بند کریں',account:'اکاؤنٹ',privacy:'پرائیویسی',about:'تعارف',method:'طریقۂ کار',terms:'شرائط',accessibility:'رسائی',footer:'تیز ٹولز۔ واضح نتائج۔ کم شور۔',need:'کوئی ٹول چاہیے؟',send:'ہمیں بتائیں ←'}
+  en:{tools:'Tools',sources:'Sources',contact:'Contact',verified:'2026 Taiwan data verified',search:'Search tools',menu:'Menu',close:'Close',account:'Account',privacy:'Privacy',about:'About',method:'Methodology',terms:'Terms',accessibility:'Accessibility',footer:'Free online tools that run in your browser.',further:'Further reading',need:'Need a tool?',send:'Tell us →'},
+  'zh-TW':{tools:'工具',sources:'來源',contact:'聯絡',verified:'2026 台灣資料已查核',search:'搜尋工具',menu:'選單',close:'關閉',account:'帳戶',privacy:'隱私權',about:'關於',method:'方法',terms:'使用條款',accessibility:'無障礙',footer:'在瀏覽器中運作的免費線上工具。',further:'延伸閱讀',need:'需要其他工具？',send:'告訴我們 →'},
+  ar:{tools:'الأدوات',sources:'المصادر',contact:'اتصل',verified:'تم التحقق من بيانات تايوان 2026',search:'ابحث عن أداة',menu:'القائمة',close:'إغلاق',account:'الحساب',privacy:'الخصوصية',about:'حول',method:'المنهجية',terms:'الشروط',accessibility:'إمكانية الوصول',footer:'أدوات مجانية تعمل داخل المتصفح.',further:'قراءات إضافية',need:'تحتاج أداة؟',send:'أخبرنا ←'},
+  ur:{tools:'ٹولز',sources:'ذرائع',contact:'رابطہ',verified:'2026 تائیوان ڈیٹا تصدیق شدہ',search:'ٹول تلاش کریں',menu:'مینو',close:'بند کریں',account:'اکاؤنٹ',privacy:'پرائیویسی',about:'تعارف',method:'طریقۂ کار',terms:'شرائط',accessibility:'رسائی',footer:'براؤزر میں چلنے والے مفت ٹولز۔',further:'مزید مطالعہ',need:'کوئی ٹول چاہیے؟',send:'ہمیں بتائیں ←'}
  }[lang]
  const hits=useMemo(()=>q.trim()?tools.filter(tool=>(toolName(tool)+' '+toolDescription(tool)).toLowerCase().includes(q.toLowerCase())).slice(0,10):tools.slice(0,8),[q,lang,toolName,toolDescription])
  useEffect(()=>{const onKey=e=>{if((e.metaKey||e.ctrlKey)&&e.key.toLowerCase()==='k'){e.preventDefault();setPalette(v=>!v)}if(e.key==='Escape'){setPalette(false);setMobile(false)}};window.addEventListener('keydown',onKey);return()=>window.removeEventListener('keydown',onKey)},[])
@@ -92,13 +93,14 @@ export default function Layout({children}){
   </div>
 
   <footer className="site-footer">
-   <div className="mx-auto max-w-[100rem] px-4 py-10">
-    <div className="grid gap-8 md:grid-cols-[1.4fr_.8fr_.8fr]">
-      <div><div className="flex items-center gap-2 font-black"><span className="grid size-8 place-items-center overflow-hidden rounded-lg"><img src="/favicon-192.png" alt="" className="size-full object-cover"/></span>AnyTool</div><p className="mt-3 max-w-md text-sm text-slate-500">{N.footer}</p><Link to={pathFor('/contact')} className="mt-4 inline-flex items-center text-sm font-bold text-[var(--accent-text)]"><Mail className="me-2" size={14}/>{N.need} {N.send}</Link></div>
-      <div><h2>{N.tools}</h2><div className="mt-3 grid gap-2 text-sm"><Link  to={pathFor('/tools')}>{N.tools}</Link><Link  to={pathFor('/sources')}>{N.sources}</Link><Link  to={pathFor('/methodology')}>{N.method}</Link></div></div>
-      <div><h2>AnyTool</h2><div className="mt-3 grid gap-2 text-sm"><Link  to={pathFor('/about')}>{N.about}</Link><Link  to={pathFor('/privacy')}>{N.privacy}</Link><Link  to={pathFor('/terms')}>{N.terms}</Link><Link  to={pathFor('/accessibility')}>{N.accessibility}</Link><Link  to={pathFor('/contact')}>{N.contact}</Link></div></div>
+   <div className="mx-auto max-w-[72rem] px-4 py-12">
+    <div className="grid gap-10 md:grid-cols-[1.3fr_.8fr_.8fr_1.1fr]">
+      <div><div className="footer-brand"><span className="grid size-9 place-items-center overflow-hidden rounded-full"><img src="/favicon-192.png" alt="" width="36" height="36" className="size-full object-cover"/></span>AnyTool</div><p className="mt-3 max-w-xs text-sm">{N.footer}</p></div>
+      <div><h2>{N.tools}</h2><div className="footer-links"><Link to={pathFor('/tools')}>{N.tools}</Link><Link to={pathFor('/sources')}>{N.sources}</Link><Link to={pathFor('/methodology')}>{N.method}</Link></div></div>
+      <div><h2>AnyTool</h2><div className="footer-links"><Link to={pathFor('/about')}>{N.about}</Link><Link to={pathFor('/privacy')}>{N.privacy}</Link><Link to={pathFor('/terms')}>{N.terms}</Link><Link to={pathFor('/accessibility')}>{N.accessibility}</Link><Link to={pathFor('/contact')}>{N.contact}</Link></div></div>
+      <div><h2>{N.further}</h2><div className="footer-links">{refsForPath(cleanPath).map(r=><a key={r.url} href={r.url} target="_blank" rel="noopener noreferrer">{r.label} ↗</a>)}</div></div>
     </div>
-    <div className="mt-8 border-t border-[var(--line)] pt-5 text-xs text-slate-500">© {new Date().getFullYear()} AnyTool.online</div>
+    <div className="footer-bottom">© {new Date().getFullYear()} AnyTool.online</div>
    </div>
   </footer>
  </div>

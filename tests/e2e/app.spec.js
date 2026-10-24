@@ -5,7 +5,7 @@ import QRCode from 'qrcode'
 
 test('home and four languages including RTL', async ({ page }) => {
   await page.goto('/')
-  await expect(page.getByRole('heading', { level: 1 })).toContainText('Every tool you need.')
+  await expect(page.getByRole('heading', { level: 1 })).toContainText('Free online tools')
   const language=page.getByLabel('Language')
 
   await language.selectOption('zh-TW')
@@ -228,7 +228,7 @@ test('modern quick calculator command palette filters and recent tools work', as
   await page.keyboard.press('Escape')
 
   await page.getByPlaceholder('Search tools…').fill('QR Code')
-  await expect(page.getByRole('heading',{name:'QR Code Generator'})).toBeVisible()
+  await expect(page.locator('#tools').getByRole('heading',{name:'QR Code Generator'})).toBeVisible()
 
   await page.goto('/tools/loan-payment')
   await expect(page.getByRole('heading',{level:1,name:'Loan Payment Calculator'})).toBeVisible()
@@ -254,8 +254,8 @@ test('tool directory paginates instead of rendering all tools at once', async ({
 
   await page.goto('/')
   await expect(page.locator('#tools a[href^="/tools/"]')).toHaveCount(12)
-  await expect(page.locator('.home-showcase')).toBeVisible()
-  await expect(page.locator('.home-showcase a[href^="/tools/"]')).toHaveCount(4)
+  await expect(page.locator('.bento')).toBeVisible()
+  await expect(page.locator('.bento a[href^="/tools/"]')).toHaveCount(5)
 })
 
 test('numeric inputs can be cleared and retyped without leading zero', async ({ page }) => {
@@ -326,7 +326,7 @@ test('command palette supports keyboard selection', async ({ page }) => {
 test('homepage search query parameter drives the visible catalog', async ({ page }) => {
   await page.goto('/?q=passport')
   await expect(page.getByPlaceholder('Search tools…')).toHaveValue('passport')
-  await expect(page.getByRole('heading',{name:'Taiwan Passport / ARC Photo Maker'})).toBeVisible()
+  await expect(page.locator('#tools').getByRole('heading',{name:'Taiwan Passport / ARC Photo Maker'})).toBeVisible()
   await expect(page.locator('#tools a[href="/tools/take-home-pay"]')).toHaveCount(0)
 })
 
@@ -598,7 +598,8 @@ test('simple calculator performs arithmetic percent sign and keyboard input', as
 test('desktop sidebar stays usable and calculator fits the viewport', async ({ page }) => {
   await page.setViewportSize({width:1440,height:900})
   await page.goto('/')
-  await expect(page.getByRole('complementary',{name:'Explore AnyTool'})).toBeVisible()
+  await expect(page.getByRole('complementary',{name:'Explore AnyTool'})).toHaveCount(0) // the home page is sidebar-free
+  await page.goto('/tools')
   await expect(page.getByRole('complementary',{name:'Explore AnyTool'}).getByRole('link',{name:'All tools'})).toBeVisible()
 
   await page.goto('/tools/simple-calculator')

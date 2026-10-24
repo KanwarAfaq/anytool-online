@@ -2,6 +2,7 @@ import { useEffect, useMemo, useState } from 'react'
 import { useParams, Link } from 'react-router-dom'
 import { Heart, Download, Copy, ArrowLeft, ArrowRight, Share2, ShieldCheck, Zap, CalendarClock } from 'lucide-react'
 import { toolBySlug, tools } from '../data/tools'
+import { toolRefs } from '../data/externalRefs'
 import Seo from '../components/Seo'
 import { takeHome, laborInsurance, nhi, salaryTax, overtime, employerCost, money } from '../lib/calculators'
 import { supabase, logToolEvent, saveFavorite } from '../lib/supabase'
@@ -307,8 +308,8 @@ export default function ToolPage(){
  const shareTool=async()=>{try{if(navigator.share)await navigator.share({title:toolName(tool),text:toolDescription(tool),url:toolUrl});else{await navigator.clipboard.writeText(toolUrl);alert('Link copied')}}catch{}}
  const sourceUrls=(toolSourceKeys[slug]||[]).map(k=>officialSources[k]?.url).filter(Boolean)
  const schemas=[
-  {'@context':'https://schema.org','@type':'WebPage',name:seoTitle,description:seoDescription,url:toolUrl,inLanguage:lang,dateModified:updated,primaryImageOfPage:imageUrl,citation:sourceUrls,isPartOf:{'@type':'WebSite',name:'AnyTool.online',url:'https://anytool.online/'}},
-  {'@context':'https://schema.org','@type':'SoftwareApplication',name:toolName(tool),description:seoDescription,image:imageUrl,applicationCategory:'UtilitiesApplication',operatingSystem:'Web',url:toolUrl,isAccessibleForFree:true,citation:sourceUrls,publisher:{'@type':'Organization',name:'AnyTool.online',url:'https://anytool.online/',sameAs:['https://github.com/KanwarAfaq/anytool-online']},offers:{'@type':'Offer',price:'0',priceCurrency:'USD'}},
+  {'@context':'https://schema.org','@type':'WebPage',name:seoTitle,description:seoDescription,url:toolUrl,inLanguage:lang,dateModified:updated,primaryImageOfPage:imageUrl,...(sourceUrls.length?{citation:sourceUrls}:{}),isPartOf:{'@type':'WebSite',name:'AnyTool.online',url:'https://anytool.online/'}},
+  {'@context':'https://schema.org','@type':'SoftwareApplication',name:toolName(tool),description:seoDescription,image:imageUrl,applicationCategory:'UtilitiesApplication',operatingSystem:'Web',url:toolUrl,isAccessibleForFree:true,...(sourceUrls.length?{citation:sourceUrls}:{}),publisher:{'@type':'Organization',name:'AnyTool.online',url:'https://anytool.online/',sameAs:['https://github.com/KanwarAfaq/anytool-online']},offers:{'@type':'Offer',price:'0',priceCurrency:'USD'}},
   {'@context':'https://schema.org','@type':'BreadcrumbList',itemListElement:[{'@type':'ListItem',position:1,name:'AnyTool',item:'https://anytool.online/'},{'@type':'ListItem',position:2,name:categoryName,item:categoryUrl},{'@type':'ListItem',position:3,name:toolName(tool),item:toolUrl}]}
  ]
  return <section className="tool-page-wide mx-auto w-full px-4 py-6">
@@ -317,21 +318,20 @@ export default function ToolPage(){
   <ToolPager slug={slug}/>
   <header className={'tool-focus-header category-'+tool.category}>
    <div className="min-w-0"><div className="tool-focus-kicker">{categoryName}</div><h1>{toolName(tool)}</h1><p>{toolName(tool)} — {toolDescription(tool)}</p>
-    <div className="tool-trust-row">{isBrowserLocal&&<><span className="tool-trust-chip"><Zap size={13}/>{trustCopy.local}</span><span className="tool-trust-chip"><ShieldCheck size={13}/>{trustCopy.private}</span></>}<span className="tool-trust-chip">{trustCopy.free}</span>{isNew&&<span className="tool-trust-chip tool-trust-new">{trustCopy.new}</span>}</div>
+    <div className="tool-trust-row">{isBrowserLocal&&<><span className="tool-trust-chip"><Zap size={13}/>{trustCopy.local}</span><span className="tool-trust-chip"><ShieldCheck size={13}/>{trustCopy.private}</span></>}{isNew&&<span className="tool-trust-chip tool-trust-new">{trustCopy.new}</span>}</div>
     <div className="tool-review-row">{sourceKeys.length>0&&<span className="tool-reviewed">{reviewedLabel}: <time dateTime={reviewed}>{reviewed}</time></span>}<span className="tool-reviewed"><CalendarClock size={12}/>{trustCopy.updated}: <time dateTime={updated}>{updated}</time></span></div>
    </div>
    <div className="flex items-center gap-2"><div className="tool-focus-art"><ToolArt tool={tool} name={toolName(tool)}/></div><div className="grid gap-2"><button aria-label={t('favorites')} title={t('favorites')} className="btn-ghost shrink-0 px-3" onClick={()=>saveFavorite(slug).then(()=>alert(t('saved'))).catch(()=>alert(t('signInFirst')))}><Heart size={17}/></button><button aria-label="Share tool" title="Share tool" className="btn-ghost shrink-0 px-3" onClick={shareTool}><Share2 size={17}/></button></div></div>
   </header>
   <div className={'tool-workspace category-'+tool.category}>{view}</div>
   <section className="mt-6"><h2 className="mb-3 text-2xl font-black">{toolName(tool)} — {lang==='zh-TW'?'使用指南':lang==='ar'?'دليل الاستخدام':lang==='ur'?'استعمال کی رہنمائی':'Usage guide'}</h2><ToolGuide tool={tool}/></section>
-  <section className="mt-8 rounded-2xl border border-[#dfe4ec] bg-white p-5" aria-label="Helpful resources">
-    <h2 className="text-xl font-bold">{toolName(tool)} — {lang==='zh-TW'?'實用資源':lang==='ar'?'مصادر مفيدة':lang==='ur'?'مفید وسائل':'Helpful resources'}</h2>
-    <p className="mt-2 text-sm text-slate-600">{toolName(tool)}: {toolDescription(tool)}</p>
-    <div className="mt-3 flex flex-wrap gap-3 text-sm">
-      <Link className="font-semibold text-[#c73f47] underline" to={categoryPath}>{categoryName}</Link>
-      <Link className="font-semibold text-[#c73f47] underline" to={pathFor('/tools')}>{lang==='en'?'Explore all tools':t('categories.'+tool.category)}</Link>
-      {sourceUrls.slice(0,3).map(url=><a key={url} href={url} target="_blank" rel="noopener noreferrer" className="font-semibold text-[#c73f47] underline">{lang==='en'?'Official reference':'Reference'} ↗</a>)}
-      {!sourceUrls.length&&['image','document'].includes(tool.category)&&<a href="https://developer.mozilla.org/en-US/docs/Web/API/File_API/Using_files_from_web_applications" target="_blank" rel="noopener noreferrer" className="font-semibold text-[#c73f47] underline">Web File API reference ↗</a>}
+  <section className="resources-card" aria-label="Helpful resources">
+    <h2>{toolName(tool)} — {lang==='zh-TW'?'實用資源':lang==='ar'?'مصادر مفيدة':lang==='ur'?'مفید وسائل':'Helpful resources'}</h2>
+    <div className="resources-links">
+      <Link to={categoryPath}>{categoryName}</Link>
+      <Link to={pathFor('/tools')}>{lang==='en'?'Explore all tools':t('categories.'+tool.category)}</Link>
+      {sourceUrls.slice(0,3).map(url=><a key={url} href={url} target="_blank" rel="noopener noreferrer">{lang==='en'?'Official reference':'Reference'} ↗</a>)}
+      {toolRefs(tool,sourceUrls.length?1:3).map(r=><a key={r.url} href={r.url} target="_blank" rel="noopener noreferrer">{r.label} ↗</a>)}
     </div>
   </section>
   <ToolFeedback tool={tool}/>

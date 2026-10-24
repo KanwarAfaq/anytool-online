@@ -30,7 +30,7 @@ export default function Tools(){
  const schemas=[{'@context':'https://schema.org','@type':'CollectionPage',name:C.title,description:C.body,url:pageUrl,inLanguage:lang,isPartOf:{'@type':'WebSite',name:'AnyTool.online',url:'https://anytool.online/'}},{'@context':'https://schema.org','@type':'ItemList',name:C.title,itemListElement:tools.map((tool,i)=>({'@type':'ListItem',position:i+1,name:toolName(tool),url:'https://anytool.online'+pathFor('/tools/'+tool.slug),image:'https://anytool.online/tool-art/'+tool.slug+'.svg'}))}]
  return <section className="mx-auto max-w-7xl px-4 py-12">
   <Seo title={C.title+' | AnyTool.online'} description={C.body} jsonLd={schemas}/>
-  <div className="tool-library-hero"><span>{C.eyebrow}</span><h1>{C.title}</h1><p>{C.body}</p></div>
+  <div className="tool-library-hero"><h1>{C.title}</h1><p>{C.body}</p></div>
   <label className="tool-library-search"><Search size={25}/><span className="sr-only">{C.search}</span><input aria-label={C.search} value={query} onChange={e=>setQuery(e.target.value)} placeholder={C.search}/><b>{filtered.length} {C.count}</b></label>
   <div className="tool-filter-row" aria-label="Tool categories">
    <button className={category==='all'?'tool-filter-pill active':'tool-filter-pill'} onClick={()=>setCategory('all')}><Sparkles size={16}/>{C.all}</button>
