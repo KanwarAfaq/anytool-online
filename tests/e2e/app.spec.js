@@ -715,3 +715,20 @@ test('renovation tools calculate representative results locally', async ({ page 
   await page.goto('/categories/renovation')
   await expect(page.locator('#main-content a[href^="/tools/"]')).not.toHaveCount(0)
 })
+
+test('renovation tools are translated in every site language', async ({ page }) => {
+  const expectations = {
+    '/zh-tw/tools/paint-calculator': '建議購買油漆量',
+    '/ar/tools/flooring-calculator': 'عدد البلاطات المطلوبة',
+    '/ur/tools/concrete-calculator': 'آرڈر کے لیے کنکریٹ',
+    '/zh-tw/tools/renovation-budget': '預估預算範圍',
+    '/ar/tools/renovation-budget': 'نطاق الميزانية المقدّر',
+    '/ur/tools/drywall-calculator': 'خریدنے کے لیے شیٹس',
+  }
+  for (const [path, text] of Object.entries(expectations)) {
+    await page.goto(path)
+    await expect(page.locator('#main-content')).toContainText(text)
+  }
+  await page.goto('/ar/tools/ping-converter')
+  await expect(page.locator('html')).toHaveAttribute('dir', 'rtl')
+})
