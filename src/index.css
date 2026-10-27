@@ -145,7 +145,7 @@ input[type=file]::file-selector-button{margin-inline-end:.75rem;border:1px solid
 .mobile-menu-panel a:hover{background:var(--surface-2);color:var(--ink)}
 @media(min-width:640px){.lang-select{display:block}}
 @media(min-width:768px){.header-search{display:flex}.header-actions{margin-inline-start:0}}
-@media(min-width:1024px){.header-nav{display:flex}.mobile-toggle{display:none!important}}
+@media(min-width:1400px){.header-nav{display:flex}.mobile-toggle{display:none!important}}.platform-link{white-space:nowrap;padding-inline:.5rem;font-size:.84rem}.header-nav .modern-nav-link{padding-inline:.55rem}@media(min-width:1600px){.header-nav .modern-nav-link{padding-inline:.85rem}.platform-link{font-size:.9rem}}
 
 /* ---------- Command palette ---------- */
 .command-backdrop{position:fixed;inset:0;z-index:80;display:grid;place-items:start center;padding:10vh 1rem 1rem;background:rgba(8,10,18,.55);backdrop-filter:blur(6px)}

@@ -5,6 +5,7 @@ import { tools } from '../data/tools'
 import SiteSidebar from './SiteSidebar'
 import { useI18n } from '../i18n'
 import { refsForPath } from '../data/externalRefs'
+import { platforms } from '../data/platforms'
 
 export default function Layout({children}){
  const {lang,setLang,languages,t,toolName,toolDescription,pathFor}=useI18n()
@@ -46,6 +47,7 @@ export default function Layout({children}){
       <NavLink className={({isActive})=>'modern-nav-link '+(isActive?'active':'')} to={pathFor('/sources')}>{N.sources}</NavLink>
       <NavLink className={({isActive})=>'modern-nav-link '+(isActive?'active':'')} to={pathFor('/about')}>{N.about}</NavLink>
       <NavLink className={({isActive})=>'modern-nav-link '+(isActive?'active':'')} to={pathFor('/contact')}>{N.contact}</NavLink>
+      {platforms.map(p=><a key={p.id} className="modern-nav-link platform-link" href={p.url} target="_blank" rel="noopener noreferrer" data-platform={p.id}>{p.label[lang]||p.label.en}<span aria-hidden="true"> ↗</span></a>)}
     </nav>
     <button type="button" onClick={()=>setPalette(true)} aria-haspopup="dialog" aria-expanded={palette} className="header-search">
       <Search size={16}/><span className="truncate">{N.search}</span><span>⌘K</span>
@@ -68,6 +70,8 @@ export default function Layout({children}){
       <Link onClick={()=>setMobile(false)} to={pathFor('/sources')}>{N.sources}</Link>
       <Link onClick={()=>setMobile(false)} to={pathFor('/about')}>{N.about}</Link>
       <Link onClick={()=>setMobile(false)} to={pathFor('/contact')}>{N.contact}</Link>
+      <Link onClick={()=>setMobile(false)} to={pathFor('/platforms')}>{(({en:'More platforms','zh-TW':'更多平台',ar:'منصات أخرى',ur:'مزید پلیٹ فارمز'})[lang])||'More platforms'}</Link>
+      {platforms.map(p=><a key={p.id} onClick={()=>setMobile(false)} href={p.url} target="_blank" rel="noopener noreferrer">{p.label[lang]||p.label.en} ↗</a>)}
       <select aria-label="Mobile language" className="input mt-1 sm:hidden" value={lang} onChange={e=>setLang(e.target.value)}>{languages.map(l=><option key={l.code} value={l.code}>{l.label}</option>)}</select>
    </div></div>}
   </header>
@@ -96,7 +100,7 @@ export default function Layout({children}){
    <div className="mx-auto max-w-[72rem] px-4 py-12">
     <div className="grid gap-10 md:grid-cols-[1.3fr_.8fr_.8fr_1.1fr]">
       <div><div className="footer-brand"><span className="grid size-9 place-items-center overflow-hidden rounded-full"><img src="/favicon-192.png" alt="" width="36" height="36" className="size-full object-cover"/></span>AnyTool</div><p className="mt-3 max-w-xs text-sm">{N.footer}</p></div>
-      <div><h2>{N.tools}</h2><div className="footer-links"><Link to={pathFor('/tools')}>{N.tools}</Link><Link to={pathFor('/sources')}>{N.sources}</Link><Link to={pathFor('/methodology')}>{N.method}</Link></div></div>
+      <div><h2>{N.tools}</h2><div className="footer-links"><Link to={pathFor('/tools')}>{N.tools}</Link><Link to={pathFor('/sources')}>{N.sources}</Link><Link to={pathFor('/methodology')}>{N.method}</Link><Link to={pathFor('/platforms')}>{(({en:'More platforms','zh-TW':'更多平台',ar:'منصات أخرى',ur:'مزید پلیٹ فارمز'})[lang])||'More platforms'}</Link>{platforms.map(p=><a key={p.id} href={p.url} target="_blank" rel="noopener noreferrer">{p.label[lang]||p.label.en} ↗</a>)}</div></div>
       <div><h2>AnyTool</h2><div className="footer-links"><Link to={pathFor('/about')}>{N.about}</Link><Link to={pathFor('/privacy')}>{N.privacy}</Link><Link to={pathFor('/terms')}>{N.terms}</Link><Link to={pathFor('/accessibility')}>{N.accessibility}</Link><Link to={pathFor('/contact')}>{N.contact}</Link></div></div>
       <div><h2>{N.further}</h2><div className="footer-links">{refsForPath(cleanPath).map(r=><a key={r.url} href={r.url} target="_blank" rel="noopener noreferrer">{r.label} ↗</a>)}</div></div>
     </div>
