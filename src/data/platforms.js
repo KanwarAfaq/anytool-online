@@ -2,7 +2,7 @@
 export const platforms = [
   {
     id: 'landlord',
-    url: 'https://landlord-pack.vercel.app',
+    url: 'https://landlord-pack-tw.vercel.app',
     label: { en: 'Landlord Pack', 'zh-TW': '智慧房東', ar: 'حزمة المؤجر', ur: 'لینڈلارڈ پیک' },
     name: { en: 'Landlord Pack TW – Taiwan landlord tools', 'zh-TW': '智慧房東｜房東工具包', ar: 'حزمة المؤجر تايوان', ur: 'لینڈلارڈ پیک تائیوان' },
     desc: {
@@ -26,7 +26,7 @@ export const platforms = [
   },
   {
     id: 'care',
-    url: 'https://care-platform.vercel.app',
+    url: 'https://care-platform-fe.vercel.app',
     label: { en: 'Care Platform', 'zh-TW': '長照導航站', ar: 'منصة الرعاية', ur: 'کیئر پلیٹ فارم' },
     name: { en: 'Care Platform – Taoyuan care-facility directory', 'zh-TW': '桃園長照導航站｜機構名錄與補助試算', ar: 'منصة الرعاية – دليل مؤسسات تاوييوان', ur: 'کیئر پلیٹ فارم' },
     desc: {
