@@ -6,6 +6,7 @@ import SiteSidebar from './SiteSidebar'
 import { useI18n } from '../i18n'
 import { refsForPath } from '../data/externalRefs'
 import { platforms } from '../data/platforms'
+import PlatformsMenu from './PlatformsMenu'
 
 export default function Layout({children}){
  const {lang,setLang,languages,t,toolName,toolDescription,pathFor}=useI18n()
@@ -47,7 +48,7 @@ export default function Layout({children}){
       <NavLink className={({isActive})=>'modern-nav-link '+(isActive?'active':'')} to={pathFor('/sources')}>{N.sources}</NavLink>
       <NavLink className={({isActive})=>'modern-nav-link '+(isActive?'active':'')} to={pathFor('/about')}>{N.about}</NavLink>
       <NavLink className={({isActive})=>'modern-nav-link '+(isActive?'active':'')} to={pathFor('/contact')}>{N.contact}</NavLink>
-      {platforms.map(p=><a key={p.id} className="modern-nav-link platform-link" href={p.url} target="_blank" rel="noopener noreferrer" data-platform={p.id}>{p.label[lang]||p.label.en}<span aria-hidden="true"> ↗</span></a>)}
+      <PlatformsMenu lang={lang} to={pathFor('/platforms')}/>
     </nav>
     <button type="button" onClick={()=>setPalette(true)} aria-haspopup="dialog" aria-expanded={palette} className="header-search">
       <Search size={16}/><span className="truncate">{N.search}</span><span>⌘K</span>

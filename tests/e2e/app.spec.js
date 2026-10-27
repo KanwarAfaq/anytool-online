@@ -190,7 +190,7 @@ test('modern header uses AnyTool brand and animated primary navigation hooks', a
   await expect(brand).toContainText('AnyTool')
   await expect(brand).not.toContainText('.online')
   await expect(brand.locator('img[src="/favicon-192.png"]')).toBeVisible()
-  await expect(page.locator('.modern-nav-link')).toHaveCount(7)
+  await expect(page.locator('.modern-nav-link')).toHaveCount(5)
 })
 
 test('tool feedback shows update history and prefills problem reports', async ({ page }) => {
@@ -684,8 +684,9 @@ test('navigating between pages resets previous scroll position', async ({ page }
 test('menubar and platforms page link to the three sister platforms', async ({ page }) => {
   await page.goto('/')
   await page.setViewportSize({ width: 1440, height: 900 })
+  await page.getByRole('button', { name: /Platforms/ }).click()
   for (const id of ['landlord', 'ltc', 'care']) {
-    const link = page.locator(`.header-nav a[data-platform="${id}"]`)
+    const link = page.locator(`.platforms-panel a[data-platform="${id}"]`)
     await expect(link).toBeVisible()
     await expect(link).toHaveAttribute('target', '_blank')
     await expect(link).toHaveAttribute('href', /^https:\/\/.+\.vercel\.app$/)

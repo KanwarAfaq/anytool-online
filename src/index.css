@@ -145,7 +145,7 @@ input[type=file]::file-selector-button{margin-inline-end:.75rem;border:1px solid
 .mobile-menu-panel a:hover{background:var(--surface-2);color:var(--ink)}
 @media(min-width:640px){.lang-select{display:block}}
 @media(min-width:768px){.header-search{display:flex}.header-actions{margin-inline-start:0}}
-@media(min-width:1400px){.header-nav{display:flex}.mobile-toggle{display:none!important}}.platform-link{white-space:nowrap;padding-inline:.5rem;font-size:.84rem}.header-nav .modern-nav-link{padding-inline:.55rem}@media(min-width:1600px){.header-nav .modern-nav-link{padding-inline:.85rem}.platform-link{font-size:.9rem}}
+@media(min-width:1024px){.header-nav{display:flex}.mobile-toggle{display:none!important}}
 
 /* ---------- Command palette ---------- */
 .command-backdrop{position:fixed;inset:0;z-index:80;display:grid;place-items:start center;padding:10vh 1rem 1rem;background:rgba(8,10,18,.55);backdrop-filter:blur(6px)}
@@ -354,3 +354,19 @@ a.bento-card:hover{transform:translateY(-4px);box-shadow:var(--shadow-lg)}
 .site-shell .bento-widget .hero-console a{background:var(--on-accent);color:var(--accent)}
 .site-shell .bento-widget .hero-console a svg{color:var(--accent);stroke:var(--accent)}
 .site-shell .bento-widget .input{background:var(--surface);color:var(--ink,var(--text,#111))}
+
+.platforms-menu{position:relative}
+.platforms-trigger{gap:.4rem;border:0;background:transparent;cursor:pointer}
+.platforms-trigger svg.rot{transform:rotate(180deg)}
+.platforms-trigger svg{transition:transform .15s}
+.platforms-panel{position:absolute;top:calc(100% + .6rem);inset-inline-start:0;z-index:60;width:min(22rem,92vw);display:grid;gap:.25rem;padding:.5rem;border:1px solid var(--line);border-radius:20px;background:var(--surface);box-shadow:var(--shadow-lg);animation:pm-in .14s ease-out}
+@keyframes pm-in{from{opacity:0;transform:translateY(-4px)}to{opacity:1;transform:none}}
+@media(prefers-reduced-motion:reduce){.platforms-panel{animation:none}}
+.platform-card{display:flex;gap:.8rem;align-items:flex-start;padding:.7rem;border-radius:14px;color:var(--ink)}
+.platform-card:hover,.platform-card:focus-visible{background:var(--surface-2)}
+.platform-ico{display:grid;place-items:center;flex:none;width:38px;height:38px;border-radius:12px;background:var(--ink);color:var(--bg)}
+.platform-txt{display:grid;gap:.15rem;min-width:0}
+.platform-txt strong{display:flex;align-items:center;gap:.35rem;font-size:.92rem}
+.platform-txt small{color:var(--ink-2);font-size:.78rem;line-height:1.4;font-weight:500}
+.platform-all{padding:.55rem .7rem;border-top:1px solid var(--line);margin-top:.15rem;font-size:.82rem;font-weight:650;color:var(--ink-2)}
+.platform-all:hover{color:var(--ink)}
