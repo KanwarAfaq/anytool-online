@@ -22,6 +22,7 @@ import Wave4ToolSuite, { wave4ToolSlugs } from '../components/tools/Wave4ToolSui
 import RenovationTools, { renovationToolSlugs } from '../components/tools/RenovationTools'
 import SourceEvidence from '../components/SourceEvidence'
 import ToolGuide from '../components/ToolGuide'
+import ToolIllustration from '../components/ToolIllustration'
 import OfficialAssistant from '../components/OfficialAssistant'
 import ToolArt from '../components/ToolArt'
 import ToolFeedback from '../components/ToolFeedback'
@@ -326,6 +327,7 @@ export default function ToolPage(){
    <div className="flex items-center gap-2"><div className="tool-focus-art"><ToolArt tool={tool} name={toolName(tool)}/></div><div className="grid gap-2"><button aria-label={t('favorites')} title={t('favorites')} className="btn-ghost shrink-0 px-3" onClick={()=>saveFavorite(slug).then(()=>alert(t('saved'))).catch(()=>alert(t('signInFirst')))}><Heart size={17}/></button><button aria-label="Share tool" title="Share tool" className="btn-ghost shrink-0 px-3" onClick={shareTool}><Share2 size={17}/></button></div></div>
   </header>
   <div className={'tool-workspace category-'+tool.category}>{view}</div>
+  <ToolIllustration slug={slug}/>
   <section className="mt-6"><h2 className="mb-3 text-2xl font-black">{toolName(tool)} — {lang==='zh-TW'?'使用指南':lang==='ar'?'دليل الاستخدام':lang==='ur'?'استعمال کی رہنمائی':'Usage guide'}</h2><ToolGuide tool={tool}/></section>
   <section className="resources-card" aria-label="Helpful resources">
     <h2>{toolName(tool)} — {lang==='zh-TW'?'實用資源':lang==='ar'?'مصادر مفيدة':lang==='ur'?'مفید وسائل':'Helpful resources'}</h2>

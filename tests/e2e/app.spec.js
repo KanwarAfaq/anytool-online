@@ -732,3 +732,13 @@ test('renovation tools are translated in every site language', async ({ page }) 
   await page.goto('/ar/tools/ping-converter')
   await expect(page.locator('html')).toHaveAttribute('dir', 'rtl')
 })
+
+test('tools show a translated visual guide with an accessible diagram', async ({ page }) => {
+  for (const [path, heading] of [['/tools/flooring-calculator', 'What tiles mean'], ['/zh-tw/tools/paint-calculator', '如何丈量房間以計算油漆'], ['/ar/tools/ping-converter', 'كم تبلغ مساحة 1 بينغ'], ['/ur/tools/taiwan-id-photo', 'پاسپورٹ'], ['/tools/dpi-calculator', 'How DPI works'], ['/tools/aspect-ratio-calculator', 'Common aspect ratios']]) {
+    await page.goto(path)
+    const guide = page.locator('.tool-visual-guide')
+    await expect(guide).toContainText(heading)
+    await expect(guide.locator('svg[role="img"]')).toHaveAttribute('aria-label', /.+/)
+    await expect(guide.locator('li')).toHaveCount(3)
+  }
+})
