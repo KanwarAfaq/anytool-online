@@ -1,11 +1,11 @@
 import { useEffect, useMemo, useState } from 'react'
 import { Link } from 'react-router-dom'
-import { ArrowLeft, ArrowRight, ArrowUpRight, BrainCircuit, Calculator, Code2, FileText, Image as ImageIcon, Palette, Search, Shield, Sparkles, Type, WalletCards } from 'lucide-react'
+import { ArrowLeft, ArrowRight, ArrowUpRight, BrainCircuit, Calculator, Code2, FileText, Image as ImageIcon, Palette, Search, Shield, Sparkles, Type, WalletCards, Hammer } from 'lucide-react'
 import { categories, tools } from '../data/tools'
 import Seo from '../components/Seo'
 import { useI18n } from '../i18n'
 
-const categoryIcon={money:WalletCards,image:ImageIcon,document:FileText,ai:BrainCircuit,general:Calculator,developer:Code2,text:Type,security:Shield,design:Palette}
+const categoryIcon={money:WalletCards,image:ImageIcon,document:FileText,ai:BrainCircuit,general:Calculator,developer:Code2,text:Type,security:Shield,design:Palette,renovation:Hammer}
 const isNew=tool=>Boolean(tool.updatedAt)&&Date.now()-new Date(tool.updatedAt+'T00:00:00Z').getTime()>=0&&Date.now()-new Date(tool.updatedAt+'T00:00:00Z').getTime()<45*864e5
 const PAGE_SIZE=12
 

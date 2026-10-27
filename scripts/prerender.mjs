@@ -43,6 +43,7 @@ const staticPages=[
  {path:'/categories/developer',titles:{en:'Developer Tools | AnyTool.online','zh-TW':'開發者工具 | AnyTool.online',ar:'أدوات المطورين | AnyTool.online',ur:'ڈیولپر ٹولز | AnyTool.online'},description:'Browser-local JSON, Base64, URL, JWT, UUID, hashing, regex and timestamp utilities.'},
  {path:'/categories/text',titles:{en:'Text Tools | AnyTool.online','zh-TW':'文字工具 | AnyTool.online',ar:'أدوات النص | AnyTool.online',ur:'ٹیکسٹ ٹولز | AnyTool.online'},description:'Privacy-friendly word counting and text-case conversion tools.'},
  {path:'/categories/security',titles:{en:'Security & Privacy Tools | AnyTool.online','zh-TW':'安全與隱私工具 | AnyTool.online',ar:'أدوات الأمان والخصوصية | AnyTool.online',ur:'سیکیورٹی اور پرائیویسی ٹولز | AnyTool.online'},description:'Browser-local password generation and password strength checking utilities.'},
+ {path:'/categories/renovation',titles:{en:'Renovation & Home Calculators | AnyTool.online','zh-TW':'裝修與居家計算器 | AnyTool.online',ar:'حاسبات التجديد والمنزل | AnyTool.online',ur:'تزئین و مرمت کیلکولیٹر | AnyTool.online'},description:'Renovation calculators for Taiwan and the USA: paint, flooring, drywall, concrete, 坪 conversion and budget estimates.'},
  {path:'/categories/design',titles:{en:'Design & Color Tools | AnyTool.online','zh-TW':'設計與色彩工具 | AnyTool.online',ar:'أدوات التصميم والألوان | AnyTool.online',ur:'ڈیزائن اور رنگ ٹولز | AnyTool.online'},description:'Color conversion, contrast checking and aspect-ratio design helpers.'},
 ]
 const localizedStaticDescriptions={
@@ -65,6 +66,7 @@ const localizedStaticDescriptions={
   '/categories/developer':'在瀏覽器本機執行的 JSON、Base64、URL、JWT、UUID、雜湊、正規表示式與 Unix 時間戳工具。',
   '/categories/text':'重視隱私的字數、字元統計與文字大小寫轉換工具。',
   '/categories/security':'在瀏覽器本機產生密碼並檢查密碼強度。',
+  '/categories/renovation':'適用台灣與美國的裝修計算器：油漆、地板磁磚、石膏板、混凝土、坪換算與預算估算。',
   '/categories/design':'色彩轉換、對比度檢查與長寬比設計輔助工具。'
  },
  ar:{
@@ -138,6 +140,7 @@ const staticDateByPath={
  '/categories/text':gitDate('src/pages/Category.jsx'),
  '/categories/security':gitDate('src/pages/Category.jsx'),
  '/categories/design':gitDate('src/pages/Category.jsx'),
+ '/categories/renovation':gitDate('src/pages/Category.jsx'),
 }
 const maxDate=(...xs)=>xs.filter(Boolean).sort().at(-1)||lastmod
 const contentLastmod=path=>{

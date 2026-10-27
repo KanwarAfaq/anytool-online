@@ -14,6 +14,7 @@ const byCategory={
   developer:[{label:'JavaScript reference — MDN',url:MDN+'Web/JavaScript'},{label:'IETF RFC index',url:'https://www.rfc-editor.org/'}],
   text:[{label:'Reading time — Wikipedia',url:WP+'Words_per_minute'},{label:'Unicode Consortium',url:'https://home.unicode.org/'}],
   security:[{label:'NIST digital identity guidelines (SP 800-63B)',url:'https://pages.nist.gov/800-63-3/sp800-63b.html'},{label:'OWASP Authentication Cheat Sheet',url:'https://cheatsheetseries.owasp.org/cheatsheets/Authentication_Cheat_Sheet.html'}],
+  renovation:[{label:'EPA lead-safe renovation (RRP) — USA',url:'https://www.epa.gov/lead/renovation-repair-and-painting-program'},{label:'建築物室內裝修管理辦法 — 全國法規資料庫 (Taiwan)',url:'https://law.moj.gov.tw/'}],
   design:[{label:'WCAG 2.2 — W3C',url:W3C_WCAG},{label:'CSS reference — MDN',url:MDN+'Web/CSS'}],
 }
 
@@ -53,6 +54,12 @@ const byTool={
   'password-strength-checker':[{label:'OWASP Authentication Cheat Sheet',url:'https://cheatsheetseries.owasp.org/cheatsheets/Authentication_Cheat_Sheet.html'}],
   'word-counter':[{label:'Words per minute — Wikipedia',url:WP+'Words_per_minute'}],
   'typing-test':[{label:'Words per minute — Wikipedia',url:WP+'Words_per_minute'}],
+  'ping-converter':[{label:'坪 (unit of area) — Wikipedia',url:WP+'Ping_(unit)'},{label:'Square foot — Wikipedia',url:WP+'Square_foot'}],
+  'renovation-budget':[{label:'PRO360 renovation budget guide (Taiwan)',url:'https://www.pro360.com.tw/price/home_renovation_budget'},{label:'EPA lead-safe renovation (RRP) — USA',url:'https://www.epa.gov/lead/renovation-repair-and-painting-program'}],
+  'concrete-calculator':[{label:'Concrete — Wikipedia',url:WP+'Concrete'},{label:'Cubic yard — Wikipedia',url:WP+'Cubic_yard'}],
+  'drywall-calculator':[{label:'Drywall — Wikipedia',url:WP+'Drywall'}],
+  'paint-calculator':[{label:'Paint — Wikipedia',url:WP+'Paint'}],
+  'flooring-calculator':[{label:'Tile — Wikipedia',url:WP+'Tile'}],
   'unit-converter':[{label:'International System of Units — BIPM',url:'https://www.bipm.org/en/measurement-units'}],
   'date-calculator':[{label:'ISO 8601 date format — ISO',url:'https://www.iso.org/iso-8601-date-and-time-format.html'}],
   'world-clock':[{label:'IANA time zone database',url:'https://www.iana.org/time-zones'}],

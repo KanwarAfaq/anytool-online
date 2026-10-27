@@ -8,6 +8,7 @@ export const categories = [
   { id: 'text', label: 'Text Tools' },
   { id: 'security', label: 'Security & Privacy' },
   { id: 'design', label: 'Design & Color' },
+  { id: 'renovation', label: 'Renovation & Home' },
 ]
 
 export const tools = [
@@ -73,6 +74,12 @@ export const tools = [
   ['typing-test','Typing Speed Test','text','Measure typing speed and accuracy against a fixed prompt.','Measure words per minute, accuracy, correct words and time remaining in a privacy-friendly typing test.','2026-09-27',true],
   ['table-converter','Table Converter — CSV, TSV, Markdown & HTML','developer','Convert tables between CSV, TSV, Markdown and HTML.','Free browser-local table converter for CSV, TSV, Markdown and HTML tables with automatic format detection, copy and download.','2026-09-28',true],
   ['screenshot-beautifier','Screenshot Beautifier','image','Turn screenshots into polished shareable images.','Beautify screenshots online with gradient backgrounds, padding, rounded corners, shadows and an optional browser frame, processed locally in your browser.','2026-09-28',true],
+  ['paint-calculator','Paint Calculator','renovation','Estimate how much paint a room needs in litres or gallons.','Free paint calculator for walls and ceilings: deduct doors and windows, set coats and coverage, and get litres, US gallons and containers to buy.','2026-10-27',true],
+  ['flooring-calculator','Flooring & Tile Calculator','renovation','Calculate tiles, planks or boxes with waste allowance.','Free flooring and tile calculator for metric and US units: room area, waste percentage, tile size or box coverage, and exact pieces or boxes to buy.','2026-10-27',true],
+  ['drywall-calculator','Drywall Sheet Calculator','renovation','Estimate drywall or gypsum board sheets for walls and ceilings.','Calculate how many 4×8 ft, 4×12 ft, 3×6 尺 or 900×1800 mm drywall (gypsum board) sheets you need, with layers, waste allowance and screw estimate.','2026-10-27',true],
+  ['concrete-calculator','Concrete Volume Calculator','renovation','Calculate concrete for slabs in m³, yd³ and bags.','Estimate concrete volume for a slab or pad in cubic metres, cubic yards and cubic feet, with waste allowance and pre-mixed bag counts.','2026-10-27',true],
+  ['ping-converter','坪 ↔ m² ↔ sq ft Converter','renovation','Convert Taiwan ping to square metres and square feet.','Convert Taiwan 坪 (ping) to square metres and US square feet in either direction using the exact 400/121 m² definition, with property-area notes.','2026-10-27',true],
+  ['renovation-budget','Renovation Budget Estimator','renovation','Estimate renovation cost for Taiwan (per 坪) or the USA (per sq ft).','Estimate a renovation budget range with contingency: Taiwan NT$ per 坪 by property age with a category split, or USA and custom per-square-foot rates.','2026-10-27',true],
 ].map(([slug,name,category,description,seoDescription,updatedAt,localProcessing]) => ({ slug,name,category,description,seoDescription,updatedAt,localProcessing }))
 
 export const toolBySlug = Object.fromEntries(tools.map(t => [t.slug, t]))

@@ -14,7 +14,8 @@ const palette={
   developer:['#22d3ee','#38bdf8'],
   text:['#e879f9','#c084fc'],
   security:['#34d399','#2dd4bf'],
-  design:['#fb7185','#f472b6']
+  design:['#fb7185','#f472b6'],
+  renovation:['#fb923c','#f59e0b']
 }
 
 const tags={
@@ -29,7 +30,7 @@ const tags={
   'json-formatter':['{ }','FORMAT'],'base64':['64','ENCODE'],'url-encoder':['%20','URL'],'jwt-decoder':['JWT','DECODE'],
   'uuid-generator':['UUID','V7'],'hash-generator':['SHA','256'],'regex-tester':['.*','REGEX'],'timestamp-converter':['UNIX','TIME'],
   'word-counter':['123','WORDS'],'text-case':['Aa','CASE'],'password-generator':['••••','SECURE'],'password-strength-checker':['BITS','CHECK'],
-  'color-converter':['HEX','RGB'],'aspect-ratio-calculator':['16:9','RATIO'],'date-calculator':['±30','DATE'],'unit-converter':['m→ft','UNITS'],
+  'color-converter':['HEX','RGB'],'aspect-ratio-calculator':['16:9','RATIO'],'date-calculator':['±30','DATE'],'unit-converter':['m→ft','UNITS'],'paint-calculator':['L/gal','PAINT'],'flooring-calculator':['m²','FLOOR'],'drywall-calculator':['4×8','DRYWALL'],'concrete-calculator':['m³','CONCRETE'],'ping-converter':['坪','→ m²'],'renovation-budget':['NT$/坪','BUDGET'],
   'csv-converter':['CSV','↔ JSON'],'yaml-json-converter':['YAML','↔ JSON'],'json-to-types':['JSON','→ TS'],'sql-formatter':['SQL','FORMAT'],'cron-generator':['CRON','NEXT'],
   'favicon-generator':['32²','FAVICON'],'gradient-generator':['CSS','GRADIENT'],'box-shadow-generator':['CSS','SHADOW'],
   'exif-viewer':['EXIF','META'],'image-watermark':['©','WATERMARK'],'barcode-generator':['||||','BARCODE'],

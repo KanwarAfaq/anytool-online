@@ -6,7 +6,7 @@ import { officialSources, toolSourceKeys } from '../src/data/officialSources.js'
 
 const root=process.cwd()
 const locales=['','zh-tw','ar','ur']
-const staticPages=['','tools','about','contact','privacy','methodology','sources','platforms','terms','accessibility','categories/money','categories/image','categories/document','categories/ai','categories/general','categories/developer','categories/text','categories/security','categories/design']
+const staticPages=['','tools','about','contact','privacy','methodology','sources','platforms','terms','accessibility','categories/money','categories/image','categories/document','categories/ai','categories/general','categories/developer','categories/text','categories/security','categories/design','categories/renovation']
 await access(resolve(root,'dist/index.html'))
 await access(resolve(root,'dist/robots.txt'))
 await access(resolve(root,'dist/manifest.webmanifest'))

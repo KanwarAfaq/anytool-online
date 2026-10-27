@@ -19,6 +19,7 @@ import ImageFlipTool from '../components/tools/ImageFlipTool'
 import UtilityToolSuite, { utilityToolSlugs } from '../components/tools/UtilityToolSuite'
 import Wave2ToolSuite, { wave2ToolSlugs } from '../components/tools/Wave2ToolSuite'
 import Wave4ToolSuite, { wave4ToolSlugs } from '../components/tools/Wave4ToolSuite'
+import RenovationTools, { renovationToolSlugs } from '../components/tools/RenovationTools'
 import SourceEvidence from '../components/SourceEvidence'
 import ToolGuide from '../components/ToolGuide'
 import OfficialAssistant from '../components/OfficialAssistant'
@@ -283,6 +284,7 @@ export default function ToolPage(){
   if(utilityToolSlugs.has(slug))return <UtilityToolSuite slug={slug}/>
   if(wave2ToolSlugs.has(slug))return <Wave2ToolSuite slug={slug}/>
   if(wave4ToolSlugs.has(slug))return <Wave4ToolSuite slug={slug}/>
+  if(renovationToolSlugs.has(slug))return <RenovationTools slug={slug}/>
   return <AITool slug={slug}/>
  },[slug])
  const toolPath=pathFor('/tools/'+slug)
