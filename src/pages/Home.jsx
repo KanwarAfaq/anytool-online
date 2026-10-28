@@ -69,6 +69,7 @@ export default function Home(){
         <button type="submit" className="btn-primary"><span>{C.browse}</span><ArrowRight size={16}/></button>
       </form>
       <nav className="home-suggest" aria-label="Popular tools">{['pdf-merge','qr-generator','take-home-pay','image-compress','json-formatter'].map(slug=>toolBySlug[slug]).filter(Boolean).map(tool=><Link key={tool.slug} to={pathFor('/tools/'+tool.slug)}>{toolName(tool)}</Link>)}</nav>
+      <ul className="home-stats" aria-label="Highlights"><li><strong>{tools.length}</strong><span>{({en:'free tools','zh-TW':'個免費工具',ar:'أداة مجانية',ur:'مفت ٹولز'})[lang]||'free tools'}</span></li><li><strong>4</strong><span>{({en:'languages','zh-TW':'種語言',ar:'لغات',ur:'زبانیں'})[lang]||'languages'}</span></li><li><strong>0</strong><span>{({en:'sign-up needed','zh-TW':'免註冊',ar:'بدون تسجيل',ur:'سائن اپ درکار نہیں'})[lang]||'sign-up needed'}</span></li><li><strong>🔒</strong><span>{({en:'browser-private','zh-TW':'瀏覽器本機處理',ar:'خصوصية في المتصفح',ur:'براؤزر میں نجی'})[lang]||'browser-private'}</span></li></ul>
    </div>
   </section>
 

@@ -7,6 +7,7 @@ import { useI18n } from '../i18n'
 import { refsForPath } from '../data/externalRefs'
 import { platforms } from '../data/platforms'
 import PlatformsMenu from './PlatformsMenu'
+import LiveExtras from './LiveExtras'
 
 export default function Layout({children}){
  const {lang,setLang,languages,t,toolName,toolDescription,pathFor}=useI18n()
@@ -37,6 +38,7 @@ export default function Layout({children}){
  const paletteKey=e=>{if(e.key==='ArrowDown'){e.preventDefault();setActive(v=>Math.min(hits.length-1,v+1))}else if(e.key==='ArrowUp'){e.preventDefault();setActive(v=>Math.max(0,v-1))}else if(e.key==='Enter'&&hits[active]){e.preventDefault();openTool(hits[active])}}
  return <div className="site-shell">
   <a className="skip-link" href="#main-content">Skip to content</a>
+  <LiveExtras/>
   <header className="site-header">
    <div className="site-header-bar">
     <Link to={pathFor('/')} className="site-brand" aria-label="AnyTool home">

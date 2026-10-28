@@ -742,3 +742,14 @@ test('tools show a translated visual guide with an accessible diagram', async ({
     await expect(guide.locator('li')).toHaveCount(3)
   }
 })
+
+test('home shows highlights and the back-to-top button appears after scrolling', async ({ page }) => {
+  await page.goto('/')
+  await expect(page.locator('.home-stats')).toContainText('68')
+  const top = page.locator('.back-to-top')
+  await expect(top).not.toHaveClass(/show/)
+  await page.evaluate(() => window.scrollTo(0, 1600))
+  await expect(top).toHaveClass(/show/)
+  await top.click()
+  await expect.poll(() => page.evaluate(() => window.scrollY)).toBeLessThan(50)
+})

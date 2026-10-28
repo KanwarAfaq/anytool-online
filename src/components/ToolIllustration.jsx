@@ -2,7 +2,7 @@ import { useI18n } from '../i18n'
 
 // Original explanatory diagrams (inline SVG, theme-aware) shown under a tool.
 // They use only numbers/symbols inside the drawing; all prose lives in the translated `copy` below.
-const S = { fill: 'none', stroke: 'var(--ink)', strokeWidth: 1.6, strokeLinecap: 'round', strokeLinejoin: 'round' }
+const S = { stroke: 'var(--ink)', strokeWidth: 1.6, strokeLinecap: 'round', strokeLinejoin: 'round' }
 const A = { stroke: 'var(--accent)', strokeWidth: 1.6, fill: 'none', strokeLinecap: 'round' }
 const T = { fill: 'var(--ink-2)', fontSize: 12, fontWeight: 700, fontFamily: 'inherit' }
 const soft = 'var(--accent-soft)'
@@ -11,7 +11,7 @@ const Dim = ({ x1, y1, x2, y2 }) => {
  const head = (x, y, d) => `M${x} ${y}l${(d * ux * 6 + nx * 3).toFixed(2)} ${(d * uy * 6 + ny * 3).toFixed(2)}M${x} ${y}l${(d * ux * 6 - nx * 3).toFixed(2)} ${(d * uy * 6 - ny * 3).toFixed(2)}`
  return <g {...A}><path d={`M${x1} ${y1}L${x2} ${y2}`} /><path d={head(x1, y1, 1)} /><path d={head(x2, y2, -1)} /></g>
 }
-const Svg = ({ children, label }) => <svg viewBox="0 0 320 200" role="img" aria-label={label} className="mx-auto h-auto w-full max-w-md">{children}</svg>
+const Svg = ({ children, label }) => <svg viewBox="0 0 320 200" fill="none" role="img" aria-label={label} className="mx-auto h-auto w-full max-w-md">{children}</svg>
 
 const figures = {
  paint: label => <Svg label={label}>
@@ -81,6 +81,69 @@ const figures = {
   <Dim x1={40} y1={166} x2={280} y2={166} /><text x="72" y="186" {...T}>3000 px ÷ 10 in = 300 DPI</text>
   <text x="64" y="94" {...T} fontSize="16">px ÷ in</text>
  </Svg>,
+ qr: label => <Svg label={label}>
+  <rect x="60" y="20" width="140" height="140" fill="#fff" stroke="var(--line-strong)" />
+  {[[72, 32], [148, 32], [72, 108]].map(([x, y], i) => <g key={i}><rect x={x} y={y} width="40" height="40" fill="none" stroke="#111" strokeWidth="6" /><rect x={x + 14} y={y + 14} width="12" height="12" fill="#111" /></g>)}
+  {[[124, 78], [136, 90], [112, 102], [148, 102], [160, 114], [124, 126], [172, 126], [148, 138], [100, 70], [172, 78], [112, 138]].map(([x, y], i) => <rect key={'d' + i} x={x} y={y} width="10" height="10" fill="#111" />)}
+  <path d="M60 176H200" {...A} /><text x="102" y="194" {...T} fontSize="10">quiet zone</text>
+  <path d="M214 40l30 30M244 70l-4 -12M244 70l-12 -4" {...A} /><text x="232" y="92" {...T} fontSize="11">URL</text><text x="224" y="110" {...T} fontSize="11">Wi-Fi</text><text x="224" y="128" {...T} fontSize="11">Text</text>
+ </Svg>,
+ resize: label => <Svg label={label}>
+  <rect x="24" y="30" width="150" height="100" fill={soft} {...S} /><path d="M24 130L74 80L104 110L134 70L174 130" {...S} stroke="var(--accent)" />
+  <path d="M184 80H212M204 72l8 8-8 8" {...A} />
+  <rect x="226" y="62" width="72" height="48" fill={soft} {...S} /><path d="M226 110L250 86L264 100L280 80L298 110" {...S} stroke="var(--accent)" />
+  <Dim x1={24} y1={152} x2={174} y2={152} /><text x="76" y="172" {...T}>1200 px</text>
+  <Dim x1={226} y1={130} x2={298} y2={130} /><text x="244" y="150" {...T}>600 px</text>
+  <text x="206" y="184" {...T} fontSize="11">🔒 16:9</text>
+ </Svg>,
+ compress: label => <Svg label={label}>
+  {[[100, 'var(--line-strong)'], [64, 'var(--accent)'], [34, 'var(--accent)'], [18, 'var(--accent)']].map(([h, c], i) => <g key={i}><rect x={44 + i * 62} y={150 - h * 1.1} width="44" height={h * 1.1} rx="4" fill={c} opacity={i === 0 ? 0.6 : 0.85} /><text x={54 + i * 62} y="170" {...T} fontSize="10">{['100%', '80%', '60%', '30%'][i]}</text></g>)}
+  <text x="44" y="28" {...T}>Quality ↓  →  file size ↓</text><path d="M44 36H290" stroke="var(--line-strong)" strokeDasharray="3 3" />
+ </Svg>,
+ takehome: label => <Svg label={label}>
+  <rect x="30" y="40" width="260" height="38" rx="6" fill="var(--accent)" opacity=".85" /><text x="42" y="64" {...T} fill="#fff" style={{ fill: 'var(--on-accent)' }}>Gross salary</text>
+  {[['var(--line-strong)', 'Labor'], ['#38bdf8', 'NHI'], ['#fb7185', 'Tax']].map(([c, t], i) => <g key={i}><rect x={30 + i * 50} y="100" width="46" height="30" rx="5" fill={c} opacity=".8" /><text x={36 + i * 50} y="119" {...T} fontSize="10">{t}</text></g>)}
+  <path d="M180 115H202M194 108l8 7-8 7" {...A} /><rect x="212" y="96" width="78" height="38" rx="6" fill={soft} {...S} /><text x="228" y="120" {...T}>Net pay</text>
+  <path d="M160 82V96" {...A} />
+ </Svg>,
+ loan: label => <Svg label={label}>
+  {[...Array(8)].map((_, i) => { const interest = 50 - i * 5.5, principal = 18 + i * 5.5; return <g key={i}><rect x={34 + i * 32} y={150 - principal} width="24" height={principal} fill="var(--accent)" opacity=".85" /><rect x={34 + i * 32} y={150 - principal - interest} width="24" height={interest} fill="#f59e0b" opacity=".85" /></g> })}
+  <path d="M26 152H296" {...S} />
+  <rect x="34" y="14" width="10" height="10" fill="var(--accent)" /><text x="50" y="23" {...T} fontSize="10">Principal</text><rect x="116" y="14" width="10" height="10" fill="#f59e0b" /><text x="132" y="23" {...T} fontSize="10">Interest</text>
+  <text x="34" y="176" {...T} fontSize="10">month 1 → → → last month</text>
+ </Svg>,
+ pdfmerge: label => <Svg label={label}>
+  {[0, 1, 2].map(i => <g key={i}><rect x="24" y={24 + i * 50} width="56" height="42" rx="4" fill={soft} {...S} /><text x="38" y={50 + i * 50} {...T} fontSize="11">PDF</text></g>)}
+  <path d="M90 45L150 88M90 95L150 92M90 145L150 98" {...A} /><rect x="160" y="54" width="70" height="84" rx="5" fill={soft} {...S} /><text x="180" y="100" {...T}>PDF</text><text x="174" y="118" {...T} fontSize="10">1 + 2 + 3</text>
+  <path d="M240 96H270M262 88l8 8-8 8" {...A} />
+ </Svg>,
+ pdfsplit: label => <Svg label={label}>
+  <rect x="24" y="54" width="70" height="84" rx="5" fill={soft} {...S} /><text x="44" y="100" {...T}>PDF</text>
+  <path d="M104 96L150 52M104 96L150 96M104 96L150 140" {...A} />
+  {[0, 1, 2].map(i => <g key={i}><rect x="160" y={30 + i * 46} width="56" height="38" rx="4" fill={soft} {...S} /><text x="176" y={54 + i * 46} {...T} fontSize="11">p.{['1', '2–3', '4'][i]}</text></g>)}
+  <path d="M226 96H256M248 88l8 8-8 8" {...A} />
+ </Svg>,
+ unit: label => <Svg label={label}>
+  <rect x="24" y="40" width="270" height="32" rx="4" fill={soft} {...S} />
+  {[...Array(28)].map((_, i) => <path key={i} d={`M${28 + i * 9.6} 40v${i % 5 === 0 ? 14 : 8}`} stroke="var(--ink)" strokeWidth="1" />)}
+  <text x="28" y="92" {...T} fontSize="10">cm</text>
+  <rect x="24" y="112" width="244" height="32" rx="4" fill={soft} {...S} />
+  {[...Array(11)].map((_, i) => <path key={i} d={`M${28 + i * 24.4} 112v${i % 2 === 0 ? 16 : 10}`} stroke="var(--ink)" strokeWidth="1" />)}
+  <text x="28" y="164" {...T} fontSize="10">in</text><text x="100" y="186" {...T}>1 in = 2.54 cm</text>
+ </Svg>,
+ percent: label => <Svg label={label}>
+  <circle cx="100" cy="95" r="62" fill={soft} {...S} /><path d="M100 95V33A62 62 0 0 1 155 123Z" fill="var(--accent)" opacity=".85" />
+  <text x="124" y="84" {...T} fontSize="13" style={{ fill: 'var(--on-accent)' }}>part</text>
+  <text x="196" y="70" {...T} fontSize="16">part ÷ whole</text><text x="196" y="94" {...T} fontSize="16">× 100 = %</text>
+  <text x="196" y="130" {...T} fontSize="12">+/−  change</text><text x="196" y="148" {...T} fontSize="11">(new − old) ÷ old</text>
+ </Svg>,
+ color: label => <Svg label={label}>
+  <rect x="30" y="28" width="100" height="100" rx="14" fill="var(--accent)" {...S} />
+  <text x="40" y="60" {...T} style={{ fill: 'var(--on-accent)' }} fontSize="13">HEX</text><text x="40" y="82" {...T} style={{ fill: 'var(--on-accent)' }} fontSize="13">RGB</text><text x="40" y="104" {...T} style={{ fill: 'var(--on-accent)' }} fontSize="13">HSL</text>
+  <rect x="150" y="28" width="140" height="44" rx="8" fill="#111" /><text x="164" y="56" fill="#fff" fontSize="14" fontWeight="800" fontFamily="inherit">Aa  21:1</text>
+  <rect x="150" y="84" width="140" height="44" rx="8" fill="#fff" stroke="var(--line-strong)" /><text x="164" y="112" fill="#111" fontSize="14" fontWeight="800" fontFamily="inherit">Aa  ≥ 4.5:1</text>
+  <text x="30" y="160" {...T}>WCAG AA text ≥ 4.5 : 1</text>
+ </Svg>,
 }
 
 const L = (en, zh, ar, ur) => ({ en, 'zh-TW': zh, ar, ur })
@@ -121,8 +184,48 @@ const copy = {
   steps: [L('DPI = pixels ÷ inches of printed width (3000 px over 10 in = 300 DPI).', 'DPI = 像素 ÷ 列印寬度（英寸）（3000 像素印 10 吋 = 300 DPI）。', 'DPI = البكسلات ÷ عرض الطباعة بالبوصة (3000 بكسل على 10 بوصات = 300 DPI).', 'DPI = پکسل ÷ پرنٹ چوڑائی (انچ) (10 انچ پر 3000 پکسل = 300 DPI)۔'),
    L('Around 300 DPI is typical for sharp prints; screens need far fewer.', '清晰列印通常約需 300 DPI；螢幕顯示所需遠低於此。', 'نحو 300 DPI معتاد للطباعة الحادة؛ والشاشات تحتاج أقل بكثير.', 'تیز پرنٹ کے لیے تقریباً 300 DPI عام ہے؛ اسکرین کو اس سے بہت کم چاہیے۔'),
    L('Lower DPI at the same print size looks blurry; resize or use a larger original.', '相同列印尺寸下 DPI 偏低會模糊；請縮小尺寸或改用更大的原圖。', 'انخفاض DPI بنفس حجم الطباعة يبدو ضبابياً؛ غيّر الحجم أو استخدم أصلاً أكبر.', 'اسی پرنٹ سائز پر کم DPI دھندلا لگتا ہے؛ سائز بدلیں یا بڑی اصل تصویر استعمال کریں۔')] },
+ qr: { fig: 'qr', title: L('How a QR code works', 'QR Code 如何運作', 'كيف يعمل رمز QR', 'QR کوڈ کیسے کام کرتا ہے'), alt: L('A QR code with three corner finder squares and a quiet zone around it', '帶有三個角落定位方塊與四周留白的 QR Code', 'رمز QR بثلاثة مربعات زاوية ومنطقة هادئة حوله', 'تین کونے کے مربعوں اور خالی حاشیے والا QR کوڈ'),
+  steps: [L('Enter a link, text or Wi-Fi details — phones read it back as that content.', '輸入網址、文字或 Wi-Fi 資訊，手機掃描後會還原為該內容。', 'أدخل رابطاً أو نصاً أو بيانات Wi-Fi — تقرأها الهواتف كما هي.', 'لنک، متن یا Wi-Fi تفصیل درج کریں — فون اسے اسی صورت میں پڑھتے ہیں۔'),
+   L('The three corner squares let cameras find and orient the code.', '三個角落方塊讓相機找到並判斷 QR Code 的方向。', 'تساعد المربعات الثلاثة الكاميرا على إيجاد الرمز وتحديد اتجاهه.', 'تین کونے کے مربع کیمرے کو کوڈ ڈھونڈنے اور سمت جاننے میں مدد دیتے ہیں۔'),
+   L('Keep a blank border (quiet zone) and strong dark-on-light contrast, then test-scan before printing.', '保留空白邊界並維持深色對淺色的高對比，列印前先掃描測試。', 'اترك حدوداً فارغة وتبايناً قوياً (داكن على فاتح) وجرّب المسح قبل الطباعة.', 'خالی حاشیہ اور گہرے پر ہلکے رنگ کا واضح فرق رکھیں، اور پرنٹ سے پہلے اسکین کر کے دیکھیں۔')] },
+ resize: { fig: 'resize', title: L('Resize without distortion', '縮放圖片而不變形', 'غيّر الحجم دون تشويه', 'بغیر بگاڑ کے سائز بدلیں'), alt: L('A large image shrinking to a smaller one while keeping the same proportions', '大圖在維持相同比例下縮小為小圖', 'صورة كبيرة تصغّر مع الحفاظ على النسب نفسها', 'بڑی تصویر اسی تناسب کے ساتھ چھوٹی ہو رہی ہے'),
+  steps: [L('Check the original width and height in pixels.', '先確認原圖的寬與高（像素）。', 'تحقق من العرض والارتفاع الأصليين بالبكسل.', 'اصل چوڑائی اور اونچائی (پکسل) دیکھیں۔'),
+   L('Keep the aspect ratio locked so only one side needs to be typed — the other follows.', '鎖定長寬比，只需輸入一邊，另一邊會自動換算。', 'ثبّت نسبة الأبعاد فتكتب جانباً واحداً ويُحسب الآخر.', 'اسپیکٹ ریشو لاک رکھیں تاکہ صرف ایک طرف لکھنی پڑے، دوسری خود بن جائے۔'),
+   L('Shrinking keeps quality; enlarging a small image makes it soft, so avoid upscaling.', '縮小能保持品質；放大小圖會變模糊，請盡量避免。', 'التصغير يحافظ على الجودة؛ أما تكبير صورة صغيرة فيجعلها ضبابية.', 'چھوٹا کرنے سے معیار برقرار رہتا ہے؛ چھوٹی تصویر بڑی کرنے پر دھندلی ہو جاتی ہے۔')] },
+ compress: { fig: 'compress', title: L('Quality vs file size', '品質與檔案大小', 'الجودة مقابل حجم الملف', 'معیار بمقابلہ فائل سائز'), alt: L('Bars showing file size falling as quality is lowered', '長條圖顯示降低品質時檔案大小隨之下降', 'أعمدة تُظهر انخفاض حجم الملف مع خفض الجودة', 'پٹیاں جو معیار گھٹانے پر فائل سائز کم ہوتا دکھاتی ہیں'),
+  steps: [L('Lower the quality slider to shrink the file; the size drops quickly at first.', '調低品質滑桿即可縮小檔案，一開始檔案大小下降得最快。', 'اخفض شريط الجودة لتصغير الملف؛ ينخفض الحجم بسرعة في البداية.', 'معیار سلائیڈر کم کریں تو فائل چھوٹی ہوتی ہے؛ شروع میں سائز تیزی سے گھٹتا ہے۔'),
+   L('Around 70–85% is often a good balance for photos.', '照片通常約 70–85% 是不錯的平衡點。', 'نحو 70–85% توازن جيد للصور غالباً.', 'تصاویر کے لیے اکثر 70–85% اچھا توازن ہوتا ہے۔'),
+   L('Compare the preview before downloading — very low quality shows blocky artefacts.', '下載前先比對預覽——品質過低會出現方塊雜訊。', 'قارن المعاينة قبل التنزيل — الجودة المنخفضة جداً تُظهر تشوهات مربعة.', 'ڈاؤن لوڈ سے پہلے پری ویو دیکھیں — بہت کم معیار میں بلاکی نقص نظر آتے ہیں۔')] },
+ takehome: { fig: 'takehome', title: L('From gross salary to take-home pay', '從月薪到實領薪資', 'من الراتب الإجمالي إلى صافي الراتب', 'مجموعی تنخواہ سے ہاتھ میں آنے والی رقم'), alt: L('A salary bar with labor insurance, health insurance and tax deducted to leave net pay', '月薪長條扣除勞保、健保與稅款後得到實領薪資', 'شريط راتب تُخصم منه التأمينات والضريبة ليبقى صافي الراتب', 'تنخواہ کی پٹی جس سے لیبر انشورنس، ہیلتھ انشورنس اور ٹیکس کٹ کر نیٹ تنخواہ بچتی ہے'),
+  steps: [L('Start with your monthly gross salary.', '從每月的稅前薪資開始。', 'ابدأ بالراتب الشهري الإجمالي.', 'ماہانہ مجموعی تنخواہ سے شروع کریں۔'),
+   L('Labor and employment insurance, NHI and an income-tax estimate are deducted.', '扣除勞保與就業保險、健保，以及所得稅估算。', 'تُخصم تأمينات العمل والتوظيف والتأمين الصحي وتقدير ضريبة الدخل.', 'لیبر و ایمپلائمنٹ انشورنس، NHI اور انکم ٹیکس کا تخمینہ کٹتا ہے۔'),
+   L('What remains is the estimate of your take-home pay — verify with official sources for exact figures.', '剩下的就是實領薪資估算——確切金額請以官方資料為準。', 'الباقي هو تقدير صافي راتبك — راجع المصادر الرسمية للأرقام الدقيقة.', 'جو بچتا ہے وہ آپ کی نیٹ تنخواہ کا تخمینہ ہے — درست رقم کے لیے سرکاری ذرائع دیکھیں۔')] },
+ loan: { fig: 'loan', title: L('Where each loan payment goes', '每期還款的去向', 'أين تذهب كل دفعة قرض', 'ہر قسط کہاں جاتی ہے'), alt: L('Bars showing interest shrinking and principal growing across monthly payments', '長條圖顯示每月還款中利息遞減、本金遞增', 'أعمدة توضح تناقص الفائدة وتزايد أصل الدين عبر الأقساط', 'پٹیاں جو قسطوں میں سود کم اور اصل رقم بڑھتی دکھاتی ہیں'),
+  steps: [L('Enter the loan amount, yearly interest rate and term in months.', '輸入貸款金額、年利率與期數（月）。', 'أدخل مبلغ القرض وسعر الفائدة السنوي ومدة القرض بالأشهر.', 'قرض کی رقم، سالانہ شرح سود اور مدت (مہینے) درج کریں۔'),
+   L('Each equal payment has two parts: interest (amber) and principal (green).', '每期等額還款包含兩部分：利息（橘）與本金（綠）。', 'كل دفعة متساوية لها جزءان: الفائدة (كهرماني) والأصل (أخضر).', 'ہر برابر قسط کے دو حصے ہوتے ہیں: سود (نارنجی) اور اصل (سبز)۔'),
+   L('Early payments are mostly interest; over time more goes to principal.', '前期多為利息，之後本金占比逐漸提高。', 'الدفعات الأولى معظمها فائدة، ومع الوقت يذهب المزيد للأصل.', 'ابتدائی اقساط زیادہ تر سود ہوتی ہیں؛ وقت کے ساتھ اصل بڑھتا ہے۔')] },
+ pdfmerge: { fig: 'pdfmerge', title: L('Merging PDFs', '合併 PDF', 'دمج ملفات PDF', 'PDF کو ملانا'), alt: L('Three PDF files combined into one document in order', '三個 PDF 檔依序合併成一份文件', 'ثلاثة ملفات PDF مدمجة في مستند واحد بالترتيب', 'تین PDF فائلیں ترتیب سے ایک دستاویز میں ملائی گئیں'),
+  steps: [L('Add the PDF files you want to combine.', '加入想要合併的 PDF 檔案。', 'أضف ملفات PDF التي تريد دمجها.', 'جو PDF فائلیں ملانی ہیں انہیں شامل کریں۔'),
+   L('Put them in the right order — the first file becomes the first pages.', '調整為正確順序——第一個檔案會成為最前面的頁面。', 'رتّبها بالترتيب الصحيح — الملف الأول يصبح الصفحات الأولى.', 'درست ترتیب میں رکھیں — پہلی فائل پہلے صفحات بنتی ہے۔'),
+   L('Merge and download; files stay in your browser and are not uploaded.', '合併並下載；檔案只在瀏覽器內處理，不會上傳。', 'ادمج ونزّل؛ تبقى الملفات في متصفحك ولا تُرفع.', 'ملائیں اور ڈاؤن لوڈ کریں؛ فائلیں براؤزر میں رہتی ہیں، اپ لوڈ نہیں ہوتیں۔')] },
+ pdfsplit: { fig: 'pdfsplit', title: L('Splitting a PDF', '拆分 PDF', 'تقسيم ملف PDF', 'PDF کو الگ کرنا'), alt: L('One PDF divided into separate page ranges', '一份 PDF 被拆成不同的頁面範圍', 'ملف PDF واحد مقسّم إلى نطاقات صفحات منفصلة', 'ایک PDF الگ صفحہ حدود میں تقسیم'),
+  steps: [L('Open the PDF and note the pages you need.', '開啟 PDF 並記下需要的頁碼。', 'افتح الملف ودوّن الصفحات التي تحتاجها.', 'PDF کھولیں اور مطلوبہ صفحات نوٹ کریں۔'),
+   L('Enter the first and last page of the range to extract.', '輸入要擷取範圍的起始與結束頁。', 'أدخل أول وآخر صفحة في النطاق المراد استخراجه.', 'نکالنے والی حد کا پہلا اور آخری صفحہ درج کریں۔'),
+   L('Download the new, smaller PDF — the original stays unchanged.', '下載新的較小 PDF——原始檔案不會被更動。', 'نزّل ملف PDF الجديد الأصغر — يبقى الأصل دون تغيير.', 'نئی چھوٹی PDF ڈاؤن لوڈ کریں — اصل فائل نہیں بدلتی۔')] },
+ unit: { fig: 'unit', title: L('Reading units: cm and inches', '認識單位：公分與英寸', 'قراءة الوحدات: سم وبوصة', 'اکائیاں سمجھیں: سینٹی میٹر اور انچ'), alt: L('Two rulers, one in centimetres and one in inches, side by side', '並排的兩把尺，一把公分、一把英寸', 'مسطرتان إحداهما بالسنتيمتر والأخرى بالبوصة', 'دو رولر، ایک سینٹی میٹر اور ایک انچ میں'),
+  steps: [L('Choose a category, such as length, mass or temperature.', '先選擇類別，例如長度、重量或溫度。', 'اختر فئة مثل الطول أو الكتلة أو الحرارة.', 'زمرہ چنیں، جیسے لمبائی، وزن یا درجہ حرارت۔'),
+   L('Type a value and pick the “from” and “to” units.', '輸入數值並選擇「從」與「到」的單位。', 'اكتب قيمة واختر وحدتي «من» و«إلى».', 'قدر لکھیں اور «سے» اور «تک» اکائیاں چنیں۔'),
+   L('For example 1 in = 2.54 cm exactly; results update instantly.', '例如 1 英寸 = 2.54 公分（精確值），結果即時更新。', 'مثلاً 1 بوصة = 2.54 سم بالضبط؛ وتتحدث النتائج فوراً.', 'مثلاً 1 انچ = 2.54 سینٹی میٹر عین؛ نتائج فوراً بدلتے ہیں۔')] },
+ percent: { fig: 'percent', title: L('Understanding percentages', '看懂百分比', 'فهم النسب المئوية', 'فیصد کو سمجھیں'), alt: L('A circle with a highlighted slice showing part divided by whole', '圓餅圖中標示的一塊代表部分除以整體', 'دائرة بشريحة مظللة تمثل الجزء مقسوماً على الكل', 'دائرہ جس کا نمایاں حصہ جزو ÷ کل دکھاتا ہے'),
+  steps: [L('A percentage is part ÷ whole × 100.', '百分比 = 部分 ÷ 整體 × 100。', 'النسبة المئوية = الجزء ÷ الكل × 100.', 'فیصد = جزو ÷ کل × 100۔'),
+   L('To find X% of an amount, multiply the amount by X ÷ 100.', '求某數量的 X%，把數量乘以 X ÷ 100。', 'لإيجاد X% من مبلغ اضرب المبلغ في X ÷ 100.', 'کسی رقم کا X% نکالنے کے لیے رقم کو X ÷ 100 سے ضرب دیں۔'),
+   L('Percentage change = (new − old) ÷ old × 100.', '變動百分比 =（新值 − 舊值）÷ 舊值 × 100。', 'نسبة التغير = (الجديد − القديم) ÷ القديم × 100.', 'فیصد تبدیلی = (نیا − پرانا) ÷ پرانا × 100۔')] },
+ color: { fig: 'color', title: L('Colour codes and contrast', '色碼與對比度', 'رموز الألوان والتباين', 'رنگ کے کوڈ اور کنٹراسٹ'), alt: L('A colour swatch with HEX, RGB and HSL values and contrast samples on dark and light backgrounds', '色塊搭配 HEX、RGB、HSL 數值，以及深淺背景上的對比範例', 'عينة لون بقيم HEX وRGB وHSL وأمثلة تباين على خلفيات داكنة وفاتحة', 'رنگ کا نمونہ HEX، RGB اور HSL کے ساتھ اور گہرے/ہلکے پس منظر پر کنٹراسٹ'),
+  steps: [L('Enter a HEX colour; the same colour is shown as RGB and HSL.', '輸入 HEX 色碼，同一顏色會以 RGB 與 HSL 呈現。', 'أدخل لون HEX فيظهر اللون نفسه بصيغتي RGB وHSL.', 'HEX رنگ درج کریں؛ وہی رنگ RGB اور HSL میں دکھایا جاتا ہے۔'),
+   L('Contrast compares text against its background — higher is easier to read.', '對比度比較文字與背景——比值越高越容易閱讀。', 'يقارن التباين النص بخلفيته — كلما زاد سهلت القراءة.', 'کنٹراسٹ متن کا پس منظر سے موازنہ کرتا ہے — زیادہ ہو تو پڑھنا آسان۔'),
+   L('WCAG AA asks for at least 4.5 : 1 for normal text.', 'WCAG AA 要求一般文字至少 4.5 : 1。', 'يتطلب WCAG AA نسبة 4.5 : 1 على الأقل للنص العادي.', 'WCAG AA عام متن کے لیے کم از کم 4.5 : 1 مانگتا ہے۔')] },
 }
-const bySlug = { 'paint-calculator': 'paint', 'flooring-calculator': 'flooring', 'drywall-calculator': 'drywall', 'concrete-calculator': 'concrete', 'ping-converter': 'ping', 'renovation-budget': 'budget', 'taiwan-id-photo': 'idphoto', 'aspect-ratio-calculator': 'aspect', 'dpi-calculator': 'dpi' }
+const bySlug = { 'paint-calculator': 'paint', 'flooring-calculator': 'flooring', 'drywall-calculator': 'drywall', 'concrete-calculator': 'concrete', 'ping-converter': 'ping', 'renovation-budget': 'budget', 'taiwan-id-photo': 'idphoto', 'aspect-ratio-calculator': 'aspect', 'dpi-calculator': 'dpi', 'qr-generator': 'qr', 'image-resize': 'resize', 'image-compress': 'compress', 'take-home-pay': 'takehome', 'loan-payment': 'loan', 'pdf-merge': 'pdfmerge', 'pdf-split': 'pdfsplit', 'unit-converter': 'unit', 'percentage': 'percent', 'color-converter': 'color' }
 const heading = L('Visual guide', '圖解說明', 'دليل مرئي', 'تصویری رہنمائی')
 export const hasIllustration = slug => Boolean(bySlug[slug])
 
@@ -134,7 +237,7 @@ export default function ToolIllustration({ slug }) {
  return <section className="tool-visual-guide mt-6" aria-labelledby="visual-guide-title">
   <h2 id="visual-guide-title" className="mb-3 text-2xl font-black">{pick(c.title)}</h2>
   <div className="tool-visual-card">
-   <figure className="m-0">{figures[c.fig](pick(c.alt))}<figcaption className="sr-only">{pick(c.alt)}</figcaption></figure>
+   <figure className="m-0">{figures[c.fig](pick(c.alt))}</figure>
    <div><p className="mb-2 text-xs font-bold uppercase tracking-wider text-slate-500">{pick(heading)}</p><ol className="tool-visual-steps">{c.steps.map((s, i) => <li key={i}>{pick(s)}</li>)}</ol></div>
   </div>
  </section>
