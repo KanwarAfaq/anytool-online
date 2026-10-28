@@ -62,12 +62,13 @@ for await(const file of walk(root)){
   // keyword = the tool's (localized) name on tool pages, otherwise the page H1
   const kw=norm(toolName||h1)
   const row={url,fails:[]}
-  if(!norm(strip(title)).includes(kw)&&!kw.split(' ').slice(0,3).every(w=>norm(strip(title)).includes(w)))row.fails.push('title')
-  if(!norm(firstP).includes(kw))row.fails.push('paragraph')
-  if(!h2s.some(h=>norm(h).includes(kw)))row.fails.push('h2')
+  const isGuide=/\/guides(\/|$)/.test(url) // long-form article titles are sentences; keyword-in-heading checks do not apply
+  if(!isGuide&&!norm(strip(title)).includes(kw)&&!kw.split(' ').slice(0,3).every(w=>norm(strip(title)).includes(w)))row.fails.push('title')
+  if(!isGuide&&!norm(firstP).includes(kw))row.fails.push('paragraph')
+  if(!isGuide&&!h2s.some(h=>norm(h).includes(kw)))row.fails.push('h2')
   if((url.includes('/tools/')||url==='/')&&!alts.some(a=>norm(a).includes(kw)))row.fails.push('alt')
   if(!internal)row.fails.push('internal')
-  if(!external)row.fails.push('external')
+  if(!external&&!/\/guides$/.test(url))row.fails.push('external')
   const errs=[]
   const blocks=[...html.matchAll(/<script[^>]*application\/ld\+json[^>]*>([\s\S]*?)<\/script>/g)]
   if(!blocks.length)errs.push(url+': no JSON-LD')

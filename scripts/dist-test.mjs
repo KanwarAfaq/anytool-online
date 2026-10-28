@@ -1,3 +1,4 @@
+import { guides } from '../src/data/guides.js'
 import assert from 'node:assert/strict'
 import { readFile, access } from 'node:fs/promises'
 import { resolve } from 'node:path'
@@ -40,7 +41,8 @@ assert.ok(Object.keys(sourceRegistry.sources||{}).length>=10,'official source re
 const robots=await readFile(resolve(root,'dist/robots.txt'),'utf8')
 assert.ok(robots.includes('Allow: /'),'robots should allow crawlable pages')
 assert.ok(!robots.includes('Disallow: /auth'),'robots must not block pages that rely on X-Robots noindex')
-const expectedUrls=(staticPages.length+tools.length)*locales.length
+const guideCount=(guides.length+1)*2 // /guides + each guide, en and zh-TW only
+const expectedUrls=(staticPages.length+tools.length)*locales.length+guideCount
 const homeHtml=await readFile(resolve(root,'dist/index.html'),'utf8')
 const aboutHtml=await readFile(resolve(root,'dist/about/index.html'),'utf8')
 assert.ok(aboutHtml.includes('kmafaq2@gmail.com'),'about prerender missing owner email schema')

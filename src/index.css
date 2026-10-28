@@ -145,7 +145,7 @@ input[type=file]::file-selector-button{margin-inline-end:.75rem;border:1px solid
 .mobile-menu-panel a:hover{background:var(--surface-2);color:var(--ink)}
 @media(min-width:640px){.lang-select{display:block}}
 @media(min-width:768px){.header-search{display:flex}.header-actions{margin-inline-start:0}}
-@media(min-width:1024px){.header-nav{display:flex}.mobile-toggle{display:none!important}}
+@media(min-width:1200px){.header-nav{display:flex}.mobile-toggle{display:none!important}}
 
 /* ---------- Command palette ---------- */
 .command-backdrop{position:fixed;inset:0;z-index:80;display:grid;place-items:start center;padding:10vh 1rem 1rem;background:rgba(8,10,18,.55);backdrop-filter:blur(6px)}
@@ -436,3 +436,8 @@ a.bento-card:hover{transform:translateY(-4px);box-shadow:var(--shadow-lg)}
 .tool-faq-item summary::after{content:'+';font-weight:900;color:var(--accent,#7c3aed);transition:transform .2s}
 .tool-faq-item[open] summary::after{transform:rotate(45deg)}
 .tool-faq-item p{padding:0 0 .9rem;line-height:1.7;opacity:.85;font-size:.95rem}
+
+/* Guides */
+.guide-card{display:block;transition:transform .2s,border-color .2s,box-shadow .2s}
+.guide-card:hover{transform:translateY(-3px);box-shadow:0 12px 30px -12px var(--accent,#7c3aed)}
+.guide-article h2{margin-top:0}

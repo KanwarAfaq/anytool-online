@@ -10,7 +10,7 @@ const locales=[
 ]
 const stripLocale=path=>path.replace(/^\/(zh-tw|ar|ur)(?=\/|$)/,'')||'/'
 
-export default function Seo({title,description,jsonLd,noindex=false,image=''}){
+export default function Seo({title,description,jsonLd,noindex=false,image='',only=null}){
  const location=useLocation()
  useEffect(()=>{
    const path=location.pathname==='/'?'/':location.pathname.replace(/\/$/,'')
@@ -40,6 +40,7 @@ export default function Seo({title,description,jsonLd,noindex=false,image=''}){
    document.head.querySelectorAll('link[rel="alternate"][hreflang]').forEach(el=>el.remove())
    if(!noindex){
      for(const [hreflang,prefix] of locales){
+       if(only&&!only.includes(hreflang))continue
        const href=SITE+(prefix||'')+(clean==='/'?'/':clean)
        setLink('link[rel="alternate"][hreflang="'+hreflang+'"]',{rel:'alternate',hreflang,href})
      }

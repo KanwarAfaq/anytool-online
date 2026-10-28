@@ -47,6 +47,7 @@ export default function Layout({children}){
     </Link>
     <nav className="header-nav" aria-label="Primary navigation">
       <NavLink className={({isActive})=>'modern-nav-link '+(isActive?'active':'')} to={pathFor('/tools')}>{N.tools}</NavLink>
+      <NavLink className={({isActive})=>'modern-nav-link '+(isActive?'active':'')} to={pathFor('/guides')}>{({en:'Guides','zh-TW':'指南',ar:'الأدلة',ur:'گائیڈز'})[lang]||'Guides'}</NavLink>
       <NavLink className={({isActive})=>'modern-nav-link '+(isActive?'active':'')} to={pathFor('/sources')}>{N.sources}</NavLink>
       <NavLink className={({isActive})=>'modern-nav-link '+(isActive?'active':'')} to={pathFor('/about')}>{N.about}</NavLink>
       <NavLink className={({isActive})=>'modern-nav-link '+(isActive?'active':'')} to={pathFor('/contact')}>{N.contact}</NavLink>

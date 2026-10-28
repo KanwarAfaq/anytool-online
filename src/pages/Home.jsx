@@ -6,6 +6,7 @@ import { takeHome, money } from '../lib/calculators'
 import Seo from '../components/Seo'
 import { useI18n } from '../i18n'
 import { faqFor } from '../data/homeFaq'
+import { guides, guideLocales } from '../data/guides'
 
 const categoryIcon={money:WalletCards,image:ImageIcon,document:FileText,ai:BrainCircuit,general:Calculator,developer:Code2,text:Type,security:Shield,design:Palette,renovation:Hammer}
 const categoryAccent={money:'text-lime-300',image:'text-sky-300',document:'text-indigo-300',ai:'text-violet-300',general:'text-amber-300',developer:'text-cyan-300',text:'text-fuchsia-300',security:'text-emerald-300',design:'text-pink-300',renovation:'text-orange-300'}
@@ -96,6 +97,10 @@ export default function Home(){
    <div className="mt-3 grid gap-3 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">{homeTools.map(tool=>{const I=categoryIcon[tool.category]||Sparkles;return <Link to={pathFor('/tools/'+tool.slug)} key={tool.slug} className={'card tool-card tool-tile category-'+tool.category}><span className="tool-icon"><I size={17}/></span><div><h3>{toolName(tool)}</h3><p>{toolDescription(tool)}</p></div></Link>})}</div>
    {filtered.length>12&&<div className="mt-6 text-center"><Link className="btn-ghost" to={pathFor('/tools')}>{C.viewAll} ({filtered.length})<ArrowRight className="ms-2" size={15}/></Link></div>}
    {filtered.length===0&&<div className="card mt-4 p-10 text-center text-slate-500">{C.noMatch}</div>}
+  </section>
+  <section className="mx-auto max-w-[72rem] px-4 pb-10 rv" aria-label="Guides">
+   <div className="flex items-end justify-between gap-3"><h2 className="section-title">{({en:'Practical guides','zh-TW':'實用指南',ar:'أدلة عملية',ur:'عملی گائیڈز'})[lang]||'Practical guides'}</h2><Link className="text-sm font-bold text-[var(--accent-text)] hover:underline" to={pathFor('/guides')}>{({en:'All guides','zh-TW':'所有指南',ar:'كل الأدلة',ur:'تمام گائیڈز'})[lang]||'All guides'} →</Link></div>
+   <div className="mt-3 grid gap-3 sm:grid-cols-2 lg:grid-cols-3">{guides.slice(0,3).map(g=>{const c=g[guideLocales.includes(lang)?lang:'en'];return <Link key={g.slug} to={pathFor('/guides/'+g.slug)} className="card guide-card p-5"><h3 className="font-black">{c.title}</h3><p className="mt-2 text-sm opacity-75">{c.desc}</p></Link>})}</div>
   </section>
   <section className="mx-auto max-w-[72rem] px-4 pb-16" aria-label="Frequently asked questions"><h2 className="section-title mb-5">{lang==='zh-TW'?'常見問題':lang==='ar'?'الأسئلة الشائعة':lang==='ur'?'اکثر پوچھے گئے سوالات':'Frequently asked questions'}</h2><div className="home-faq md:grid-cols-2">{faqByLang.map(([question,answer],i)=><details key={question} className="compact-details" style={{marginTop:0}} open={i===0}><summary><h3 className="text-base font-bold">{question}</h3></summary><p className="px-4 pb-4 text-sm leading-6 text-slate-500">{answer}</p></details>)}</div></section></div>
  </>

@@ -190,7 +190,7 @@ test('modern header uses AnyTool brand and animated primary navigation hooks', a
   await expect(brand).toContainText('AnyTool')
   await expect(brand).not.toContainText('.online')
   await expect(brand.locator('img[src="/favicon-192.png"]')).toBeVisible()
-  await expect(page.locator('.modern-nav-link')).toHaveCount(5)
+  await expect(page.locator('.modern-nav-link')).toHaveCount(6)
 })
 
 test('tool feedback shows update history and prefills problem reports', async ({ page }) => {
@@ -752,4 +752,24 @@ test('home shows highlights and the back-to-top button appears after scrolling',
   await expect(top).toHaveClass(/show/)
   await top.click()
   await expect.poll(() => page.evaluate(() => window.scrollY)).toBeLessThan(50)
+})
+
+test('guides hub and articles work in English and Traditional Chinese', async ({ page }) => {
+  await page.goto('/guides')
+  await expect(page.getByRole('heading',{level:1,name:'Practical guides'})).toBeVisible()
+  await page.getByRole('link',{name:/Convert Ping/}).first().click()
+  await expect(page.getByRole('heading',{level:1})).toContainText('Ping')
+  await expect(page.locator('link[rel="alternate"][hreflang="ar"]')).toHaveCount(0)
+  await expect(page.locator('link[rel="alternate"][hreflang="zh-TW"]')).toHaveCount(1)
+  await page.goto('/zh-tw/guides/ping-to-square-meters')
+  await expect(page.getByRole('heading',{level:1})).toContainText('坪數換算')
+  await page.goto('/ar/guides')
+  await expect(page).toHaveURL(/\/guides$/)
+})
+
+test('tool pages show a FAQ and a related guide', async ({ page }) => {
+  await page.goto('/tools/paint-calculator')
+  await expect(page.getByRole('heading',{name:/Frequently asked questions/})).toBeVisible()
+  await expect(page.getByText('How much paint do I need for a room?')).toBeVisible()
+  await expect(page.getByRole('link',{name:/How Much Paint Do You Need/})).toBeVisible()
 })

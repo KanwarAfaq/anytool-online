@@ -17,6 +17,8 @@ const Accessibility=lazy(()=>import('./pages/Accessibility'))
 const Profile=lazy(()=>import('./pages/Profile'))
 const Platforms=lazy(()=>import('./pages/Platforms'))
 const Category=lazy(()=>import('./pages/Category'))
+const GuidesIndex=lazy(()=>import('./pages/Guides').then(m=>({default:m.GuidesIndex})))
+const GuidePage=lazy(()=>import('./pages/Guides'))
 const NotFound=lazy(()=>import('./pages/NotFound'))
 
 function Loading(){return <div className="mx-auto max-w-7xl px-4 py-20 text-slate-400" style={{minHeight:'100vh'}} role="status">Loading…</div>}
@@ -36,6 +38,8 @@ export default function App(){
   <Route key="tools" path="/tools" element={<Tools/>}/>,
   <Route key="tool" path="/tools/:slug" element={<ToolPage/>}/>,
   <Route key="category" path="/categories/:category" element={<Category/>}/>,
+  <Route key="guides" path="/guides" element={<GuidesIndex/>}/>,
+  <Route key="guide" path="/guides/:slug" element={<GuidePage/>}/>,
   <Route key="auth" path="/auth" element={<AuthPage/>}/>,
   <Route key="dash" path="/dashboard" element={<Dashboard/>}/>,
   <Route key="about" path="/about" element={<About/>}/>,
@@ -49,7 +53,7 @@ export default function App(){
   <Route key="profile" path="/profile" element={<Profile/>}/>,
  ]
  const localized=[
-  ['/:locale',<Home/>],['/:locale/tools',<Tools/>],['/:locale/tools/:slug',<ToolPage/>],['/:locale/categories/:category',<Category/>],['/:locale/auth',<AuthPage/>],['/:locale/dashboard',<Dashboard/>],
+  ['/:locale',<Home/>],['/:locale/tools',<Tools/>],['/:locale/tools/:slug',<ToolPage/>],['/:locale/categories/:category',<Category/>],['/:locale/guides',<GuidesIndex/>],['/:locale/guides/:slug',<GuidePage/>],['/:locale/auth',<AuthPage/>],['/:locale/dashboard',<Dashboard/>],
   ['/:locale/about',<About/>],['/:locale/contact',<Contact/>],['/:locale/privacy',<Privacy/>],['/:locale/methodology',<Methodology/>],['/:locale/sources',<Sources/>],['/:locale/platforms',<Platforms/>],['/:locale/terms',<Terms/>],['/:locale/accessibility',<Accessibility/>],['/:locale/profile',<Profile/>]
  ].map(([path,el])=><Route key={path} path={path} element={<LocaleGate>{el}</LocaleGate>}/>)
  return <><ScrollToTopOnNavigation/><Layout><Suspense fallback={<Loading/>}><Routes>{base}{localized}<Route path="*" element={<NotFound/>}/></Routes></Suspense></Layout></>

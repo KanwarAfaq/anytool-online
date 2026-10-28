@@ -23,6 +23,7 @@ import RenovationTools, { renovationToolSlugs } from '../components/tools/Renova
 import SourceEvidence from '../components/SourceEvidence'
 import ToolGuide from '../components/ToolGuide'
 import ToolFaq from '../components/ToolFaq'
+import { guides, guideLocales } from '../data/guides'
 import { faqForTool } from '../data/toolFaq'
 import ToolIllustration from '../components/ToolIllustration'
 import OfficialAssistant from '../components/OfficialAssistant'
@@ -333,6 +334,7 @@ export default function ToolPage(){
   <ToolIllustration slug={slug}/>
   <section className="mt-6"><h2 className="mb-3 text-2xl font-black">{toolName(tool)} — {lang==='zh-TW'?'使用指南':lang==='ar'?'دليل الاستخدام':lang==='ur'?'استعمال کی رہنمائی':'Usage guide'}</h2><ToolGuide tool={tool}/></section>
   <ToolFaq tool={tool}/>
+  {guides.filter(g=>g.tool===slug).map(g=>{const c=g[guideLocales.includes(lang)?lang:'en'];return <Link key={g.slug} to={pathFor('/guides/'+g.slug)} className="card guide-card mt-5 block p-5"><span className="text-xs font-black uppercase tracking-widest opacity-60">{({en:'Guide','zh-TW':'指南',ar:'دليل',ur:'گائیڈ'})[lang]||'Guide'}</span><strong className="mt-1 block text-lg">{c.title}</strong><span className="mt-1 block text-sm opacity-75">{c.desc}</span></Link>})}
   <section className="resources-card" aria-label="Helpful resources">
     <h2>{toolName(tool)} — {lang==='zh-TW'?'實用資源':lang==='ar'?'مصادر مفيدة':lang==='ur'?'مفید وسائل':'Helpful resources'}</h2>
     <div className="resources-links">

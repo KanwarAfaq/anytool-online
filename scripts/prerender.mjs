@@ -6,6 +6,7 @@ import { faqFor } from '../src/data/homeFaq.js'
 import { faqForTool } from '../src/data/toolFaq.js'
 import { refsForPath } from '../src/data/externalRefs.js'
 import { officialSources, toolSourceKeys } from '../src/data/officialSources.js'
+import { guides, guideLocales, guidesHub } from '../src/data/guides.js'
 import { toolTranslations, toolDescriptionTranslations } from '../src/data/toolTranslations.js'
 
 const root=process.cwd()
@@ -115,7 +116,7 @@ const taiwan2026=new Set(['take-home-pay','labor-insurance','nhi','income-tax','
 const cleanPath=p=>p==='/'?'/':p.replace(/\/$/,'')
 const localizedPath=(prefix,path)=>path==='/'?(prefix||'/'):prefix+path
 const basePath=p=>p.replace(/^\/(zh-tw|ar|ur)(?=\/|$)/,'')||'/'
-const alternateLinks=path=>locales.map(l=>`<link rel="alternate" hreflang="${l.code}" href="${SITE+localizedPath(l.prefix,path)}" />`).join('')+`<link rel="alternate" hreflang="x-default" href="${SITE+path}" />`
+const alternateLinks=(path,only=null)=>locales.filter(l=>!only||only.includes(l.code)).map(l=>`<link rel="alternate" hreflang="${l.code}" href="${SITE+localizedPath(l.prefix,path)}" />`).join('')+`<link rel="alternate" hreflang="x-default" href="${SITE+path}" />`
 const localizedToolName=(tool,locale)=>{const x=toolTranslations[tool.slug];if(locale.code==='zh-TW')return x?.zh||tool.name;if(locale.code==='ar')return x?.ar||tool.name;if(locale.code==='ur')return x?.ur||tool.name;return tool.name}
 const localizedToolDescription=(tool,locale)=>{const x=toolDescriptionTranslations[tool.slug];if(locale.code==='zh-TW')return x?.zh||tool.seoDescription||tool.description;if(locale.code==='ar')return x?.ar||tool.seoDescription||tool.description;if(locale.code==='ur')return x?.ur||tool.seoDescription||tool.description;return tool.seoDescription||tool.description}
 const gitDate=file=>{try{return execFileSync('git',['log','-1','--format=%cs','--',file],{encoding:'utf8'}).trim()||lastmod}catch{return lastmod}}
@@ -183,7 +184,7 @@ const fallbackHtml=(title,description,path)=>{
  return `<main class="seo-prerender" style="max-width:70rem;margin:0 auto;padding:3rem 1rem"><nav><a href="${SITE}/">AnyTool.online</a> · <a href="${SITE}/sources">${esc(ui.sources)}</a> · <a href="${SITE}/methodology">Methodology</a></nav><h1 style="font-size:2.25rem;line-height:1.15;margin:1rem 0">${esc(title.split('|')[0].trim())}</h1>${clean==='/'?`<img src="${SITE}/og-default.png" alt="${esc(focus)} preview" width="1200" height="630" style="width:min(100%,32rem);height:auto;border-radius:1.25rem;margin:1rem 0" />`:''}${tool?`<img src="${SITE}/tool-art/${tool.slug}.svg" alt="${esc(localizedToolName(tool,{code}))} visual preview" width="640" height="360" style="width:min(100%,40rem);height:auto;border-radius:1.25rem;margin:1rem 0 1.25rem" />`:''}<p style="max-width:52rem;line-height:1.75">${esc(lead)}</p>${!tool?`<section><h2>${esc(focus)}</h2><p>${esc(description)}</p></section>`:''}${tool?`<section><h2>${esc(ui.about)} — ${esc(localizedToolName(tool,{code}))}</h2><p style="max-width:52rem;line-height:1.7">${esc(description)}</p></section><section><h2>${esc(ui.how)}</h2><ol><li>${esc(ui.step1)}</li><li>${esc(ui.step2)}</li><li>${esc(ui.step3)}</li></ol></section><section><h2>${esc(ui.privacy)}</h2><p style="max-width:52rem;line-height:1.7">${esc(ui.privacyText)}</p></section>`:''}${sourceHtml}${staticSourceHtml}${relatedHtml}${listingHtml}${refsHtml}</main>`
 }
 
-async function emit(path,locale,title,description,schemas=[],image=''){
+async function emit(path,locale,title,description,schemas=[],image='',opts={}){
  const p=cleanPath(path)
  const canonical=SITE+p
  const base=basePath(p)
@@ -192,10 +193,10 @@ async function emit(path,locale,title,description,schemas=[],image=''){
    .replace(/<title>.*?<\/title>/s,`<title>${esc(title)}</title>`)
    .replace(/<meta name="description" content=".*?" \/>/s,`<meta name="description" content="${esc(description)}" />`)
    .replace(/<link rel="canonical" href=".*?" \/>/s,`<link rel="canonical" href="${canonical}" />`)
-   .replace('<div id="root"></div>',`<div id="root">${fallbackHtml(title,description,p)}</div>`)
+   .replace('<div id="root"></div>',`<div id="root">${opts.bodyHtml||fallbackHtml(title,description,p)}</div>`)
  const ogImage=SITE+'/og-default.png'
  const imageMeta=`<meta property="og:image" content="${ogImage}" /><meta property="og:image:type" content="image/png" /><meta property="og:image:alt" content="AnyTool.online — free online tools" /><meta property="og:image:width" content="1200" /><meta property="og:image:height" content="630" /><meta name="twitter:image" content="${ogImage}" /><meta name="twitter:image:alt" content="AnyTool.online — free online tools" />`
- html=html.replace('</head>',`<meta name="robots" content="index,follow,max-image-preview:large,max-snippet:-1,max-video-preview:-1" /><meta name="application-name" content="AnyTool.online" /><meta property="og:title" content="${esc(title)}" /><meta property="og:description" content="${esc(description)}" /><meta property="og:url" content="${canonical}" /><meta property="og:type" content="website" /><meta property="og:site_name" content="AnyTool.online" /><meta property="og:locale" content="${locale.og}" /><meta name="twitter:card" content="summary_large_image" /><meta name="twitter:title" content="${esc(title)}" /><meta name="twitter:description" content="${esc(description)}" />${imageMeta}${alternateLinks(base)}${schemas.map(x=>`<script type="application/ld+json" data-anytool-prerender-jsonld="1">${JSON.stringify(x)}</script>`).join('')}</head>`)
+ html=html.replace('</head>',`<meta name="robots" content="index,follow,max-image-preview:large,max-snippet:-1,max-video-preview:-1" /><meta name="application-name" content="AnyTool.online" /><meta property="og:title" content="${esc(title)}" /><meta property="og:description" content="${esc(description)}" /><meta property="og:url" content="${canonical}" /><meta property="og:type" content="website" /><meta property="og:site_name" content="AnyTool.online" /><meta property="og:locale" content="${locale.og}" /><meta name="twitter:card" content="summary_large_image" /><meta name="twitter:title" content="${esc(title)}" /><meta name="twitter:description" content="${esc(description)}" />${imageMeta}${alternateLinks(base,opts.only)}${schemas.map(x=>`<script type="application/ld+json" data-anytool-prerender-jsonld="1">${JSON.stringify(x)}</script>`).join('')}</head>`)
  const out=p==='/'?resolve(root,'dist','index.html'):resolve(root,'dist',p.slice(1),'index.html')
  await mkdir(dirname(out),{recursive:true})
  await writeFile(out,html)
@@ -243,12 +244,32 @@ for(const locale of locales){
  }
 }
 
+// Guides: English and Traditional Chinese only (hreflang and sitemap alternates list just those two).
+const guideLocaleObjs=locales.filter(l=>guideLocales.includes(l.code))
+const guideBody=(c,locale,g)=>{
+ const toolLink=`<p><a href="${SITE}${localizedPath(locale.prefix,'/tools/'+g.tool)}">${esc(localizedToolName(tools.find(t=>t.slug===g.tool),locale))}</a></p>`
+ return `<main class="seo-prerender" style="max-width:48rem;margin:0 auto;padding:3rem 1rem"><nav><a href="${SITE}${localizedPath(locale.prefix,'/')}">AnyTool.online</a> · <a href="${SITE}${localizedPath(locale.prefix,'/guides')}">${esc(guidesHub[locale.code].h1)}</a></nav><h1>${esc(c.title)}</h1><p>${esc(c.desc)}</p>${c.sections.map(s=>`<section><h2>${esc(s.h)}</h2>${(s.p||[]).map(t=>`<p>${esc(t)}</p>`).join('')}${s.list?`<ul>${s.list.map(i=>`<li>${esc(i)}</li>`).join('')}</ul>`:''}</section>`).join('')}${g.refs?`<section><h2>${locale.code==='zh-TW'?'延伸閱讀':'Further reading'}</h2><ul>${g.refs.map(r=>`<li><a href="${esc(r.url)}" rel="noopener noreferrer">${esc(r.label)}</a></li>`).join('')}</ul></section>`:''}${toolLink}</main>`
+}
+for(const locale of guideLocaleObjs){
+ const H=guidesHub[locale.code]
+ const idxPath=localizedPath(locale.prefix,'/guides')
+ await emit(idxPath,locale,H.title,H.desc,[{'@context':'https://schema.org','@type':'CollectionPage',name:H.title,description:H.desc,url:SITE+idxPath,inLanguage:locale.code,isPartOf:{'@type':'WebSite',name:'AnyTool.online',url:SITE+'/'}},{'@context':'https://schema.org','@type':'ItemList',name:H.h1,itemListElement:guides.map((g,i)=>({'@type':'ListItem',position:i+1,name:(g[locale.code]||g.en).title,url:SITE+localizedPath(locale.prefix,'/guides/'+g.slug)}))}],'',{only:guideLocales,bodyHtml:`<main class="seo-prerender" style="max-width:48rem;margin:0 auto;padding:3rem 1rem"><h1>${esc(H.h1)}</h1><p>${esc(H.desc)}</p><ul>${guides.map(g=>`<li><a href="${SITE}${localizedPath(locale.prefix,'/guides/'+g.slug)}">${esc((g[locale.code]||g.en).title)}</a> — ${esc((g[locale.code]||g.en).desc)}</li>`).join('')}</ul></main>`})
+ for(const g of guides){
+  const c=g[locale.code]||g.en,path=localizedPath(locale.prefix,'/guides/'+g.slug),url=SITE+path
+  await emit(path,locale,c.title+' | AnyTool.online',c.desc,[
+   {'@context':'https://schema.org','@type':'Article',headline:c.title,description:c.desc,inLanguage:locale.code,dateModified:g.updated,datePublished:g.updated,mainEntityOfPage:url,author:{'@type':'Person',name:OWNER_NAME,url:SITE+localizedPath(locale.prefix,'/about')},publisher:{'@type':'Organization',name:'AnyTool.online',url:SITE+'/'}},
+   {'@context':'https://schema.org','@type':'BreadcrumbList',itemListElement:[{'@type':'ListItem',position:1,name:'AnyTool',item:SITE+'/'},{'@type':'ListItem',position:2,name:H.h1,item:SITE+idxPath},{'@type':'ListItem',position:3,name:c.title,item:url}]}
+  ],'',{only:guideLocales,bodyHtml:guideBody(c,locale,g)})
+ }
+}
+
 // llms.txt per llmstxt.org: H1, > summary, then sections of [name](url): description links.
 {
  const cats=categories.map(c=>c.id).filter(id=>tools.some(t=>t.category===id))
  const catLabel=Object.fromEntries(categories.map(c=>[c.id,c.label]))
  const lines=['# AnyTool.online','',`> Free online tools in English, Traditional Chinese, Arabic and Urdu: ${tools.length} calculators, Taiwan salary/insurance/tax tools, renovation estimators (坪, sq ft), image and PDF utilities and QR tools. Most run in the browser with no sign-up.`,'','Canonical site: https://anytool.online/. Localized copies live under /zh-tw/, /ar/ and /ur/.','']
  for(const c of cats){lines.push('## '+(catLabel[c]||c),...tools.filter(t=>t.category===c).map(t=>`- [${t.name}](${SITE}/tools/${t.slug}): ${t.description}`),'')}
+ lines.push('## Guides',...guides.map(g=>`- [${g.en.title}](${SITE}/guides/${g.slug}): ${g.en.desc}`),'')
  lines.push('## Trust and sources','- [Methodology](https://anytool.online/methodology): how regulated calculations are built and verified','- [Official sources](https://anytool.online/sources): authorities, URLs and verification dates','- [Privacy](https://anytool.online/privacy): what is processed in the browser versus on a server','- [Terms & limitations](https://anytool.online/terms): planning estimates, not professional advice','','## Machine-readable','- [Tool catalog](https://anytool.online/tool-catalog.json): canonical URLs, update dates and sources','- [Official source registry](https://anytool.online/official-sources.json): authorities and verification dates','- [Sitemap](https://anytool.online/sitemap.xml): all 4 languages with hreflang','','## Optional','- [Platforms](https://anytool.online/platforms): landlord pack, Taoyuan long-term-care navigator and care platform','')
  await writeFile(resolve(root,'dist','llms.txt'),lines.join('\n'))
 }
@@ -261,6 +282,12 @@ for(const path of indexable){
    const imageTag=toolSlug?`<image:image><image:loc>${xml(SITE+'/tool-art/'+toolSlug+'.svg')}</image:loc></image:image>`:''
    entries.push(`<url><loc>${xml(alt.loc)}</loc><lastmod>${contentLastmod(path)}</lastmod>${imageTag}${alternates.map(a=>`<xhtml:link rel="alternate" hreflang="${a.code}" href="${xml(a.loc)}" />`).join('')}<xhtml:link rel="alternate" hreflang="x-default" href="${xml(SITE+path)}" /></url>`)
  }
+}
+const guidePaths=['/guides',...guides.map(g=>'/guides/'+g.slug)]
+for(const path of guidePaths){
+ const alts=guideLocaleObjs.map(l=>({code:l.code,loc:SITE+localizedPath(l.prefix,path)}))
+ const gs=guides.find(x=>'/guides/'+x.slug===path)
+ for(const alt of alts)entries.push(`<url><loc>${xml(alt.loc)}</loc><lastmod>${gs?gs.updated:lastmod}</lastmod>${alts.map(a=>`<xhtml:link rel="alternate" hreflang="${a.code}" href="${xml(a.loc)}" />`).join('')}<xhtml:link rel="alternate" hreflang="x-default" href="${xml(SITE+path)}" /></url>`)
 }
 const sitemap=`<?xml version="1.0" encoding="UTF-8"?><urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml" xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">${entries.join('')}</urlset>`
 await writeFile(resolve(root,'dist','sitemap.xml'),sitemap)
