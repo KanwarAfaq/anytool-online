@@ -22,6 +22,8 @@ import Wave4ToolSuite, { wave4ToolSlugs } from '../components/tools/Wave4ToolSui
 import RenovationTools, { renovationToolSlugs } from '../components/tools/RenovationTools'
 import SourceEvidence from '../components/SourceEvidence'
 import ToolGuide from '../components/ToolGuide'
+import ToolFaq from '../components/ToolFaq'
+import { faqForTool } from '../data/toolFaq'
 import ToolIllustration from '../components/ToolIllustration'
 import OfficialAssistant from '../components/OfficialAssistant'
 import ToolArt from '../components/ToolArt'
@@ -313,6 +315,7 @@ export default function ToolPage(){
  const schemas=[
   {'@context':'https://schema.org','@type':'WebPage',name:seoTitle,description:seoDescription,url:toolUrl,inLanguage:lang,dateModified:updated,primaryImageOfPage:imageUrl,...(sourceUrls.length?{citation:sourceUrls}:{}),isPartOf:{'@type':'WebSite',name:'AnyTool.online',url:'https://anytool.online/'}},
   {'@context':'https://schema.org','@type':'SoftwareApplication',name:toolName(tool),description:seoDescription,image:imageUrl,applicationCategory:'UtilitiesApplication',operatingSystem:'Web',url:toolUrl,isAccessibleForFree:true,...(sourceUrls.length?{citation:sourceUrls}:{}),publisher:{'@type':'Organization',name:'AnyTool.online',url:'https://anytool.online/',sameAs:['https://github.com/KanwarAfaq/anytool-online']},offers:{'@type':'Offer',price:'0',priceCurrency:'USD'}},
+  {'@context':'https://schema.org','@type':'FAQPage',mainEntity:faqForTool(tool,lang,toolName(tool),toolDescription(tool)).map(([q,a])=>({'@type':'Question',name:q,acceptedAnswer:{'@type':'Answer',text:a}}))},
   {'@context':'https://schema.org','@type':'BreadcrumbList',itemListElement:[{'@type':'ListItem',position:1,name:'AnyTool',item:'https://anytool.online/'},{'@type':'ListItem',position:2,name:categoryName,item:categoryUrl},{'@type':'ListItem',position:3,name:toolName(tool),item:toolUrl}]}
  ]
  return <section className="tool-page-wide mx-auto w-full px-4 py-6">
@@ -329,6 +332,7 @@ export default function ToolPage(){
   <div className={'tool-workspace category-'+tool.category}>{view}</div>
   <ToolIllustration slug={slug}/>
   <section className="mt-6"><h2 className="mb-3 text-2xl font-black">{toolName(tool)} — {lang==='zh-TW'?'使用指南':lang==='ar'?'دليل الاستخدام':lang==='ur'?'استعمال کی رہنمائی':'Usage guide'}</h2><ToolGuide tool={tool}/></section>
+  <ToolFaq tool={tool}/>
   <section className="resources-card" aria-label="Helpful resources">
     <h2>{toolName(tool)} — {lang==='zh-TW'?'實用資源':lang==='ar'?'مصادر مفيدة':lang==='ur'?'مفید وسائل':'Helpful resources'}</h2>
     <div className="resources-links">

@@ -1,8 +1,9 @@
 import { mkdir, readFile, writeFile } from 'node:fs/promises'
 import { dirname, resolve } from 'node:path'
 import { execFileSync } from 'node:child_process'
-import { tools } from '../src/data/tools.js'
+import { tools, categories } from '../src/data/tools.js'
 import { faqFor } from '../src/data/homeFaq.js'
+import { faqForTool } from '../src/data/toolFaq.js'
 import { refsForPath } from '../src/data/externalRefs.js'
 import { officialSources, toolSourceKeys } from '../src/data/officialSources.js'
 import { toolTranslations, toolDescriptionTranslations } from '../src/data/toolTranslations.js'
@@ -235,12 +236,22 @@ for(const locale of locales){
    const schemas=[
     {'@context':'https://schema.org','@type':'WebPage',name:title,url:canonical,description,inLanguage:locale.code,dateModified:contentLastmod(path),primaryImageOfPage:image,...(sourceUrls.length?{citation:sourceUrls}:{}),isPartOf:{'@type':'WebSite',name:'AnyTool.online',url:SITE+'/'}},
     {'@context':'https://schema.org','@type':'SoftwareApplication',name,image,applicationCategory:'UtilitiesApplication',operatingSystem:'Web',url:canonical,description,isAccessibleForFree:true,featureList:[localizedToolDescription(tool,locale)],...(sourceUrls.length?{citation:sourceUrls}:{}),publisher:{'@type':'Organization',name:'AnyTool.online',url:SITE+'/',sameAs:['https://github.com/KanwarAfaq/anytool-online']},offers:{'@type':'Offer',price:'0',priceCurrency:'USD'}},
+    {'@context':'https://schema.org','@type':'FAQPage',mainEntity:faqForTool(tool,locale.code,name,locale.code==='en'?tool.description:localizedToolDescription(tool,locale)).map(([q,a])=>({'@type':'Question',name:q,acceptedAnswer:{'@type':'Answer',text:a}}))},
     {'@context':'https://schema.org','@type':'BreadcrumbList',itemListElement:[{'@type':'ListItem',position:1,name:'AnyTool',item:SITE+'/'},{'@type':'ListItem',position:2,name,item:canonical}]}
    ]
    await emit(path,locale,title,description,schemas,image)
  }
 }
 
+// llms.txt per llmstxt.org: H1, > summary, then sections of [name](url): description links.
+{
+ const cats=categories.map(c=>c.id).filter(id=>tools.some(t=>t.category===id))
+ const catLabel=Object.fromEntries(categories.map(c=>[c.id,c.label]))
+ const lines=['# AnyTool.online','',`> Free online tools in English, Traditional Chinese, Arabic and Urdu: ${tools.length} calculators, Taiwan salary/insurance/tax tools, renovation estimators (坪, sq ft), image and PDF utilities and QR tools. Most run in the browser with no sign-up.`,'','Canonical site: https://anytool.online/. Localized copies live under /zh-tw/, /ar/ and /ur/.','']
+ for(const c of cats){lines.push('## '+(catLabel[c]||c),...tools.filter(t=>t.category===c).map(t=>`- [${t.name}](${SITE}/tools/${t.slug}): ${t.description}`),'')}
+ lines.push('## Trust and sources','- [Methodology](https://anytool.online/methodology): how regulated calculations are built and verified','- [Official sources](https://anytool.online/sources): authorities, URLs and verification dates','- [Privacy](https://anytool.online/privacy): what is processed in the browser versus on a server','- [Terms & limitations](https://anytool.online/terms): planning estimates, not professional advice','','## Machine-readable','- [Tool catalog](https://anytool.online/tool-catalog.json): canonical URLs, update dates and sources','- [Official source registry](https://anytool.online/official-sources.json): authorities and verification dates','- [Sitemap](https://anytool.online/sitemap.xml): all 4 languages with hreflang','','## Optional','- [Platforms](https://anytool.online/platforms): landlord pack, Taoyuan long-term-care navigator and care platform','')
+ await writeFile(resolve(root,'dist','llms.txt'),lines.join('\n'))
+}
 const indexable=[...staticPages.map(p=>p.path),...tools.map(t=>'/tools/'+t.slug)]
 const entries=[]
 for(const path of indexable){
