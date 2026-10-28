@@ -19,7 +19,7 @@ const Platforms=lazy(()=>import('./pages/Platforms'))
 const Category=lazy(()=>import('./pages/Category'))
 const NotFound=lazy(()=>import('./pages/NotFound'))
 
-function Loading(){return <div className="mx-auto max-w-7xl px-4 py-20 text-slate-400">Loading…</div>}
+function Loading(){return <div className="mx-auto max-w-7xl px-4 py-20 text-slate-400" style={{minHeight:'100vh'}} role="status">Loading…</div>}
 function LocaleGate({children}){const {locale}=useParams();return ['zh-tw','ar','ur'].includes(locale)?children:<Navigate to="/" replace/>}
 
 function ScrollToTopOnNavigation(){

@@ -419,3 +419,8 @@ a.bento-card:hover{transform:translateY(-4px);box-shadow:var(--shadow-lg)}
 .site-header{backdrop-filter:saturate(1.4) blur(10px)}
 .modern-nav-link{position:relative}
 .modern-nav-link:not(.active):hover{background:color-mix(in srgb,var(--accent) 12%,var(--surface-2))}
+
+.bento-widget .opacity-80,.hero-console .opacity-80{opacity:1}
+.bento-widget label span,.hero-console p{color:var(--on-accent)}
+:root:not([data-theme="dark"]) .hero-console{background:rgba(0,0,0,.24)!important}
+:root:not([data-theme="dark"]) .bento-widget .rounded-full.font-black{background:rgba(0,0,0,.28)!important}

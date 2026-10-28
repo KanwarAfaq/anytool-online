@@ -15,7 +15,7 @@ function QuickSalary({copy,pathFor}){
  const [dependents,setDependents]=useState(0)
  const r=takeHome(Number(salary)||0,Number(dependents)||0)
  return <div>
-    <div className="flex items-center justify-between gap-3"><h2>{copy.quick}</h2><span className="rounded-full px-2.5 py-1 text-[11px] font-black" style={{background:'color-mix(in srgb,var(--on-accent) 18%,transparent)'}}>2026</span></div>
+    <div className="flex items-center justify-between gap-3"><h2>{copy.quick}</h2><span className="rounded-full px-2.5 py-1 text-[11px] font-black" style={{background:'color-mix(in srgb,var(--on-accent) 30%,transparent)',color:'var(--on-accent)'}}>2026</span></div>
     <div className="mt-4 grid gap-3 sm:grid-cols-2">
       <label><span className="mb-1.5 block text-xs font-bold opacity-80">{copy.salary}</span><input aria-label={copy.salary} className="input" type="number" inputMode="numeric" min="0" value={salary===0?'':salary} placeholder="50000" onFocus={e=>e.target.select()} onChange={e=>setSalary(e.target.value===''?0:Number(e.target.value))}/></label>
       <label><span className="mb-1.5 block text-xs font-bold opacity-80">{copy.dependents}</span><select aria-label={copy.dependents} className="input" value={dependents} onChange={e=>setDependents(Number(e.target.value))}>{[0,1,2,3].map(n=><option key={n} value={n}>{n}</option>)}</select></label>
@@ -66,7 +66,7 @@ export default function Home(){
       <form className="home-search" role="search" onSubmit={e=>{e.preventDefault();document.getElementById('tools')?.scrollIntoView({behavior:'smooth'})}}>
         <Search size={18} aria-hidden="true"/>
         <input type="search" aria-label={C.browse} value={query} onChange={e=>setQuery(e.target.value)} placeholder={C.try} enterKeyHint="search"/>
-        <button type="submit" className="btn-primary"><span>{C.browse}</span><ArrowRight size={16}/></button>
+        <button type="submit" className="btn-primary" aria-label={C.browse}><span>{C.browse}</span><ArrowRight size={16}/></button>
       </form>
       <nav className="home-suggest" aria-label="Popular tools">{['pdf-merge','qr-generator','take-home-pay','image-compress','json-formatter'].map(slug=>toolBySlug[slug]).filter(Boolean).map(tool=><Link key={tool.slug} to={pathFor('/tools/'+tool.slug)}>{toolName(tool)}</Link>)}</nav>
       <ul className="home-stats" aria-label="Highlights"><li><strong>{tools.length}</strong><span>{({en:'free tools','zh-TW':'個免費工具',ar:'أداة مجانية',ur:'مفت ٹولز'})[lang]||'free tools'}</span></li><li><strong>4</strong><span>{({en:'languages','zh-TW':'種語言',ar:'لغات',ur:'زبانیں'})[lang]||'languages'}</span></li><li><strong>0</strong><span>{({en:'sign-up needed','zh-TW':'免註冊',ar:'بدون تسجيل',ur:'سائن اپ درکار نہیں'})[lang]||'sign-up needed'}</span></li><li><strong>🔒</strong><span>{({en:'browser-private','zh-TW':'瀏覽器本機處理',ar:'خصوصية في المتصفح',ur:'براؤزر میں نجی'})[lang]||'browser-private'}</span></li></ul>
