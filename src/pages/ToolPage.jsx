@@ -1,4 +1,5 @@
 import { useEffect, useMemo, useState } from 'react'
+import { seoTitleOverride } from '../data/seoTitles.js'
 import { useParams, Link } from 'react-router-dom'
 import { Heart, Download, Copy, ArrowLeft, ArrowRight, Share2, ShieldCheck, Zap, CalendarClock } from 'lucide-react'
 import { toolBySlug, tools } from '../data/tools'
@@ -300,7 +301,7 @@ export default function ToolPage(){
  const reviewed=sourceKeys.map(k=>officialSources[k]?.verified).filter(Boolean).sort().at(-1)||'2026-09-20'
  const updated=tool.updatedAt||reviewed
  const reviewedLabel={en:'Reviewed against official sources','zh-TW':'已依官方來源查核',ar:'تمت المراجعة وفق المصادر الرسمية',ur:'سرکاری ذرائع کے مطابق جائزہ لیا گیا'}[lang]||'Reviewed against official sources'
- const seoTitle=toolName(tool)+(regulated2026.has(slug)?' 2026':'')+' | AnyTool.online'
+ const seoTitle=seoTitleOverride(slug,lang)||(toolName(tool)+(regulated2026.has(slug)?' 2026':'')+' | AnyTool.online')
  const imageUrl='https://anytool.online/tool-art/'+slug+'.svg'
  const seoDescription=lang==='en'?(tool.seoDescription||tool.description):toolDescription(tool)
  const isBrowserLocal=Boolean(tool.localProcessing)||browserLocalSlugs.has(slug)

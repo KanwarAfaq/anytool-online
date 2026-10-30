@@ -1,4 +1,5 @@
 import { mkdir, readFile, writeFile } from 'node:fs/promises'
+import { seoTitleOverride } from '../src/data/seoTitles.js'
 import { dirname, resolve } from 'node:path'
 import { execFileSync } from 'node:child_process'
 import { tools, categories } from '../src/data/tools.js'
@@ -229,7 +230,7 @@ for(const locale of locales){
    const path=localizedPath(locale.prefix,base)
    const name=localizedToolName(tool,locale)
    const yr=taiwan2026.has(tool.slug)?' 2026':''
-   const title=`${name}${yr} | AnyTool.online`
+   const title=seoTitleOverride(tool.slug,locale.code)||`${name}${yr} | AnyTool.online`
    const description=metaDescription(tool,locale)
    const sourceUrls=(toolSourceKeys[tool.slug]||[]).map(k=>officialSources[k]?.url).filter(Boolean)
    const canonical=SITE+path
