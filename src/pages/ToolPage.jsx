@@ -5,7 +5,7 @@ import { Heart, Download, Copy, ArrowLeft, ArrowRight, Share2, ShieldCheck, Zap,
 import { toolBySlug, tools } from '../data/tools'
 import { toolRefs } from '../data/externalRefs'
 import Seo from '../components/Seo'
-import { takeHome, laborInsurance, nhi, salaryTax, overtime, employerCost, money } from '../lib/calculators'
+import { takeHome, laborInsurance, nhi, salaryTax, overtime, employerCost, severancePay, annualLeaveDays, wageConvert, money } from '../lib/calculators'
 import { supabase, logToolEvent, saveFavorite } from '../lib/supabase'
 import { useI18n } from '../i18n'
 import IdPhotoTool from '../components/tools/IdPhotoTool'
@@ -44,6 +44,27 @@ const fieldLabels={
 }
 const labelFor=(lang,key)=>fieldLabels[lang]?.[key]||fieldLabels.en[key]
 const browserLocalSlugs=new Set(['image-resize','image-compress','png-to-jpg','jpg-to-png','dpi-calculator','qr-generator','qr-scanner','pdf-merge','pdf-split','percentage','loan-payment','annual-salary','random-picker','timer','image-to-sketch','simple-calculator','love-calculator','zodiac-matcher','image-flip'])
+
+const NEW_LABELS={
+ en:{avgWage:'Average monthly wage (last 6 months)',years:'Years of service',severance:'Estimated severance pay',months:'Severance months',leaveDays:'Annual leave days',unusedDays:'Unused leave days',leavePay:'Unused leave payout',hourlyWage:'Hourly wage',monthlyWage:'Monthly wage',hourlyFromMonthly:'Hourly wage (÷ 240)',dailyFromMonthly:'Daily wage (÷ 30)',monthlyFromHourly:'Monthly wage (× 240)'},
+ 'zh-TW':{avgWage:'平均月薪（最近 6 個月）',years:'年資（年）',severance:'預估資遣費',months:'資遣費月數',leaveDays:'特別休假天數',unusedDays:'未休天數',leavePay:'未休假工資',hourlyWage:'時薪',monthlyWage:'月薪',hourlyFromMonthly:'時薪（月薪 ÷ 240）',dailyFromMonthly:'日薪（月薪 ÷ 30）',monthlyFromHourly:'月薪（時薪 × 240）'},
+ ar:{avgWage:'متوسط الأجر الشهري (آخر 6 أشهر)',years:'سنوات الخدمة',severance:'مكافأة نهاية الخدمة المقدّرة',months:'أشهر المكافأة',leaveDays:'أيام الإجازة السنوية',unusedDays:'أيام الإجازة غير المستخدمة',leavePay:'تعويض الإجازة غير المستخدمة',hourlyWage:'الأجر بالساعة',monthlyWage:'الأجر الشهري',hourlyFromMonthly:'الأجر بالساعة (÷ 240)',dailyFromMonthly:'الأجر اليومي (÷ 30)',monthlyFromHourly:'الأجر الشهري (× 240)'},
+ ur:{avgWage:'اوسط ماہانہ اجرت (آخری 6 ماہ)',years:'خدمت کے سال',severance:'متوقع علیحدگی معاوضہ',months:'معاوضے کے مہینے',leaveDays:'سالانہ چھٹی کے دن',unusedDays:'غیر استعمال شدہ چھٹیاں',leavePay:'غیر استعمال شدہ چھٹیوں کی ادائیگی',hourlyWage:'فی گھنٹہ اجرت',monthlyWage:'ماہانہ اجرت',hourlyFromMonthly:'فی گھنٹہ اجرت (÷ 240)',dailyFromMonthly:'یومیہ اجرت (÷ 30)',monthlyFromHourly:'ماہانہ اجرت (× 240)'}
+}
+function LaborTool({slug}){
+ const {lang}=useI18n()
+ const L=NEW_LABELS[lang]||NEW_LABELS.en
+ const [wage,setWage]=useState(50000),[years,setYears]=useState(5),[unused,setUnused]=useState(3),[hourly,setHourly]=useState(250)
+ let rows=[],inputs=null
+ if(slug==='severance-pay'){const r=severancePay(wage,years);rows=[[L.severance,'NT$ '+money(r.amount)],[L.months,String(r.months)]];inputs=<><Num label={L.avgWage} value={wage} onChange={setWage}/><Num label={L.years} value={years} onChange={setYears} step={0.5}/></>}
+ if(slug==='annual-leave'){const d=annualLeaveDays(years);rows=[[L.leaveDays,String(d)],[L.leavePay,'NT$ '+money(wage/30*Math.min(unused,d))]];inputs=<><Num label={L.years} value={years} onChange={setYears} step={0.5}/><Num label={L.monthlyWage} value={wage} onChange={setWage}/><Num label={L.unusedDays} value={unused} onChange={setUnused}/></>}
+ if(slug==='wage-converter'){const r=wageConvert(wage,hourly);rows=[[L.hourlyFromMonthly,'NT$ '+money(r.hourlyFromMonthly)],[L.dailyFromMonthly,'NT$ '+money(r.dailyFromMonthly)],[L.monthlyFromHourly,'NT$ '+money(r.monthlyFromHourly)]];inputs=<><Num label={L.monthlyWage} value={wage} onChange={setWage}/><Num label={L.hourlyWage} value={hourly} onChange={setHourly}/></>}
+ const {t}=useI18n()
+ return <div className="grid gap-6 lg:grid-cols-2">
+  <div className="card space-y-4 p-5">{inputs}</div>
+  <div className="card p-5"><h3 className="font-bold">{t('result')}</h3><div className="mt-4 grid gap-3 sm:grid-cols-2">{rows.map(([l,v])=><Result key={l} label={l} value={v}/>)}</div></div>
+ </div>
+}
 
 function MoneyTool({slug}){
  const {t}=useI18n()
@@ -256,7 +277,7 @@ function ToolPager({slug}){
 export default function ToolPage(){
  const {lang,t,toolName,toolDescription,pathFor}=useI18n()
  const {slug}=useParams(),tool=toolBySlug[slug]
- const regulated2026=new Set(['take-home-pay','labor-insurance','nhi','income-tax','overtime-pay','minimum-wage','employer-cost','taiwan-elder-care'])
+ const regulated2026=new Set(['take-home-pay','labor-insurance','nhi','income-tax','overtime-pay','minimum-wage','employer-cost','severance-pay','annual-leave','taiwan-elder-care'])
  useEffect(()=>{
   if(!slug)return
   logToolEvent(slug,'tool_open').catch(()=>{})
@@ -269,6 +290,7 @@ export default function ToolPage(){
  if(!tool)return <div className="mx-auto max-w-5xl px-4 py-20"><h1 className="text-3xl font-black">{t('toolNotFound')}</h1><Link className="btn-primary mt-6" to={pathFor('/')}>{t('backHome')}</Link></div>
  const view=useMemo(()=>{
   if(['take-home-pay','labor-insurance','nhi','income-tax','overtime-pay','minimum-wage','employer-cost'].includes(slug))return <MoneyTool slug={slug}/>
+  if(['severance-pay','annual-leave','wage-converter'].includes(slug))return <LaborTool slug={slug}/>
   if(slug==='annual-salary')return <AnnualSalary/>
   if(slug==='percentage')return <Percentage/>
   if(slug==='simple-calculator')return <SimpleCalculator/>

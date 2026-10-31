@@ -30,6 +30,7 @@ test('home and four languages including RTL', async ({ page }) => {
 })
 
 test('all public tool routes render and have canonical URLs', async ({ page }) => {
+  test.setTimeout(90000)
   for (const tool of tools) {
     await page.goto('/tools/'+tool.slug)
     await expect(page.getByRole('heading', { level: 1 })).toContainText(tool.name)
@@ -466,7 +467,7 @@ test('new image sketch tool creates a local downloadable PNG', async ({ page }) 
 test('tool directory search works across the full paginated catalog', async ({ page }) => {
   await page.goto('/tools')
   await expect(page.getByLabel('Search all tools')).toBeVisible()
-  await expect(page.locator('#main-content').getByText('68 tools')).toBeVisible()
+  await expect(page.locator('#main-content').getByText('71 tools')).toBeVisible()
   await page.getByLabel('Search all tools').fill('Timer with Sounds')
   await expect(page.locator('.directory-tool-button')).toHaveCount(1)
   await expect(page.getByRole('link',{name:/Timer with Sounds/})).toBeVisible()
@@ -745,7 +746,7 @@ test('tools show a translated visual guide with an accessible diagram', async ({
 
 test('home shows highlights and the back-to-top button appears after scrolling', async ({ page }) => {
   await page.goto('/')
-  await expect(page.locator('.home-stats')).toContainText('68')
+  await expect(page.locator('.home-stats')).toContainText('71')
   const top = page.locator('.back-to-top')
   await expect(top).not.toHaveClass(/show/)
   await page.evaluate(() => window.scrollTo(0, 1600))

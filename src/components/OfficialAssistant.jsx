@@ -3,7 +3,7 @@ import { ExternalLink, Send, ShieldCheck } from 'lucide-react'
 import { supabase } from '../lib/supabase'
 import { useI18n } from '../i18n'
 
-const topicFor=slug=>slug==='taiwan-id-photo'?'photo':slug==='taiwan-elder-care'?'elderly':['take-home-pay','labor-insurance','nhi','income-tax','overtime-pay','minimum-wage','employer-cost'].includes(slug)?'salary':null
+const topicFor=slug=>slug==='taiwan-id-photo'?'photo':slug==='taiwan-elder-care'?'elderly':['take-home-pay','labor-insurance','nhi','income-tax','overtime-pay','minimum-wage','employer-cost','severance-pay','annual-leave','wage-converter'].includes(slug)?'salary':null
 
 export default function OfficialAssistant({slug}){
  const {lang,pathFor}=useI18n()

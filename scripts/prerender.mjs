@@ -113,7 +113,7 @@ const localizedStaticDescriptions={
   '/categories/design':'رنگ کنورژن، کانٹراسٹ چیکنگ اور اسپیکٹ ریشو ڈیزائن ٹولز۔'
  }
 }
-const taiwan2026=new Set(['take-home-pay','labor-insurance','nhi','income-tax','overtime-pay','minimum-wage','employer-cost','taiwan-elder-care'])
+const taiwan2026=new Set(['take-home-pay','labor-insurance','nhi','income-tax','overtime-pay','minimum-wage','employer-cost','severance-pay','annual-leave','taiwan-elder-care'])
 const cleanPath=p=>p==='/'?'/':p.replace(/\/$/,'')
 const localizedPath=(prefix,path)=>path==='/'?(prefix||'/'):prefix+path
 const basePath=p=>p.replace(/^\/(zh-tw|ar|ur)(?=\/|$)/,'')||'/'

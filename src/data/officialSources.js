@@ -42,6 +42,20 @@ export const officialSources = {
     verified: '2026-09-20',
     summary: 'For monthly-paid workers, the ordinary hourly wage is generally monthly wage divided by 240; overtime premiums follow the Labor Standards Act.'
   },
+  severanceRules: {
+    title: 'Severance Pay Rules under the Labor Pension Act',
+    authority: 'Ministry of Labor',
+    url: 'https://www.mol.gov.tw/1607/1632/1633/86342/',
+    verified: '2026-10-31',
+    summary: 'Under the Labor Pension Act, severance is 1/2 month of average wage per full year of service, prorated for partial years, capped at 6 months.'
+  },
+  annualLeaveRules: {
+    title: 'Annual Leave Rules (Labor Standards Act Art. 38)',
+    authority: 'Ministry of Labor',
+    url: 'https://www.mol.gov.tw/1607/1632/1633/',
+    verified: '2026-10-31',
+    summary: 'Annual leave: 3 days after 6 months, 7 days after 1 year, 10 after 2, 14 after 3, 15 after 5, then +1 per year from year 10 up to 30 days.'
+  },
   incomeTax2026: {
     title: '2026 Individual Income Tax Brackets',
     authority: 'National Taxation Bureau, Ministry of Finance',
@@ -204,6 +218,9 @@ export const toolSourceKeys = {
   'income-tax': ['incomeTax2026'],
   'overtime-pay': ['overtimeRules'],
   'minimum-wage': ['minimumWage2026'],
+  'severance-pay': ['severanceRules'],
+  'annual-leave': ['annualLeaveRules'],
+  'wage-converter': ['overtimeRules'],
   'employer-cost': ['laborInsurance2026','laborInsuranceGrades2026','nhi2026','laborPension2026'],
   'taiwan-id-photo': ['taiwanPassport','bocaDigitalPhoto','taiwanIdPhoto','arcPhoto'],
   'taiwan-elder-care': ['elderSubsidy2026','elderSubsidyApply2026','taoyuanLocalElderPlacement','taipeiLocalElderPlacement','newTaipeiLocalElderPlacement','taichungLocalElderPlacement','tainanLocalElderPlacement','nationalNursingHomes','ltcServiceMap','taoyuanBeds','taipeiBeds','taipeiPublicNursingBeds','taichungBeds','yilanBeds','newTaipeiFacilities'],

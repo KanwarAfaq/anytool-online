@@ -8,6 +8,9 @@ const titles = {
   'taiwan-elder-care': { en: 'Taiwan Elder Care Subsidy 2026 + Bed Finder' + S, 'zh-TW': '台灣老人照護補助與床位查詢 2026（最高 18 萬）' + S },
   'url-encoder': { en: 'URL Encoder / Decoder Online' + S, 'zh-TW': 'URL 編碼／解碼器（線上 encodeURIComponent）' + S },
   'employer-cost': { en: 'Taiwan Employer Cost 2026 Calculator' + S, 'zh-TW': '2026 台灣雇主總成本：薪資加勞健保與 6% 勞退' + S },
+  'severance-pay': { en: 'Taiwan Severance Pay Calculator 2026 (資遣費)' + S, 'zh-TW': '資遣費計算 2026：依年資試算資遣費' + S },
+  'annual-leave': { en: 'Taiwan Annual Leave Calculator 2026 (特休)' + S, 'zh-TW': '特休計算 2026：特別休假天數與未休工資' + S },
+  'wage-converter': { en: 'Monthly to Hourly Wage Converter (Taiwan)' + S, 'zh-TW': '月薪換算時薪計算：月薪、時薪、日薪互換' + S },
   'overtime-pay': { en: 'Taiwan Overtime Pay Calculator 2026 (加班費)' + S, 'zh-TW': '台灣加班費 2026：平日與休息日加班費計算' + S },
 }
 export const seoTitleOverride = (slug, lang) => titles[slug]?.[lang] || null

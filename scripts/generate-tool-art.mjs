@@ -20,7 +20,7 @@ const palette={
 
 const tags={
   'take-home-pay':['NT$','NET PAY'],'labor-insurance':['LI','PREMIUM'],'nhi':['NHI','5.17%'],
-  'income-tax':['TAX','2026'],'overtime-pay':['OT','× 1.33'],'minimum-wage':['29.5K','MIN WAGE'],
+  'income-tax':['TAX','2026'],'overtime-pay':['OT','× 1.33'],'minimum-wage':['29.5K','MIN WAGE'],'severance-pay':['6 MO','SEVERANCE'],'annual-leave':['30D','LEAVE'],'wage-converter':['÷240','HOURLY'],
   'employer-cost':['6%','TOTAL COST'],'annual-salary':['13×','ANNUAL'],'percentage':['%','CHANGE'],
   'image-resize':['IMG','RESIZE'],'image-compress':['KB','COMPRESS'],'png-to-jpg':['PNG','→ JPG'],
   'jpg-to-png':['JPG','→ PNG'],'dpi-calculator':['DPI','300'],'qr-generator':['QR','CREATE'],

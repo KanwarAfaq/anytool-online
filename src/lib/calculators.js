@@ -41,6 +41,22 @@ export function overtime(salary,weekday=0,rest=0){
  const r1=Math.min(2,rest), r2=Math.max(0,Math.min(6,rest-2)), r3=Math.max(0,Math.min(4,rest-8))
  return hourly*(w1*4/3+w2*5/3+r1*4/3+r2*5/3+r3*8/3)
 }
+export function severancePay(avgWage,years){
+ const months=Math.min(6,Math.max(0,years)*0.5)
+ return {months,amount:avgWage*months}
+}
+export function annualLeaveDays(years){
+ if(years<0.5)return 0
+ if(years<1)return 3
+ if(years<2)return 7
+ if(years<3)return 10
+ if(years<5)return 14
+ if(years<10)return 15
+ return Math.min(30,15+Math.floor(years)-9)
+}
+export function wageConvert(monthly,hourly){
+ return {hourlyFromMonthly:monthly/240,dailyFromMonthly:monthly/30,monthlyFromHourly:hourly*240}
+}
 export function employerCost(salary){
  const lb=bracket(salary,LABOR_BRACKETS)
  const nb=bracket(salary,NHI_BRACKETS)

@@ -99,6 +99,32 @@ export const guides=[
     {h:'範例：平日加班',p:['月薪 NT$40,000、平日加班 3 小時：2 × 4/3 + 1 × 5/3 = 4.33 個時薪單位，4.33 × NT$166.67 ≈ NT$722。']},
     {h:'範例：休息日加班',p:['同樣月薪，休息日工作 10 小時：2 × 4/3 + 6 × 5/3 + 2 × 8/3 = 18 個單位，18 × NT$166.67 = NT$3,000。']},
     {h:'使用計算工具',p:['在 AnyTool 加班費計算工具輸入月薪與加班時數即可即時估算。結果僅供規劃參考，實際請以契約與勞動部最新規定為準。']}]}},
+ {slug:'taiwan-severance-pay-explained',refs:[{label:'Ministry of Labor, Taiwan',url:'https://www.mol.gov.tw/1607/1632/1633/86342/'}],tool:'severance-pay',updated:'2026-11-01',
+  en:{title:'Taiwan Severance Pay (資遣費) Explained: How It Is Calculated',desc:'How Taiwan severance pay works under the Labor Pension Act: half a month of average wage per year of service, capped at 6 months, with a worked example.',
+   sections:[
+    {h:'How much is severance pay?',p:['Under the new labor pension system, severance is half a month of average wage for each full year of service, prorated for partial years, and capped at 6 months of average wage.']},
+    {h:'What is the average wage?',p:['It is the average of the wages earned in the 6 months before termination, so regular allowances and overtime may be included.']},
+    {h:'Worked example',p:['With an average wage of NT$50,000 and 5 years of service: 5 × 0.5 = 2.5 months, so 2.5 × NT$50,000 = NT$125,000.']},
+    {h:'Related entitlements',p:['Notice-period pay and unused annual leave are separate from severance. Check the official Ministry of Labor guidance for your case.']},
+    {h:'Use the calculator',p:['Enter your average wage and years of service in the AnyTool severance pay calculator for an instant estimate.']}]},
+  'zh-TW':{title:'資遣費怎麼算：年資與月數完整說明',desc:'台灣資遣費依勞工退休金條例計算：每滿一年給付 0.5 個月平均工資，最高 6 個月，附計算範例。',
+   sections:[
+    {h:'資遣費是多少？',p:['適用勞退新制者，資遣費為每滿一年發給 0.5 個月平均工資，未滿一年按比例計給，最高以 6 個月平均工資為限。']},
+    {h:'平均工資怎麼算？',p:['平均工資為被資遣前 6 個月內所得工資的總額除以該期間日數所得之金額，常態性給與可能計入。']},
+    {h:'範例',p:['平均月薪 NT$50,000、年資 5 年：5 × 0.5 = 2.5 個月，2.5 × NT$50,000 = NT$125,000。']},
+    {h:'相關權益',p:['預告期間工資與未休特休工資另計，不包含在資遣費內，個案請以勞動部規定為準。']},
+    {h:'使用計算工具',p:['在 AnyTool 資遣費計算工具輸入平均月薪與年資即可即時試算。']}]}},
+ {slug:'taiwan-annual-leave-days-explained',refs:[{label:'Ministry of Labor, Taiwan',url:'https://www.mol.gov.tw/1607/1632/1633/'}],tool:'annual-leave',updated:'2026-11-01',
+  en:{title:'Taiwan Annual Leave (特休) Days by Years of Service',desc:'Statutory annual leave in Taiwan by years of service, from 3 days after 6 months up to 30 days, plus how unused leave is paid out.',
+   sections:[
+    {h:'Annual leave table',p:['Statutory annual leave under the Labor Standards Act:'],list:['6 months to under 1 year: 3 days','1 year: 7 days; 2 years: 10 days','3 to under 5 years: 14 days','5 to under 10 years: 15 days','10 years or more: 15 days plus 1 day per year, up to 30 days']},
+    {h:'Unused leave pay',p:['Leave not taken by the end of the leave year or on termination is generally paid at the daily wage, estimated as monthly wage ÷ 30 per day.']},
+    {h:'Use the calculator',p:['Enter years of service and monthly wage in the AnyTool annual leave calculator to see your days and payout.']}]},
+  'zh-TW':{title:'特休天數怎麼算：依年資對照表',desc:'台灣特別休假天數依年資計算，滿 6 個月 3 天，最高 30 天，並說明未休特休工資。',
+   sections:[
+    {h:'特休天數表',p:['依勞動基準法第 38 條：'],list:['滿 6 個月未滿 1 年：3 天','滿 1 年：7 天；滿 2 年：10 天','滿 3 年未滿 5 年：14 天','滿 5 年未滿 10 年：15 天','滿 10 年以上：每年加 1 天，最多 30 天']},
+    {h:'未休特休工資',p:['年度終結或契約終止時未休完的特休，應折算工資發給，可概估為月薪 ÷ 30 乘以天數。']},
+    {h:'使用計算工具',p:['在 AnyTool 特休計算工具輸入年資與月薪即可查看天數與未休工資。']}]}},
  {slug:'passport-and-id-photo-requirements',refs:[{label:'Bureau of Consular Affairs, Taiwan',url:'https://www.boca.gov.tw/'},{label:'National Immigration Agency, Taiwan',url:'https://www.immigration.gov.tw/'}],tool:'taiwan-id-photo',updated:'2026-10-28',
   en:{title:'Passport, National ID and ARC Photo Requirements in Taiwan',desc:'How to prepare a compliant photo for a Taiwan passport, National ID or ARC/APRC: background, framing, resolution and common rejections.',
    sections:[
