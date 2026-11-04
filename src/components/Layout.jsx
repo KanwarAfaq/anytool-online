@@ -108,6 +108,15 @@ export default function Layout({children}){
       <div><h2>AnyTool</h2><div className="footer-links"><Link to={pathFor('/about')}>{N.about}</Link><Link to={pathFor('/privacy')}>{N.privacy}</Link><Link to={pathFor('/terms')}>{N.terms}</Link><Link to={pathFor('/accessibility')}>{N.accessibility}</Link><Link to={pathFor('/contact')}>{N.contact}</Link></div></div>
       <div><h2>{N.further}</h2><div className="footer-links">{refsForPath(cleanPath).map(r=><a key={r.url} href={r.url} target="_blank" rel="noopener noreferrer">{r.label} ↗</a>)}</div></div>
     </div>
+    <nav aria-label="Related independent resources" className="mt-8 border-t border-[var(--line)] pt-5">
+      <h2 className="mb-3 text-sm font-bold">Explore education, research and career resources</h2>
+      <div className="flex flex-wrap gap-x-6 gap-y-3 text-sm">
+        <a href="https://worksheet.live/" className="hover:underline">Printable worksheets and classroom activities</a>
+        <a href="https://scholarportal.site/" className="hover:underline">Scholarship opportunities and application guides</a>
+        <a href="https://kmafaq.online/" className="hover:underline">AI automation and practical technology articles</a>
+        <a href="https://kmafaq.site/" className="hover:underline">AI research portfolio and projects</a>
+      </div>
+    </nav>
     <div className="footer-bottom">© {new Date().getFullYear()} AnyTool.online</div>
    </div>
   </footer>
