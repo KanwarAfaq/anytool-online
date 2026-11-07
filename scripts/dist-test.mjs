@@ -107,7 +107,7 @@ for(const loc of locales){
   if(!loc&&['take-home-pay','taiwan-id-photo','taiwan-elder-care'].includes(tool.slug)) assert.ok(html.includes('Official sources'),'official source text missing '+tool.slug)
  }
 }
-for(const slug of ['json-formatter','password-generator','world-clock','typing-test']){
+for(const slug of ['base64','text-case','timer','date-calculator']){
  const zh=await readFile(resolve(root,'dist','zh-tw','tools',slug,'index.html'),'utf8')
  const ar=await readFile(resolve(root,'dist','ar','tools',slug,'index.html'),'utf8')
  const ur=await readFile(resolve(root,'dist','ur','tools',slug,'index.html'),'utf8')

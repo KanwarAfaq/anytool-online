@@ -42,8 +42,6 @@ Taiwan regulated calculations are deterministic and source-backed. AnyTool does 
 ## File and AI tools
 Image resize/conversion, PDF merge/split, the Table Converter, and Screenshot Beautifier run locally in the browser where practical. AI OCR and structured receipt extraction require a signed-in account and report the provider used.
 
-- Table Converter (CSV, TSV, Markdown, HTML): https://anytool.online/tools/table-converter
-- Screenshot Beautifier: https://anytool.online/tools/screenshot-beautifier
 
 Sitemap: https://anytool.online/sitemap.xml
 

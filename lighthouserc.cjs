@@ -5,7 +5,7 @@ module.exports={
     'http://127.0.0.1:4173/',
     'http://127.0.0.1:4173/tools',
     'http://127.0.0.1:4173/tools/take-home-pay',
-    'http://127.0.0.1:4173/tools/screenshot-beautifier'
+    'http://127.0.0.1:4173/tools/pdf-merge'
    ],
    startServerCommand:'npm run preview -- --host 127.0.0.1 --port 4173',
    startServerReadyPattern:'Local:',

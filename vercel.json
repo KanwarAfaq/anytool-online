@@ -186,5 +186,507 @@
         }
       ]
     }
+  ],
+  "redirects": [
+    {
+      "source": "/tools/simple-calculator",
+      "destination": "/tools",
+      "permanent": true
+    },
+    {
+      "source": "/zh-tw/tools/simple-calculator",
+      "destination": "/zh-tw/tools",
+      "permanent": true
+    },
+    {
+      "source": "/ar/tools/simple-calculator",
+      "destination": "/ar/tools",
+      "permanent": true
+    },
+    {
+      "source": "/ur/tools/simple-calculator",
+      "destination": "/ur/tools",
+      "permanent": true
+    },
+    {
+      "source": "/tools/random-picker",
+      "destination": "/tools",
+      "permanent": true
+    },
+    {
+      "source": "/zh-tw/tools/random-picker",
+      "destination": "/zh-tw/tools",
+      "permanent": true
+    },
+    {
+      "source": "/ar/tools/random-picker",
+      "destination": "/ar/tools",
+      "permanent": true
+    },
+    {
+      "source": "/ur/tools/random-picker",
+      "destination": "/ur/tools",
+      "permanent": true
+    },
+    {
+      "source": "/tools/image-flip",
+      "destination": "/tools",
+      "permanent": true
+    },
+    {
+      "source": "/zh-tw/tools/image-flip",
+      "destination": "/zh-tw/tools",
+      "permanent": true
+    },
+    {
+      "source": "/ar/tools/image-flip",
+      "destination": "/ar/tools",
+      "permanent": true
+    },
+    {
+      "source": "/ur/tools/image-flip",
+      "destination": "/ur/tools",
+      "permanent": true
+    },
+    {
+      "source": "/tools/receipt-to-json",
+      "destination": "/tools",
+      "permanent": true
+    },
+    {
+      "source": "/zh-tw/tools/receipt-to-json",
+      "destination": "/zh-tw/tools",
+      "permanent": true
+    },
+    {
+      "source": "/ar/tools/receipt-to-json",
+      "destination": "/ar/tools",
+      "permanent": true
+    },
+    {
+      "source": "/ur/tools/receipt-to-json",
+      "destination": "/ur/tools",
+      "permanent": true
+    },
+    {
+      "source": "/tools/jwt-decoder",
+      "destination": "/tools",
+      "permanent": true
+    },
+    {
+      "source": "/zh-tw/tools/jwt-decoder",
+      "destination": "/zh-tw/tools",
+      "permanent": true
+    },
+    {
+      "source": "/ar/tools/jwt-decoder",
+      "destination": "/ar/tools",
+      "permanent": true
+    },
+    {
+      "source": "/ur/tools/jwt-decoder",
+      "destination": "/ur/tools",
+      "permanent": true
+    },
+    {
+      "source": "/tools/uuid-generator",
+      "destination": "/tools",
+      "permanent": true
+    },
+    {
+      "source": "/zh-tw/tools/uuid-generator",
+      "destination": "/zh-tw/tools",
+      "permanent": true
+    },
+    {
+      "source": "/ar/tools/uuid-generator",
+      "destination": "/ar/tools",
+      "permanent": true
+    },
+    {
+      "source": "/ur/tools/uuid-generator",
+      "destination": "/ur/tools",
+      "permanent": true
+    },
+    {
+      "source": "/tools/hash-generator",
+      "destination": "/tools",
+      "permanent": true
+    },
+    {
+      "source": "/zh-tw/tools/hash-generator",
+      "destination": "/zh-tw/tools",
+      "permanent": true
+    },
+    {
+      "source": "/ar/tools/hash-generator",
+      "destination": "/ar/tools",
+      "permanent": true
+    },
+    {
+      "source": "/ur/tools/hash-generator",
+      "destination": "/ur/tools",
+      "permanent": true
+    },
+    {
+      "source": "/tools/regex-tester",
+      "destination": "/tools",
+      "permanent": true
+    },
+    {
+      "source": "/zh-tw/tools/regex-tester",
+      "destination": "/zh-tw/tools",
+      "permanent": true
+    },
+    {
+      "source": "/ar/tools/regex-tester",
+      "destination": "/ar/tools",
+      "permanent": true
+    },
+    {
+      "source": "/ur/tools/regex-tester",
+      "destination": "/ur/tools",
+      "permanent": true
+    },
+    {
+      "source": "/tools/word-counter",
+      "destination": "/tools",
+      "permanent": true
+    },
+    {
+      "source": "/zh-tw/tools/word-counter",
+      "destination": "/zh-tw/tools",
+      "permanent": true
+    },
+    {
+      "source": "/ar/tools/word-counter",
+      "destination": "/ar/tools",
+      "permanent": true
+    },
+    {
+      "source": "/ur/tools/word-counter",
+      "destination": "/ur/tools",
+      "permanent": true
+    },
+    {
+      "source": "/tools/password-generator",
+      "destination": "/tools",
+      "permanent": true
+    },
+    {
+      "source": "/zh-tw/tools/password-generator",
+      "destination": "/zh-tw/tools",
+      "permanent": true
+    },
+    {
+      "source": "/ar/tools/password-generator",
+      "destination": "/ar/tools",
+      "permanent": true
+    },
+    {
+      "source": "/ur/tools/password-generator",
+      "destination": "/ur/tools",
+      "permanent": true
+    },
+    {
+      "source": "/tools/color-converter",
+      "destination": "/tools",
+      "permanent": true
+    },
+    {
+      "source": "/zh-tw/tools/color-converter",
+      "destination": "/zh-tw/tools",
+      "permanent": true
+    },
+    {
+      "source": "/ar/tools/color-converter",
+      "destination": "/ar/tools",
+      "permanent": true
+    },
+    {
+      "source": "/ur/tools/color-converter",
+      "destination": "/ur/tools",
+      "permanent": true
+    },
+    {
+      "source": "/tools/unit-converter",
+      "destination": "/tools",
+      "permanent": true
+    },
+    {
+      "source": "/zh-tw/tools/unit-converter",
+      "destination": "/zh-tw/tools",
+      "permanent": true
+    },
+    {
+      "source": "/ar/tools/unit-converter",
+      "destination": "/ar/tools",
+      "permanent": true
+    },
+    {
+      "source": "/ur/tools/unit-converter",
+      "destination": "/ur/tools",
+      "permanent": true
+    },
+    {
+      "source": "/tools/csv-converter",
+      "destination": "/tools",
+      "permanent": true
+    },
+    {
+      "source": "/zh-tw/tools/csv-converter",
+      "destination": "/zh-tw/tools",
+      "permanent": true
+    },
+    {
+      "source": "/ar/tools/csv-converter",
+      "destination": "/ar/tools",
+      "permanent": true
+    },
+    {
+      "source": "/ur/tools/csv-converter",
+      "destination": "/ur/tools",
+      "permanent": true
+    },
+    {
+      "source": "/tools/json-to-types",
+      "destination": "/tools",
+      "permanent": true
+    },
+    {
+      "source": "/zh-tw/tools/json-to-types",
+      "destination": "/zh-tw/tools",
+      "permanent": true
+    },
+    {
+      "source": "/ar/tools/json-to-types",
+      "destination": "/ar/tools",
+      "permanent": true
+    },
+    {
+      "source": "/ur/tools/json-to-types",
+      "destination": "/ur/tools",
+      "permanent": true
+    },
+    {
+      "source": "/tools/cron-generator",
+      "destination": "/tools",
+      "permanent": true
+    },
+    {
+      "source": "/zh-tw/tools/cron-generator",
+      "destination": "/zh-tw/tools",
+      "permanent": true
+    },
+    {
+      "source": "/ar/tools/cron-generator",
+      "destination": "/ar/tools",
+      "permanent": true
+    },
+    {
+      "source": "/ur/tools/cron-generator",
+      "destination": "/ur/tools",
+      "permanent": true
+    },
+    {
+      "source": "/tools/gradient-generator",
+      "destination": "/tools",
+      "permanent": true
+    },
+    {
+      "source": "/zh-tw/tools/gradient-generator",
+      "destination": "/zh-tw/tools",
+      "permanent": true
+    },
+    {
+      "source": "/ar/tools/gradient-generator",
+      "destination": "/ar/tools",
+      "permanent": true
+    },
+    {
+      "source": "/ur/tools/gradient-generator",
+      "destination": "/ur/tools",
+      "permanent": true
+    },
+    {
+      "source": "/tools/image-watermark",
+      "destination": "/tools",
+      "permanent": true
+    },
+    {
+      "source": "/zh-tw/tools/image-watermark",
+      "destination": "/zh-tw/tools",
+      "permanent": true
+    },
+    {
+      "source": "/ar/tools/image-watermark",
+      "destination": "/ar/tools",
+      "permanent": true
+    },
+    {
+      "source": "/ur/tools/image-watermark",
+      "destination": "/ur/tools",
+      "permanent": true
+    },
+    {
+      "source": "/tools/barcode-generator",
+      "destination": "/tools",
+      "permanent": true
+    },
+    {
+      "source": "/zh-tw/tools/barcode-generator",
+      "destination": "/zh-tw/tools",
+      "permanent": true
+    },
+    {
+      "source": "/ar/tools/barcode-generator",
+      "destination": "/ar/tools",
+      "permanent": true
+    },
+    {
+      "source": "/ur/tools/barcode-generator",
+      "destination": "/ur/tools",
+      "permanent": true
+    },
+    {
+      "source": "/tools/world-clock",
+      "destination": "/tools",
+      "permanent": true
+    },
+    {
+      "source": "/zh-tw/tools/world-clock",
+      "destination": "/zh-tw/tools",
+      "permanent": true
+    },
+    {
+      "source": "/ar/tools/world-clock",
+      "destination": "/ar/tools",
+      "permanent": true
+    },
+    {
+      "source": "/ur/tools/world-clock",
+      "destination": "/ur/tools",
+      "permanent": true
+    },
+    {
+      "source": "/tools/typing-test",
+      "destination": "/tools",
+      "permanent": true
+    },
+    {
+      "source": "/zh-tw/tools/typing-test",
+      "destination": "/zh-tw/tools",
+      "permanent": true
+    },
+    {
+      "source": "/ar/tools/typing-test",
+      "destination": "/ar/tools",
+      "permanent": true
+    },
+    {
+      "source": "/ur/tools/typing-test",
+      "destination": "/ur/tools",
+      "permanent": true
+    },
+    {
+      "source": "/tools/table-converter",
+      "destination": "/tools",
+      "permanent": true
+    },
+    {
+      "source": "/zh-tw/tools/table-converter",
+      "destination": "/zh-tw/tools",
+      "permanent": true
+    },
+    {
+      "source": "/ar/tools/table-converter",
+      "destination": "/ar/tools",
+      "permanent": true
+    },
+    {
+      "source": "/ur/tools/table-converter",
+      "destination": "/ur/tools",
+      "permanent": true
+    },
+    {
+      "source": "/tools/screenshot-beautifier",
+      "destination": "/tools",
+      "permanent": true
+    },
+    {
+      "source": "/zh-tw/tools/screenshot-beautifier",
+      "destination": "/zh-tw/tools",
+      "permanent": true
+    },
+    {
+      "source": "/ar/tools/screenshot-beautifier",
+      "destination": "/ar/tools",
+      "permanent": true
+    },
+    {
+      "source": "/ur/tools/screenshot-beautifier",
+      "destination": "/ur/tools",
+      "permanent": true
+    },
+    {
+      "source": "/tools/json-formatter",
+      "destination": "/tools",
+      "permanent": true
+    },
+    {
+      "source": "/zh-tw/tools/json-formatter",
+      "destination": "/zh-tw/tools",
+      "permanent": true
+    },
+    {
+      "source": "/ar/tools/json-formatter",
+      "destination": "/ar/tools",
+      "permanent": true
+    },
+    {
+      "source": "/ur/tools/json-formatter",
+      "destination": "/ur/tools",
+      "permanent": true
+    },
+    {
+      "source": "/tools/love-calculator",
+      "destination": "/tools",
+      "permanent": true
+    },
+    {
+      "source": "/zh-tw/tools/love-calculator",
+      "destination": "/zh-tw/tools",
+      "permanent": true
+    },
+    {
+      "source": "/ar/tools/love-calculator",
+      "destination": "/ar/tools",
+      "permanent": true
+    },
+    {
+      "source": "/ur/tools/love-calculator",
+      "destination": "/ur/tools",
+      "permanent": true
+    },
+    {
+      "source": "/tools/zodiac-matcher",
+      "destination": "/tools",
+      "permanent": true
+    },
+    {
+      "source": "/zh-tw/tools/zodiac-matcher",
+      "destination": "/zh-tw/tools",
+      "permanent": true
+    },
+    {
+      "source": "/ar/tools/zodiac-matcher",
+      "destination": "/ar/tools",
+      "permanent": true
+    },
+    {
+      "source": "/ur/tools/zodiac-matcher",
+      "destination": "/ur/tools",
+      "permanent": true
+    }
   ]
 }

@@ -13,9 +13,9 @@ assert.equal(sitemap.status,200,'sitemap must return 200')
 const sitemapText=await sitemap.text()
 assert.ok((sitemapText.match(/<url>/g)||[]).length>=100,'sitemap unexpectedly small')
 assert.ok(sitemapText.includes(SITE+'/tools/take-home-pay'),'priority tool missing from sitemap')
-assert.ok(sitemapText.includes(SITE+'/tools/table-converter'),'table converter missing from sitemap')
-assert.ok(sitemapText.includes(SITE+'/tools/screenshot-beautifier'),'screenshot beautifier missing from sitemap')
-for(const slug of ['table-converter','screenshot-beautifier']){
+assert.ok(sitemapText.includes(SITE+'/tools/pdf-merge'),'pdf merge missing from sitemap')
+assert.ok(sitemapText.includes(SITE+'/tools/qr-generator'),'qr generator missing from sitemap')
+for(const slug of ['pdf-merge','qr-generator']){
  const tool=await get('/tools/'+slug)
  assert.equal(tool.status,200,slug+' must return 200')
  const html=await tool.text()
