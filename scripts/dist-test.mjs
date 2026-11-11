@@ -1,4 +1,5 @@
 import { guides } from '../src/data/guides.js'
+import { arcadeGames } from '../src/data/arcadeGames.js'
 import assert from 'node:assert/strict'
 import { readFile, access } from 'node:fs/promises'
 import { resolve } from 'node:path'
@@ -42,7 +43,7 @@ const robots=await readFile(resolve(root,'dist/robots.txt'),'utf8')
 assert.ok(robots.includes('Allow: /'),'robots should allow crawlable pages')
 assert.ok(!robots.includes('Disallow: /auth'),'robots must not block pages that rely on X-Robots noindex')
 const guideCount=(guides.length+1)*2 // /guides + each guide, en and zh-TW only
-const expectedUrls=(staticPages.length+tools.length)*locales.length+guideCount
+const expectedUrls=(staticPages.length+tools.length)*locales.length+guideCount+arcadeGames.length+1
 const homeHtml=await readFile(resolve(root,'dist/index.html'),'utf8')
 const aboutHtml=await readFile(resolve(root,'dist/about/index.html'),'utf8')
 assert.ok(aboutHtml.includes('kmafaq2@gmail.com'),'about prerender missing owner email schema')
@@ -61,6 +62,15 @@ for(const privatePath of ['/auth','/dashboard','/profile','/zh-tw/auth','/ar/aut
 }
 for(const tool of tools) assert.ok(homeHtml.includes('/tools/'+tool.slug),'homepage prerender missing internal link '+tool.slug)
 assert.equal((sitemap.match(/<url>/g)||[]).length,expectedUrls,'unexpected sitemap URL count')
+for(const slug of ['games',...arcadeGames.map(g=>'games/'+g.slug)]){
+ const html=await readFile(resolve(root,'dist',slug,'index.html'),'utf8');
+ const url='https://anytool.online/'+slug;
+ assert.ok(sitemap.includes('<loc>'+url+'</loc>'),'game sitemap missing '+url);
+ assert.ok(html.includes('<link rel="canonical" href="'+url+'"'),'game canonical missing '+url);
+ assert.ok(html.includes('seo-prerender'),'game initial HTML must contain meaningful content '+url);
+ assert.ok(html.includes('href="https://anytool.online/games'),'game page needs crawlable internal links '+url);
+}
+
 // Social cards: one raster 1200x630 image on every page, FAQPage schema on every localized home page.
 await access(resolve(root,'dist/og-default.png'))
 for(const bot of ['OAI-SearchBot','ChatGPT-User','Claude-SearchBot','PerplexityBot']) assert.ok(robots.includes('User-agent: '+bot),'robots should explicitly allow '+bot)
