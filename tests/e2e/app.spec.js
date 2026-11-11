@@ -427,9 +427,9 @@ test('tool directory search works across the full paginated catalog', async ({ p
   await page.getByLabel('Search all tools').fill('Timer with Sounds')
   await expect(page.locator('.directory-tool-button')).toHaveCount(1)
   await expect(page.getByRole('link',{name:/Timer with Sounds/})).toBeVisible()
-  await page.getByLabel('Search all tools').fill('json formatter')
+  await page.getByLabel('Search all tools').fill('sql formatter')
   await expect(page.locator('.directory-tool-button')).toHaveCount(1)
-  await expect(page.getByRole('link',{name:/JSON Formatter/})).toBeVisible()
+  await expect(page.getByRole('link',{name:/SQL Formatter/})).toBeVisible()
 })
 
 
