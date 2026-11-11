@@ -9,6 +9,7 @@ import { refsForPath } from '../src/data/externalRefs.js'
 import { officialSources, toolSourceKeys } from '../src/data/officialSources.js'
 import { guides, guideLocales, guidesHub } from '../src/data/guides.js'
 import { toolTranslations, toolDescriptionTranslations } from '../src/data/toolTranslations.js'
+import { arcadeGames, gameURL } from '../src/data/arcadeGames.js'
 
 const root=process.cwd()
 const template=await readFile(resolve(root,'dist/index.html'),'utf8')
@@ -265,6 +266,39 @@ for(const locale of guideLocaleObjs){
  }
 }
 
+// English arcade discovery pages. Games are hosted independently so no game
+// engine or 3D payload is bundled into the AnyTool homepage.
+const gamesHubPath='/games'
+const arcadePaths=[gamesHubPath,...arcadeGames.map(g=>'/games/'+g.slug)]
+const arcadeDate=gitDate('src/data/arcadeGames.js')
+const gameLink=g=>SITE+'/games/'+g.slug
+const hubTitle='Free Online Browser Games — 13 Arcade, Puzzle and 3D Games | AnyTool'
+const hubDescription='Play 13 free browser games including snake, 2048 puzzles, arcade shooters, racers and 3D adventures. No download, no account; mobile and desktop options.'
+const hubBody='<main class="seo-prerender" style="max-width:68rem;margin:0 auto;padding:3rem 1rem">'+
+ '<nav><a href="'+SITE+'/">AnyTool.online</a> · <a href="'+SITE+'/games">Free browser games</a></nav>'+
+ '<h1>Free Online Browser Games</h1><p>Free Online Browser Games — '+esc(hubDescription)+'</p>'+
+ '<section><h2>Free Online Browser Games: explore all 13 titles</h2><ul>'+arcadeGames.map(g=>'<li><a href="'+gameLink(g)+'">'+esc(g.name)+'</a> — '+esc(g.type)+': '+esc(g.description)+'</li>').join('')+'</ul></section>'+
+ '<p>Play games from the independent <a href="https://games-psi-ashy.vercel.app/" rel="noopener noreferrer">Kanwar Arcade</a> collection. Game code loads only after you choose Play, so the calculators and homepage remain fast.</p></main>'
+await emit(gamesHubPath,locales[0],hubTitle,hubDescription,[
+ {'@context':'https://schema.org','@type':'CollectionPage',name:'Free Online Browser Games',url:SITE+gamesHubPath,description:hubDescription,isPartOf:{'@type':'WebSite',name:'AnyTool.online',url:SITE+'/'}},
+ {'@context':'https://schema.org','@type':'ItemList',name:'Free online games',itemListElement:arcadeGames.map((g,i)=>({'@type':'ListItem',position:i+1,name:g.name,url:gameLink(g)}))}
+],'',{only:['en'],bodyHtml:hubBody})
+for(const game of arcadeGames){
+ const path='/games/'+game.slug
+ const title=game.name+' — '+game.type+' | AnyTool'
+ const desc=game.description+' Play this free browser game online. '+(game.mobile?'Supports touch controls.':'Best played with a keyboard and mouse.')
+ const intro=game.name+' — '+game.type
+ const body='<main class="seo-prerender" style="max-width:60rem;margin:0 auto;padding:3rem 1rem">'+
+ '<nav><a href="'+SITE+'/">AnyTool.online</a> · <a href="'+SITE+'/games">Free browser games</a></nav>'+
+ '<h1>'+esc(intro)+'</h1><p>'+esc(intro+' — '+desc)+'</p>'+
+ '<section><h2>'+esc(intro)+' gameplay</h2><p>'+esc(game.description)+' Choose Play to start the game. It loads separately after your click instead of slowing the homepage.</p></section>'+
+ '<section><h2>Play '+esc(game.name)+'</h2><p>Prefer full screen? <a href="'+esc(gameURL(game.slug))+'" rel="noopener noreferrer">Open the standalone game in another tab</a>. Browse <a href="'+SITE+'/games">all 13 free games</a>.</p></section></main>'
+ await emit(path,locales[0],title,desc,[
+  {'@context':'https://schema.org','@type':'WebPage',name:title,url:SITE+path,description:desc,isPartOf:{'@type':'WebSite',name:'AnyTool.online',url:SITE+'/'}},
+  {'@context':'https://schema.org','@type':'BreadcrumbList',itemListElement:[{'@type':'ListItem',position:1,name:'AnyTool',item:SITE+'/'},{'@type':'ListItem',position:2,name:'Games',item:SITE+'/games'},{'@type':'ListItem',position:3,name:game.name,item:SITE+path}]}
+ ],'',{only:['en'],bodyHtml:body})
+}
+
 // llms.txt per llmstxt.org: H1, > summary, then sections of [name](url): description links.
 {
  const cats=categories.map(c=>c.id).filter(id=>tools.some(t=>t.category===id))
@@ -276,7 +310,8 @@ for(const locale of guideLocaleObjs){
  await writeFile(resolve(root,'dist','llms.txt'),lines.join('\n'))
 }
 const indexable=[...staticPages.map(p=>p.path),...tools.map(t=>'/tools/'+t.slug)]
-const entries=[]
+const arcadeEntries=arcadePaths.map(path=>`<url><loc>${xml(SITE+path)}</loc><lastmod>${arcadeDate}</lastmod></url>`)
+const entries=[...arcadeEntries]
 for(const path of indexable){
  const alternates=locales.map(l=>({code:l.code,loc:SITE+localizedPath(l.prefix,path)}))
  for(const alt of alternates){
