@@ -47,7 +47,7 @@ export default function Layout({children}){
     </Link>
     <nav className="header-nav" aria-label="Primary navigation">
       <NavLink className={({isActive})=>'modern-nav-link '+(isActive?'active':'')} to={pathFor('/tools')}>{N.tools}</NavLink>
-      <NavLink className={({isActive})=>'modern-nav-link '+(isActive?'active':'')} to={pathFor('/games')}>{({en:'Games','zh-TW':'遊戲',ar:'ألعاب',ur:'گیمز'})[lang]||'Games'}</NavLink>
+      <NavLink className={({isActive})=>'modern-nav-link '+(isActive?'active':'')} to="/games">{({en:'Games','zh-TW':'遊戲',ar:'ألعاب',ur:'گیمز'})[lang]||'Games'}</NavLink>
       <NavLink className={({isActive})=>'modern-nav-link '+(isActive?'active':'')} to={pathFor('/guides')}>{({en:'Guides','zh-TW':'指南',ar:'الأدلة',ur:'گائیڈز'})[lang]||'Guides'}</NavLink>
       <NavLink className={({isActive})=>'modern-nav-link '+(isActive?'active':'')} to={pathFor('/sources')}>{N.sources}</NavLink>
       <NavLink className={({isActive})=>'modern-nav-link '+(isActive?'active':'')} to={pathFor('/about')}>{N.about}</NavLink>
@@ -72,7 +72,7 @@ export default function Layout({children}){
    </div>
    {mobile&&<div id="mobile-navigation" className="mobile-menu"><div className="mobile-menu-panel">
       <Link onClick={()=>setMobile(false)} to={pathFor('/tools')}>{N.tools}</Link>
-      <Link onClick={()=>setMobile(false)} to={pathFor('/games')}>{({en:'Games','zh-TW':'遊戲',ar:'ألعاب',ur:'گیمز'})[lang]||'Games'}</Link>
+      <Link onClick={()=>setMobile(false)} to="/games">{({en:'Games','zh-TW':'遊戲',ar:'ألعاب',ur:'گیمز'})[lang]||'Games'}</Link>
       <Link onClick={()=>setMobile(false)} to={pathFor('/sources')}>{N.sources}</Link>
       <Link onClick={()=>setMobile(false)} to={pathFor('/about')}>{N.about}</Link>
       <Link onClick={()=>setMobile(false)} to={pathFor('/contact')}>{N.contact}</Link>
@@ -106,7 +106,7 @@ export default function Layout({children}){
    <div className="mx-auto max-w-[72rem] px-4 py-12">
     <div className="grid gap-10 md:grid-cols-[1.3fr_.8fr_.8fr_1.1fr]">
       <div><div className="footer-brand"><span className="grid size-9 place-items-center overflow-hidden rounded-full"><img src="/favicon-192.png" alt="" width="36" height="36" className="size-full object-cover"/></span>AnyTool</div><p className="mt-3 max-w-xs text-sm">{N.footer}</p></div>
-      <div><h2>{N.tools}</h2><div className="footer-links"><Link to={pathFor('/tools')}>{N.tools}</Link><Link to={pathFor('/games')}>{({en:'Games','zh-TW':'遊戲',ar:'ألعاب',ur:'گیمز'})[lang]||'Games'}</Link><Link to={pathFor('/sources')}>{N.sources}</Link><Link to={pathFor('/methodology')}>{N.method}</Link><Link to={pathFor('/platforms')}>{(({en:'More platforms','zh-TW':'更多平台',ar:'منصات أخرى',ur:'مزید پلیٹ فارمز'})[lang])||'More platforms'}</Link>{platforms.map(p=><a key={p.id} href={p.url} target="_blank" rel="noopener noreferrer">{p.label[lang]||p.label.en} ↗</a>)}</div></div>
+      <div><h2>{N.tools}</h2><div className="footer-links"><Link to={pathFor('/tools')}>{N.tools}</Link><Link to="/games">{({en:'Games','zh-TW':'遊戲',ar:'ألعاب',ur:'گیمز'})[lang]||'Games'}</Link><Link to={pathFor('/sources')}>{N.sources}</Link><Link to={pathFor('/methodology')}>{N.method}</Link><Link to={pathFor('/platforms')}>{(({en:'More platforms','zh-TW':'更多平台',ar:'منصات أخرى',ur:'مزید پلیٹ فارمز'})[lang])||'More platforms'}</Link>{platforms.map(p=><a key={p.id} href={p.url} target="_blank" rel="noopener noreferrer">{p.label[lang]||p.label.en} ↗</a>)}</div></div>
       <div><h2>AnyTool</h2><div className="footer-links"><Link to={pathFor('/about')}>{N.about}</Link><Link to={pathFor('/privacy')}>{N.privacy}</Link><Link to={pathFor('/terms')}>{N.terms}</Link><Link to={pathFor('/accessibility')}>{N.accessibility}</Link><Link to={pathFor('/contact')}>{N.contact}</Link></div></div>
       <div><h2>{N.further}</h2><div className="footer-links">{refsForPath(cleanPath).map(r=><a key={r.url} href={r.url} target="_blank" rel="noopener noreferrer">{r.label} ↗</a>)}</div></div>
     </div>
