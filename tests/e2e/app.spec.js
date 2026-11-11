@@ -172,7 +172,8 @@ test('modern header uses AnyTool brand and animated primary navigation hooks', a
   await expect(brand).toContainText('AnyTool')
   await expect(brand).not.toContainText('.online')
   await expect(brand.locator('img[src="/favicon-192.png"]')).toBeVisible()
-  await expect(page.locator('.modern-nav-link')).toHaveCount(6)
+  await expect(page.locator('.modern-nav-link')).toHaveCount(7)
+  await expect(page.getByRole('navigation',{name:'Primary navigation'}).getByRole('link',{name:'Games'})).toHaveAttribute('href','/games')
 })
 
 test('tool feedback shows update history and prefills problem reports', async ({ page }) => {
@@ -422,7 +423,7 @@ test('new image sketch tool creates a local downloadable PNG', async ({ page }) 
 test('tool directory search works across the full paginated catalog', async ({ page }) => {
   await page.goto('/tools')
   await expect(page.getByLabel('Search all tools')).toBeVisible()
-  await expect(page.locator('#main-content').getByText('71 tools')).toBeVisible()
+  await expect(page.locator('#main-content').getByText('46 tools')).toBeVisible()
   await page.getByLabel('Search all tools').fill('Timer with Sounds')
   await expect(page.locator('.directory-tool-button')).toHaveCount(1)
   await expect(page.getByRole('link',{name:/Timer with Sounds/})).toBeVisible()
@@ -520,7 +521,7 @@ test('tools show a translated visual guide with an accessible diagram', async ({
 
 test('home shows highlights and the back-to-top button appears after scrolling', async ({ page }) => {
   await page.goto('/')
-  await expect(page.locator('.home-stats')).toContainText('71')
+  await expect(page.locator('.home-stats')).toContainText('46')
   const top = page.locator('.back-to-top')
   await expect(top).not.toHaveClass(/show/)
   await page.evaluate(() => window.scrollTo(0, 1600))
