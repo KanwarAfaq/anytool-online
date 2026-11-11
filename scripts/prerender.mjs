@@ -272,7 +272,7 @@ const gamesHubPath='/games'
 const arcadePaths=[gamesHubPath,...arcadeGames.map(g=>'/games/'+g.slug)]
 const arcadeDate=gitDate('src/data/arcadeGames.js')
 const gameLink=g=>SITE+'/games/'+g.slug
-const hubTitle='Free Browser Games: Arcade, Puzzle & 3D | AnyTool'
+const hubTitle='Free Online Browser Games | AnyTool'
 const hubDescription='Play 13 free browser games including snake, 2048 puzzles, arcade shooters, racers and 3D adventures. No download, no account; mobile and desktop options.'
 const hubBody='<main class="seo-prerender" style="max-width:68rem;margin:0 auto;padding:3rem 1rem">'+
  '<nav><a href="'+SITE+'/">AnyTool.online</a> · <a href="'+SITE+'/games">Free browser games</a></nav>'+
