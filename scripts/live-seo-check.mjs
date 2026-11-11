@@ -8,6 +8,10 @@ assert.match(await home.text(),/rel="icon" href="\/favicon-192\.png"/,'Google-co
 const robots=await get('/robots.txt')
 assert.equal(robots.status,200,'robots.txt must return 200')
 assert.match(await robots.text(),/Sitemap:\s+https:\/\/anytool\.online\/sitemap\.xml/,'robots sitemap missing')
+// Keep legacy www search results consolidated under the canonical non-www host.
+const wwwTool=await fetch('https://www.anytool.online/tools/qr-generator',{redirect:'manual',headers:{'user-agent':'AnyTool-LiveSEOAudit/1.0'}})
+assert.ok([301,308].includes(wwwTool.status),'www must permanently redirect to the canonical host')
+assert.equal(wwwTool.headers.get('location'),'https://anytool.online/tools/qr-generator','www redirect must preserve the page path')
 const sitemap=await get('/sitemap.xml')
 assert.equal(sitemap.status,200,'sitemap must return 200')
 const sitemapText=await sitemap.text()
