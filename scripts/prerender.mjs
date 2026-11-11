@@ -272,7 +272,7 @@ const gamesHubPath='/games'
 const arcadePaths=[gamesHubPath,...arcadeGames.map(g=>'/games/'+g.slug)]
 const arcadeDate=gitDate('src/data/arcadeGames.js')
 const gameLink=g=>SITE+'/games/'+g.slug
-const hubTitle='Free Online Browser Games — 13 Arcade, Puzzle and 3D Games | AnyTool'
+const hubTitle='Free Browser Games: Arcade, Puzzle & 3D | AnyTool'
 const hubDescription='Play 13 free browser games including snake, 2048 puzzles, arcade shooters, racers and 3D adventures. No download, no account; mobile and desktop options.'
 const hubBody='<main class="seo-prerender" style="max-width:68rem;margin:0 auto;padding:3rem 1rem">'+
  '<nav><a href="'+SITE+'/">AnyTool.online</a> · <a href="'+SITE+'/games">Free browser games</a></nav>'+
@@ -291,7 +291,8 @@ for(const game of arcadeGames){
  const body='<main class="seo-prerender" style="max-width:60rem;margin:0 auto;padding:3rem 1rem">'+
  '<nav><a href="'+SITE+'/">AnyTool.online</a> · <a href="'+SITE+'/games">Free browser games</a></nav>'+
  '<h1>'+esc(intro)+'</h1><p>'+esc(intro+' — '+desc)+'</p>'+
- '<section><h2>'+esc(intro)+' gameplay</h2><p>'+esc(game.description)+' Choose Play to start the game. It loads separately after your click instead of slowing the homepage.</p></section>'+
+ '<section><h2>'+esc(intro)+' gameplay</h2><p>'+esc(game.description)+' Choose Play to start the game. It loads separately after your click instead of slowing the homepage.</p></section>'+ 
+ '<section><h2>How to play '+esc(game.name)+'</h2><p>'+esc(game.howToPlay)+'</p><h2>Gameplay tips</h2><p>'+esc(game.tip)+'</p></section>'+
  '<section><h2>Play '+esc(game.name)+'</h2><p>Prefer full screen? <a href="'+esc(gameURL(game.slug))+'" rel="noopener noreferrer">Open the standalone game in another tab</a>. Browse <a href="'+SITE+'/games">all 13 free games</a>.</p></section></main>'
  await emit(path,locales[0],title,desc,[
   {'@context':'https://schema.org','@type':'WebPage',name:title,url:SITE+path,description:desc,isPartOf:{'@type':'WebSite',name:'AnyTool.online',url:SITE+'/'}},
