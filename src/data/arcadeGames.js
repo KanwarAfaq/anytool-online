@@ -2,19 +2,19 @@
 // AnyTool never downloads 3D engine bundles until a visitor clicks Play.
 export const ARCADE_ORIGIN='https://games-psi-ashy.vercel.app'
 export const arcadeGames=[
- {slug:'starfall',name:'Starfall',type:'Space shooter',description:'Dodge enemies, collect power-ups and defeat space bosses.',mobile:true},
- {slug:'brick-rally',name:'Brick Rally',type:'Brick breaker',description:'Bounce the ball through five levels of classic brick-breaker action.',mobile:true},
- {slug:'serpentine',name:'Serpentine',type:'Snake game',description:'Collect fruit, dodge rocks and beat your best snake score.',mobile:true},
- {slug:'skyhop',name:'Skyhop',type:'One-tap flying',description:'Tap to fly, avoid obstacles and gather stars.',mobile:true},
- {slug:'lightmerge',name:'Lightmerge',type:'2048 puzzle',description:'Slide tiles to merge matching numbers and reach 2048.',mobile:true},
- {slug:'driftrock',name:'Driftrock',type:'Asteroids shooter',description:'Navigate and shoot through drifting asteroid fields.',mobile:true},
- {slug:'lumenfall',name:'Lumenfall',type:'3D fantasy adventure',description:'Explore a fantasy world, fight enemies and discover energy crystals.',mobile:false},
- {slug:'neon-velocity',name:'Neon Velocity',type:'3D racing',description:'Race neon streets, drift corners and use nitro to win.',mobile:false},
- {slug:'starfall-protocol',name:'Starfall Protocol',type:'3D space shooter',description:'A top-down sci-fi shooter with tactical movement.',mobile:false},
- {slug:'aether-run',name:'Aether Run',type:'Neon hover racer',description:'Steer through a futuristic skyline and manage speed boosts.',mobile:true},
- {slug:'moonlit-grove',name:'Moonlit Grove',type:'Fantasy survival',description:'Cast spells and survive waves of magical enemies.',mobile:true},
- {slug:'park-dash',name:'Park Dash',type:'Kids running game',description:'Race through a park, jump hurdles and collect stars.',mobile:true},
- {slug:'serpent-studio',name:'Serpent Studio',type:'Customizable snake',description:'Play four snake modes with different speeds and skins.',mobile:true},
+ {slug:'starfall',name:'Starfall',type:'Space shooter',description:'Dodge enemies, collect power-ups and defeat space bosses.',mobile:truehowToPlay:"Arrow keys or mouse/touch to steer; Space or tap to fire.",tip:"Collect power-ups and dodge enemies as waves become harder."},
+ {slug:'brick-rally',name:'Brick Rally',type:'Brick breaker',description:'Bounce the ball through five levels of classic brick-breaker action.',mobile:truehowToPlay:"Move the paddle with the mouse, touch or arrow keys; Space launches the ball.",tip:"Break the colored bricks and aim carefully for useful power-ups."},
+ {slug:'serpentine',name:'Serpentine',type:'Snake game',description:'Collect fruit, dodge rocks and beat your best snake score.',mobile:truehowToPlay:"Use arrow keys, WASD or swipe to steer the snake.",tip:"Eat fruit to grow, but avoid walls, rocks and your own tail."},
+ {slug:'skyhop',name:'Skyhop',type:'One-tap flying',description:'Tap to fly, avoid obstacles and gather stars.',mobile:truehowToPlay:"Tap, click or press Space to keep flying.",tip:"Time each flap to pass through gaps and collect stars."},
+ {slug:'lightmerge',name:'Lightmerge',type:'2048 puzzle',description:'Slide tiles to merge matching numbers and reach 2048.',mobile:truehowToPlay:"Swipe or use arrow keys to move all numbered tiles.",tip:"Merge matching tiles and keep space open as you work toward 2048."},
+ {slug:'driftrock',name:'Driftrock',type:'Asteroids shooter',description:'Navigate and shoot through drifting asteroid fields.',mobile:truehowToPlay:"Use A/D to turn, W to thrust and Space to shoot.",tip:"Clear floating asteroids and beware when larger rocks split."},
+ {slug:'lumenfall',name:'Lumenfall',type:'3D fantasy adventure',description:'Explore a fantasy world, fight enemies and discover energy crystals.',mobile:falsehowToPlay:"Use WASD to move, the mouse to look, Space to jump and click to attack.",tip:"Explore a 3D fantasy world, gather crystals and find the final portal. Best on desktop."},
+ {slug:'neon-velocity',name:'Neon Velocity',type:'3D racing',description:'Race neon streets, drift corners and use nitro to win.',mobile:falsehowToPlay:"Use WASD to race, Space to drift and Shift for nitro.",tip:"Time boosts on straightaways and avoid collisions with rival cars. Best on desktop."},
+ {slug:'starfall-protocol',name:'Starfall Protocol',type:'3D space shooter',description:'A top-down sci-fi shooter with tactical movement.',mobile:falsehowToPlay:"Play this 3D top-down action game using a desktop keyboard and mouse.",tip:"Use careful movement and positioning through combat encounters."},
+ {slug:'aether-run',name:'Aether Run',type:'Neon hover racer',description:'Steer through a futuristic skyline and manage speed boosts.',mobile:truehowToPlay:"Steer with A/D or arrow keys; Shift or Up boosts your hover racer.",tip:"Manage your energy and choose when to boost in the futuristic skyline."},
+ {slug:'moonlit-grove',name:'Moonlit Grove',type:'Fantasy survival',description:'Cast spells and survive waves of magical enemies.',mobile:truehowToPlay:"Move with WASD or arrow keys, aim with the pointer and use Space/Shift to dash.",tip:"Survive enemy waves with spells and collect useful resources."},
+ {slug:'park-dash',name:'Park Dash',type:'Kids running game',description:'Race through a park, jump hurdles and collect stars.',mobile:truehowToPlay:"Change lanes with arrow keys or A/D, jump with Space/W and sprint with Shift.",tip:"Dodge obstacles and collect stars in a kid-friendly park race."},
+ {slug:'serpent-studio',name:'Serpent Studio',type:'Customizable snake',description:'Play four snake modes with different speeds and skins.',mobile:truehowToPlay:"Choose a snake mode, speed and style; use arrow keys, WASD or swipes.",tip:"Try Classic, Zen, Sprint or Maze and compare best scores."},
 ]
 export const gamePage = slug => arcadeGames.find(g=>g.slug===slug)
 export const gameURL = slug => `${ARCADE_ORIGIN}/games/${encodeURIComponent(slug)}.html`
