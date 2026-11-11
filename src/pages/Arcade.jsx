@@ -19,12 +19,12 @@ export default function Arcade(){
  const selected=slug?gamePage(slug):null
  const [runningSlug,setRunningSlug]=useState(null)
  const running=runningSlug===slug
- if(slug&&!selected)return <PageShell><h1>{t.notfound}</h1><Link to={pathFor('/games')}>{t.back}</Link></PageShell>
+ if(slug&&!selected)return <PageShell><h1>{t.notfound}</h1><Link to={'/games'}>{t.back}</Link></PageShell>
  if(!selected){
   return <PageShell>
-   <Seo title={t.heading+' | AnyTool.online'} description={t.intro} canonical={pathFor('/games')}/>
+   <Seo title={t.heading+' | AnyTool.online'} description={t.intro} canonical={'/games'}/>
    <header className="mb-8"><p className="text-sm font-semibold text-indigo-600">AnyTool Arcade · 13 games</p><h1 className="mt-2 text-4xl font-extrabold tracking-tight">{t.heading}</h1><p className="mt-3 max-w-3xl text-lg text-slate-600 dark:text-slate-300">{t.intro}</p></header>
-   <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">{arcadeGames.map(g=><Link key={g.slug} to={pathFor('/games/'+g.slug)} className="group rounded-2xl border border-slate-200 bg-white p-5 shadow-sm transition hover:-translate-y-0.5 hover:shadow-lg dark:border-slate-700 dark:bg-slate-900">
+   <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">{arcadeGames.map(g=><Link key={g.slug} to={'/games/'+g.slug} className="group rounded-2xl border border-slate-200 bg-white p-5 shadow-sm transition hover:-translate-y-0.5 hover:shadow-lg dark:border-slate-700 dark:bg-slate-900">
     <div className="flex items-center justify-between"><span className="grid h-12 w-12 place-items-center rounded-xl bg-indigo-100 text-indigo-600 dark:bg-indigo-900/50"><Gamepad2 size={24}/></span>{g.mobile?<Smartphone className="text-slate-400" size={18}/>:<Monitor className="text-slate-400" size={18}/>}</div>
     <h2 className="mt-4 text-xl font-bold">{g.name}</h2><p className="mt-1 text-xs font-semibold uppercase tracking-wider text-indigo-600">{g.type}</p><p className="mt-3 min-h-14 text-sm text-slate-600 dark:text-slate-300">{g.description}</p><span className="mt-4 inline-flex items-center gap-2 text-sm font-semibold text-indigo-600">{t.play} <Play size={15}/></span>
    </Link>)}</div>
@@ -33,12 +33,12 @@ export default function Arcade(){
  }
  const url=gameURL(selected.slug)
  return <PageShell>
-  <Seo title={selected.name+' — '+selected.type+' | AnyTool'} description={selected.description+' Free browser game with no download.'} canonical={pathFor('/games/'+selected.slug)}/>
-  <Link to={pathFor('/games')} className="inline-flex items-center gap-2 text-sm font-semibold text-indigo-600"><ArrowLeft size={16}/>{t.back}</Link>
+  <Seo title={selected.name+' — '+selected.type+' | AnyTool'} description={selected.description+' Free browser game with no download.'} canonical={'/games/'+selected.slug}/>
+  <Link to={'/games'} className="inline-flex items-center gap-2 text-sm font-semibold text-indigo-600"><ArrowLeft size={16}/>{t.back}</Link>
   <div className="mt-6 flex flex-wrap items-start justify-between gap-5"><div><p className="text-sm font-semibold text-indigo-600">{selected.type}</p><h1 className="mt-1 text-4xl font-extrabold">{selected.name}</h1><p className="mt-3 max-w-2xl text-slate-600 dark:text-slate-300">{selected.description}</p><p className="mt-2 inline-flex items-center gap-2 text-sm text-slate-500">{selected.mobile?<Smartphone size={16}/>:<Monitor size={16}/>} {selected.mobile?t.mobile:t.desktop}</p></div><a href={url} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 rounded-xl border px-4 py-2 font-semibold"><ExternalLink size={16}/>{t.external}</a></div>
   <section className="mt-6 grid gap-4 md:grid-cols-2"><div className="rounded-xl border border-slate-200 p-4 dark:border-slate-700"><h2 className="text-lg font-bold">How to play {selected.name}</h2><p className="mt-2 text-slate-600 dark:text-slate-300">{selected.howToPlay}</p></div><div className="rounded-xl border border-slate-200 p-4 dark:border-slate-700"><h2 className="text-lg font-bold">Gameplay tips</h2><p className="mt-2 text-slate-600 dark:text-slate-300">{selected.tip}</p></div></section>
   {!running?<div className="mt-8 flex min-h-64 flex-col items-center justify-center gap-4 rounded-2xl bg-slate-950 p-8 text-center text-white"><Gamepad2 size={50} className="text-indigo-300"/><p className="max-w-md text-slate-300">{t.note}</p><button onClick={()=>setRunningSlug(slug)} className="inline-flex items-center gap-2 rounded-xl bg-indigo-500 px-6 py-3 font-bold text-white hover:bg-indigo-400"><Play size={18}/>{t.launch}</button></div>
   :<div className="mt-8 overflow-hidden rounded-2xl border bg-slate-950"><iframe title={selected.name+' — playable browser game'} src={url} loading="lazy" allow="fullscreen; gamepad" allowFullScreen referrerPolicy="strict-origin-when-cross-origin" sandbox="allow-scripts allow-same-origin allow-pointer-lock allow-popups allow-downloads" style={{display:'block',width:'100%',height:'min(83vh,850px)',minHeight:480,border:0}}/></div>}
-  <section className="mt-8"><h2 className="text-xl font-bold">{t.all}</h2><div className="mt-3 flex flex-wrap gap-2">{arcadeGames.filter(g=>g.slug!==selected.slug).map(g=><Link key={g.slug} to={pathFor('/games/'+g.slug)} className="rounded-full border border-slate-300 px-3 py-1.5 text-sm hover:border-indigo-500">{g.name}</Link>)}</div></section>
+  <section className="mt-8"><h2 className="text-xl font-bold">{t.all}</h2><div className="mt-3 flex flex-wrap gap-2">{arcadeGames.filter(g=>g.slug!==selected.slug).map(g=><Link key={g.slug} to={'/games/'+g.slug} className="rounded-full border border-slate-300 px-3 py-1.5 text-sm hover:border-indigo-500">{g.name}</Link>)}</div></section>
  </PageShell>
 }
