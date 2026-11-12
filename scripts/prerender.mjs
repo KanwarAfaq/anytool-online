@@ -9,7 +9,7 @@ import { refsForPath } from '../src/data/externalRefs.js'
 import { officialSources, toolSourceKeys } from '../src/data/officialSources.js'
 import { guides, guideLocales, guidesHub } from '../src/data/guides.js'
 import { toolTranslations, toolDescriptionTranslations } from '../src/data/toolTranslations.js'
-import { arcadeGames, gameURL } from '../src/data/arcadeGames.js'
+import { arcadeGames, gameURL, gamePreviewURL } from '../src/data/arcadeGames.js'
 
 const root=process.cwd()
 const template=await readFile(resolve(root,'dist/index.html'),'utf8')
@@ -277,7 +277,7 @@ const hubDescription='Play 13 free browser games including snake, 2048 puzzles, 
 const hubBody='<main class="seo-prerender" style="max-width:68rem;margin:0 auto;padding:3rem 1rem">'+
  '<nav><a href="'+SITE+'/">AnyTool.online</a> · <a href="'+SITE+'/games">Free browser games</a></nav>'+
  '<h1>Free Online Browser Games</h1><p>Free Online Browser Games — '+esc(hubDescription)+'</p>'+
- '<section><h2>Free Online Browser Games: explore all 13 titles</h2><ul>'+arcadeGames.map(g=>'<li><a href="'+gameLink(g)+'">'+esc(g.name)+'</a> — '+esc(g.type)+': '+esc(g.description)+'</li>').join('')+'</ul></section>'+
+ '<section><h2>Free Online Browser Games: explore all 13 titles</h2><ul>'+arcadeGames.map(g=>'<li><a href="'+gameLink(g)+'"><img src="'+esc(gamePreviewURL(g))+'" width="640" height="400" loading="lazy" decoding="async" alt="Preview artwork for '+esc(g.name)+'" style="display:block;width:240px;max-width:100%;height:auto;aspect-ratio:8/5;object-fit:cover;border-radius:12px">'+esc(g.name)+'</a> — '+esc(g.type)+': '+esc(g.description)+'</li>').join('')+'</ul></section>'+
  '<p>Play games from the independent <a href="https://games-psi-ashy.vercel.app/" rel="noopener noreferrer">Kanwar Arcade</a> collection. Game code loads only after you choose Play, so the calculators and homepage remain fast.</p></main>'
 await emit(gamesHubPath,locales[0],hubTitle,hubDescription,[
  {'@context':'https://schema.org','@type':'CollectionPage',name:'Free Online Browser Games',url:SITE+gamesHubPath,description:hubDescription,isPartOf:{'@type':'WebSite',name:'AnyTool.online',url:SITE+'/'}},
@@ -290,7 +290,8 @@ for(const game of arcadeGames){
  const intro=game.name+' — '+game.type
  const body='<main class="seo-prerender" style="max-width:60rem;margin:0 auto;padding:3rem 1rem">'+
  '<nav><a href="'+SITE+'/">AnyTool.online</a> · <a href="'+SITE+'/games">Free browser games</a></nav>'+
- '<h1>'+esc(intro)+'</h1><p>'+esc(intro+' — '+desc)+'</p>'+
+ '<h1>'+esc(intro)+'</h1><p>'+esc(intro+' — '+desc)+'</p>'+ 
+ '<figure><img src="'+esc(gamePreviewURL(game))+'" width="640" height="400" loading="lazy" decoding="async" alt="Gameplay preview artwork for '+esc(game.name)+'" style="width:min(100%,640px);height:auto;border-radius:16px"><figcaption>Preview of '+esc(game.name)+' before launching the game.</figcaption></figure>'+
  '<section><h2>'+esc(intro)+' gameplay</h2><p>'+esc(game.description)+' Choose Play to start the game. It loads separately after your click instead of slowing the homepage.</p></section>'+ 
  '<section><h2>How to play '+esc(game.name)+'</h2><p>'+esc(game.howToPlay)+'</p><h2>Gameplay tips</h2><p>'+esc(game.tip)+'</p></section>'+
  '<section><h2>Play '+esc(game.name)+'</h2><p>Prefer full screen? <a href="'+esc(gameURL(game.slug))+'" rel="noopener noreferrer">Open the standalone game in another tab</a>. Browse <a href="'+SITE+'/games">all 13 free games</a>.</p></section></main>'
