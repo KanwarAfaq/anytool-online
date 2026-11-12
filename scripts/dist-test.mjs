@@ -68,6 +68,8 @@ for(const slug of ['games',...arcadeGames.map(g=>'games/'+g.slug)]){
  assert.ok(sitemap.includes('<loc>'+url+'</loc>'),'game sitemap missing '+url);
  assert.ok(html.includes('<link rel="canonical" href="'+url+'"'),'game canonical missing '+url);
  assert.ok(html.includes('seo-prerender'),'game initial HTML must contain meaningful content '+url);
+ assert.ok(html.includes('/assets/img/thumb-'),'game preview must appear in prerendered HTML '+url);
+ assert.ok(html.includes('loading="lazy"'),'game preview must lazy-load '+url);
  assert.ok(html.includes('href="https://anytool.online/games'),'game page needs crawlable internal links '+url);
 }
 
