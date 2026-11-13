@@ -266,8 +266,8 @@ for(const locale of guideLocaleObjs){
  }
 }
 
-// English arcade discovery pages. Games are hosted independently so no game
-// engine or 3D payload is bundled into the AnyTool homepage.
+// Arcade discovery pages. All playable assets are checked into AnyTool,
+// but heavy 3D engines remain static files outside the homepage JS bundle.
 const gamesHubPath='/games'
 const arcadePaths=[gamesHubPath,...arcadeGames.map(g=>'/games/'+g.slug)]
 const arcadeDate=gitDate('src/data/arcadeGames.js')
@@ -278,7 +278,7 @@ const hubBody='<main class="seo-prerender" style="max-width:68rem;margin:0 auto;
  '<nav><a href="'+SITE+'/">AnyTool.online</a> · <a href="'+SITE+'/games">Free browser games</a></nav>'+
  '<h1>Free Online Browser Games</h1><p>Free Online Browser Games — '+esc(hubDescription)+'</p>'+
  '<section><h2>Free Online Browser Games: explore all 13 titles</h2><ul>'+arcadeGames.map(g=>'<li><a href="'+gameLink(g)+'"><img src="'+esc(gamePreviewURL(g))+'" width="640" height="400" loading="lazy" decoding="async" alt="Preview artwork for '+esc(g.name)+'" style="display:block;width:240px;max-width:100%;height:auto;aspect-ratio:8/5;object-fit:cover;border-radius:12px">'+esc(g.name)+'</a> — '+esc(g.type)+': '+esc(g.description)+'</li>').join('')+'</ul></section>'+
- '<p>Play games from the independent <a href="https://games-psi-ashy.vercel.app/" rel="noopener noreferrer">Kanwar Arcade</a> collection. Game code loads only after you choose Play, so the calculators and homepage remain fast.</p></main>'
+ '<p>All games are hosted here on AnyTool and run in your browser. Game code loads only after you choose Play, so the calculators and homepage remain fast. <a href="https://github.com/KanwarAfaq/games" rel="noopener noreferrer">Original game project</a>.</p></main>'
 await emit(gamesHubPath,locales[0],hubTitle,hubDescription,[
  {'@context':'https://schema.org','@type':'CollectionPage',name:'Free Online Browser Games',url:SITE+gamesHubPath,description:hubDescription,isPartOf:{'@type':'WebSite',name:'AnyTool.online',url:SITE+'/'}},
  {'@context':'https://schema.org','@type':'ItemList',name:'Free online games',itemListElement:arcadeGames.map((g,i)=>({'@type':'ListItem',position:i+1,name:g.name,url:gameLink(g)}))}
