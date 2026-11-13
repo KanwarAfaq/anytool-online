@@ -5,6 +5,8 @@ on:
     branches: [main]
     paths:
       - '.github/workflows/vendor-arcade.yml'
+      - 'scripts/vendor-arcade.mjs'
+      - 'scripts/arcade-embed.css'
 
 permissions:
   contents: write
