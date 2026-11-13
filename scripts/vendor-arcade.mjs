@@ -14,6 +14,16 @@ for(const path of ['assets/css','assets/js','assets/img','play'])await copy(path
 // This integration stylesheet lives in AnyTool, not the imported source.
 await cp(resolve('scripts/arcade-embed.css'),join(target,'assets/css/anytool-embed.css'));
 
+// Compiled WebGL launch documents are application runtime, not content pages.
+for(const slug of ['lumenfall','neon-velocity','starfall-protocol']){
+  const engine=join(target,'play',slug,'index.html');
+  let html=await readFile(engine,'utf8');
+  if(!/<meta name="robots"/i.test(html)){
+    html=html.replace(/<head>/i,'<head>\n    <meta name="robots" content="noindex,follow">');
+  }
+  if(!html.includes('content="noindex,follow"'))throw Error('Engine must be noindex: '+slug);
+  await writeFile(engine,html);
+}
 await mkdir(join(target,'games'),{recursive:true});
 const listing=await readdir(join(source,'games'));
 for(const game of arcadeGames){
