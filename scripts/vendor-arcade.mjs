@@ -11,6 +11,9 @@ const copy=async a=>{
   await cp(from,to,{recursive:true});
 };
 for(const path of ['assets/css','assets/js','assets/img','play'])await copy(path);
+// This integration stylesheet lives in AnyTool, not the imported source.
+await cp(resolve('scripts/arcade-embed.css'),join(target,'assets/css/anytool-embed.css'));
+
 await mkdir(join(target,'games'),{recursive:true});
 const listing=await readdir(join(source,'games'));
 for(const game of arcadeGames){
