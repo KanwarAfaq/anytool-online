@@ -1,0 +1,85 @@
+/* Applied only to vendored /games/*.html?embed=1 pages.
+   The parent AnyTool page owns navigation, content and SEO. Inside the
+   same-origin iframe expose only the actual playable game UI. */
+html.anytool-arcade-embed,
+html.anytool-arcade-embed body {
+  width:100%;max-width:100%;min-width:0;min-height:0;
+  margin:0!important; padding:0!important; overflow-x:hidden;
+  overscroll-behavior:contain;
+}
+html.anytool-arcade-embed .skip-link,
+html.anytool-arcade-embed .site-header,
+html.anytool-arcade-embed .sidebar,
+html.anytool-arcade-embed .scrim,
+html.anytool-arcade-embed .site-footer,
+html.anytool-arcade-embed .page-head,
+html.anytool-arcade-embed .howto,
+html.anytool-arcade-embed .answer,
+html.anytool-arcade-embed .faq,
+html.anytool-arcade-embed .next-game,
+html.anytool-arcade-embed .site-extra,
+html.anytool-arcade-embed .site-foot,
+html.anytool-arcade-embed .top,
+html.anytool-arcade-embed .intro,
+html.anytool-arcade-embed .below,
+html.anytool-arcade-embed .footer,
+html.anytool-arcade-embed .special-note {
+  display:none!important;
+}
+html.anytool-arcade-embed .shell,
+html.anytool-arcade-embed .main,
+html.anytool-arcade-embed .wrap,
+html.anytool-arcade-embed .section,
+html.anytool-arcade-embed .section--game,
+html.anytool-arcade-embed .stage {
+  display:block!important;
+  width:100%!important;
+  min-width:0!important;
+  max-width:100%!important;
+  min-height:0!important;
+  margin:0!important;
+  padding:0!important;
+  border:0!important;
+  box-shadow:none!important;
+}
+html.anytool-arcade-embed .cabinet,
+html.anytool-arcade-embed .viewport,
+html.anytool-arcade-embed .cabinet__screen {
+  width:100%!important; max-width:100%!important; min-width:0!important;
+  margin:0 auto!important; border-radius:0!important;
+}
+html.anytool-arcade-embed canvas {
+  display:block; width:100%; max-width:100%;
+  height:auto; touch-action:none;
+}
+html.anytool-arcade-embed .hud {
+  display:flex; flex-wrap:wrap; justify-content:space-around;
+  gap:4px!important; font-size:clamp(10px,2.4vw,14px);
+}
+html.anytool-arcade-embed .toolbar,
+html.anytool-arcade-embed .controls,
+html.anytool-arcade-embed .mobile-controls {
+  flex-wrap:wrap;max-width:100%!important;
+  justify-content:center;
+}
+html.anytool-arcade-embed button,
+html.anytool-arcade-embed .toolbar button,
+html.anytool-arcade-embed .controls button,
+html.anytool-arcade-embed .mobile-controls button {
+  min-height:42px; touch-action:manipulation;
+}
+html.anytool-arcade-embed a[href="/games"],
+html.anytool-arcade-embed .controls a[href="/games"] {
+  display:none!important;
+}
+@media(max-width:650px){
+  html.anytool-arcade-embed .hud {font-size:11px;padding:5px!important}
+  html.anytool-arcade-embed .stat {min-width:0!important}
+  html.anytool-arcade-embed .overlay-card {max-width:calc(100vw - 28px)!important}
+  html.anytool-arcade-embed .toolbar,
+  html.anytool-arcade-embed .controls {padding:6px!important}
+  html.anytool-arcade-embed .mobile-controls {display:flex;gap:8px}
+}
+@media(prefers-reduced-motion:reduce){
+ html.anytool-arcade-embed *{scroll-behavior:auto!important;transition-duration:0s!important}
+}

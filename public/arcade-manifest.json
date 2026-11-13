@@ -1,0 +1,19 @@
+{
+  "revision": "e2b633385a3c6d2e89ea655fd16d227a500d168d",
+  "games": [
+    "starfall",
+    "brick-rally",
+    "serpentine",
+    "skyhop",
+    "lightmerge",
+    "driftrock",
+    "lumenfall",
+    "neon-velocity",
+    "starfall-protocol",
+    "aether-run",
+    "moonlit-grove",
+    "park-dash",
+    "serpent-studio"
+  ],
+  "hosting": "same-origin AnyTool; game engines loaded only on demand"
+}
