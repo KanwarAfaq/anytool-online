@@ -294,7 +294,7 @@ for(const game of arcadeGames){
  '<figure><img src="'+esc(gamePreviewURL(game))+'" width="640" height="400" loading="lazy" decoding="async" alt="Gameplay preview artwork for '+esc(game.name)+'" style="width:min(100%,640px);height:auto;border-radius:16px"><figcaption>Preview of '+esc(game.name)+' before launching the game.</figcaption></figure>'+
  '<section><h2>'+esc(intro)+' gameplay</h2><p>'+esc(game.description)+' Choose Play to start the game. It loads separately after your click instead of slowing the homepage.</p></section>'+ 
  '<section><h2>How to play '+esc(game.name)+'</h2><p>'+esc(game.howToPlay)+'</p><h2>Gameplay tips</h2><p>'+esc(game.tip)+'</p></section>'+
- '<section><h2>Play '+esc(game.name)+'</h2><p>Prefer full screen? <a href="'+esc(gameURL(game.slug))+'" rel="noopener noreferrer">Open the standalone game in another tab</a>. Browse <a href="'+SITE+'/games">all 13 free games</a>.</p></section></main>'
+ '<section><h2>Play '+esc(game.name)+'</h2><p>Prefer full screen? <a href="'+esc(gameURL(game.slug))+'" rel="noopener noreferrer">Open the playable game in another tab</a>. Browse <a href="'+SITE+'/games">all 13 free games</a>. <a href="https://github.com/KanwarAfaq/games" rel="noopener noreferrer">Explore the original game source on GitHub</a>.</p></section></main>'
  await emit(path,locales[0],title,desc,[
   {'@context':'https://schema.org','@type':'WebPage',name:title,url:SITE+path,description:desc,isPartOf:{'@type':'WebSite',name:'AnyTool.online',url:SITE+'/'}},
   {'@context':'https://schema.org','@type':'BreadcrumbList',itemListElement:[{'@type':'ListItem',position:1,name:'AnyTool',item:SITE+'/'},{'@type':'ListItem',position:2,name:'Games',item:SITE+'/games'},{'@type':'ListItem',position:3,name:game.name,item:SITE+path}]}
