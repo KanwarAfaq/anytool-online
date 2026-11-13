@@ -1,0 +1,95 @@
+/* LUMENFALL Global Styles */
+@import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700;900&family=Rajdhani:wght@300;400;500;600;700&display=swap');
+
+:root {
+  --gold: #d4a843;
+  --gold-light: #f0d080;
+  --gold-dark: #8a6520;
+  --teal: #4fd1c5;
+  --teal-dark: #2d8a84;
+  --purple: #9f7aea;
+  --purple-dark: #6b46c1;
+  --red: #fc8181;
+  --green: #68d391;
+  --bg-dark: #050a14;
+  --bg-mid: #0a1628;
+  --text-primary: #e8dcc8;
+  --text-secondary: #a09078;
+  --ui-border: rgba(212, 168, 67, 0.3);
+  --ui-bg: rgba(5, 10, 20, 0.85);
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+html, body, #root {
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  background: #000;
+}
+
+body {
+  font-family: 'Rajdhani', 'Segoe UI', sans-serif;
+  color: var(--text-primary);
+  user-select: none;
+}
+
+canvas {
+  display: block;
+  outline: none;
+}
+
+/* Scrollbar for menus */
+::-webkit-scrollbar { width: 4px; }
+::-webkit-scrollbar-track { background: rgba(255,255,255,0.05); }
+::-webkit-scrollbar-thumb { background: var(--gold-dark); border-radius: 2px; }
+
+/* Button base */
+.btn {
+  font-family: 'Cinzel', serif;
+  letter-spacing: 0.1em;
+  cursor: pointer;
+  border: none;
+  outline: none;
+  transition: all 0.25s ease;
+}
+
+.btn:hover { transform: translateY(-1px); }
+.btn:active { transform: translateY(1px); }
+
+/* Animations */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes shimmer {
+  0%   { background-position: -200% center; }
+  100% { background-position: 200% center; }
+}
+
+@keyframes pulse-glow {
+  0%, 100% { box-shadow: 0 0 15px rgba(212,168,67,0.3); }
+  50%       { box-shadow: 0 0 35px rgba(212,168,67,0.6); }
+}
+
+@keyframes float {
+  0%, 100% { transform: translateY(0px); }
+  50%       { transform: translateY(-8px); }
+}
+
+@keyframes spin {
+  from { transform: rotate(0deg); }
+  to   { transform: rotate(360deg); }
+}
+
+@keyframes health-flash {
+  0%, 100% { filter: brightness(1); }
+  50%       { filter: brightness(1.8) saturate(2); }
+}

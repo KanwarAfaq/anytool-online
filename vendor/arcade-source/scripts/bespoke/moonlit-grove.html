@@ -1,0 +1,29 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Moonlit Grove — Kanwar Arcade</title><meta name="description" content="A hand-crafted enchanted forest arena. Face spectral enemies, cast luminous spells, collect healing wisps, and survive an endless night.">
+<meta name="theme-color" content="#082021"><link rel="canonical" href="https://games-psi-ashy.vercel.app/games/moonlit-grove.html">
+<meta property="og:type" content="website"><meta property="og:title" content="Moonlit Grove — Kanwar Arcade">
+<meta property="og:description" content="A hand-crafted enchanted forest arena. Face spectral enemies, cast luminous spells, collect healing wisps, and survive an endless night."><meta property="og:url" content="https://games-psi-ashy.vercel.app/games/moonlit-grove.html">
+<link rel="icon" href="../assets/img/favicon.svg" type="image/svg+xml"><link rel="stylesheet" href="../assets/css/premium-games.css">
+</head><body class="grove">
+<header class="top"><a class="brand" href="../index.html">KANWAR<span> / </span>ARCADE</a><nav aria-label="Site"><a href="../index.html#games">ALL GAMES</a><a href="../games/aether-run.html">TRY AETHER RUN</a></nav></header>
+<main class="wrap"><div class="intro"><div><div class="eyebrow">KEEP THE LIGHT ALIVE · Fantasy arena survival</div><h1>Moonlit Grove</h1><p>A hand-crafted enchanted forest arena. Face spectral enemies, cast luminous spells, collect healing wisps, and survive an endless night.</p></div><span class="tag">THE FORGOTTEN SANCTUARY</span></div>
+<section class="shell" aria-label="Moonlit Grove playable game">
+ <div class="hud" aria-live="off">
+ <div class="stat"><small>SCORE</small><strong id="score">0</strong></div>
+ <div class="stat"><small>PERSONAL BEST</small><strong id="best">0</strong></div>
+ <div class="stat"><small>CURRENT WAVE</small><strong id="wave">1</strong></div>
+ <div class="stat"><small>SHADOWS DEFEATED</small><strong id="kills">0</strong></div>
+ </div>
+ <div style="display:flex;gap:22px;padding:9px 18px;background:#0a2430;align-items:center"><span style="font-size:10px;letter-spacing:.14em;color:#b4e8d5">HEALTH <b id="health">100</b></span><div class="meter-track"><span id="health-bar"></span></div><span style="font-size:10px;letter-spacing:.14em;color:#b4e8d5">MANA <b id="mana">100</b></span><div class="meter-track"><span id="mana-bar"></span></div></div>
+ <div class="viewport"><canvas id="game" width="960" height="600" role="img" aria-label="Moonlit Grove real-time game environment"></canvas>
+ <div class="overlay" id="overlay" role="dialog" aria-labelledby="overlay-title" aria-describedby="overlay-desc"><div class="overlay-card"><div class="mini">AN ORIGINAL KANWAR ARCADE EXPERIENCE</div><h2 id="overlay-title">Moonlit Grove</h2><p id="overlay-desc">Ready to play?</p><button id="start" class="action" type="button">START GAME</button></div></div>
+ <div class="mobile-controls"><div class="group"><span class="control" style="pointer-events:none;font-size:11px;max-width:200px">DRAG ON THE ARENA TO MOVE AND AIM</span></div><button id="mobile-dash" aria-label="Dash">✦ DASH</button></div>
+ </div>
+ <div class="controls"><div class="set"><button class="control" id="pause" type="button">PAUSE / RESUME</button><button class="control" id="sound" type="button" aria-pressed="true">SOUND ON</button></div><div class="set"><button class="control" id="dash" type="button">DASH READY</button><a class="control" href="../index.html#games">EXIT TO ARCADE</a></div></div>
+ </section>
+ <div class="below"><section class="panel"><h2>THE EXPERIENCE</h2><p>Defend an ancient sanctuary from waves of spectral creatures. Your mage casts glowing spells automatically toward your pointer. Defeat shadows to unlock harder waves, and collect golden drops to heal.</p></section><section class="panel"><h2>HOW TO PLAY</h2><p>Move with <span class='key'>W A S D</span> or <span class='key'>arrow keys</span>. Aim spells with the mouse or touch; casting is automatic. Tap <span class='key'>Space</span>, <span class='key'>Shift</span> or DASH to evade. Press <span class='key'>P</span> to pause.</p></section></div>
+ <p class="footer">ORIGINAL PROCEDURAL VISUALS · SYNTHESIZED AUDIO · NO DOWNLOAD · YOUR BEST SCORE STAYS IN THIS BROWSER</p>
+</main><script defer src="../assets/js/moonlit-grove.js"></script>
+
+</body></html>

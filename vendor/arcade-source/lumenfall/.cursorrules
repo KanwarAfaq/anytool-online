@@ -1,0 +1,9 @@
+# Lumenfall Game — Cursor Rules
+
+## Code Style
+- Use TypeScript strict mode
+- Prefer functional React components with hooks
+- Use Zustand for global game state
+- Keep Three.js logic inside useFrame or useEffect hooks
+- Dispose Three.js resources in cleanup functions
+- Use instanced meshes for repeated geometry

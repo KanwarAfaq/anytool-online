@@ -1,0 +1,29 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Aether Run — Kanwar Arcade</title><meta name="description" content="A neon-fueled hover racer set above a glowing futuristic city. Dodge crimson barriers, thread energy rings, and hit boost to chase your longest run.">
+<meta name="theme-color" content="#070d20"><link rel="canonical" href="https://games-psi-ashy.vercel.app/games/aether-run.html">
+<meta property="og:type" content="website"><meta property="og:title" content="Aether Run — Kanwar Arcade">
+<meta property="og:description" content="A neon-fueled hover racer set above a glowing futuristic city. Dodge crimson barriers, thread energy rings, and hit boost to chase your longest run."><meta property="og:url" content="https://games-psi-ashy.vercel.app/games/aether-run.html">
+<link rel="icon" href="../assets/img/favicon.svg" type="image/svg+xml"><link rel="stylesheet" href="../assets/css/premium-games.css">
+</head><body class="">
+<header class="top"><a class="brand" href="../index.html">KANWAR<span> / </span>ARCADE</a><nav aria-label="Site"><a href="../index.html#games">ALL GAMES</a><a href="../games/moonlit-grove.html">TRY MOONLIT GROVE</a></nav></header>
+<main class="wrap"><div class="intro"><div><div class="eyebrow">OUTRUN THE FUTURE · Cinematic hover racing</div><h1>Aether Run</h1><p>A neon-fueled hover racer set above a glowing futuristic city. Dodge crimson barriers, thread energy rings, and hit boost to chase your longest run.</p></div><span class="tag">SKYLINE CORRIDOR / SECTOR 01</span></div>
+<section class="shell" aria-label="Aether Run playable game">
+ <div class="hud" aria-live="off">
+ <div class="stat"><small>SCORE</small><strong id="score">0</strong></div>
+ <div class="stat"><small>PERSONAL BEST</small><strong id="best">0</strong></div>
+ <div class="stat"><small>DISTANCE</small><strong id="distance">0</strong></div>
+ <div class="stat"><small>ENERGY</small><strong id="energy-text">100%</strong></div>
+ </div>
+ <div style="display:flex;gap:18px;padding:9px 18px;background:#101a31;align-items:center"><span style="font-size:10px;letter-spacing:.14em;color:#b4d7e9">HULL ENERGY</span><div class="meter-track"><span id="energy-bar"></span></div><span style="font-size:10px;color:#8dc4ed">STREAK <b id="combo">x1</b></span></div>
+ <div class="viewport"><canvas id="game" width="960" height="600" role="img" aria-label="Aether Run real-time game environment"></canvas>
+ <div class="overlay" id="overlay" role="dialog" aria-labelledby="overlay-title" aria-describedby="overlay-desc"><div class="overlay-card"><div class="mini">AN ORIGINAL KANWAR ARCADE EXPERIENCE</div><h2 id="overlay-title">Aether Run</h2><p id="overlay-desc">Ready to play?</p><button id="start" class="action" type="button">START GAME</button></div></div>
+ <div class="mobile-controls"><div class="group"><button id="left" aria-label="Steer left">←</button><button id="right" aria-label="Steer right">→</button></div><button id="mobile-boost" aria-label="Hold to boost">BOOST ⚡</button></div>
+ </div>
+ <div class="controls"><div class="set"><button class="control" id="pause" type="button">PAUSE / RESUME</button><button class="control" id="sound" type="button" aria-pressed="true">SOUND ON</button></div><div class="set"><button class="control" id="boost" type="button">HOLD BOOST</button><a class="control" href="../index.html#games">EXIT TO ARCADE</a></div></div>
+ </section>
+ <div class="below"><section class="panel"><h2>THE EXPERIENCE</h2><p>Pilot a responsive anti-gravity craft through a luminous skyline. Crimson barriers drain your ship's energy. Aqua rings recharge it. Gold gates reward precision. Boost trades energy for speed.</p></section><section class="panel"><h2>HOW TO PLAY</h2><p>Use <span class='key'>A / D</span> or <span class='key'>← / →</span> to steer, and hold <span class='key'>Shift</span> or <span class='key'>↑</span> to boost. Press <span class='key'>P</span> to pause. On touchscreens use the on-screen direction and boost buttons.</p></section></div>
+ <p class="footer">ORIGINAL PROCEDURAL VISUALS · SYNTHESIZED AUDIO · NO DOWNLOAD · YOUR BEST SCORE STAYS IN THIS BROWSER</p>
+</main><script defer src="../assets/js/aether-run.js"></script>
+
+</body></html>

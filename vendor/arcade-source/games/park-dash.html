@@ -1,0 +1,51 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Park Dash: free browser game | Kanwar Arcade</title>
+<meta name="description" content="Park Dash is an animated kids running racing game with four rival runners, lanes, jumps, stars, sprinting and a 1500-meter finish line. No cars or scooters.">
+<meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1">
+<meta name="author" content="Kanwar Afaq">
+<meta name="theme-color" content="#070d20">
+<link rel="canonical" href="https://games-psi-ashy.vercel.app/games/park-dash.html">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Kanwar Arcade">
+<meta property="og:locale" content="en_US">
+<meta property="og:url" content="https://games-psi-ashy.vercel.app/games/park-dash.html">
+<meta property="og:title" content="Park Dash: free browser game | Kanwar Arcade">
+<meta property="og:description" content="Park Dash is an animated kids running racing game with four rival runners, lanes, jumps, stars, sprinting and a 1500-meter finish line. No cars or scooters.">
+<meta property="og:image" content="https://games-psi-ashy.vercel.app/assets/img/og-park-dash.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:type" content="image/jpeg">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Park Dash: free browser game | Kanwar Arcade">
+<meta name="twitter:description" content="Park Dash is an animated kids running racing game with four rival runners, lanes, jumps, stars, sprinting and a 1500-meter finish line. No cars or scooters.">
+<meta name="twitter:image" content="https://games-psi-ashy.vercel.app/assets/img/og-park-dash.jpg">
+<link rel="icon" href="../assets/img/favicon.svg" type="image/svg+xml">
+<link rel="icon" href="../assets/img/favicon-48.png" type="image/png" sizes="48x48">
+<link rel="apple-touch-icon" href="../assets/img/apple-touch-icon.png">
+<link rel="manifest" href="../manifest.webmanifest">
+<link rel="stylesheet" href="../assets/css/premium-games.css?v=4223c371">
+<script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"Organization","@id":"https://games-psi-ashy.vercel.app/#org","name":"Kanwar Arcade","url":"https://games-psi-ashy.vercel.app/","logo":"https://games-psi-ashy.vercel.app/assets/img/icon-512.png","founder":{"@type":"Person","name":"Kanwar Afaq"},"sameAs":["https://github.com/KanwarAfaq/games"]},{"@type":"WebSite","@id":"https://games-psi-ashy.vercel.app/#website","url":"https://games-psi-ashy.vercel.app/","name":"Kanwar Arcade","description":"Free browser games: 2D arcade games plus 3D adventure, racing and shooter games.","inLanguage":"en","publisher":{"@id":"https://games-psi-ashy.vercel.app/#org"}},{"@type":"VideoGame","@id":"https://games-psi-ashy.vercel.app/games/park-dash.html#game","name":"Park Dash","url":"https://games-psi-ashy.vercel.app/games/park-dash.html","description":"Park Dash is an animated kids running racing game with four rival runners, lanes, jumps, stars, sprinting and a 1500-meter finish line. No cars or scooters.","image":"https://games-psi-ashy.vercel.app/assets/img/og-park-dash.jpg","genre":"Kids running race","gamePlatform":"Web browser","applicationCategory":"Game","operatingSystem":"Any","inLanguage":"en","playMode":"SinglePlayer","isAccessibleForFree":true,"author":{"@type":"Person","name":"Kanwar Afaq"},"publisher":{"@id":"https://games-psi-ashy.vercel.app/#org"},"offers":{"@type":"Offer","price":"0","priceCurrency":"USD","availability":"https://schema.org/InStock"}},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://games-psi-ashy.vercel.app/"},{"@type":"ListItem","position":2,"name":"Games","item":"https://games-psi-ashy.vercel.app/#games"},{"@type":"ListItem","position":3,"name":"Park Dash","item":"https://games-psi-ashy.vercel.app/games/park-dash.html"}]},{"@type":"FAQPage","mainEntity":[{"@type":"Question","name":"How do you play Park Dash?","acceptedAnswer":{"@type":"Answer","text":"Race on foot against three kid rivals. Jump hurdles, dodge puddles, collect stars and sprint to the finish."}},{"@type":"Question","name":"Are there cars or scooters?","acceptedAnswer":{"@type":"Answer","text":"No. Park Dash is only a running race between kids on foot."}}]}]}</script>
+</head>
+<body>
+<a class="skip-link" href="#main">Skip to content</a>
+<header class="top"><a class="brand" href="../index.html">KANWAR<span> / </span>ARCADE</a><nav aria-label="Main"><a href="../index.html">HOME</a><a href="../index.html#games">GAMES</a><a href="../contact.html">CONTACT</a><a href="../index.html#games">ALL GAMES</a></nav></header>
+<main class="wrap" id="main"><div class="intro"><div><div class="eyebrow">RUN YOUR OWN RACE · Kids running grand prix</div><h1>Park Dash</h1><p>Race alongside three cheerful kid runners on foot. Sprint through a beautiful park track, change lanes, leap hurdles, grab stars and chase first place. No cars, no scooters.</p></div><span class="tag">SUNNYVALE PARK · JUNIOR GRAND PRIX</span></div>
+<section class="shell" aria-label="Park Dash playable game"><div class="hud"><div class="stat"><small>RUN SCORE</small><strong id="score">0</strong></div><div class="stat"><small>PERSONAL BEST</small><strong id="best">0</strong></div><div class="stat"><small>RACE DISTANCE</small><strong id="distance">0 / 1500 m</strong></div><div class="stat"><small>RACE POSITION</small><strong id="rank">#1</strong></div></div><div style="display:flex;gap:18px;padding:9px 18px;background:#123947;align-items:center"><span style="font-size:11px;letter-spacing:.12em;color:#d7f3d5">SPRINT ENERGY <b id="stamina-value">100%</b></span><div class="meter-track"><span id="stamina"></span></div><span style="font-size:11px;color:#fff3ba">STARS <b id="coins">0</b></span></div>
+<div class="viewport"><canvas id="game" width="960" height="600" role="img" aria-label="Park Dash real-time animated game environment"></canvas>
+<div id="overlay" class="overlay" role="dialog" aria-labelledby="overlay-title" aria-describedby="overlay-desc"><div class="overlay-card"><div class="mini">A KANWAR ARCADE ORIGINAL EXPERIENCE</div><h2 id="overlay-title">Park Dash</h2><p id="overlay-desc">Ready?</p><button class="action" type="button" id="start">START GAME</button></div></div><div class="mobile-controls"><div class="group"><button id="mobile-left" aria-label="Move left">←</button><button id="mobile-right" aria-label="Move right">→</button></div><div class="group"><button id="mobile-jump" aria-label="Jump">JUMP</button><button id="mobile-sprint" aria-label="Hold sprint">SPRINT</button></div></div></div>
+<div class="controls"><div class="set"><button class="control" type="button" id="pause">PAUSE / RESUME</button><button class="control" type="button" id="sound" aria-pressed="true">SOUND ON</button></div><div class="set"><button class="control" id="left" type="button">← LANE</button><button class="control" id="right" type="button">LANE →</button><button class="control" id="jump" type="button">JUMP</button><button class="control" id="sprint" type="button">HOLD SPRINT</button><a class="control" href="../index.html#games">ARCADE HOME</a></div></div>
+</section><div class="below"><section class="panel"><h2>THE EXPERIENCE</h2><p>Four friendly young runners compete in a colorful 1,500-meter grand prix. Watch their animated legs and arms, glide between four running lanes, leap over striped hurdles, and collect shining stars and energy boosts. Your finishing position determines your score.</p></section><section class="panel"><h2>HOW TO PLAY</h2><p>Move lanes with <span class='key'>← / →</span> or <span class='key'>A / D</span>, jump with <span class='key'>Space / W / ↑</span>, and hold <span class='key'>Shift</span> to sprint. Use on-screen controls on phones. Press <span class='key'>P</span> to pause.</p></section></div>
+<p class="footer">PROCEDURAL ARTWORK · REAL-TIME ANIMATION · SYNTHESIZED AUDIO · FREE TO PLAY · NO DOWNLOAD</p></main>
+<section class="wrap site-extra" aria-label="More about Park Dash">
+<div class="site-faq"><h2>Park Dash FAQ</h2><details><summary>How do you play Park Dash?</summary><p>Race on foot against three kid rivals. Jump hurdles, dodge puddles, collect stars and sprint to the finish.</p></details><details><summary>Are there cars or scooters?</summary><p>No. Park Dash is only a running race between kids on foot.</p></details></div>
+<div class="site-more"><h2>More games</h2><ul><li><a href="../games/starfall.html">Starfall<small>Space shooter</small></a></li><li><a href="../games/brick-rally.html">Brick Rally<small>Brick breaker</small></a></li><li><a href="../games/serpentine.html">Serpentine<small>Snake game</small></a></li><li><a href="../games/skyhop.html">Skyhop<small>One-tap flyer</small></a></li><li><a href="../games/lightmerge.html">Lightmerge<small>Puzzle game</small></a></li><li><a href="../games/driftrock.html">Driftrock<small>Asteroid shooter</small></a></li><li><a href="../games/lumenfall.html">Lumenfall<small>3D adventure</small></a></li><li><a href="../games/neon-velocity.html">Neon Velocity<small>3D racing game</small></a></li><li><a href="../games/starfall-protocol.html">Starfall Protocol<small>3D shooter</small></a></li><li><a href="../games/aether-run.html">Aether Run<small>Neon hover racer</small></a></li><li><a href="../games/moonlit-grove.html">Moonlit Grove<small>Fantasy survival</small></a></li><li><a href="../games/serpent-studio.html">Serpent Studio<small>Customizable snake</small></a></li></ul></div>
+</section>
+<footer class="site-foot"><div><a href="../index.html">Home</a> · <a href="../contact.html">Contact</a> · <a href="https://github.com/KanwarAfaq/games">Source on GitHub</a> · <a href="../llms.txt">For AI assistants</a></div><p>© 2026 Kanwar Arcade. Built by Kanwar Afaq. Your scores never leave this device.</p></footer>
+<script src="../assets/js/site.js?v=4c17010a" defer></script>
+<script src="../assets/js/park-dash.js?v=3743e850" defer></script>
+</body>
+</html>
