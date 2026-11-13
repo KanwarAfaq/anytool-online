@@ -1,5 +1,5 @@
-// Curated from KanwarAfaq/games. Games stay on a separate, static origin:
-// AnyTool never downloads 3D engine bundles until a visitor clicks Play.
+// Curated and vendored from KanwarAfaq/games. All files are hosted locally;
+// heavy 3D engines stay outside Vite and load only after Start Game.
 // The complete compiled 2D and 3D game runtime is vendored in public/.
 // URLs are same-origin; Vite never bundles heavy game engines on normal pages.
 export const ARCADE_ORIGIN=''
