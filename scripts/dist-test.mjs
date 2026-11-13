@@ -73,6 +73,26 @@ for(const slug of ['games',...arcadeGames.map(g=>'games/'+g.slug)]){
  assert.ok(html.includes('href="https://anytool.online/games'),'game page needs crawlable internal links '+url);
 }
 
+// Vendored runtime pages are deliberately noindex. Only the visible AnyTool
+// /games/:slug landing pages belong in the sitemap. Large engines are served
+// as isolated static files, never included in the homepage's JavaScript.
+for(const game of arcadeGames){
+ const runtime=await readFile(resolve(root,'dist/games',game.slug+'.html'),'utf8')
+ assert.ok(runtime.includes('content="noindex,follow"'),'runtime must not compete with indexable game page '+game.slug)
+ assert.ok(runtime.includes('href="https://anytool.online/games/'+game.slug+'"'),'runtime canonical should point at game page '+game.slug)
+ assert.ok(runtime.includes('anytool-embed.css'),'responsive game styles must load '+game.slug)
+ const image=resolve(root,'dist/assets/img',game.preview)
+ await access(image)
+}
+for(const engine of ['lumenfall','neon-velocity','starfall-protocol']){
+ const html=await readFile(resolve(root,'dist/play',engine,'index.html'),'utf8')
+ assert.ok(html.includes('content="noindex,follow"'),'compiled 3D runtime must noindex '+engine)
+ assert.ok(html.includes('/play/'+engine+'/assets/'),'3D engine assets must remain same-origin '+engine)
+}
+await access(resolve(root,'dist/assets/css/anytool-embed.css'))
+await access(resolve(root,'dist/assets/js/starfall.js'))
+await access(resolve(root,'dist/assets/js/park-dash.js'))
+
 // Social cards: one raster 1200x630 image on every page, FAQPage schema on every localized home page.
 await access(resolve(root,'dist/og-default.png'))
 for(const bot of ['OAI-SearchBot','ChatGPT-User','Claude-SearchBot','PerplexityBot']) assert.ok(robots.includes('User-agent: '+bot),'robots should explicitly allow '+bot)
