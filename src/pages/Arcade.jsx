@@ -1,23 +1,56 @@
-import {useState} from 'react'
+import {useEffect,useRef,useState} from 'react'
 import {Link,useParams} from 'react-router-dom'
-import {ArrowLeft,ExternalLink,Gamepad2,Monitor,Smartphone,Play} from 'lucide-react'
+import {ArrowLeft,ExternalLink,Gamepad2,Monitor,Smartphone,Play,Maximize2,RotateCcw} from 'lucide-react'
 import {useI18n} from '../i18n'
 import {arcadeGames,gamePage,gameURL,gamePreviewURL} from '../data/arcadeGames'
 import Seo from '../components/Seo'
 
 const copy={
- en:{heading:'Free browser games',intro:'Play 13 free online games including snake, arcade shooters, puzzles, racers and 3D adventures. No downloads or account needed.',play:'Play game',all:'All games',mobile:'Touch supported',desktop:'Best on desktop',launch:'Start game',note:'The game loads only when you start playing. Your main AnyTool page remains lightweight.',back:'Back to games',external:'Open in new tab',notfound:'Game not found'},
+ en:{heading:'Free browser games',intro:'Play 13 free online games including snake, arcade shooters, puzzles, racers and 3D adventures. No downloads or account needed.',play:'Play game',all:'All games',mobile:'Touch supported',desktop:'Best on desktop',launch:'Start game',note:'The game runs inside AnyTool. Its engine only loads when you start.',back:'Back to games',external:'Open in new tab',notfound:'Game not found'},
  'zh-TW':{heading:'免費線上遊戲',intro:'免下載即可玩貪食蛇、益智、賽車、街機射擊與 3D 冒險等 13 款免費遊戲。',play:'開始遊戲',all:'全部遊戲',mobile:'支援觸控',desktop:'建議桌機',launch:'開始遊戲',note:'遊戲只會在您按下開始後載入，不影響 AnyTool 首頁速度。',back:'返回遊戲列表',external:'開新分頁',notfound:'找不到遊戲'},
  ar:{heading:'ألعاب مجانية في المتصفح',intro:'استمتع بـ 13 لعبة مجانية: ألغاز وسباقات وثعبان ومغامرات ثلاثية الأبعاد، دون تثبيت.',play:'العب الآن',all:'كل الألعاب',mobile:'يدعم اللمس',desktop:'أفضل على الكمبيوتر',launch:'ابدأ اللعبة',note:'لا يتم تحميل اللعبة إلا بعد الضغط على زر البدء.',back:'العودة إلى الألعاب',external:'فتح في علامة جديدة',notfound:'اللعبة غير موجودة'},
  ur:{heading:'مفت براؤزر گیمز',intro:'سانپ، پزل، ریسنگ اور 3D ایڈونچر سمیت 13 مفت آن لائن گیمز کھیلیں، بغیر ڈاؤن لوڈ۔',play:'گیم کھیلیں',all:'تمام گیمز',mobile:'ٹچ سپورٹ',desktop:'کمپیوٹر پر بہتر',launch:'گیم شروع کریں',note:'گیم صرف اسٹارٹ کرنے کے بعد لوڈ ہوتی ہے۔',back:'گیمز پر واپس',external:'نئے ٹیب میں کھولیں',notfound:'گیم نہیں ملی'}
 }
 function PageShell({children}){return <div className="mx-auto w-full max-w-6xl px-4 py-10 sm:px-6">{children}</div>}
+
+// The three compiled engines and classic games are same-origin, but their JS
+// is kept outside the Vite bundle. Neon Velocity accepts keyboard events;
+// on touchscreens a small controller sends those keys into the local frame.
+function TouchKey({label,keyboardKey,frameRef}){
+ const send=type=>{
+  const target=frameRef.current?.contentWindow
+  if(!target)return
+  target.dispatchEvent(new KeyboardEvent(type,{key:keyboardKey,bubbles:true,cancelable:true}))
+ }
+ return <button type="button" aria-label={label} onPointerDown={e=>{e.preventDefault();e.currentTarget.setPointerCapture?.(e.pointerId);send('keydown')}} onPointerUp={e=>{e.preventDefault();send('keyup')}} onPointerCancel={()=>send('keyup')} onLostPointerCapture={()=>send('keyup')} className="min-h-12 min-w-12 rounded-xl border border-indigo-300 bg-indigo-100 px-3 py-2 font-bold text-indigo-950 active:bg-indigo-300 dark:border-indigo-700 dark:bg-indigo-950 dark:text-indigo-100">{label}</button>
+}
+function NeonTouchControls({frameRef}){
+ return <div className="mt-3 rounded-xl border border-indigo-300/50 bg-indigo-50 p-3 dark:bg-indigo-950/30 lg:hidden">
+  <p className="mb-2 text-sm font-semibold">Touch controls · Neon Velocity</p>
+  <div className="flex flex-wrap items-center justify-center gap-3">
+   <TouchKey label="◀ Left" keyboardKey="ArrowLeft" frameRef={frameRef}/>
+   <TouchKey label="▲ Accelerate" keyboardKey="ArrowUp" frameRef={frameRef}/>
+   <TouchKey label="Right ▶" keyboardKey="ArrowRight" frameRef={frameRef}/>
+   <TouchKey label="Nitro" keyboardKey="Shift" frameRef={frameRef}/>
+   <TouchKey label="Drift" keyboardKey=" " frameRef={frameRef}/>
+  </div>
+  <p className="mt-2 text-xs text-slate-500">Press and hold a control. For the full 3D view, use the fullscreen button.</p>
+ </div>
+}
+
 export default function Arcade(){
  const {slug}=useParams()
  const {lang,pathFor}=useI18n()
  const t=copy[lang]||copy.en
  const selected=slug?gamePage(slug):null
  const [runningSlug,setRunningSlug]=useState(null)
+ const frameRef=useRef(null)
+ const [fullscreen,setFullscreen]=useState(false)
+ useEffect(()=>{
+  const onChange=()=>setFullscreen(document.fullscreenElement===frameRef.current)
+  document.addEventListener('fullscreenchange',onChange)
+  return ()=>document.removeEventListener('fullscreenchange',onChange)
+ },[])
  const running=runningSlug===slug
  if(slug&&!selected)return <PageShell><h1>{t.notfound}</h1><Link to={'/games'}>{t.back}</Link></PageShell>
  if(!selected){
@@ -45,6 +78,15 @@ export default function Arcade(){
   </PageShell>
  }
  const url=gameURL(selected.slug)
+ const openFullscreen=async()=>{
+  const node=frameRef.current
+  try{
+   if(!node?.requestFullscreen)throw new Error('Fullscreen unavailable')
+   await node.requestFullscreen()
+  }catch{
+   window.open(url,'_blank','noopener,noreferrer')
+  }
+ }
  return <PageShell>
   <Seo title={selected.name+' — '+selected.type+' | AnyTool'} description={selected.description+' Free browser game with no download.'} canonical={'/games/'+selected.slug}/>
   <Link to={'/games'} className="inline-flex items-center gap-2 text-sm font-semibold text-indigo-600"><ArrowLeft size={16}/>{t.back}</Link>
@@ -59,7 +101,20 @@ export default function Arcade(){
     <button onClick={()=>setRunningSlug(slug)} className="inline-flex items-center gap-2 rounded-xl bg-indigo-500 px-6 py-3 font-bold text-white shadow-lg transition hover:bg-indigo-400 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white"><Play size={18} fill="currentColor"/>{t.launch}</button>
    </div>
   </div>
-  :<div className="mt-8 overflow-hidden rounded-2xl border bg-slate-950"><iframe title={selected.name+' — playable browser game'} src={url} loading="lazy" allow="fullscreen; gamepad" allowFullScreen referrerPolicy="strict-origin-when-cross-origin" sandbox="allow-scripts allow-same-origin allow-pointer-lock allow-popups allow-downloads" style={{display:'block',width:'100%',height:'min(83vh,850px)',minHeight:480,border:0}}/></div>}
+  :<section aria-label={selected.name+' game player'} className="mt-7">
+   <div className="flex flex-wrap items-center justify-between gap-3 rounded-t-2xl bg-slate-950 px-4 py-3 text-white">
+    <div className="flex min-w-0 items-center gap-2 text-sm font-semibold"><Gamepad2 size={18}/><span className="truncate">{selected.name}</span><span className="rounded-full bg-emerald-700 px-2 py-0.5 text-xs">Playing on AnyTool</span></div>
+    <div className="flex items-center gap-2">
+     <button type="button" onClick={openFullscreen} className="inline-flex min-h-10 items-center gap-2 rounded-lg border border-slate-600 px-3 text-sm hover:bg-slate-700" aria-label="Fullscreen game"><Maximize2 size={16}/>Fullscreen</button>
+     <button type="button" onClick={()=>setRunningSlug(null)} className="inline-flex min-h-10 items-center gap-2 rounded-lg border border-slate-600 px-3 text-sm hover:bg-slate-700" aria-label="Reset game"><RotateCcw size={16}/>Reset</button>
+    </div>
+   </div>
+   <div className="overflow-hidden rounded-b-2xl border border-slate-800 bg-slate-950">
+    <iframe key={slug} ref={frameRef} title={selected.name+' — playable browser game'} src={url} loading="eager" allow="fullscreen; gamepad; autoplay" allowFullScreen referrerPolicy="same-origin" sandbox="allow-scripts allow-same-origin allow-pointer-lock allow-popups allow-downloads" className="block w-full border-0" style={{height:'min(82svh,900px)',minHeight:500,background:'#090d1b'}}/>
+   </div>
+   {selected.slug==='neon-velocity'&&<NeonTouchControls frameRef={frameRef}/>}
+   {!selected.mobile&&selected.slug!=='neon-velocity'&&<p className="mt-3 rounded-lg border border-amber-200 bg-amber-50 p-3 text-sm text-amber-950 dark:border-amber-900 dark:bg-amber-950 dark:text-amber-100">This 3D game requires keyboard and mouse controls. The page fits smaller screens, but the game itself plays best on desktop or with an attached keyboard and mouse.</p>}
+  </section>}
   <section className="mt-8"><h2 className="text-xl font-bold">{t.all}</h2><div className="mt-3 flex flex-wrap gap-2">{arcadeGames.filter(g=>g.slug!==selected.slug).map(g=><Link key={g.slug} to={'/games/'+g.slug} className="rounded-full border border-slate-300 px-3 py-1.5 text-sm hover:border-indigo-500">{g.name}</Link>)}</div></section>
  </PageShell>
 }
