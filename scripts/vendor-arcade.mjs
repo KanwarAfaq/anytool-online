@@ -48,5 +48,16 @@ const siteJs=join(target,'assets/js/site.js');
 const code=await readFile(siteJs,'utf8');
 if(!code.includes("navigator.serviceWorker.register('/sw.js')"))throw Error('Legacy service worker changed');
 await writeFile(siteJs,code.replace("navigator.serviceWorker.register('/sw.js')",'Promise.resolve()'));
+// Keep the editable 3D/2D game source in the same repository as the playable
+// compiled output. This directory is never included in Vite's browser bundle.
+const sourceTarget=resolve('vendor/arcade-source')
+await rm(sourceTarget,{recursive:true,force:true})
+await mkdir(sourceTarget,{recursive:true})
+for(const dir of ['lumenfall','neon-velocity','starfall-protocol','scripts','games']){
+ await cp(join(source,dir),join(sourceTarget,dir),{recursive:true,force:true})
+}
+await cp(join(source,'README.md'),join(sourceTarget,'UPSTREAM_README.md'))
+await writeFile(join(sourceTarget,'SOURCE_REVISION.txt'),(process.env.GAMES_COMMIT||'manual')+'\\n')
+
 await writeFile(join(target,'arcade-manifest.json'),JSON.stringify({revision:process.env.GAMES_COMMIT||'manual',games:arcadeGames.map(g=>g.slug),hosting:'same-origin AnyTool; game engines loaded only on demand'},null,2)+'\n');
 console.log('ARCADE_VENDORED',arcadeGames.length);
