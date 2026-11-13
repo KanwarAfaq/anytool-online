@@ -9,12 +9,13 @@ Playable runtime for all thirteen games and the compiled 3D engines is **committ
 - `public/games/*.html` — ten 2D games and three standalone 3D launch documents; raw HTML frames are noindex and canonical to `/games/<slug>`
 - `public/assets/{css,img,js}/` — same-origin thumbnails and game resources
 - `public/play/{lumenfall,neon-velocity,starfall-protocol}/` — the compiled 3D games including required JS, styles and models
+- `vendor/arcade-source/` — all original gameplay source, including the Lumenfall, Neon Velocity and Starfall Protocol TypeScript/React projects, standalone 2D game HTML and original build scripts; **not** included in normal browser bundles
 - `scripts/arcade-embed.css` — hides duplicated Kanwar Arcade navigation, scales canvases, and preserves touch controls in `?embed=1` mode
 - `scripts/vendor-arcade.mjs` and `.github/workflows/vendor-arcade.yml` — reproducible vendoring from the pinned source repo `KanwarAfaq/games` (source SHA recorded in `public/arcade-manifest.json`)
 
 The games are **not** downloaded from the old site at runtime and do **not** enter the normal Vite bundle. The React Arcade page remains a lazy-loaded route, and the player iframe mounts only after the visitor chooses **Start game**. Switching games unloads the previous frame.
 
-To sync future changes from the original games source, review the upstream commit, change `GAMES_COMMIT` in the vendor workflow, and run **Vendor playable arcade games into AnyTool**. This commits static runtime files into this repository, preserving a verifiable version history.
+To sync future changes from the original games source, review the upstream commit, change `GAMES_COMMIT` in the vendor workflow, and run **Vendor playable arcade games into AnyTool**. The workflow updates both the editable `vendor/arcade-source/` files and the published runtime in one commit. This commits static runtime files into this repository, preserving a verifiable version history.
 
 ## Mobile and desktop support
 
