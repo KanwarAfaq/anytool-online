@@ -1,6 +1,8 @@
 // Curated from KanwarAfaq/games. Games stay on a separate, static origin:
 // AnyTool never downloads 3D engine bundles until a visitor clicks Play.
-export const ARCADE_ORIGIN='https://games-psi-ashy.vercel.app'
+// The complete compiled 2D and 3D game runtime is vendored in public/.
+// URLs are same-origin; Vite never bundles heavy game engines on normal pages.
+export const ARCADE_ORIGIN=''
 export const arcadeGames=[
  {slug:'starfall',name:'Starfall',type:'Space shooter',description:'Dodge enemies, collect power-ups and defeat space bosses.',mobile:true,preview:'thumb-starfall.svg',howToPlay:"Arrow keys or mouse/touch to steer; Space or tap to fire.",tip:"Collect power-ups and dodge enemies as waves become harder."},
  {slug:'brick-rally',name:'Brick Rally',type:'Brick breaker',description:'Bounce the ball through five levels of classic brick-breaker action.',mobile:true,preview:'thumb-brick-rally.svg',howToPlay:"Move the paddle with the mouse, touch or arrow keys; Space launches the ball.",tip:"Break the colored bricks and aim carefully for useful power-ups."},
@@ -17,7 +19,10 @@ export const arcadeGames=[
  {slug:'serpent-studio',name:'Serpent Studio',type:'Customizable snake',description:'Play four snake modes with different speeds and skins.',mobile:true,preview:'thumb-serpent-studio.svg',howToPlay:"Choose a snake mode, speed and style; use arrow keys, WASD or swipes.",tip:"Try Classic, Zen, Sprint or Maze and compare best scores."},
 ]
 export const gamePage = slug => arcadeGames.find(g=>g.slug===slug)
-export const gameURL = slug => `${ARCADE_ORIGIN}/games/${encodeURIComponent(slug)}.html`
+const compiled3D = new Set(['lumenfall','neon-velocity','starfall-protocol'])
+export const gameURL = slug => compiled3D.has(slug)
+  ? `/play/${encodeURIComponent(slug)}/`
+  : `/games/${encodeURIComponent(slug)}.html?embed=1`
 
 // Use the game's own lightweight preview art. No game engine is loaded to render a card.
 export const gamePreviewURL = game => `${ARCADE_ORIGIN}/assets/img/${game.preview}`
