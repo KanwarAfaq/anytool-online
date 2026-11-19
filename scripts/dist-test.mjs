@@ -44,6 +44,20 @@ assert.ok(robots.includes('Allow: /'),'robots should allow crawlable pages')
 assert.ok(!robots.includes('Disallow: /auth'),'robots must not block pages that rely on X-Robots noindex')
 const guideCount=(guides.length+1)*2 // /guides + each guide, en and zh-TW only
 const expectedUrls=(staticPages.length+tools.length)*locales.length+guideCount+arcadeGames.length+1
+// Localized sister-platform pages must have distinct search snippets, not
+// duplicate English descriptions on Arabic/Urdu canonical URLs.
+const platformDescription=async(locale)=>{
+ const file=locale?resolve(root,'dist',locale,'platforms','index.html'):resolve(root,'dist','platforms','index.html')
+ const html=await readFile(file,'utf8')
+ return html.match(/<meta name="description" content="([^"]+)"/)?.[1]||''
+}
+const enPlatforms=await platformDescription('')
+for(const loc of ['ar','ur','zh-tw']){
+ const desc=await platformDescription(loc)
+ assert.ok(desc.length>=50,'platform description should explain the linked tools '+loc)
+ assert.notEqual(desc,enPlatforms,'localized platform snippet duplicated English '+loc)
+}
+assert.notEqual(await platformDescription('ar'),await platformDescription('ur'),'Arabic and Urdu platform snippets duplicated')
 const homeHtml=await readFile(resolve(root,'dist/index.html'),'utf8')
 const aboutHtml=await readFile(resolve(root,'dist/about/index.html'),'utf8')
 assert.ok(aboutHtml.includes('kmafaq2@gmail.com'),'about prerender missing owner email schema')
