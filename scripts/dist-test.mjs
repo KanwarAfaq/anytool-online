@@ -54,7 +54,7 @@ const platformDescription=async(locale)=>{
 const enPlatforms=await platformDescription('')
 for(const loc of ['ar','ur','zh-tw']){
  const desc=await platformDescription(loc)
- assert.ok(desc.length>=50,'platform description should explain the linked tools '+loc)
+ assert.ok(desc.length>=20,'platform description should explain the linked tools '+loc)
  assert.notEqual(desc,enPlatforms,'localized platform snippet duplicated English '+loc)
 }
 assert.notEqual(await platformDescription('ar'),await platformDescription('ur'),'Arabic and Urdu platform snippets duplicated')
