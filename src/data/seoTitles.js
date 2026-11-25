@@ -2,6 +2,7 @@
 // Written around the real queries people use. Falls back to "<tool name> | AnyTool.online".
 const S = ' | AnyTool.online'
 const titles = {
+  'income-tax': { en: 'Taiwan Salary Income Tax Calculator 2026' + S, 'zh-TW': '2026 台灣所得稅試算：年薪、免稅額與累進稅率' + S },
   'minimum-wage': { en: 'Taiwan Minimum Wage 2026: NT$29,500/mo' + S, 'zh-TW': '2026 台灣最低工資：月薪 29,500、時薪 196 比較' + S },
   'dpi-calculator': { en: 'DPI Calculator: Pixels to Print Size' + S, 'zh-TW': 'DPI 計算器：像素與列印尺寸換算' + S },
   'labor-insurance': { en: 'Taiwan Labor Insurance Calculator 2026 (勞保費)' + S, 'zh-TW': '勞保費計算（台灣勞保）2026：勞保與就業保險試算' + S },
