@@ -161,6 +161,12 @@ for(const slug of ['base64','text-case','timer','date-calculator']){
  assert.ok(!ar.includes('>'+tools.find(t=>t.slug===slug).name+'<'),'Arabic prerender fell back to English tool name '+slug)
  assert.ok(!ur.includes('>'+tools.find(t=>t.slug===slug).name+'<'),'Urdu prerender fell back to English tool name '+slug)
 }
+// Strong GSC impressions for Taiwan income tax warrant accurate, descriptive
+// snippets. Protect both the search title and localized scope disclaimer.
+const incomeTaxZh=await readFile(resolve(root,'dist','zh-tw','tools','income-tax','index.html'),'utf8')
+assert.ok(incomeTaxZh.includes('2026 台灣所得稅試算'),'Taiwan income tax page should describe its calculator intent')
+assert.ok(incomeTaxZh.includes('薪資所得特別扣除額'),'Taiwan tax snippet should describe supported assumptions')
+assert.ok(incomeTaxZh.includes('非正式報稅結果'),'Taiwan tax snippet should not claim to be an official tax return')
 console.log('SEO/dist smoke tests passed for '+tools.length+' tools × '+locales.length+' locales')
 
 const qrArt=await readFile(resolve(root,'dist','tool-art','qr-generator.svg'),'utf8')
